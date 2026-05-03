@@ -2,7 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Grammaire & Temps Français</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Tajawal:wght@300;400;700&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -169,6 +172,7 @@ body{
 .top-tabs {
   display:flex;justify-content:center;gap:8px;
   padding:0 20px;position:relative;z-index:2;
+  flex-wrap:wrap;
   animation:fadeDown .7s ease .5s both;
 }
 .top-tab {
@@ -201,13 +205,16 @@ body{
   position:sticky;top:0;z-index:200;
   background:rgba(255,255,255,.97);
   backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
   border-bottom:2px solid var(--content-bg);
   box-shadow:var(--shadow-md);
   padding:10px 20px;
+  overflow-x:hidden;
 }
 .nav-pills {
   display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
   max-width:1000px;margin:0 auto;
+  -webkit-overflow-scrolling:touch;
 }
 .pill {
   font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
@@ -281,7 +288,172 @@ body{
 /* ═══════════════ GRIDS ═══════════════ */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
-@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* ═══════════════ FULL RESPONSIVE ═══════════════ */
+
+/* ── Small phones (≤ 480px) ── */
+@media(max-width:480px){
+  /* hero */
+  .hero{padding:40px 16px 28px}
+  .hero h1{font-size:32px;letter-spacing:-1px}
+  .hero-sub{font-size:14px;margin-bottom:24px}
+  .hero-stats{gap:20px;margin-bottom:28px}
+  .hstat-num{font-size:32px}
+  .hstat-label{font-size:11px}
+  .badge-kicker{font-size:9px;padding:4px 12px}
+
+  /* top tabs — stack vertically */
+  .top-tabs{flex-direction:column;align-items:stretch;padding:0 12px;gap:4px}
+  .top-tab{border-radius:12px !important;border-bottom:1px solid var(--hero-border) !important;
+    font-size:15px;padding:12px 20px;justify-content:center}
+  .top-tab.active{border-radius:12px !important}
+
+  /* nav pills scroll horizontally */
+  .nav-wrap{padding:8px 12px;overflow-x:auto}
+  .nav-pills{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;
+    padding-bottom:4px;gap:6px;scrollbar-width:none}
+  .nav-pills::-webkit-scrollbar{display:none}
+  .pill{font-size:12px;padding:6px 12px;min-height:34px;flex-shrink:0}
+  .pill .pi{display:none}
+
+  /* main */
+  .main{padding:20px 12px 60px}
+
+  /* sec header */
+  .sec-header{padding:18px 16px;flex-direction:column;gap:10px}
+  .sec-title{font-size:26px}
+  .sec-ar{font-size:13px}
+  .sec-icon{width:44px;height:44px;font-size:20px}
+
+  /* grids — always 1 col */
+  .grid-2,.grid-3{grid-template-columns:1fr;gap:12px}
+
+  /* cards */
+  .card{padding:16px 14px;border-radius:14px}
+  .card-label{font-size:10px}
+
+  /* formula */
+  .formula{font-size:13px;padding:12px 14px;word-break:break-all}
+
+  /* conj */
+  .conj-grid{grid-template-columns:1fr 1fr}
+  .conj-cell{padding:8px 10px;gap:8px}
+  .pro{font-size:11px;min-width:44px}
+  .form{font-size:16px}
+
+  /* example */
+  .ex-fr{font-size:16px}
+  .ex-ar{font-size:13px}
+  .ex-dot{display:none}
+  .ex-row{flex-direction:column;align-items:flex-start;gap:4px}
+
+  /* table */
+  .tbl{font-size:13px}
+  .tbl th{padding:8px 10px;font-size:9px}
+  .tbl td{padding:8px 10px;font-size:13px}
+  .tbl td:first-child{font-size:15px}
+
+  /* note */
+  .note{font-size:13px;padding:12px 14px}
+
+  /* article */
+  .article-header{font-size:11px;padding:13px 16px}
+  .article-fr{padding:16px 14px}
+  .article-fr .fr-line{font-size:15px;gap:8px}
+  .article-ar{font-size:14px;padding:14px 16px}
+  .fr-num{min-width:18px;height:18px;font-size:10px}
+
+  /* oral q-card */
+  .q-header{padding:14px 16px;gap:10px}
+  .q-num{font-size:26px;min-width:36px}
+  .q-text{font-size:16px}
+  .q-body{padding:16px 14px}
+  .fr-text{padding:14px 16px}
+  .fr-text .fr-line{font-size:15px}
+  .ar-text{font-size:14px;padding:13px 16px}
+
+  /* pro-table */
+  .pro-table{grid-template-columns:1fr 1fr}
+  .pro-cell{font-size:16px;padding:10px}
+  .pro-cell small{font-size:11px}
+
+  /* contract grid */
+  .contract-grid{grid-template-columns:1fr}
+  .cc{padding:10px 12px}
+  .cc-eq{font-size:12px}
+  .cc-res{font-size:16px}
+
+  /* verb cloud */
+  .vp{font-size:13px;padding:5px 11px}
+
+  /* sec header icon + title inline on small */
+  .sec-header>div:first-child{display:flex;flex-direction:column;gap:4px}
+}
+
+/* ── Phones (481px – 640px) ── */
+@media(min-width:481px) and (max-width:640px){
+  .hero{padding:48px 20px 32px}
+  .hero h1{font-size:38px}
+  .hero-stats{gap:28px}
+  .hstat-num{font-size:36px}
+
+  .top-tabs{flex-wrap:wrap;padding:0 16px;gap:6px}
+  .top-tab{font-size:15px;padding:11px 22px;border-radius:12px !important;
+    border-bottom:1px solid var(--hero-border) !important}
+  .top-tab.active{border-radius:12px !important}
+
+  .nav-wrap{padding:8px 16px;overflow-x:auto}
+  .nav-pills{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+  .nav-pills::-webkit-scrollbar{display:none}
+  .pill{flex-shrink:0;font-size:12px;padding:6px 13px}
+
+  .main{padding:24px 16px 60px}
+  .sec-header{padding:20px 18px}
+  .sec-title{font-size:30px}
+  .grid-2,.grid-3{grid-template-columns:1fr;gap:14px}
+  .ex-row{flex-wrap:wrap}
+  .tbl{font-size:13px}
+  .tbl td:first-child{font-size:15px}
+  .article-fr .fr-line{font-size:15px}
+  .article-ar{font-size:14px}
+  .q-text{font-size:17px}
+}
+
+/* ── iPad portrait / tablets (641px – 900px) ── */
+@media(min-width:641px) and (max-width:900px){
+  .hero{padding:56px 24px 36px}
+  .hero h1{font-size:clamp(38px,6vw,56px)}
+  .hero-stats{gap:32px}
+
+  .top-tabs{gap:6px;padding:0 16px}
+  .top-tab{font-size:15px;padding:12px 26px}
+
+  .nav-wrap{padding:10px 16px;overflow-x:auto}
+  .nav-pills{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;
+    padding-bottom:4px;scrollbar-width:none}
+  .nav-pills::-webkit-scrollbar{display:none}
+  .pill{flex-shrink:0;font-size:12px}
+
+  .main{padding:32px 20px 70px}
+  .sec-title{font-size:32px}
+  .grid-3{grid-template-columns:1fr 1fr}
+  .article-fr .fr-line{font-size:16px}
+  .tbl{font-size:14px}
+  .tbl td:first-child{font-size:16px}
+}
+
+/* ── iPad landscape / small desktops (901px – 1024px) ── */
+@media(min-width:901px) and (max-width:1024px){
+  .main{padding:36px 24px 70px}
+  .hero h1{font-size:clamp(48px,6vw,64px)}
+  .nav-pills{flex-wrap:wrap}
+}
+
+/* ── Desktops (≥ 1025px) ── */
+@media(min-width:1025px){
+  .nav-pills{flex-wrap:wrap}
+}
+
 
 /* ═══════════════ CARD ═══════════════ */
 .card {
@@ -354,7 +526,8 @@ body{
 .vp:hover{background:var(--blue-light);border-color:#bfdbfe;color:var(--blue)}
 
 /* ═══════════════ TABLE ═══════════════ */
-.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:14px}
+.tbl{width:100%;border-collapse:collapse;font-size:15px;min-width:320px}
 .tbl th{
   text-align:right;padding:11px 14px;color:var(--text-light);
   font-family:'Inter',sans-serif;font-size:11px;font-weight:600;
@@ -1529,6 +1702,16 @@ body{
 </footer>
 
 <script>
+// ── Wrap tables for mobile horizontal scroll ──
+document.querySelectorAll('.tbl').forEach(function(t){
+  if(!t.parentElement.classList.contains('tbl-wrap')){
+    var wrap = document.createElement('div');
+    wrap.className = 'tbl-wrap';
+    t.parentNode.insertBefore(wrap, t);
+    wrap.appendChild(t);
+  }
+});
+
 // ── Stars ──
 var sc = document.getElementById('starCanvas');
 function drawStars(){
