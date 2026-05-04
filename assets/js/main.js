@@ -24,6 +24,53 @@ function drawStars(){
 window.addEventListener('resize', drawStars);
 drawStars();
 
+// ── Lire facile page links ──
+var lirePages = [
+  {title:'Paris', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/paris-texte-francais-facile.html'},
+  {title:'Mont Saint-Michel', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/mont-saint-michel-texte-fle.html'},
+  {title:"La ville d'Antibes", group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/ville-antibes-texte-fle.html'},
+  {title:'La Rochelle', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/la-rochelle.html'},
+  {title:'Ville de Tours', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/ville-de-tours-texte-francais-facile.html'},
+  {title:'Lyon', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/lyon.html'},
+  {title:'Une journée en Bourgogne', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/une-journee-en-bourgogne-2.html'},
+  {title:'Morbihan', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/morbihan.html'},
+  {title:'Tours', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/tours.html'},
+  {title:'Saint-Malo', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/saint-malo.html'},
+  {title:'Le Val de Loire', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/le_val_de_loire.html'},
+  {title:'Le Médoc', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/le-medoc.html'},
+  {title:'Villes françaises', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/villes-francaises.html'},
+  {title:'Les régions françaises', group:'facile', url:'https://www.podcastfrancaisfacile.com/culture-societe/les-regions-francaises-1.html'},
+  {title:'La Louisiane et la Nouvelle-Orléans', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/la-louisiane-et-la-nouvelle-orleans.html'},
+  {title:'La Sologne', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/la-sologne.html'}
+];
+
+function renderLireLinks(){
+  var grid = document.getElementById('lireLinkGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  lirePages.forEach(function(page){
+    var link = document.createElement('a');
+    link.className = 'lire-link';
+    link.href = page.url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.innerHTML = '<span class="lire-link-icon">🎧</span>' +
+      '<span class="lire-link-title">'+escapeHtml(page.title)+'</span>' +
+      '<span class="lire-link-meta">'+escapeHtml(page.group)+'</span>';
+    grid.appendChild(link);
+  });
+}
+
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g, function(ch){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+  });
+}
+
+function cleanLireTitle(title){
+  return String(title).replace(/\s+-\s+Texte.*$/i, '').trim();
+}
+
 // ── iPad / iOS: ensure buttons respond to touch ──
 document.addEventListener('DOMContentLoaded', function(){
   // Top tabs touch
@@ -47,7 +94,56 @@ document.addEventListener('DOMContentLoaded', function(){
       toggleQ(hdr);
     }, {passive:false});
   });
+  renderLireLinks();
 });
+
+// ── Dashboard Sidebar ──
+var sidebar = document.getElementById('dashboard-sidebar');
+var sidebarToggle = document.getElementById('sidebar-toggle');
+var sidebarPin = document.getElementById('sidebar-pin');
+var sidebarSearch = document.getElementById('sidebar-search');
+var isPinned = false;
+
+function setSidebarActive(target){
+  if(!sidebar || !target) return;
+  sidebar.querySelectorAll('[data-sidebar-target]').forEach(function(item){
+    item.classList.toggle('active', item.getAttribute('data-sidebar-target') === target);
+  });
+}
+
+if(sidebar && sidebarToggle && sidebarPin){
+  sidebar.querySelectorAll('.sidebar-link').forEach(function(item){
+    var text = item.querySelector('.sidebar-text');
+    if(text) item.setAttribute('data-label', text.textContent.trim());
+  });
+
+  sidebarToggle.addEventListener('click', function() {
+    isPinned = !isPinned;
+    sidebar.classList.toggle('open', isPinned);
+    sidebarToggle.setAttribute('aria-expanded', isPinned ? 'true' : 'false');
+  });
+
+  sidebarPin.addEventListener('click', function() {
+    isPinned = !isPinned;
+    sidebar.classList.toggle('open', isPinned);
+    sidebarPin.classList.toggle('active', isPinned);
+    sidebarToggle.setAttribute('aria-expanded', isPinned ? 'true' : 'false');
+  });
+
+  sidebar.addEventListener('mouseleave', function() {
+    if(!isPinned) sidebar.classList.remove('open');
+  });
+
+  if(sidebarSearch){
+    sidebarSearch.addEventListener('input', function(){
+      var term = sidebarSearch.value.trim().toLowerCase();
+      sidebar.querySelectorAll('.sidebar-resources .sidebar-link').forEach(function(link){
+        var text = link.textContent.toLowerCase();
+        link.style.display = text.indexOf(term) > -1 ? '' : 'none';
+      });
+    });
+  }
+}
 
 // ── Scroll to nav ──
 function scrollToNav(panelId){
@@ -58,7 +154,9 @@ function scrollToNav(panelId){
 // ── Activate first section in a panel ──
 function activateFirstSec(panelId, prefix){
   var secs = document.querySelectorAll('#'+panelId+' .sec');
-  var pills = document.querySelectorAll('#'+panelId+' .pill');
+  var panelKey = panelId.replace('panel-','');
+  var scopedPills = document.getElementById('pills-'+panelKey);
+  var pills = scopedPills ? scopedPills.querySelectorAll('.pill') : document.querySelectorAll('#'+panelId+' .pill');
   secs.forEach(function(s){ s.classList.remove('visible'); });
   pills.forEach(function(b){ b.classList.remove('active'); });
   if(secs.length > 0) secs[0].classList.add('visible');
@@ -71,12 +169,32 @@ function switchTop(tab, btn){
   document.querySelectorAll('.top-tab').forEach(function(b){ b.classList.remove('active'); });
   var panel = document.getElementById('panel-'+tab);
   if(panel){ panel.classList.add('active'); }
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+  setSidebarActive(tab);
   if(tab === 'grammaire') activateFirstSec('panel-grammaire','g-');
-  else if(tab === 'temps') activateFirstSec('panel-temps','t-');
-  else if(tab === 'oral') activateFirstSec('panel-oral','o-');
+  else if(tab === 'oral') showMariane(document.querySelector('#pills-oral .pill'));
   else if(tab === 'phonetique') activateFirstSec('panel-phonetique','p-');
   setTimeout(function(){ scrollToNav('panel-'+tab); }, 50);
+}
+
+// ── Grammaire child panels ──
+function showGrammarChild(panelName, btn){
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.top-tab').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('#pills-grammaire .pill').forEach(function(b){ b.classList.remove('active'); });
+  var grammarTop = document.querySelector('.top-tab[onclick*="grammaire"]');
+  if(grammarTop) grammarTop.classList.add('active');
+  if(btn) btn.classList.add('active');
+  setSidebarActive(panelName);
+  var panel = document.getElementById('panel-'+panelName);
+  if(panel) panel.classList.add('active');
+  if(panel){
+    panel.querySelectorAll('.first-child-tabs .pill').forEach(function(b){ b.classList.remove('active'); });
+    var activeChild = panel.querySelector(".first-child-tabs .pill[onclick*=\""+panelName+"\"]");
+    if(activeChild) activeChild.classList.add('active');
+  }
+  if(panelName === 'temps') activateFirstSec('panel-temps','t-');
+  setTimeout(function(){ scrollToNav('panel-'+panelName); }, 50);
 }
 
 // ── Grammaire / Temps section switch ──
@@ -93,10 +211,33 @@ function showSec(id, btn, panel){
 // ── Oral section switch ──
 function showOral(id, btn){
   document.querySelectorAll('#panel-oral .sec').forEach(function(s){ s.classList.remove('visible'); });
+  document.querySelectorAll('#pills-mariane .pill').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  var oralPanel = document.getElementById('panel-oral');
+  if(oralPanel) oralPanel.classList.add('active');
   document.querySelectorAll('#pills-oral .pill').forEach(function(b){ b.classList.remove('active'); });
+  var marianeTab = document.querySelector('#pills-oral .pill');
+  if(marianeTab) marianeTab.classList.add('active');
   var sec = document.getElementById('o-'+id);
   if(sec) sec.classList.add('visible');
   btn.classList.add('active');
+  scrollToNav('panel-oral');
+}
+
+function showMariane(btn){
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('#pills-oral .pill').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('#panel-oral .sec').forEach(function(s){ s.classList.remove('visible'); });
+  var oralPanel = document.getElementById('panel-oral');
+  if(oralPanel) oralPanel.classList.add('active');
+  var marianeMainTab = document.querySelector('#pills-oral .pill');
+  if(marianeMainTab) marianeMainTab.classList.add('active');
+  if(btn && !btn.closest('#pills-oral')) btn.classList.add('active');
+  var firstQuestion = document.querySelector('#pills-mariane .pill');
+  document.querySelectorAll('#pills-mariane .pill').forEach(function(b){ b.classList.remove('active'); });
+  if(firstQuestion) firstQuestion.classList.add('active');
+  var firstSec = document.getElementById('o-routine');
+  if(firstSec) firstSec.classList.add('visible');
   scrollToNav('panel-oral');
 }
 
