@@ -99,12 +99,12 @@ body{
 .hero {
   position:relative;z-index:1;
   text-align:center;
-  padding:70px 24px 48px;
+  padding:46px 24px 28px;
 }
 
 .flag-row {
   display:flex;justify-content:center;align-items:center;gap:0;
-  margin-bottom:24px;
+  margin-bottom:14px;
   animation:fadeDown .6s ease .05s both;
 }
 .flag-row span{display:block;height:8px;width:28px;border-radius:2px;}
@@ -118,7 +118,7 @@ body{
   border-radius:40px;padding:5px 16px;
   font-family:'Fira Code',monospace;font-size:11px;letter-spacing:2px;
   color:#7eb8f7;text-transform:uppercase;
-  margin-bottom:20px;
+  margin-bottom:12px;
   animation:fadeDown .6s ease .1s both;
 }
 .badge-dot{width:6px;height:6px;border-radius:50%;background:#3b82f6;
@@ -138,13 +138,13 @@ body{
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
 .hero-sub {
-  font-size:17px;color:var(--text-muted-hero);margin-bottom:40px;font-weight:300;
+  font-size:17px;color:var(--text-muted-hero);margin-bottom:24px;font-weight:300;
   animation:fadeDown .7s ease .3s both;
 }
 
 .hero-stats {
   display:flex;justify-content:center;gap:40px;flex-wrap:wrap;
-  margin-bottom:44px;
+  margin-bottom:24px;
   animation:fadeDown .7s ease .4s both;
 }
 .hstat{text-align:center}
@@ -165,8 +165,8 @@ body{
 }
 .top-tab {
   font-family:'Lora',serif;
-  font-size:17px;font-weight:700;
-  padding:14px 36px;
+  font-size:22px;font-weight:700;font-style:italic;
+  padding:16px 48px;
   border-radius:14px 14px 0 0;
   border:1px solid var(--hero-border) !important;
   border-bottom:none !important;
@@ -186,7 +186,7 @@ body{
   border-color:rgba(255,255,255,.3) !important;
   box-shadow:0 -4px 20px rgba(0,0,0,.2);
 }
-.top-tab .ti{font-size:18px}
+.top-tab .ti{font-size:22px}
 
 /* ═══════════════ STICKY NAV ═══════════════ */
 .nav-wrap {
@@ -228,7 +228,7 @@ body{
 .panel.active{display:block}
 
 .main {
-  max-width:960px;margin:0 auto;
+  max-width:1180px;margin:0 auto;
   padding:44px 24px 80px;
   background:transparent;
 }
@@ -282,10 +282,10 @@ body{
 /* ── Small phones (≤ 480px) ── */
 @media(max-width:480px){
   /* hero */
-  .hero{padding:40px 16px 28px}
+  .hero{padding:30px 16px 18px}
   .hero h1{font-size:32px;letter-spacing:-1px}
-  .hero-sub{font-size:14px;margin-bottom:24px}
-  .hero-stats{gap:20px;margin-bottom:28px}
+  .hero-sub{font-size:14px;margin-bottom:16px}
+  .hero-stats{gap:16px;margin-bottom:16px}
   .hstat-num{font-size:32px}
   .hstat-label{font-size:11px}
   .badge-kicker{font-size:9px;padding:4px 12px}
@@ -293,7 +293,7 @@ body{
   /* top tabs — stack vertically */
   .top-tabs{flex-direction:column;align-items:stretch;padding:0 12px;gap:4px}
   .top-tab{border-radius:12px !important;border-bottom:1px solid var(--hero-border) !important;
-    font-size:15px;padding:12px 20px;justify-content:center}
+    font-size:18px;padding:12px 20px;justify-content:center}
   .top-tab.active{border-radius:12px !important}
 
   /* nav pills scroll horizontally */
@@ -380,13 +380,13 @@ body{
 
 /* ── Phones (481px – 640px) ── */
 @media(min-width:481px) and (max-width:640px){
-  .hero{padding:48px 20px 32px}
+  .hero{padding:34px 20px 22px}
   .hero h1{font-size:38px}
-  .hero-stats{gap:28px}
+  .hero-stats{gap:22px;margin-bottom:18px}
   .hstat-num{font-size:36px}
 
   .top-tabs{flex-wrap:wrap;padding:0 16px;gap:6px}
-  .top-tab{font-size:15px;padding:11px 22px;border-radius:12px !important;
+  .top-tab{font-size:19px;padding:12px 26px;border-radius:12px !important;
     border-bottom:1px solid var(--hero-border) !important}
   .top-tab.active{border-radius:12px !important}
 
@@ -409,12 +409,12 @@ body{
 
 /* ── iPad portrait / tablets (641px – 900px) ── */
 @media(min-width:641px) and (max-width:900px){
-  .hero{padding:56px 24px 36px}
+  .hero{padding:38px 24px 24px}
   .hero h1{font-size:clamp(38px,6vw,56px)}
-  .hero-stats{gap:32px}
+  .hero-stats{gap:28px;margin-bottom:20px}
 
   .top-tabs{gap:6px;padding:0 16px}
-  .top-tab{font-size:15px;padding:12px 26px}
+  .top-tab{font-size:20px;padding:13px 32px}
 
   .nav-wrap{padding:10px 16px;overflow-x:auto}
   .nav-pills{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;
