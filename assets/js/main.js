@@ -103,12 +103,25 @@ var sidebarToggle = document.getElementById('sidebar-toggle');
 var sidebarPin = document.getElementById('sidebar-pin');
 var sidebarSearch = document.getElementById('sidebar-search');
 var isPinned = false;
+var mobileSidebarQuery = window.matchMedia('(max-width: 640px)');
 
 function setSidebarActive(target){
   if(!sidebar || !target) return;
   sidebar.querySelectorAll('[data-sidebar-target]').forEach(function(item){
     item.classList.toggle('active', item.getAttribute('data-sidebar-target') === target);
   });
+}
+
+function closeSidebar(){
+  if(!sidebar) return;
+  sidebar.classList.remove('open');
+  if(sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'false');
+}
+
+function openSidebar(){
+  if(!sidebar) return;
+  sidebar.classList.add('open');
+  if(sidebarToggle) sidebarToggle.setAttribute('aria-expanded', 'true');
 }
 
 if(sidebar && sidebarToggle && sidebarPin){
@@ -118,20 +131,36 @@ if(sidebar && sidebarToggle && sidebarPin){
   });
 
   sidebarToggle.addEventListener('click', function() {
+    if(mobileSidebarQuery.matches){
+      if(sidebar.classList.contains('open')) closeSidebar();
+      else openSidebar();
+      return;
+    }
     isPinned = !isPinned;
-    sidebar.classList.toggle('open', isPinned);
-    sidebarToggle.setAttribute('aria-expanded', isPinned ? 'true' : 'false');
+    if(isPinned) openSidebar();
+    else closeSidebar();
   });
 
   sidebarPin.addEventListener('click', function() {
     isPinned = !isPinned;
-    sidebar.classList.toggle('open', isPinned);
+    if(isPinned) openSidebar();
+    else closeSidebar();
     sidebarPin.classList.toggle('active', isPinned);
-    sidebarToggle.setAttribute('aria-expanded', isPinned ? 'true' : 'false');
   });
 
   sidebar.addEventListener('mouseleave', function() {
-    if(!isPinned) sidebar.classList.remove('open');
+    if(!isPinned && !mobileSidebarQuery.matches) closeSidebar();
+  });
+
+  sidebar.querySelectorAll('[data-sidebar-target]').forEach(function(item){
+    item.addEventListener('click', function(){
+      if(mobileSidebarQuery.matches) closeSidebar();
+    });
+  });
+
+  document.addEventListener('pointerdown', function(event){
+    if(!mobileSidebarQuery.matches || !sidebar.classList.contains('open')) return;
+    if(!sidebar.contains(event.target)) closeSidebar();
   });
 
   if(sidebarSearch){
