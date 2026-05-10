@@ -72,6 +72,49 @@ function cleanLireTitle(title){
 }
 
 // ── iPad / iOS: ensure buttons respond to touch ──
+function updateRoute(panel, section){
+  if(!window.history || !window.URLSearchParams) return;
+  var url = new URL(window.location.href);
+  if(panel) url.searchParams.set('panel', panel);
+  else url.searchParams.delete('panel');
+  if(section) url.searchParams.set('section', section);
+  else url.searchParams.delete('section');
+  var query = url.searchParams.toString();
+  window.history.replaceState({}, '', url.pathname + (query ? '?' + query : '') + url.hash);
+}
+
+function getRoute(){
+  if(!window.URLSearchParams) return {panel:null, section:null};
+  var params = new URLSearchParams(window.location.search);
+  return {
+    panel: params.get('panel'),
+    section: params.get('section')
+  };
+}
+
+function restoreRoute(){
+  var route = getRoute();
+  if(!route.panel) return;
+  var topBtn = document.querySelector(".top-tab[onclick*=\"" + route.panel + "\"]");
+  if(!document.getElementById('panel-' + route.panel)) return;
+
+  if(route.panel === 'temps'){
+    showGrammarChild('temps', topBtn);
+    if(route.section) showSec(route.section, document.querySelector("#pills-temps .pill[onclick*=\"'" + route.section + "'\"]"), 'temps');
+  } else if(route.panel === 'grammaire'){
+    switchTop('grammaire', topBtn);
+    if(route.section) showSec(route.section, document.querySelector("#pills-grammaire .pill[onclick*=\"'" + route.section + "'\"]"), 'grammaire');
+  } else if(route.panel === 'oral'){
+    switchTop('oral', topBtn);
+    if(route.section) showOral(route.section, document.querySelector("#pills-mariane .pill[onclick*=\"'" + route.section + "'\"]"));
+  } else if(route.panel === 'phonetique'){
+    switchTop('phonetique', topBtn);
+    if(route.section) showPhon(route.section, document.querySelector("#pills-phonetique .pill[onclick*=\"'" + route.section + "'\"]"));
+  } else {
+    switchTop(route.panel, topBtn);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function(){
   // Top tabs touch
   document.querySelectorAll('.top-tab').forEach(function(btn){
@@ -95,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }, {passive:false});
   });
   renderLireLinks();
+  restoreRoute();
 });
 
 // ── Dashboard Sidebar ──
@@ -203,6 +247,7 @@ function switchTop(tab, btn){
   if(tab === 'grammaire') activateFirstSec('panel-grammaire','g-');
   else if(tab === 'oral') showMariane(document.querySelector('#pills-oral .pill'));
   else if(tab === 'phonetique') activateFirstSec('panel-phonetique','p-');
+  if(tab !== 'oral') updateRoute(tab, null);
   setTimeout(function(){ scrollToNav('panel-'+tab); }, 50);
 }
 
@@ -223,6 +268,7 @@ function showGrammarChild(panelName, btn){
     if(activeChild) activeChild.classList.add('active');
   }
   if(panelName === 'temps') activateFirstSec('panel-temps','t-');
+  updateRoute(panelName, panelName === 'temps' ? 'present' : null);
   setTimeout(function(){ scrollToNav('panel-'+panelName); }, 50);
 }
 
@@ -233,7 +279,8 @@ function showSec(id, btn, panel){
   document.querySelectorAll('#pills-'+panel+' .pill').forEach(function(b){ b.classList.remove('active'); });
   var sec = document.getElementById(pre+id);
   if(sec) sec.classList.add('visible');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+  updateRoute(panel, id);
   scrollToNav('panel-'+panel);
 }
 
@@ -249,7 +296,8 @@ function showOral(id, btn){
   if(marianeTab) marianeTab.classList.add('active');
   var sec = document.getElementById('o-'+id);
   if(sec) sec.classList.add('visible');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+  updateRoute('oral', id);
   scrollToNav('panel-oral');
 }
 
@@ -267,6 +315,7 @@ function showMariane(btn){
   if(firstQuestion) firstQuestion.classList.add('active');
   var firstSec = document.getElementById('o-routine');
   if(firstSec) firstSec.classList.add('visible');
+  updateRoute('oral', 'routine');
   scrollToNav('panel-oral');
 }
 
@@ -276,7 +325,8 @@ function showPhon(id, btn){
   document.querySelectorAll('#pills-phonetique .pill').forEach(function(b){ b.classList.remove('active'); });
   var sec = document.getElementById('p-'+id);
   if(sec) sec.classList.add('visible');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+  updateRoute('phonetique', id);
   scrollToNav('panel-phonetique');
 }
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -51,6 +51,9 @@
     <button class="top-tab" onclick="switchTop('lire',this)">
       <span class="ti">📖</span> Lire
     </button>
+    <button class="top-tab" onclick="switchTop('vocabulary',this)">
+      <span class="ti">🗂️</span> Vocabulary
+    </button>
   </div>
 </div>
 
@@ -63,8 +66,10 @@
       <button class="pill" onclick="showSec('articles',this,'grammaire')"><span class="pi">📌</span>Articles</button>
       <button class="pill" onclick="showSec('possessifs',this,'grammaire')"><span class="pi">🔑</span>Possessifs</button>
       <button class="pill" onclick="showSec('structure',this,'grammaire')"><span class="pi">🏗</span>Structure</button>
+      <button class="pill" onclick="showSec('codcoi',this,'grammaire')"><span class="pi">🎯</span>Les pronoms compléments</button>
       <button class="pill" onclick="showSec('prepositions',this,'grammaire')"><span class="pi">🔗</span>Prépositions</button>
       <button class="pill" onclick="showSec('adjectifs',this,'grammaire')"><span class="pi">🎨</span>Adjectifs</button>
+      <button class="pill" onclick="showSec('adverbes',this,'grammaire')"><span class="pi">🧭</span>Adverbes</button>
       <button class="pill" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
     </div>
   </nav>
@@ -110,6 +115,84 @@
         <div class="ex-row"><span class="ex-fr">Moi, je parle français.</span><span class="ex-dot">·</span><span class="ex-ar">أنا أتكلم الفرنسية (تأكيد)</span></div>
         <div class="ex-row"><span class="ex-fr">C'est lui qui a gagné.</span><span class="ex-dot">·</span><span class="ex-ar">هو الذي فاز</span></div>
         <div class="ex-row"><span class="ex-fr">Elle est plus grande que toi.</span><span class="ex-dot">·</span><span class="ex-ar">هي أطول منك (مقارنة)</span></div>
+      </div>
+
+      <div class="card" style="border-right:5px solid var(--blue);background:linear-gradient(135deg,#eff6ff,#dbeafe)">
+        <span class="card-label">Le / La / Les et Lui / Leur — ضمائر المفعول</span>
+        <div class="formula rule-important">le / la / les = COD · lui / leur = COI avec à</div>
+        <div class="note" style="direction:rtl;text-align:right">
+          <strong>le, la, les</strong> تعوض مفعولا مباشرا بدون حرف جر. أما <strong>lui, leur</strong> فتعوض شخصا يأتي بعد <strong>à</strong>.
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">1) Le / La / Les — COD مباشر</span>
+          <table class="tbl">
+            <tr><th>الضمير</th><th>يستبدل</th><th>مثال</th></tr>
+            <tr><td>le / l'</td><td>اسم مذكر مفرد</td><td>Je fais un exercice → Je le fais.</td></tr>
+            <tr><td>la / l'</td><td>اسم مؤنث مفرد</td><td>Je fais la vaisselle → Je la fais.</td></tr>
+            <tr><td>les</td><td>اسم جمع</td><td>Je fais les exercices → Je les fais.</td></tr>
+          </table>
+          <div class="ex-row"><span class="ex-fr">J'ai fait un exercice.</span><span class="ex-dot">→</span><span class="ex-fr">Je l'ai fait.</span><span class="ex-ar">عملت تمرينا ← عملته</span></div>
+          <div class="ex-row"><span class="ex-fr">J'ai fait les exercices.</span><span class="ex-dot">→</span><span class="ex-fr">Je les ai faits.</span><span class="ex-ar">عملت التمارين ← عملتها</span></div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">2) Lui / Leur — COI غير مباشر</span>
+          <table class="tbl">
+            <tr><th>الضمير</th><th>يستبدل</th><th>مثال</th></tr>
+            <tr><td>lui</td><td>à + شخص مفرد مذكر أو مؤنث</td><td>Je téléphone à Marc → Je lui téléphone.</td></tr>
+            <tr><td>lui</td><td>à + شخص مفرد مؤنث</td><td>Je parle à Sophie → Je lui parle.</td></tr>
+            <tr><td>leur</td><td>à + أشخاص جمع</td><td>J'obéis à mes parents → Je leur obéis.</td></tr>
+          </table>
+          <div class="ex-row"><span class="ex-fr">J'obéis à mon père.</span><span class="ex-dot">→</span><span class="ex-fr">Je lui obéis.</span><span class="ex-ar">أطيع أبي ← أطيعه</span></div>
+          <div class="ex-row"><span class="ex-fr">J'obéis à ma mère.</span><span class="ex-dot">→</span><span class="ex-fr">Je lui obéis.</span><span class="ex-ar">أطيع أمي ← أطيعها</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">أمثلة Le / La / Les من الملف</span>
+        <table class="tbl">
+          <tr><th>الفعل / الجملة الأصلية</th><th>بالضمير</th><th>الترجمة</th></tr>
+          <tr><td>Faire un exercice</td><td>Je fais un exercice → Je le fais.</td><td>أعمل تمرينا ← أعمله</td></tr>
+          <tr><td>Faire la vaisselle</td><td>Je fais la vaisselle → Je la fais.</td><td>أغسل الصحون ← أغسلها</td></tr>
+          <tr><td>Faire les exercices</td><td>Je fais les exercices → Je les fais.</td><td>أعمل التمارين ← أعملها</td></tr>
+          <tr><td>Montrer une image</td><td>Je montre une image → Je la montre.</td><td>أعرض صورة ← أعرضها</td></tr>
+          <tr><td>Montrer le chemin</td><td>Je montre le chemin → Je le montre.</td><td>أري الطريق ← أريه</td></tr>
+          <tr><td>Rencontrer Marc</td><td>Je rencontre Marc → Je le rencontre.</td><td>أقابل مارك ← أقابله</td></tr>
+          <tr><td>Rencontrer Sophie</td><td>Je rencontre Sophie → Je la rencontre.</td><td>أقابل صوفي ← أقابلها</td></tr>
+          <tr><td>Regarder Marc</td><td>Je regarde Marc → Je le regarde.</td><td>أنظر إلى مارك ← أنظر إليه</td></tr>
+          <tr><td>Regarder Sophie</td><td>Je regarde Sophie → Je la regarde.</td><td>أنظر إلى صوفي ← أنظر إليها</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <span class="card-label">أمثلة Lui / Leur من الملف</span>
+        <table class="tbl">
+          <tr><th>الفعل / الجملة الأصلية</th><th>بالضمير</th><th>الترجمة</th></tr>
+          <tr><td>Téléphoner à Marc</td><td>Je téléphone à Marc → Je lui téléphone.</td><td>أتصل بمارك ← أتصل به</td></tr>
+          <tr><td>Téléphoner à Sophie</td><td>Je téléphone à Sophie → Je lui téléphone.</td><td>أتصل بصوفي ← أتصل بها</td></tr>
+          <tr><td>Obéir à mon père</td><td>J'obéis à mon père → Je lui obéis.</td><td>أطيع أبي ← أطيعه</td></tr>
+          <tr><td>Obéir à ma mère</td><td>J'obéis à ma mère → Je lui obéis.</td><td>أطيع أمي ← أطيعها</td></tr>
+          <tr><td>Montrer à Marc</td><td>Je montre à Marc → Je lui montre.</td><td>أعرض لمارك ← أعرض له</td></tr>
+          <tr><td>Montrer à Sophie</td><td>Je montre à Sophie → Je lui montre.</td><td>أعرض لصوفي ← أعرض لها</td></tr>
+          <tr><td>Raconter à Marc</td><td>Je raconte à Marc → Je lui raconte.</td><td>أحكي لمارك ← أحكي له</td></tr>
+          <tr><td>Raconter à Sophie</td><td>Je raconte à Sophie → Je lui raconte.</td><td>أحكي لصوفي ← أحكي لها</td></tr>
+          <tr><td>Obéir à mes parents</td><td>J'obéis à mes parents → Je leur obéis.</td><td>أطيع والديّ ← أطيعهم</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <span class="card-label">COD + COI معًا — ضميرين في نفس الجملة</span>
+        <div class="formula rule-important">le / la / les + lui / leur</div>
+        <table class="tbl">
+          <tr><th>الجملة الأصلية</th><th>استبدال COI فقط</th><th>استبدال COD + COI</th><th>الترجمة</th></tr>
+          <tr><td>Je montre une photo à Marc.</td><td>Je lui montre une photo.</td><td>Je la lui montre.</td><td>أريها له</td></tr>
+          <tr><td>Je donne un cadeau à Sophie.</td><td>Je lui donne un cadeau.</td><td>Je le lui donne.</td><td>أعطيه لها</td></tr>
+          <tr><td>J'enseigne le français à Omar.</td><td>Je lui enseigne le français.</td><td>Je le lui enseigne.</td><td>أعلمه له</td></tr>
+          <tr><td>Je fais une fête à mes amis.</td><td>Je leur fais une fête.</td><td>Je la leur fais.</td><td>أقيمها لهم</td></tr>
+        </table>
       </div>
     </section>
 
@@ -302,6 +385,439 @@
       </div>
     </section>
 
+    <!-- LES PRONOMS COMPLÉMENTS -->
+    <section class="sec" id="g-codcoi">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:#fff7ed">🎯</div>
+          <div class="sec-title">Les pronoms <em>compléments</em></div>
+          <div class="sec-ar">ضمائر المفعول: مباشرة، غير مباشرة، ظرفية، ومشددة</div>
+        </div>
+        <span class="usage-tag tag-now">PRONOMS</span>
+      </div>
+
+      <div class="card" style="border-right:5px solid var(--blue);background:linear-gradient(135deg,#eff6ff,#dbeafe)">
+        <span class="card-label">الفكرة الأساسية — Les pronoms compléments</span>
+        <div class="formula rule-important">COD = sans préposition · COI = avec à / de</div>
+        <div class="ex-row"><span class="ex-fr">Je vois Ahmed.</span><span class="ex-dot">→</span><span class="ex-fr">Je le vois.</span><span class="ex-ar">أرى أحمد ← أراه</span></div>
+        <div class="ex-row"><span class="ex-fr">Je parle à Ahmed.</span><span class="ex-dot">→</span><span class="ex-fr">Je lui parle.</span><span class="ex-ar">أتكلم مع أحمد ← أتكلم معه</span></div>
+        <div class="note" style="direction:rtl;text-align:right">
+          اسأل نفسك: الفعل يجيب على <strong>qui / quoi ?</strong> بدون حرف جر = COD. ولو السؤال <strong>à qui ? / à quoi ?</strong> غالبا = COI.
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">Les pronoms compléments — الأنواع الأربعة</span>
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--blue)">
+            <span class="card-label">1) Directs — مباشرة</span>
+            <div class="formula" style="font-size:14px">me · te · le / la · nous · vous · les</div>
+            <div class="note" style="direction:rtl;text-align:right">
+              تحل محل مفعول مباشر <strong>بدون حرف جر</strong>. نسأل: الفعل + من؟ أو ماذا؟
+            </div>
+            <div class="ex-row"><span class="ex-fr">Je vois Marie.</span><span class="ex-dot">→</span><span class="ex-fr">Je la vois.</span><span class="ex-ar">أرى ماري ← أراها</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--green)">
+            <span class="card-label">2) Indirects — غير مباشرة</span>
+            <div class="formula" style="font-size:14px">me · te · lui · nous · vous · leur</div>
+            <div class="note" style="direction:rtl;text-align:right">
+              تحل محل شخص بعد <strong>à</strong> في أفعال مثل parler à, téléphoner à, donner à.
+            </div>
+            <div class="ex-row"><span class="ex-fr">Je parle à Ahmed.</span><span class="ex-dot">→</span><span class="ex-fr">Je lui parle.</span><span class="ex-ar">أتكلم مع أحمد ← أتكلم معه</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--purple)">
+            <span class="card-label">3) Adverbiaux — ظرفية</span>
+            <div class="formula" style="font-size:14px">y · en</div>
+            <div class="note" style="direction:rtl;text-align:right">
+              <strong>y</strong> تعوض غالبا مكانا أو شيئا بعد à. و<strong>en</strong> تعوض شيئا بعد de أو كمية.
+            </div>
+            <div class="ex-row"><span class="ex-fr">Je vais à Paris.</span><span class="ex-dot">→</span><span class="ex-fr">J'y vais.</span><span class="ex-ar">أذهب إلى باريس ← أذهب هناك</span></div>
+            <div class="ex-row"><span class="ex-fr">Je parle de ce livre.</span><span class="ex-dot">→</span><span class="ex-fr">J'en parle.</span><span class="ex-ar">أتكلم عن هذا الكتاب ← أتكلم عنه</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--orange)">
+            <span class="card-label">4) Toniques — مشددة / منفصلة</span>
+            <div class="formula" style="font-size:14px">moi · toi · lui / elle · nous · vous · eux / elles</div>
+            <div class="note" style="direction:rtl;text-align:right">
+              تستخدم بعد حروف الجر، وللتأكيد، ومع بعض الأفعال التي تأتي مع <strong>à + personne</strong> مثل penser à.
+            </div>
+            <div class="ex-row"><span class="ex-fr">Je pense à Marie.</span><span class="ex-dot">→</span><span class="ex-fr">Je pense à elle.</span><span class="ex-ar">أفكر في ماري ← أفكر فيها</span></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">COD / COI — المفعول به</span>
+          <table class="tbl">
+            <tr><th>النوع</th><th>التعريف</th><th>مثال</th></tr>
+            <tr><td>COD</td><td>مفعول به مباشر (بدون حرف جر)</td><td>Je mange une pomme.</td></tr>
+            <tr><td>COI</td><td>مفعول به غير مباشر (مع à / de)</td><td>Je parle à Marie.</td></tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Pronoms Relatifs — الضمائر الموصولة</span>
+          <div class="contract-grid">
+            <div class="cc"><span class="cc-eq">qui</span><span class="cc-arr">→</span><span class="cc-res" style="font-family:'Tajawal',sans-serif;font-style:normal;font-size:15px;color:var(--text-mid)">الذي (فاعل)</span></div>
+            <div class="cc"><span class="cc-eq">que</span><span class="cc-arr">→</span><span class="cc-res" style="font-family:'Tajawal',sans-serif;font-style:normal;font-size:15px;color:var(--text-mid)">الذي (مفعول)</span></div>
+            <div class="cc"><span class="cc-eq">où</span><span class="cc-arr">→</span><span class="cc-res" style="font-family:'Tajawal',sans-serif;font-style:normal;font-size:15px;color:var(--text-mid)">حيث (مكان)</span></div>
+            <div class="cc"><span class="cc-eq">dont</span><span class="cc-arr">→</span><span class="cc-res" style="font-family:'Tajawal',sans-serif;font-style:normal;font-size:15px;color:var(--text-mid)">الذي (de+...)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">1) COD — Complément d'objet direct</span>
+          <table class="tbl">
+            <tr><th>الضمير</th><th>يستبدل</th><th>مثال</th></tr>
+            <tr><td>le / l'</td><td>مذكر مفرد</td><td>Je fais un exercice → Je le fais.</td></tr>
+            <tr><td>la / l'</td><td>مؤنث مفرد</td><td>Je fais la vaisselle → Je la fais.</td></tr>
+            <tr><td>les</td><td>جمع</td><td>Je fais les exercices → Je les fais.</td></tr>
+          </table>
+          <div class="ex-row"><span class="ex-fr">Je rencontre Marc.</span><span class="ex-dot">→</span><span class="ex-fr">Je le rencontre.</span><span class="ex-ar">أقابل مارك ← أقابله</span></div>
+          <div class="ex-row"><span class="ex-fr">Je regarde Sophie.</span><span class="ex-dot">→</span><span class="ex-fr">Je la regarde.</span><span class="ex-ar">أنظر إلى صوفي ← أنظر إليها</span></div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">2) COI — Complément d'objet indirect</span>
+          <table class="tbl">
+            <tr><th>الضمير</th><th>يستبدل</th><th>مثال</th></tr>
+            <tr><td>lui</td><td>à + شخص مفرد</td><td>Je téléphone à Marc → Je lui téléphone.</td></tr>
+            <tr><td>lui</td><td>à + شخص مؤنث مفرد</td><td>Je parle à Sophie → Je lui parle.</td></tr>
+            <tr><td>leur</td><td>à + أشخاص جمع</td><td>J'obéis à mes parents → Je leur obéis.</td></tr>
+          </table>
+          <div class="ex-row"><span class="ex-fr">Ce film plaît à Ahmed.</span><span class="ex-dot">→</span><span class="ex-fr">Ce film lui plaît.</span><span class="ex-ar">هذا الفيلم يعجب أحمد ← يعجبه</span></div>
+          <div class="ex-row"><span class="ex-fr">Je raconte une histoire à mes amis.</span><span class="ex-dot">→</span><span class="ex-fr">Je leur raconte une histoire.</span><span class="ex-ar">أحكي لهم قصة</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">3) Verbes avec à — أفعال مهمة تأخذ COI</span>
+        <div class="formula rule-important">verbe + à + personne → lui / leur</div>
+        <div class="grid-2">
+          <div>
+            <div class="note" style="font-weight:700;color:var(--text-dark)">Communication — التواصل</div>
+            <div class="verb-cloud auto-number">
+              <span class="vp">parler à</span><span class="vp">téléphoner à</span><span class="vp">répondre à</span><span class="vp">dire à</span><span class="vp">demander à</span>
+            </div>
+          </div>
+          <div>
+            <div class="note" style="font-weight:700;color:var(--text-dark)">Donner / relation — إعطاء وتعامل</div>
+            <div class="verb-cloud auto-number">
+              <span class="vp">donner à</span><span class="vp">envoyer à</span><span class="vp">offrir à</span><span class="vp">prêter à</span>
+            </div>
+          </div>
+          <div>
+            <div class="note" style="font-weight:700;color:var(--text-dark)">Pensée / attention — تفكير وانتباه</div>
+            <div class="verb-cloud auto-number">
+              <span class="vp">penser à</span><span class="vp">réfléchir à</span><span class="vp">faire attention à</span>
+            </div>
+          </div>
+          <div>
+            <div class="note" style="font-weight:700;color:var(--text-dark)">Autres verbes — أفعال أخرى</div>
+            <div class="verb-cloud auto-number">
+              <span class="vp">obéir à</span><span class="vp">désobéir à</span><span class="vp">appartenir à</span><span class="vp">ressembler à</span><span class="vp">plaire à</span>
+            </div>
+          </div>
+        </div>
+        <div class="ex-row"><span class="ex-fr">Je pense à Ahmed.</span><span class="ex-dot">→</span><span class="ex-fr">Je pense à lui.</span><span class="ex-ar">أفكر في أحمد ← أفكر فيه</span></div>
+        <div class="note" style="direction:rtl;text-align:right">مهم: لا نقول <strong>Je pense Ahmed</strong>. الصحيح: <strong>Je pense à Ahmed</strong>.</div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">4) Pronoms toniques مع à + personne</span>
+        <div class="formula rule-important">verbe + à + personne → à + pronom tonique</div>
+        <div class="note" style="direction:rtl;text-align:right;font-size:20px;line-height:2.1;color:#111827;background:#fff7ed;border-color:#fed7aa">
+          بعض الأفعال التي تأتي مع
+          <strong style="color:#ea580c;font-size:23px">à + شخص</strong>
+          لا تتحول إلى
+          <strong style="color:#dc2626;font-size:23px">lui / leur</strong>
+          ، بل نستخدم معها غالبا
+          <strong style="color:#2563eb;font-size:22px">à moi, à toi, à lui, à elle, à nous, à vous, à eux, à elles</strong>.
+        </div>
+        <table class="tbl">
+          <tr><th>ضمير عادي</th><th>ضمير tonique</th><th>الترجمة</th></tr>
+          <tr><td>je</td><td>moi</td><td>أنا</td></tr>
+          <tr><td>tu</td><td>toi</td><td>أنت</td></tr>
+          <tr><td>il</td><td>lui</td><td>هو / له</td></tr>
+          <tr><td>elle</td><td>elle</td><td>هي / لها</td></tr>
+          <tr><td>nous</td><td>nous</td><td>نحن / لنا</td></tr>
+          <tr><td>vous</td><td>vous</td><td>أنتم / لكم</td></tr>
+          <tr><td>ils</td><td>eux</td><td>هم / لهم</td></tr>
+          <tr><td>elles</td><td>elles</td><td>هن / لهن</td></tr>
+        </table>
+        <div class="grid-2">
+          <div>
+            <div class="note" style="font-weight:700;color:var(--text-dark)">الأفعال في الصورة</div>
+            <div class="verb-cloud auto-number">
+              <span class="vp">s'intéresser à</span><span class="vp">penser à</span><span class="vp">faire référence à</span><span class="vp">s'identifier à</span><span class="vp">s'opposer à</span><span class="vp">faire attention à</span><span class="vp">s'adresser à</span><span class="vp">songer à</span>
+            </div>
+          </div>
+          <div>
+            <div class="note" style="font-weight:700;color:var(--text-dark)">للحفظ</div>
+            <div class="formula" style="font-size:14px">à moi · à toi · à lui · à elle · à nous · à vous · à eux · à elles</div>
+            <div class="note" style="direction:rtl;text-align:right">إذا كان المقصود شيئا أو مكانا، قد نستخدم <strong>y</strong>. لكن مع شخص نستخدم غالبا <strong>à + pronom tonique</strong>.</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">s'intéresser à — يهتم بـ</span>
+            <div class="ex-row"><span class="ex-fr">Je m'intéresse à Ahmed.</span><span class="ex-ar">أنا مهتم بأحمد.</span></div>
+            <div class="ex-row"><span class="ex-fr">Je m'intéresse à lui.</span><span class="ex-ar">أنا مهتم به.</span></div>
+            <div class="ex-row"><span class="ex-fr">Je m'intéresse à toi.</span><span class="ex-ar">أنا مهتم بك.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">penser à — يفكر في</span>
+            <div class="ex-row"><span class="ex-fr">Je pense à Marie.</span><span class="ex-ar">أنا أفكر في ماري.</span></div>
+            <div class="ex-row"><span class="ex-fr">Je pense à elle.</span><span class="ex-ar">أنا أفكر فيها.</span></div>
+            <div class="ex-row"><span class="ex-fr">Tu penses à moi ?</span><span class="ex-ar">هل تفكر بي؟</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">faire référence à — يشير إلى</span>
+            <div class="ex-row"><span class="ex-fr">Ce texte fait référence à Napoléon.</span><span class="ex-ar">هذا النص يشير إلى نابليون.</span></div>
+            <div class="ex-row"><span class="ex-fr">Ce texte fait référence à lui.</span><span class="ex-ar">هذا النص يشير إليه.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">s'identifier à — يتماهى مع</span>
+            <div class="ex-row"><span class="ex-fr">Il s'identifie à son père.</span><span class="ex-ar">هو يرى نفسه مثل أبيه.</span></div>
+            <div class="ex-row"><span class="ex-fr">Il s'identifie à lui.</span><span class="ex-ar">هو يتماهى معه.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">s'opposer à — يعارض</span>
+            <div class="ex-row"><span class="ex-fr">Je m'oppose à ce projet.</span><span class="ex-ar">أنا أعارض هذا المشروع.</span></div>
+            <div class="ex-row"><span class="ex-fr">Je m'oppose à lui.</span><span class="ex-ar">أنا أعارضه.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">faire attention à — ينتبه إلى</span>
+            <div class="ex-row"><span class="ex-fr">Fais attention à ton frère.</span><span class="ex-ar">انتبه لأخيك.</span></div>
+            <div class="ex-row"><span class="ex-fr">Fais attention à lui.</span><span class="ex-ar">انتبه له.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">s'adresser à — يخاطب</span>
+            <div class="ex-row"><span class="ex-fr">Je m'adresse au professeur.</span><span class="ex-ar">أنا أتحدث إلى الأستاذ.</span></div>
+            <div class="ex-row"><span class="ex-fr">Je m'adresse à lui.</span><span class="ex-ar">أنا أتوجه إليه بالكلام.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">songer à — يفكر في / يخطط لـ</span>
+            <div class="ex-row"><span class="ex-fr">Je songe à changer de travail.</span><span class="ex-ar">أفكر في تغيير العمل.</span></div>
+            <div class="ex-row"><span class="ex-fr">Je songe à elle.</span><span class="ex-ar">أنا أفكر فيها.</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-color:#bbf7d0;background:#f0fdf4">
+            <span class="card-label">parler à — يستخدم lui / leur</span>
+            <div class="ex-row"><span class="ex-fr">Je parle à Ahmed.</span><span class="ex-dot">→</span><span class="ex-fr">Je lui parle.</span><span class="ex-ar">أتكلم معه.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-color:#fecaca;background:#fff1f2">
+            <span class="card-label">penser à — يستخدم à + tonique</span>
+            <div class="ex-row"><span class="ex-fr">Je pense à Ahmed.</span><span class="ex-dot">→</span><span class="ex-fr">Je pense à lui.</span><span class="ex-ar">أفكر فيه.</span></div>
+            <div class="note" style="direction:rtl;text-align:right">خطأ: <strong>Je lui pense.</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">5) مكان الضمير في الجملة</span>
+        <div class="formula rule-important">pronom complément + verbe</div>
+        <table class="tbl">
+          <tr><th>الحالة</th><th>القاعدة</th><th>مثال</th></tr>
+          <tr><td>Présent</td><td>قبل الفعل مباشرة</td><td>Je te connais bien.</td></tr>
+          <tr><td>Négation</td><td>بين ne والفعل</td><td>Je ne lui plais pas.</td></tr>
+          <tr><td>Passé composé</td><td>قبل avoir / être</td><td>Tu les as vus hier ?</td></tr>
+          <tr><td>Infinitif</td><td>قبل المصدر</td><td>Je peux vous aider ?</td></tr>
+        </table>
+        <div class="ex-row"><span class="ex-fr">Tu ne leur as pas demandé d'argent ?</span><span class="ex-ar">ألم تطلب منهم مالا؟</span></div>
+        <div class="ex-row"><span class="ex-fr">Je vous prie de ne pas me déranger.</span><span class="ex-ar">أرجوكم ألا تزعجوني.</span></div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">6) Ordre des pronoms compléments — ترتيب الضمائر</span>
+        <div class="formula rule-important">me / te / nous / vous / se + le / la / les + lui / leur + y + en</div>
+        <table class="tbl">
+          <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+          <tr>
+            <td>me<br>te<br>nous<br>vous<br>se</td>
+            <td>le<br>la<br>les</td>
+            <td>lui<br>leur</td>
+            <td>y</td>
+            <td>en</td>
+          </tr>
+        </table>
+        <div class="grid-2">
+          <div>
+            <div class="note" style="font-weight:700;color:var(--text-dark)">مع me / te / nous / vous</div>
+            <div class="ex-row"><span class="ex-fr">Victor me donne sa photo.</span><span class="ex-dot">→</span><span class="ex-fr">Il me la donne.</span><span class="ex-ar">يعطيها لي</span></div>
+            <div class="ex-row"><span class="ex-fr">Je t'offre ces fleurs.</span><span class="ex-dot">→</span><span class="ex-fr">Je te les offre.</span><span class="ex-ar">أهديها لك</span></div>
+          </div>
+          <div>
+            <div class="note" style="font-weight:700;color:var(--text-dark)">مع lui / leur</div>
+            <div class="ex-row"><span class="ex-fr">Victor lui donne sa photo.</span><span class="ex-dot">→</span><span class="ex-fr">Victor la lui donne.</span><span class="ex-ar">يعطيها له / لها</span></div>
+            <div class="ex-row"><span class="ex-fr">Je leur offre ces fleurs.</span><span class="ex-dot">→</span><span class="ex-fr">Je les leur offre.</span><span class="ex-ar">أهديها لهم</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">7) أمثلة تدريبية من COD + COI</span>
+        <table class="tbl">
+          <tr><th>الجملة الأصلية</th><th>استبدال جزء واحد</th><th>استبدال الاثنين</th></tr>
+          <tr><td>Je montre une photo à Marc.</td><td>Je lui montre une photo.</td><td>Je la lui montre.</td></tr>
+          <tr><td>Je donne un cadeau à Sophie.</td><td>Je lui donne un cadeau.</td><td>Je le lui donne.</td></tr>
+          <tr><td>J'enseigne le français à Omar.</td><td>Je lui enseigne le français.</td><td>Je le lui enseigne.</td></tr>
+          <tr><td>Je fais une fête à mes amis.</td><td>Je leur fais une fête.</td><td>Je la leur fais.</td></tr>
+        </table>
+        <div class="note" style="direction:rtl;text-align:right">
+          ركز في التدريب: الأول حدّد الشيء المباشر COD، ثم الشخص بعد <strong>à</strong> هو COI، وبعدها طبّق ترتيب الضمائر.
+        </div>
+      </div>
+      <div class="card" style="border-right:5px solid var(--purple);background:linear-gradient(135deg,#f5f3ff,#ede9fe)">
+        <span class="card-label">Détail Adverbiaux — Pronoms Y et EN</span>
+        <div class="formula rule-important">Y = à / lieu · EN = de / quantité</div>
+        <div class="note" style="direction:rtl;text-align:right;font-size:17px;line-height:2">
+          <strong>Y</strong> و <strong>EN</strong> ضميران نستخدمهما حتى لا نكرر الاسم أو العبارة. غالبا:
+          <strong style="color:#7c3aed">Y</strong> = إلى ذلك / فيه / هناك،
+          و <strong style="color:#0f766e">EN</strong> = منه / منها / من ذلك / كمية منه.
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">1) Y — يعوض à أو مكان</span>
+            <table class="tbl">
+              <tr><th>يستعمل بدل</th><th>مثال</th><th>بالضمير</th></tr>
+              <tr><td>à + chose</td><td>Tu penses à ta valise ?</td><td>Oui, j'y pense.</td></tr>
+              <tr><td>à + idée</td><td>Je réfléchis à mon avenir.</td><td>J'y réfléchis.</td></tr>
+              <tr><td>lieu</td><td>Elle habite à Paris.</td><td>Elle y habite.</td></tr>
+              <tr><td>chez / en / dans</td><td>Nous allons en France.</td><td>Nous y allons.</td></tr>
+            </table>
+            <div class="ex-row"><span class="ex-fr">Je pense à mon travail.</span><span class="ex-dot">→</span><span class="ex-fr">J'y pense chaque jour.</span><span class="ex-ar">أفكر في عملي ← أفكر فيه كل يوم</span></div>
+            <div class="ex-row"><span class="ex-fr">Je vais chez le médecin.</span><span class="ex-dot">→</span><span class="ex-fr">J'y vais.</span><span class="ex-ar">أذهب إلى الطبيب ← أذهب إلى هناك</span></div>
+            <div class="ex-row"><span class="ex-fr">Pense à ton examen !</span><span class="ex-dot">→</span><span class="ex-fr">Penses-y !</span><span class="ex-ar">فكر في امتحانك ← فكر فيه</span></div>
+          </div>
+
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">2) EN — يعوض de أو كمية</span>
+            <table class="tbl">
+              <tr><th>يستعمل بدل</th><th>مثال</th><th>بالضمير</th></tr>
+              <tr><td>de + chose</td><td>Elle parle de son enfance.</td><td>Elle en parle.</td></tr>
+              <tr><td>de + lieu</td><td>Laurent revient de Londres.</td><td>Laurent en revient.</td></tr>
+              <tr><td>partitif</td><td>Tu bois du café ?</td><td>Oui, j'en bois.</td></tr>
+              <tr><td>quantité</td><td>J'ai deux dictionnaires.</td><td>J'en ai deux.</td></tr>
+            </table>
+            <div class="ex-row"><span class="ex-fr">Il mange de la soupe.</span><span class="ex-dot">→</span><span class="ex-fr">Il en mange.</span><span class="ex-ar">يأكل حساء ← يأكل منه</span></div>
+            <div class="ex-row"><span class="ex-fr">Elle a beaucoup de travail.</span><span class="ex-dot">→</span><span class="ex-fr">Elle en a beaucoup.</span><span class="ex-ar">لديها عمل كثير ← لديها الكثير منه</span></div>
+            <div class="ex-row"><span class="ex-fr">Il veut un peu de sucre.</span><span class="ex-dot">→</span><span class="ex-fr">Il en veut un peu.</span><span class="ex-ar">يريد قليلا من السكر ← يريد قليلا منه</span></div>
+          </div>
+        </div>
+
+        <div class="card" style="box-shadow:none;margin-bottom:0">
+          <span class="card-label">3) الفرق السريع بين Y و EN</span>
+          <table class="tbl">
+            <tr><th>الضمير</th><th>يعوض غالبا</th><th>مثال</th><th>الترجمة</th></tr>
+            <tr><td>Y</td><td>à + شيء / فكرة / مكان</td><td>Je pense à mon projet → J'y pense.</td><td>أفكر في مشروعي ← أفكر فيه</td></tr>
+            <tr><td>EN</td><td>de + شيء / مكان منه / كمية</td><td>Je parle de mon projet → J'en parle.</td><td>أتحدث عن مشروعي ← أتحدث عنه</td></tr>
+            <tr><td>Y</td><td>مكان نذهب إليه</td><td>Je vais à l'université → J'y vais.</td><td>أذهب إلى الجامعة ← أذهب هناك</td></tr>
+            <tr><td>EN</td><td>مكان نعود منه</td><td>Je reviens de l'université → J'en reviens.</td><td>أعود من الجامعة ← أعود منها</td></tr>
+          </table>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-color:#fecaca;background:#fff1f2">
+            <span class="card-label">4) Y و EN مع الأشخاص</span>
+            <div class="note" style="direction:rtl;text-align:right">
+              <div>مع الأشخاص ننتبه:</div>
+              <div>بعد <strong>à + personne</strong> غالبا نستخدم <strong>lui / leur</strong></div>
+              <div>أو <strong>à lui / à elle</strong>، وليس <strong>Y</strong>.</div>
+              <div>وبعد <strong>de + personne</strong> نفضل <strong>de lui / d'elle / d'eux / d'elles</strong></div>
+              <div>وليس <strong>EN</strong>.</div>
+            </div>
+            <div class="ex-row"><span class="ex-fr">Je téléphone à Paul.</span><span class="ex-dot">→</span><span class="ex-fr">Je lui téléphone.</span><span class="ex-ar">أتصل ببول ← أتصل به</span></div>
+            <div class="note" style="direction:rtl;text-align:right">خطأ: <strong>J'y téléphone.</strong></div>
+            <div class="ex-row"><span class="ex-fr">Je parle de ma sœur.</span><span class="ex-dot">→</span><span class="ex-fr">Je parle d'elle.</span><span class="ex-ar">أتحدث عن أختي ← أتحدث عنها</span></div>
+          </div>
+
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">5) أفعال مهمة مع Y</span>
+            <div class="verb-cloud auto-number">
+              <span class="vp">penser à</span><span class="vp">songer à</span><span class="vp">s'intéresser à</span><span class="vp">faire attention à</span><span class="vp">s'opposer à</span><span class="vp">s'adresser à</span><span class="vp">se fier à</span><span class="vp">faire référence à</span><span class="vp">s'identifier à</span>
+            </div>
+            <div class="ex-row"><span class="ex-fr">Nous nous intéressons à la politique.</span><span class="ex-dot">→</span><span class="ex-fr">Nous nous y intéressons.</span><span class="ex-ar">نهتم بالسياسة ← نهتم بها</span></div>
+            <div class="ex-row"><span class="ex-fr">Ils s'opposent à cette décision.</span><span class="ex-dot">→</span><span class="ex-fr">Ils s'y opposent.</span><span class="ex-ar">يعارضون هذا القرار ← يعارضونه</span></div>
+          </div>
+        </div>
+
+        <div class="card" style="box-shadow:none;margin-bottom:0">
+          <span class="card-label">6) ترتيب Y و EN في الجملة</span>
+          <div class="formula rule-important">me / te / se / nous / vous + le / la / les + lui / leur + y + en</div>
+          <div class="grid-2">
+            <div>
+              <div class="ex-row"><span class="ex-fr">Ils y pensent chaque jour.</span><span class="ex-ar">هم يفكرون في ذلك كل يوم.</span></div>
+              <div class="ex-row"><span class="ex-fr">J'y vais demain.</span><span class="ex-ar">أنا أذهب إلى هناك غدا.</span></div>
+              <div class="ex-row"><span class="ex-fr">Je n'y vais pas.</span><span class="ex-ar">أنا لا أذهب إلى هناك.</span></div>
+            </div>
+            <div>
+              <div class="ex-row"><span class="ex-fr">Ils en parlent souvent.</span><span class="ex-ar">هم يتحدثون عن ذلك كثيرا.</span></div>
+              <div class="ex-row"><span class="ex-fr">Je n'en veux pas.</span><span class="ex-ar">لا أريد منه / لا أريد شيئا منه.</span></div>
+              <div class="ex-row"><span class="ex-fr">Elle en revient.</span><span class="ex-ar">هي تعود منها.</span></div>
+            </div>
+          </div>
+          <div class="ex-row"><span class="ex-fr">Elle m'a emmenée à la piscine.</span><span class="ex-dot">→</span><span class="ex-fr">Elle m'y a emmenée.</span><span class="ex-ar">أخذتني إلى المسبح ← أخذتني إليه</span></div>
+          <div class="ex-row"><span class="ex-fr">J'ai parlé de ce problème à Michel.</span><span class="ex-dot">→</span><span class="ex-fr">Je lui en ai parlé.</span><span class="ex-ar">تحدثت مع ميشال عن المشكلة ← تحدثت معه عنها</span></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">7) أمثلة كثيرة على Y</span>
+            <div class="ex-row"><span class="ex-fr">Il s'intéresse à l'histoire.</span><span class="ex-dot">→</span><span class="ex-fr">Il s'y intéresse beaucoup.</span><span class="ex-ar">يهتم بالتاريخ ← يهتم به كثيرا</span></div>
+            <div class="ex-row"><span class="ex-fr">Faites attention à cette marche.</span><span class="ex-dot">→</span><span class="ex-fr">Faites-y attention.</span><span class="ex-ar">انتبهوا إلى الدرجة ← انتبهوا إليها</span></div>
+            <div class="ex-row"><span class="ex-fr">Nous allons à la bibliothèque.</span><span class="ex-dot">→</span><span class="ex-fr">Nous y allons.</span><span class="ex-ar">نذهب إلى المكتبة ← نذهب هناك</span></div>
+            <div class="ex-row"><span class="ex-fr">Elle habite à Riyad.</span><span class="ex-dot">→</span><span class="ex-fr">Elle y habite depuis deux ans.</span><span class="ex-ar">تسكن في الرياض ← تسكن هناك منذ سنتين</span></div>
+            <div class="ex-row"><span class="ex-fr">Je pense à une solution.</span><span class="ex-dot">→</span><span class="ex-fr">J'y pense depuis ce matin.</span><span class="ex-ar">أفكر في حل ← أفكر فيه منذ الصباح</span></div>
+          </div>
+
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">8) أمثلة كثيرة على EN</span>
+            <div class="ex-row"><span class="ex-fr">Vous parlez de ce film ?</span><span class="ex-dot">→</span><span class="ex-fr">Oui, nous en parlons.</span><span class="ex-ar">هل تتحدثون عن الفيلم؟ نعم، نتحدث عنه</span></div>
+            <div class="ex-row"><span class="ex-fr">Il revient d'Espagne.</span><span class="ex-dot">→</span><span class="ex-fr">Il en revient demain.</span><span class="ex-ar">يعود من إسبانيا ← يعود منها غدا</span></div>
+            <div class="ex-row"><span class="ex-fr">Tu as du pain ?</span><span class="ex-dot">→</span><span class="ex-fr">Oui, j'en ai.</span><span class="ex-ar">هل لديك خبز؟ نعم، لدي منه</span></div>
+            <div class="ex-row"><span class="ex-fr">J'en veux deux kilos.</span><span class="ex-ar">أريد كيلوين منها.</span></div>
+            <div class="ex-row"><span class="ex-fr">Elle a beaucoup d'amis.</span><span class="ex-dot">→</span><span class="ex-fr">Elle en a beaucoup.</span><span class="ex-ar">لديها أصدقاء كثيرون ← لديها كثير منهم</span></div>
+          </div>
+        </div>
+
+        <div class="card" style="box-shadow:none;margin-bottom:0">
+          <span class="card-label">9) Y و EN معًا + أخطاء شائعة</span>
+          <table class="tbl">
+            <tr><th>الجملة</th><th>بالضمير</th><th>الترجمة</th></tr>
+            <tr><td>Tu as mis les enfants à l'école ?</td><td>Oui, je les y ai mis.</td><td>نعم، أوصلتهم إليها.</td></tr>
+            <tr><td>Tu as parlé de ce livre à Marie ?</td><td>Oui, je lui en ai parlé.</td><td>نعم، تحدثت معها عنه.</td></tr>
+            <tr><td>Il t'a emmené au musée ?</td><td>Oui, il m'y a emmené.</td><td>نعم، أخذني إليه.</td></tr>
+          </table>
+          <div class="grid-2">
+            <div class="note" style="direction:rtl;text-align:right;background:#fff1f2;border-color:#fecaca">
+              خطأ: <strong>Je pense de mon examen.</strong><br>
+              الصحيح: <strong>Je pense à mon examen. → J'y pense.</strong>
+            </div>
+            <div class="note" style="direction:rtl;text-align:right;background:#fff1f2;border-color:#fecaca">
+              خطأ: <strong>Je parle à ce problème.</strong><br>
+              الصحيح: <strong>Je parle de ce problème. → J'en parle.</strong>
+            </div>
+            <div class="note" style="direction:rtl;text-align:right;background:#fff1f2;border-color:#fecaca">
+              خطأ: <strong>Je téléphone à Paul → J'y téléphone.</strong><br>
+              الصحيح: <strong>Je téléphone à Paul → Je lui téléphone.</strong>
+            </div>
+            <div class="note" style="direction:rtl;text-align:right;background:#fff1f2;border-color:#fecaca">
+              مع الأشخاص بعد de نفضل: <strong>Je parle de Marie → Je parle d'elle.</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
     <!-- PRÉPOSITIONS -->
     <section class="sec" id="g-prepositions">
       <div class="sec-header">
@@ -407,8 +923,8 @@
           <tr><td>français</td><td>française</td><td>فرنسي / فرنسية</td></tr>
         </table>
         <div class="grid-2" style="margin-top:14px">
-          <div class="ex-row"><span class="ex-fr">un garçon intelligent</span><span class="ex-dot">·</span><span class="ex-ar">ولد ذكي</span></div>
-          <div class="ex-row"><span class="ex-fr">une fille intelligente</span><span class="ex-dot">·</span><span class="ex-ar">بنت ذكية</span></div>
+          <div class="ex-row"><span class="ex-fr">un garçon <span class="adj-hi adj-blue">intelligent</span></span><span class="ex-dot">·</span><span class="ex-ar">ولد ذكي</span></div>
+          <div class="ex-row"><span class="ex-fr">une fille <span class="adj-hi adj-green">intelligente</span></span><span class="ex-dot">·</span><span class="ex-ar">بنت ذكية</span></div>
         </div>
       </div>
 
@@ -430,8 +946,8 @@
           <tr><td>triste</td><td>triste</td><td>حزين</td></tr>
         </table>
         <div class="grid-2" style="margin-top:14px">
-          <div class="ex-row"><span class="ex-fr">un exercice facile</span><span class="ex-dot">·</span><span class="ex-ar">تمرين سهل</span></div>
-          <div class="ex-row"><span class="ex-fr">une question facile</span><span class="ex-dot">·</span><span class="ex-ar">سؤال سهل</span></div>
+          <div class="ex-row"><span class="ex-fr">un exercice <span class="adj-hi adj-teal">facile</span></span><span class="ex-dot">·</span><span class="ex-ar">تمرين سهل</span></div>
+          <div class="ex-row"><span class="ex-fr">une question <span class="adj-hi adj-purple">facile</span></span><span class="ex-dot">·</span><span class="ex-ar">سؤال سهل</span></div>
         </div>
       </div>
 
@@ -454,10 +970,10 @@
           <tr><td style="font-family:'Fira Code',monospace;color:var(--purple);font-size:15px">-on</td><td style="font-family:'Fira Code',monospace;color:var(--green);font-size:15px">-onne</td><td>bon</td><td>bonne</td><td>جيد</td></tr>
         </table>
         <div class="grid-2" style="margin-top:14px">
-          <div class="ex-row"><span class="ex-fr">un homme heureux</span><span class="ex-dot">·</span><span class="ex-ar">رجل سعيد</span></div>
-          <div class="ex-row"><span class="ex-fr">une femme heureuse</span><span class="ex-dot">·</span><span class="ex-ar">امرأة سعيدة</span></div>
-          <div class="ex-row"><span class="ex-fr">un garçon sportif</span><span class="ex-dot">·</span><span class="ex-ar">ولد رياضي</span></div>
-          <div class="ex-row"><span class="ex-fr">une fille sportive</span><span class="ex-dot">·</span><span class="ex-ar">بنت رياضية</span></div>
+          <div class="ex-row"><span class="ex-fr">un homme <span class="adj-hi adj-purple">heureux</span></span><span class="ex-dot">·</span><span class="ex-ar">رجل سعيد</span></div>
+          <div class="ex-row"><span class="ex-fr">une femme <span class="adj-hi adj-red">heureuse</span></span><span class="ex-dot">·</span><span class="ex-ar">امرأة سعيدة</span></div>
+          <div class="ex-row"><span class="ex-fr">un garçon <span class="adj-hi adj-orange">sportif</span></span><span class="ex-dot">·</span><span class="ex-ar">ولد رياضي</span></div>
+          <div class="ex-row"><span class="ex-fr">une fille <span class="adj-hi adj-teal">sportive</span></span><span class="ex-dot">·</span><span class="ex-ar">بنت رياضية</span></div>
         </div>
       </div>
 
@@ -479,8 +995,8 @@
           <tr><td>grande</td><td>grandes</td><td>كبيرات (مؤنث)</td></tr>
         </table>
         <div class="grid-2" style="margin-top:14px">
-          <div class="ex-row"><span class="ex-fr">un livre intéressant</span><span class="ex-dot">·</span><span class="ex-ar">كتاب ممتع</span></div>
-          <div class="ex-row"><span class="ex-fr">des livres intéressants</span><span class="ex-dot">·</span><span class="ex-ar">كتب ممتعة</span></div>
+          <div class="ex-row"><span class="ex-fr">un livre <span class="adj-hi adj-green">intéressant</span></span><span class="ex-dot">·</span><span class="ex-ar">كتاب ممتع</span></div>
+          <div class="ex-row"><span class="ex-fr">des livres <span class="adj-hi adj-blue">intéressants</span></span><span class="ex-dot">·</span><span class="ex-ar">كتب ممتعة</span></div>
         </div>
       </div>
 
@@ -501,10 +1017,10 @@
           <tr><td>vieux</td><td>vieux (لا تغيير)</td><td>vieilles</td></tr>
         </table>
         <div class="grid-2" style="margin-top:14px">
-          <div class="ex-row"><span class="ex-fr">un homme heureux</span><span class="ex-dot">·</span><span class="ex-ar">رجل سعيد</span></div>
-          <div class="ex-row"><span class="ex-fr">des hommes heureux</span><span class="ex-dot">·</span><span class="ex-ar">رجال سعداء</span></div>
-          <div class="ex-row"><span class="ex-fr">une femme heureuse</span><span class="ex-dot">·</span><span class="ex-ar">امرأة سعيدة</span></div>
-          <div class="ex-row"><span class="ex-fr">des femmes heureuses</span><span class="ex-dot">·</span><span class="ex-ar">نساء سعيدات</span></div>
+          <div class="ex-row"><span class="ex-fr">un homme <span class="adj-hi adj-purple">heureux</span></span><span class="ex-dot">·</span><span class="ex-ar">رجل سعيد</span></div>
+          <div class="ex-row"><span class="ex-fr">des hommes <span class="adj-hi adj-blue">heureux</span></span><span class="ex-dot">·</span><span class="ex-ar">رجال سعداء</span></div>
+          <div class="ex-row"><span class="ex-fr">une femme <span class="adj-hi adj-red">heureuse</span></span><span class="ex-dot">·</span><span class="ex-ar">امرأة سعيدة</span></div>
+          <div class="ex-row"><span class="ex-fr">des femmes <span class="adj-hi adj-green">heureuses</span></span><span class="ex-dot">·</span><span class="ex-ar">نساء سعيدات</span></div>
         </div>
       </div>
 
@@ -526,14 +1042,83 @@
           <tr><td>long</td><td>longue</td><td>longs</td><td>longues</td><td>طويل</td></tr>
         </table>
         <div class="grid-2" style="margin-top:14px">
-          <div class="ex-row"><span class="ex-fr">un beau garçon</span><span class="ex-dot">·</span><span class="ex-ar">ولد جميل</span></div>
-          <div class="ex-row"><span class="ex-fr">une belle fille</span><span class="ex-dot">·</span><span class="ex-ar">بنت جميلة</span></div>
-          <div class="ex-row"><span class="ex-fr">des beaux garçons</span><span class="ex-dot">·</span><span class="ex-ar">أولاد جميلون</span></div>
-          <div class="ex-row"><span class="ex-fr">des belles filles</span><span class="ex-dot">·</span><span class="ex-ar">بنات جميلات</span></div>
+          <div class="ex-row"><span class="ex-fr">un <span class="adj-hi adj-blue">beau</span> garçon</span><span class="ex-dot">·</span><span class="ex-ar">ولد جميل</span></div>
+          <div class="ex-row"><span class="ex-fr">une <span class="adj-hi adj-red">belle</span> fille</span><span class="ex-dot">·</span><span class="ex-ar">بنت جميلة</span></div>
+          <div class="ex-row"><span class="ex-fr">des <span class="adj-hi adj-purple">beaux</span> garçons</span><span class="ex-dot">·</span><span class="ex-ar">أولاد جميلون</span></div>
+          <div class="ex-row"><span class="ex-fr">des <span class="adj-hi adj-green">belles</span> filles</span><span class="ex-dot">·</span><span class="ex-ar">بنات جميلات</span></div>
         </div>
       </div>
 
-      <!-- 7) Quick summary -->
+      <!-- 7) Place de l'adjectif -->
+      <div class="card" style="border-top:4px solid var(--blue)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;flex-shrink:0">7</span>
+          <div>
+            <div style="font-family:'Lora',serif;font-size:22px;font-weight:700;color:var(--blue)">Place de l'adjectif</div>
+            <div style="font-family:'Tajawal',sans-serif;font-size:14px;color:var(--text-light)">مكان الصفة قبل أو بعد الاسم</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;border-color:#bfdbfe">
+            <span class="card-label">القاعدة العامة</span>
+            <div class="formula rule-important" style="font-size:15px">nom + adjectif</div>
+            <div class="note">غالبًا الصفة تأتي <strong>بعد الاسم</strong> الذي تصفه.</div>
+            <div class="ex-row"><span class="ex-fr">le lac <span class="adj-hi adj-blue">gelé</span></span><span class="ex-dot">·</span><span class="ex-ar">البحيرة المتجمدة</span></div>
+            <div class="ex-row"><span class="ex-fr">une maison <span class="adj-hi adj-purple">ancienne</span></span><span class="ex-dot">·</span><span class="ex-ar">بيت قديم / أثري</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;border-color:#d1fae5">
+            <span class="card-label">ألوان — Couleurs</span>
+            <div class="formula rule-important" style="font-size:15px">nom + couleur</div>
+            <div class="note">صفات اللون دائمًا تأتي بعد الاسم.</div>
+            <div class="ex-row"><span class="ex-fr">le tableau <span class="adj-hi adj-red">noir</span></span><span class="ex-dot">·</span><span class="ex-ar">السبورة السوداء</span></div>
+            <div class="ex-row"><span class="ex-fr">une jupe <span class="adj-hi adj-blue">bleue</span></span><span class="ex-dot">·</span><span class="ex-ar">تنورة زرقاء</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;border-color:#c4b5fd">
+            <span class="card-label">صفات قصيرة وشائعة قبل الاسم</span>
+            <div class="note">بعض الصفات القصيرة والمستعملة كثيرًا تأتي غالبًا <strong>قبل الاسم</strong>.</div>
+            <div class="verb-cloud"><span class="vp">beau</span><span class="vp">bon</span><span class="vp">grand</span><span class="vp">gros</span><span class="vp">jeune</span><span class="vp">joli</span><span class="vp">mauvais</span><span class="vp">nouveau</span><span class="vp">petit</span><span class="vp">vieux</span><span class="vp">meilleur</span></div>
+            <div class="ex-row"><span class="ex-fr">la <span class="adj-hi adj-green">jolie</span> fleur</span><span class="ex-dot">·</span><span class="ex-ar">الزهرة الجميلة</span></div>
+            <div class="ex-row"><span class="ex-fr">un <span class="adj-hi adj-orange">petit</span> garçon</span><span class="ex-dot">·</span><span class="ex-ar">ولد صغير</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;border-color:#fed7aa">
+            <span class="card-label">أكثر من صفة</span>
+            <div class="note"><span>إذا كانت الصفات مرتبطة بأداة ربط مثل <strong>mais, et, ou</strong> تأتي بعد الاسم.<span class="note-line">وإذا لم تكن منسقة قد تحيط بالاسم.</span></span></div>
+            <div class="ex-row"><span class="ex-fr">un visage <span class="adj-hi adj-blue">beau</span> mais <span class="adj-hi adj-red">sévère</span></span><span class="ex-dot">·</span><span class="ex-ar">وجه جميل لكن صارم</span></div>
+            <div class="ex-row"><span class="ex-fr">une <span class="adj-hi adj-green">grande</span> jupe <span class="adj-hi adj-blue">bleue</span></span><span class="ex-dot">·</span><span class="ex-ar">تنورة زرقاء كبيرة</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:4px solid var(--purple)">
+        <span class="card-label">صفات يتغير معناها حسب المكان</span>
+        <div class="note" style="margin-bottom:12px">بعض الصفات يمكن أن تأتي قبل الاسم أو بعده، لكن المعنى يتغير حسب المكان.</div>
+        <table class="tbl">
+          <tr><th>Adjectif</th><th>قبل الاسم</th><th>المعنى</th><th>بعد الاسم</th><th>المعنى</th></tr>
+          <tr><td>ancien</td><td>mon ancienne maison</td><td>بيتي السابق</td><td>une maison ancienne</td><td>بيت قديم / ذو قيمة</td></tr>
+          <tr><td>brave</td><td>un brave homme</td><td>رجل طيب وخدوم</td><td>un homme brave</td><td>رجل شجاع</td></tr>
+          <tr><td>certain</td><td>un homme d'un certain âge</td><td>رجل كبير نسبيًا</td><td>J'en suis certain</td><td>أنا متأكد</td></tr>
+          <tr><td>cher</td><td>cher ami</td><td>صديقي العزيز</td><td>un livre cher</td><td>كتاب غالي الثمن</td></tr>
+          <tr><td>curieux</td><td>une curieuse histoire</td><td>قصة غريبة</td><td>un homme curieux</td><td>رجل فضولي</td></tr>
+          <tr><td>dernier</td><td>la dernière semaine du mois</td><td>الأسبوع الأخير من الشهر</td><td>la semaine dernière</td><td>الأسبوع الماضي</td></tr>
+          <tr><td>drôle</td><td>une drôle d'histoire</td><td>قصة غريبة</td><td>une histoire drôle</td><td>قصة مضحكة</td></tr>
+          <tr><td>grand</td><td>un grand homme</td><td>رجل عظيم / مهم</td><td>un homme grand</td><td>رجل طويل القامة</td></tr>
+          <tr><td>pauvre</td><td>le pauvre homme</td><td>رجل مسكين يستحق الشفقة</td><td>un homme pauvre</td><td>رجل فقير</td></tr>
+          <tr><td>prochain</td><td>la prochaine fois</td><td>المرة القادمة</td><td>la semaine prochaine</td><td>الأسبوع القادم</td></tr>
+          <tr><td>propre</td><td>ma propre chambre</td><td>غرفتي الخاصة</td><td>ma chambre propre</td><td>غرفتي النظيفة</td></tr>
+          <tr><td>pur</td><td>une pure formalité</td><td>مجرد إجراء شكلي</td><td>l'air pur</td><td>الهواء النقي</td></tr>
+          <tr><td>sacré</td><td>un sacré livre</td><td>كتاب رائع / مذهل</td><td>un livre sacré</td><td>كتاب مقدس / ديني</td></tr>
+          <tr><td>sale</td><td>une sale histoire</td><td>قصة سيئة / مزعجة</td><td>une chambre sale</td><td>غرفة متسخة</td></tr>
+          <tr><td>seul</td><td>la seule fois</td><td>المرة الوحيدة</td><td>il est seul</td><td>هو وحده</td></tr>
+          <tr><td>simple</td><td>une simple chaise</td><td>مجرد كرسي</td><td>un poème simple</td><td>قصيدة بسيطة غير معقدة</td></tr>
+          <tr><td>vrai</td><td>un vrai problème</td><td>مشكلة حقيقية / مهمة</td><td>une histoire vraie</td><td>قصة حقيقية حدثت</td></tr>
+        </table>
+      </div>
+
+      <!-- 8) Quick summary -->
       <div class="card" style="border-top:4px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fffbeb)">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
           <span style="font-size:28px">⭐</span>
@@ -550,12 +1135,232 @@
         <div style="margin-top:18px">
           <div style="font-family:'Tajawal',sans-serif;font-size:14px;font-weight:600;color:var(--gold);margin-bottom:10px;text-align:center">✨ مثال كامل على الأربع حالات</div>
           <div class="grid-2">
-            <div class="ex-row"><span class="ex-fr">un petit garçon</span><span class="ex-dot">·</span><span class="ex-ar">ولد صغير</span></div>
-            <div class="ex-row"><span class="ex-fr">une petite fille</span><span class="ex-dot">·</span><span class="ex-ar">بنت صغيرة</span></div>
-            <div class="ex-row"><span class="ex-fr">des petits garçons</span><span class="ex-dot">·</span><span class="ex-ar">أولاد صغار</span></div>
-            <div class="ex-row"><span class="ex-fr">des petites filles</span><span class="ex-dot">·</span><span class="ex-ar">بنات صغيرات</span></div>
+            <div class="ex-row"><span class="ex-fr">un <span class="adj-hi adj-blue">petit</span> garçon</span><span class="ex-dot">·</span><span class="ex-ar">ولد صغير</span></div>
+            <div class="ex-row"><span class="ex-fr">une <span class="adj-hi adj-red">petite</span> fille</span><span class="ex-dot">·</span><span class="ex-ar">بنت صغيرة</span></div>
+            <div class="ex-row"><span class="ex-fr">des <span class="adj-hi adj-purple">petits</span> garçons</span><span class="ex-dot">·</span><span class="ex-ar">أولاد صغار</span></div>
+            <div class="ex-row"><span class="ex-fr">des <span class="adj-hi adj-green">petites</span> filles</span><span class="ex-dot">·</span><span class="ex-ar">بنات صغيرات</span></div>
           </div>
         </div>
+      </div>
+
+    </section>
+
+    <!-- ADVERBES -->
+    <section class="sec" id="g-adverbes">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:var(--teal-light)">🧭</div>
+          <div class="sec-title">Adver<em>bes</em></div>
+          <div class="sec-ar">الظروف — شرح A2 كامل ومنظم</div>
+        </div>
+        <span class="usage-tag tag-now">ADVERBES</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">1) تعريف مهم جدًا</span>
+          <div class="formula" style="font-size:15px;background:linear-gradient(135deg,var(--teal-light),#f0fdfa);border-color:#67e8f9;border-left-color:var(--teal);color:#155e75">Un adverbe précise une action, une qualité ou toute la phrase.</div>
+          <div class="ex-row"><span class="ex-fr">Il parle bien.</span><span class="ex-dot">·</span><span class="ex-ar">يصف الفعل: يتكلم جيدًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Elle est très intelligente.</span><span class="ex-dot">·</span><span class="ex-ar">يصف الصفة: ذكية جدًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Peut-être, il vient.</span><span class="ex-dot">·</span><span class="ex-ar">يصف الجملة كلها: ربما يأتي</span></div>
+          <div class="note" style="margin-top:12px">أهم قاعدة: الـ adverbe لا يتغير؛ لا مذكر، لا مؤنث، لا جمع.</div>
+        </div>
+        <div class="card">
+          <span class="card-label">2) الأسئلة التي يجاوب عليها</span>
+          <table class="tbl">
+            <tr><th>السؤال</th><th>بالفرنسي</th><th>مثال</th></tr>
+            <tr><td>أين؟</td><td>Où ?</td><td>ici</td></tr>
+            <tr><td>متى؟</td><td>Quand ?</td><td>aujourd'hui</td></tr>
+            <tr><td>كيف؟</td><td>Comment ?</td><td>bien</td></tr>
+            <tr><td>كم؟</td><td>Combien ?</td><td>beaucoup</td></tr>
+          </table>
+          <div class="note" style="margin-top:12px">أي كلمة تجاوب على Où / Quand / Comment / Combien غالبًا تكون ظرفًا.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">3) أشكال adverbes</span>
+        <div class="grid-3">
+          <div class="ex-row" style="display:block;text-align:center">
+            <strong style="color:var(--blue)">كلمة واحدة</strong>
+            <div class="verb-cloud" style="margin-top:10px"><span class="vp">ici</span><span class="vp">hier</span><span class="vp">vite</span></div>
+            <div style="font-family:'Tajawal',sans-serif;color:var(--text-light);font-size:14px">هنا · أمس · بسرعة</div>
+          </div>
+          <div class="ex-row" style="display:block;text-align:center">
+            <strong style="color:var(--green)">تعبير</strong>
+            <div class="verb-cloud" style="margin-top:10px"><span class="vp">tout à coup</span><span class="vp">de temps en temps</span><span class="vp">ne... pas</span></div>
+            <div style="font-family:'Tajawal',sans-serif;color:var(--text-light);font-size:14px">فجأة · من وقت لآخر · لا</div>
+          </div>
+          <div class="ex-row" style="display:block;text-align:center">
+            <strong style="color:var(--purple)">ينتهي بـ -ment</strong>
+            <div class="verb-cloud" style="margin-top:10px"><span class="vp">doucement</span><span class="vp">clairement</span><span class="vp">rapidement</span></div>
+            <div style="font-family:'Tajawal',sans-serif;color:var(--text-light);font-size:14px">بهدوء · بوضوح · بسرعة</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border-top:4px solid var(--purple)">
+          <span class="card-label">4) تكوين adverbe بـ -ment</span>
+          <div class="formula" style="font-size:15px;background:linear-gradient(135deg,var(--purple-light),#ede9fe);border-color:#c4b5fd;border-left-color:var(--purple);color:#5b21b6">صفة مؤنثة + ment</div>
+          <table class="tbl">
+            <tr><th>Adjectif</th><th>Féminin</th><th>Adverbe</th></tr>
+            <tr><td>clair</td><td>claire</td><td>clairement</td></tr>
+            <tr><td>heureux</td><td>heureuse</td><td>heureusement</td></tr>
+            <tr><td>doux</td><td>douce</td><td>doucement</td></tr>
+            <tr><td>rapide</td><td>rapide</td><td>rapidement</td></tr>
+          </table>
+        </div>
+        <div class="card" style="border-top:4px solid var(--gold)">
+          <span class="card-label">حالات خاصة واستثناءات</span>
+          <table class="tbl">
+            <tr><th>النهاية</th><th>التحويل</th><th>أمثلة</th></tr>
+            <tr><td>-ent</td><td>-emment</td><td>prudent → prudemment<br>impatient → impatiemment<br>récent → récemment</td></tr>
+            <tr><td>-ant</td><td>-amment</td><td>brillant → brillamment<br>savant → savamment<br>constant → constamment</td></tr>
+            <tr><td>استثناءات</td><td>تحفظ</td><td>joli → joliment<br>vrai → vraiment<br>lent → lentement</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">5) أنواع adverbes</span>
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;border-color:#dbeafe">
+            <span class="card-label">Adverbes de lieu — المكان</span>
+            <div class="verb-cloud"><span class="vp">ici</span><span class="vp">là-bas</span><span class="vp">loin</span><span class="vp">près</span><span class="vp">partout</span><span class="vp">ailleurs</span><span class="vp">dehors</span><span class="vp">dedans</span><span class="vp">devant</span><span class="vp">derrière</span></div>
+            <div class="note" style="margin-top:12px;margin-bottom:12px">ici = هنا · là-bas = هناك · loin = بعيدًا · près = قريبًا · partout = في كل مكان · ailleurs = في مكان آخر · dehors = خارج · dedans = داخل · devant = أمام · derrière = خلف</div>
+            <div class="ex-row"><span class="ex-fr">Je suis ici.</span><span class="ex-dot">·</span><span class="ex-ar">أنا هنا</span></div>
+            <div class="ex-row"><span class="ex-fr">Le chat est dehors.</span><span class="ex-dot">·</span><span class="ex-ar">القطة في الخارج</span></div>
+            <div class="ex-row"><span class="ex-fr">L'école est loin.</span><span class="ex-dot">·</span><span class="ex-ar">المدرسة بعيدة</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;border-color:#fef3c7">
+            <span class="card-label">Adverbes de temps — الزمان</span>
+            <div class="verb-cloud"><span class="vp">aujourd'hui</span><span class="vp">demain</span><span class="vp">hier</span><span class="vp">maintenant</span><span class="vp">toujours</span><span class="vp">souvent</span><span class="vp">parfois</span><span class="vp">jamais</span><span class="vp">bientôt</span><span class="vp">déjà</span><span class="vp">tard</span></div>
+            <div class="note" style="margin-top:12px;margin-bottom:12px">aujourd'hui = اليوم · demain = غدًا · hier = أمس · maintenant = الآن · toujours = دائمًا · souvent = غالبًا · parfois = أحيانًا · jamais = أبدًا · bientôt = قريبًا · déjà = بالفعل · tard = متأخر</div>
+            <div class="ex-row"><span class="ex-fr">Je travaille aujourd'hui.</span><span class="ex-dot">·</span><span class="ex-ar">أعمل اليوم</span></div>
+            <div class="ex-row"><span class="ex-fr">Il vient demain.</span><span class="ex-dot">·</span><span class="ex-ar">سيأتي غدًا</span></div>
+            <div class="ex-row"><span class="ex-fr">Elle est toujours calme.</span><span class="ex-dot">·</span><span class="ex-ar">هي دائمًا هادئة</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;border-color:#d1fae5">
+            <span class="card-label">Adverbes de manière — الطريقة</span>
+            <div class="verb-cloud"><span class="vp">bien</span><span class="vp">mal</span><span class="vp">vite</span><span class="vp">lentement</span><span class="vp">doucement</span><span class="vp">rapidement</span><span class="vp">ensemble</span><span class="vp">mieux</span></div>
+            <div class="note" style="margin-top:12px;margin-bottom:12px">bien = جيدًا · mal = بشكل سيئ · vite = بسرعة · lentement = ببطء · doucement = بهدوء · rapidement = بسرعة · ensemble = معًا · mieux = أفضل</div>
+            <div class="ex-row"><span class="ex-fr">Il parle bien français.</span><span class="ex-dot">·</span><span class="ex-ar">يتكلم الفرنسية جيدًا</span></div>
+            <div class="ex-row"><span class="ex-fr">Elle marche lentement.</span><span class="ex-dot">·</span><span class="ex-ar">تمشي ببطء</span></div>
+            <div class="ex-row"><span class="ex-fr">Nous travaillons rapidement.</span><span class="ex-dot">·</span><span class="ex-ar">نعمل بسرعة</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;border-color:#fed7aa">
+            <span class="card-label">Adverbes de quantité — الكمية</span>
+            <div class="verb-cloud"><span class="vp">beaucoup</span><span class="vp">peu</span><span class="vp">très</span><span class="vp">plus</span><span class="vp">moins</span><span class="vp">assez</span><span class="vp">trop</span><span class="vp">presque</span></div>
+            <div class="note" style="margin-top:12px;margin-bottom:12px">beaucoup = كثيرًا · peu = قليلًا · très = جدًا · plus = أكثر · moins = أقل · assez = كفاية · trop = أكثر من اللازم · presque = تقريبًا</div>
+            <div class="ex-row"><span class="ex-fr">Je mange beaucoup.</span><span class="ex-dot">·</span><span class="ex-ar">آكل كثيرًا</span></div>
+            <div class="ex-row"><span class="ex-fr">Il parle peu.</span><span class="ex-dot">·</span><span class="ex-ar">يتكلم قليلًا</span></div>
+            <div class="ex-row"><span class="ex-fr">Elle est très intelligente.</span><span class="ex-dot">·</span><span class="ex-ar">هي ذكية جدًا</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;border-color:#fecaca">
+            <span class="card-label">Adverbes de négation — النفي</span>
+            <div class="verb-cloud"><span class="vp">ne... pas</span><span class="vp">ne... jamais</span><span class="vp">ne... rien</span><span class="vp">ne... plus</span></div>
+            <div class="note" style="margin-top:12px;margin-bottom:12px">ne... pas = لا · ne... jamais = أبدًا · ne... rien = لا شيء · ne... plus = لم يعد</div>
+            <div class="ex-row"><span class="ex-fr">Je ne mange pas.</span><span class="ex-dot">·</span><span class="ex-ar">لا آكل</span></div>
+            <div class="ex-row"><span class="ex-fr">Il ne vient jamais.</span><span class="ex-dot">·</span><span class="ex-ar">لا يأتي أبدًا</span></div>
+            <div class="ex-row"><span class="ex-fr">Elle ne dit rien.</span><span class="ex-dot">·</span><span class="ex-ar">لا تقول شيئًا</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;border-color:#c4b5fd">
+            <span class="card-label">Adverbes d'affirmation — التأكيد</span>
+            <div class="verb-cloud"><span class="vp">oui</span><span class="vp">non</span><span class="vp">si</span><span class="vp">peut-être</span><span class="vp">vraiment</span><span class="vp">certainement</span></div>
+            <div class="note" style="margin-top:12px;margin-bottom:12px">oui = نعم · non = لا · si = بلى / نعم ردًا على النفي · peut-être = ربما · vraiment = حقًا · certainement = بالتأكيد</div>
+            <div class="ex-row"><span class="ex-fr">Oui, je viens.</span><span class="ex-dot">·</span><span class="ex-ar">نعم، أنا آتٍ</span></div>
+            <div class="ex-row"><span class="ex-fr">Non, je ne viens pas.</span><span class="ex-dot">·</span><span class="ex-ar">لا، لن آتي</span></div>
+            <div class="ex-row"><span class="ex-fr">Si, je suis prêt.</span><span class="ex-dot">·</span><span class="ex-ar">بلى، أنا جاهز (رد على نفي)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">6) مكان adverbe في الجملة</span>
+          <div class="note" style="margin-bottom:14px"><strong>adverbe = ظرف</strong>، يعني كلمة توضّح: كيف؟ متى؟ أين؟ كم؟ مثل: <span style="font-family:'Fira Code',monospace">bien · vite · souvent · aujourd'hui · beaucoup</span></div>
+          <div class="formula" style="font-size:15px;background:linear-gradient(135deg,var(--teal-light),#f0fdfa);border-color:#67e8f9;border-left-color:var(--teal);color:#155e75">فاعل + فعل + ظرف<br>Il + parle + bien</div>
+          <div class="ex-row"><span class="ex-fr">Il parle bien.</span><span class="ex-dot">·</span><span class="ex-ar">هو يتكلم جيدًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Elle chante bien.</span><span class="ex-dot">·</span><span class="ex-ar">هي تغني جيدًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Il travaille beaucoup.</span><span class="ex-dot">·</span><span class="ex-ar">هو يعمل كثيرًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Nous mangeons vite.</span><span class="ex-dot">·</span><span class="ex-ar">نحن نأكل بسرعة</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">7) الفرق بين الصفة والظرف</span>
+          <table class="tbl">
+            <tr><th>الكلمة</th><th>نوعها</th><th>تصف ماذا؟</th></tr>
+            <tr><td>rapide</td><td>صفة</td><td>تصف الاسم</td></tr>
+            <tr><td>rapidement</td><td>ظرف</td><td>يصف الفعل</td></tr>
+          </table>
+          <div class="ex-row"><span class="ex-fr">Une voiture rapide.</span><span class="ex-dot">·</span><span class="ex-ar">سيارة سريعة</span></div>
+          <div class="ex-row"><span class="ex-fr">Il conduit rapidement.</span><span class="ex-dot">·</span><span class="ex-ar">يقود بسرعة</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">ظروف الزمن — البداية أو النهاية</span>
+          <div class="verb-cloud"><span class="vp">aujourd'hui</span><span class="vp">demain</span><span class="vp">hier</span><span class="vp">le matin</span><span class="vp">souvent</span><span class="vp">parfois</span></div>
+          <div class="note" style="margin-top:12px;margin-bottom:12px">ظرف الزمن يمكن أن يأتي في بداية الجملة أو نهايتها. في البداية يكون عليه تركيز أكثر.</div>
+          <div class="ex-row"><span class="ex-fr">Aujourd'hui, je travaille.</span><span class="ex-dot">·</span><span class="ex-ar">اليوم، أنا أعمل (تأكيد على اليوم)</span></div>
+          <div class="ex-row"><span class="ex-fr">Je travaille aujourd'hui.</span><span class="ex-dot">·</span><span class="ex-ar">أنا أعمل اليوم (جملة عادية)</span></div>
+          <div class="ex-row"><span class="ex-fr">Hier, elle a étudié.</span><span class="ex-dot">·</span><span class="ex-ar">أمس، هي درست</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">Passé composé — غالبًا بين الفعلين</span>
+          <div class="formula" style="font-size:15px;background:linear-gradient(135deg,var(--purple-light),#ede9fe);border-color:#c4b5fd;border-left-color:var(--purple);color:#5b21b6">avoir / être + adverbe court + participe passé<br>J' + ai + bien + travaillé</div>
+          <div class="note" style="margin-bottom:12px">مع الظروف القصيرة مثل <strong>bien / mal / déjà / beaucoup / trop / vite</strong> نضع الظرف غالبًا بين الفعل المساعد واسم المفعول.</div>
+          <div class="ex-row"><span class="ex-fr">J'ai bien compris.</span><span class="ex-dot">·</span><span class="ex-ar">أنا فهمت جيدًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Il a beaucoup mangé.</span><span class="ex-dot">·</span><span class="ex-ar">هو أكل كثيرًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Elle a déjà fini.</span><span class="ex-dot">·</span><span class="ex-ar">هي انتهت بالفعل</span></div>
+          <div class="ex-row"><span class="ex-fr">Nous avons mal dormi.</span><span class="ex-dot">·</span><span class="ex-ar">نحن نمنا بشكل سيئ</span></div>
+          <div class="ex-row"><span class="ex-fr">Tu as trop parlé.</span><span class="ex-dot">·</span><span class="ex-ar">أنت تكلمت كثيرًا جدًا</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">هل ينفع الظرف بعد participe passé؟</span>
+          <div class="note" style="margin-bottom:12px">نعم أحيانًا، خصوصًا لو الظرف طويل أو ظرف زمن أو مكان. في المستوى العادي نقول غالبًا: <strong>J'ai travaillé aujourd'hui.</strong></div>
+          <div class="ex-row"><span class="ex-fr">J'ai travaillé aujourd'hui.</span><span class="ex-dot">·</span><span class="ex-ar">أنا عملت اليوم</span></div>
+          <div class="ex-row"><span class="ex-fr">J'ai travaillé hier.</span><span class="ex-dot">·</span><span class="ex-ar">أنا عملت أمس</span></div>
+          <div class="ex-row"><span class="ex-fr">Il est arrivé tard.</span><span class="ex-dot">·</span><span class="ex-ar">هو وصل متأخرًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Nous avons mangé au restaurant.</span><span class="ex-dot">·</span><span class="ex-ar">نحن أكلنا في المطعم</span></div>
+          <div class="note" style="margin-top:12px">تجنّب في A2: <span style="font-family:'Fira Code',monospace">J'ai aujourd'hui travaillé</span> لأنها ممكنة لكنها غير طبيعية في الاستعمال العادي.</div>
+        </div>
+        <div class="card" style="border-top:4px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fffbeb)">
+          <span class="card-label">ملخص سريع — مكان الظرف</span>
+          <table class="tbl" style="background:white;border-radius:12px;overflow:hidden">
+            <tr><th>النوع</th><th>المكان</th><th>مثال</th></tr>
+            <tr><td>ظرف طريقة قصير</td><td>بعد الفعل</td><td>Il parle bien.</td></tr>
+            <tr><td>ظرف زمن</td><td>بداية أو نهاية الجملة</td><td>Aujourd'hui, je travaille.</td></tr>
+            <tr><td>Passé composé + ظرف قصير</td><td>بين الفعلين</td><td>J'ai bien compris.</td></tr>
+            <tr><td>Passé composé + ظرف زمن</td><td>غالبًا في النهاية</td><td>J'ai travaillé hier.</td></tr>
+          </table>
+          <div class="formula" style="font-size:14px;background:white;border-color:#fde68a;border-left-color:var(--gold);color:#92400e;margin-top:14px">Présent: Il parle bien.<br>Passé composé: Il a bien parlé.</div>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="article-header" style="background:linear-gradient(135deg,#0891b2,#14b8a6)"><span class="ah-icon">✏️</span>جملة شاملة — Adverbes</div>
+        <div class="article-fr" style="border-right-color:#0891b2;color:#0891b2">
+          <div class="fr-line"><span class="fr-num" style="background:#0891b2">1</span>Aujourd'hui, je travaille bien ici beaucoup.</div>
+          <div class="fr-line"><span class="fr-num" style="background:#0891b2">2</span>Aujourd'hui = temps · bien = manière · ici = lieu · beaucoup = quantité.</div>
+        </div>
+        <div class="article-ar" style="background:var(--teal-light)">اليوم أعمل جيدًا هنا كثيرًا. الجملة تجمع الأنواع الأساسية: زمان، طريقة، مكان، كمية.</div>
+      </div>
+
+      <div class="card" style="border-top:4px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fffbeb)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:28px">⭐</span>
+          <div style="font-family:'Lora',serif;font-size:22px;font-weight:700;color:var(--gold)">الخلاصة النهائية</div>
+        </div>
+        <div class="grid-2">
+          <div class="formula" style="font-size:14px;background:white;border-color:#fde68a;border-left-color:var(--gold);color:#92400e">Adverbe لا يتغير ويشرح الفعل أو الصفة أو الجملة.</div>
+          <div class="formula" style="font-size:14px;background:white;border-color:#fde68a;border-left-color:var(--gold);color:#92400e">احفظ: Où / Quand / Comment / Combien.</div>
+        </div>
+        <div class="verb-cloud" style="margin-top:14px"><span class="vp">مكان</span><span class="vp">زمان</span><span class="vp">طريقة</span><span class="vp">كمية</span><span class="vp">نفي</span><span class="vp">تأكيد</span></div>
       </div>
 
     </section>
@@ -576,7 +1381,8 @@
       <button class="pill" onclick="showSec('ppq',this,'temps')"><span class="pi">⏮</span>Plus-que-parfait</button>
       <button class="pill" onclick="showSec('futur',this,'temps')"><span class="pi">🚀</span>Futur Simple</button>
       <button class="pill" onclick="showSec('proche',this,'temps')"><span class="pi">⚡</span>Futur Proche</button>
-      <button class="pill" onclick="showSec('cond',this,'temps')"><span class="pi">💭</span>Conditionnel</button>
+      <button class="pill" onclick="showSec('cond',this,'temps')"><span class="pi">💭</span>Conditionnel présent</button>
+      <button class="pill" onclick="showSec('condp',this,'temps')"><span class="pi">⏪</span>Conditionnel Passé</button>
       <button class="pill" onclick="showSec('subj',this,'temps')"><span class="pi">🎭</span>Subjonctif</button>
       <button class="pill" onclick="showSec('imp',this,'temps')"><span class="pi">📢</span>Impératif</button>
       <button class="pill" onclick="showSec('part',this,'temps')"><span class="pi">✅</span>Participe Passé</button>
@@ -614,7 +1420,13 @@
           <div class="fr-line"><span class="fr-num" style="background:#1a56db">4</span>Pendant la journée, je travaille beaucoup et je parle avec mes collègues.</div>
           <div class="fr-line"><span class="fr-num" style="background:#1a56db">5</span>Le soir, je lis un livre ou je regarde un film avant de dormir.</div>
         </div>
-        <div class="article-ar" style="background:var(--blue-light)">كل صباح أستيقظ مبكرًا وأستحم. بعد ذلك أحضّر قهوتي وأتناول الفطور. في الثامنة أذهب إلى العمل وأصل بالحافلة. خلال اليوم أعمل كثيرًا وأتحدث مع زملائي. في المساء أقرأ كتابًا أو أشاهد فيلمًا قبل النوم.</div>
+        <div class="article-ar" style="background:var(--blue-light)">
+          <div class="ar-line"><span class="ar-num" style="background:#1a56db">1</span>كل صباح أستيقظ مبكرًا وأستحم.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#1a56db">2</span>بعد ذلك أحضّر قهوتي وأتناول الفطور.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#1a56db">3</span>في الثامنة أذهب إلى العمل وأصل بالحافلة.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#1a56db">4</span>خلال اليوم أعمل كثيرًا وأتحدث مع زملائي.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#1a56db">5</span>في المساء أقرأ كتابًا أو أشاهد فيلمًا قبل النوم.</div>
+        </div>
       </div>
     </section>
 
@@ -642,7 +1454,13 @@
           <div class="fr-line"><span class="fr-num" style="background:#c0392b">4</span>Le soir, mon père lisait des histoires et nous écoutions attentivement.</div>
           <div class="fr-line"><span class="fr-num" style="background:#c0392b">5</span>C'était une époque heureuse et je me souviens de ces moments avec nostalgie.</div>
         </div>
-        <div class="article-ar" style="background:var(--red-light)">عندما كنت طفلاً كنت أسكن في بيت صغير في الريف. كل صيف كنا نذهب إلى البحر وكنا نسبح كل يوم. كانت أمي دائمًا تحضّر أكلات لذيذة وكنا نأكل معًا. في المساء كان أبي يقرأ القصص وكنا نستمع باهتمام. كان وقتًا سعيدًا وأتذكر تلك اللحظات بحنين.</div>
+        <div class="article-ar" style="background:var(--red-light)">
+          <div class="ar-line"><span class="ar-num" style="background:#c0392b">1</span>عندما كنت طفلاً كنت أسكن في بيت صغير في الريف.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#c0392b">2</span>كل صيف كنا نذهب إلى البحر وكنا نسبح كل يوم.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#c0392b">3</span>كانت أمي دائمًا تحضّر أكلات لذيذة وكنا نأكل معًا.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#c0392b">4</span>في المساء كان أبي يقرأ القصص وكنا نستمع باهتمام.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#c0392b">5</span>كان وقتًا سعيدًا وأتذكر تلك اللحظات بحنين.</div>
+        </div>
       </div>
     </section>
 
@@ -668,7 +1486,13 @@
           <div class="fr-line"><span class="fr-num" style="background:#9b2335">4</span>Le soir, nous sommes sortis au restaurant et nous avons mangé du poisson.</div>
           <div class="fr-line"><span class="fr-num" style="background:#9b2335">5</span>Nous sommes rentrés à la maison tard et nous avons dormi très bien.</div>
         </div>
-        <div class="article-ar" style="background:#fdecea">في عطلة نهاية الأسبوع الماضي ذهبت إلى السوق مع زوجتي. اشترينا خضروات طازجة وحضّرنا وجبة لذيذة. في المساء اتصلت بوالديّ وتحدثت معهم لمدة ساعة. ثم خرجنا إلى المطعم وأكلنا السمك. عدنا إلى المنزل متأخرين ونمنا نومًا جيدًا.</div>
+        <div class="article-ar" style="background:#fdecea">
+          <div class="ar-line"><span class="ar-num" style="background:#9b2335">1</span>في عطلة نهاية الأسبوع الماضي ذهبت إلى السوق مع زوجتي.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#9b2335">2</span>اشترينا خضروات طازجة وحضّرنا وجبة لذيذة.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#9b2335">3</span>في المساء اتصلت بوالديّ وتحدثت معهم لمدة ساعة.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#9b2335">4</span>ثم خرجنا إلى المطعم وأكلنا السمك.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#9b2335">5</span>عدنا إلى المنزل متأخرين ونمنا نومًا جيدًا.</div>
+        </div>
       </div>
     </section>
 
@@ -692,7 +1516,13 @@
           <div class="fr-line"><span class="fr-num" style="background:#7b1c1c">4</span>J'ai pris un taxi parce que j'avais raté le dernier bus aussi.</div>
           <div class="fr-line"><span class="fr-num" style="background:#7b1c1c">5</span>Heureusement, j'avais gardé un peu d'argent pour ce genre de situation.</div>
         </div>
-        <div class="article-ar" style="background:#fdecea">عندما وصلت إلى المحطة كان القطار قد غادر بالفعل. كنت قد نسيت التحقق من المواعيد. كانت زوجتي قد قالت إنه يجب المغادرة مبكرًا. أخذت سيارة أجرة لأنني كنت قد فوّت آخر حافلة. لحسن الحظ كنت قد احتفظت ببعض المال.</div>
+        <div class="article-ar" style="background:#fdecea">
+          <div class="ar-line"><span class="ar-num" style="background:#7b1c1c">1</span>عندما وصلت إلى المحطة كان القطار قد غادر بالفعل.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#7b1c1c">2</span>كنت قد نسيت التحقق من المواعيد قبل مغادرة المنزل.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#7b1c1c">3</span>كانت زوجتي قد قالت إنه يجب المغادرة مبكرًا.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#7b1c1c">4</span>أخذت سيارة أجرة لأنني كنت قد فوّت آخر حافلة.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#7b1c1c">5</span>لحسن الحظ كنت قد احتفظت ببعض المال.</div>
+        </div>
       </div>
     </section>
 
@@ -720,7 +1550,13 @@
           <div class="fr-line"><span class="fr-num" style="background:#059669">4</span>Je parlerai français avec les habitants et j'améliorerai mon niveau.</div>
           <div class="fr-line"><span class="fr-num" style="background:#059669">5</span>Ce voyage sera une expérience inoubliable pour toute la famille.</div>
         </div>
-        <div class="article-ar" style="background:var(--green-light)">في العام القادم سأسافر إلى فرنسا مع عائلتي. سنزور باريس وسنرى برج إيفل ومتحف اللوفر. سيكون أطفالي سعداء جدًا وسيتعلمون أشياء كثيرة. سأتحدث الفرنسية مع السكان وسأحسّن مستواي. ستكون هذه الرحلة تجربة لا تُنسى لكل العائلة.</div>
+        <div class="article-ar" style="background:var(--green-light)">
+          <div class="ar-line"><span class="ar-num" style="background:#059669">1</span>في العام القادم سأسافر إلى فرنسا مع عائلتي.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#059669">2</span>سنزور باريس وسنرى برج إيفل ومتحف اللوفر.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#059669">3</span>سيكون أطفالي سعداء جدًا وسيتعلمون أشياء كثيرة.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#059669">4</span>سأتحدث الفرنسية مع السكان وسأحسّن مستواي.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#059669">5</span>ستكون هذه الرحلة تجربة لا تُنسى لكل العائلة.</div>
+        </div>
       </div>
     </section>
 
@@ -743,39 +1579,172 @@
           <div class="fr-line"><span class="fr-num" style="background:#047857">4</span>Après le repas, nous allons regarder un film et boire du thé.</div>
           <div class="fr-line"><span class="fr-num" style="background:#047857">5</span>Ce moment va être très agréable et nous allons passer une belle soirée.</div>
         </div>
-        <div class="article-ar" style="background:var(--green-light)">هذا المساء سأحضّر عشاءً كبيرًا لأصدقائي. ستذهب زوجتي إلى السوق وستشتري اللحم والخضروات. سيصل أصدقاؤنا الساعة الثامنة وسنأكل معًا. بعد الأكل سنشاهد فيلمًا ونشرب الشاي. سيكون وقتًا ممتعًا وستكون أمسية جميلة.</div>
+        <div class="article-ar" style="background:var(--green-light)">
+          <div class="ar-line"><span class="ar-num" style="background:#047857">1</span>هذا المساء سأحضّر عشاءً كبيرًا لأصدقائي.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#047857">2</span>ستذهب زوجتي إلى السوق وستشتري اللحم والخضروات.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#047857">3</span>سيصل أصدقاؤنا الساعة الثامنة وسنأكل معًا.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#047857">4</span>بعد الأكل سنشاهد فيلمًا ونشرب الشاي.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#047857">5</span>سيكون وقتًا ممتعًا وستكون أمسية جميلة.</div>
+        </div>
       </div>
     </section>
 
     <!-- CONDITIONNEL -->
     <section class="sec" id="t-cond">
       <div class="sec-header">
-        <div><div class="sec-icon" style="background:var(--purple-light)">💭</div><div class="sec-title">Condi<em>tionnel</em></div><div class="sec-ar">الاحتمال — مجاملة · فرضية · تمني</div></div>
+        <div><div class="sec-icon" style="background:var(--purple-light)">💭</div><div class="sec-title">Conditionnel <em>Présent</em></div><div class="sec-ar">الشرط الحاضر — طلب مؤدب · رغبة · نصيحة · احتمال · نتيجة شرط</div></div>
         <span class="usage-tag tag-mood">MODE</span>
       </div>
-      <div class="formula" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd;border-left-color:#7c3aed;color:#5b21b6">radical du futur &nbsp;+&nbsp; ais · ais · ait · ions · iez · aient</div>
+
       <div class="grid-2">
-        <div class="card"><span class="card-label">parler</span>
-          <div class="conj-grid"><div class="conj-cell"><span class="pro">je</span><span class="form">parlerais</span></div><div class="conj-cell"><span class="pro">nous</span><span class="form">parlerions</span></div><div class="conj-cell"><span class="pro">tu</span><span class="form">parlerais</span></div><div class="conj-cell"><span class="pro">vous</span><span class="form">parleriez</span></div><div class="conj-cell"><span class="pro">il/elle</span><span class="form">parlerait</span></div><div class="conj-cell"><span class="pro">ils/elles</span><span class="form">parleraient</span></div></div>
+        <div class="card">
+          <span class="card-label">1) ما هو Le conditionnel présent؟</span>
+          <div class="note" style="margin-bottom:12px"><strong>En français :</strong> Le conditionnel présent est un mode essentiel pour nuancer son discours. C'est un temps qui se situe entre le futur, pour sa racine, et le passé, pour ses terminaisons. Il exprime des faits qui ne sont pas encore réalisés ou qui dépendent d'une condition. On l'utilise pour exprimer une demande polie, un souhait, un conseil, une information incertaine ou la conséquence d'une condition.</div>
+          <div class="note" style="margin-bottom:12px"><strong>بالعربية:</strong> يُعد الكونديشنيل الحاضر زمنًا أساسيًا في اللغة الفرنسية لإضافة اللباقة أو الاحتمالية إلى الكلام. هو زمن يجمع بين المستقبل من حيث أصل الفعل، والماضي من حيث النهايات. يعبر عن أحداث لم تتحقق بعد أو تعتمد في وقوعها على ظروف معينة، ونستخدمه للتعبير عن طلب مؤدب، رغبة أو أمنية، نصيحة، احتمال أو خبر غير مؤكد، ونتيجة شرط.</div>
+          <table class="tbl" style="margin-top:12px;margin-bottom:12px">
+            <tr><th>#</th><th>Utilisation</th><th>الترجمة</th></tr>
+            <tr><td>1</td><td>une demande polie</td><td>طلب مؤدب</td></tr>
+            <tr><td>2</td><td>un souhait</td><td>رغبة / أمنية</td></tr>
+            <tr><td>3</td><td>un conseil</td><td>نصيحة</td></tr>
+            <tr><td>4</td><td>une information incertaine</td><td>معلومة غير مؤكدة</td></tr>
+            <tr><td>5</td><td>la conséquence d'une condition</td><td>نتيجة شرط</td></tr>
+          </table>
+          <div class="verb-cloud" style="margin-top:12px"><span class="vp">je voudrais</span><span class="vp">pourriez-vous ?</span><span class="vp">tu devrais</span><span class="vp">il serait</span><span class="vp">si..., je ferais...</span></div>
         </div>
-        <div class="card"><span class="card-label">أمثلة</span>
-          <div class="ex-row"><span class="ex-fr">Je voudrais un café.</span><span class="ex-dot">·</span><span class="ex-ar">مجاملة</span></div>
-          <div class="ex-row"><span class="ex-fr">Si j'avais de l'argent, je voyagerais.</span><span class="ex-dot">·</span><span class="ex-ar">فرضية</span></div>
+        <div class="card">
+          <span class="card-label">2) Définition — التعريف</span>
+          <div class="formula rule-important" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd;border-left-color:#7c3aed;color:#5b21b6">Radical du futur simple + terminaisons de l'imparfait</div>
+          <span class="card-label" style="margin-top:14px">النهايات</span>
+          <table class="tbl"><tr><th>الضمير</th><th>النهاية</th><th>مثال parler</th></tr><tr><td>je</td><td>-ais</td><td>parlerais</td></tr><tr><td>tu</td><td>-ais</td><td>parlerais</td></tr><tr><td>il / elle / on</td><td>-ait</td><td>parlerait</td></tr><tr><td>nous</td><td>-ions</td><td>parlerions</td></tr><tr><td>vous</td><td>-iez</td><td>parleriez</td></tr><tr><td>ils / elles</td><td>-aient</td><td>parleraient</td></tr></table>
         </div>
       </div>
+
+      <div class="grid-3">
+        <div class="card"><span class="card-label">-ER / parler</span><div class="formula" style="font-size:14px">infinitif + terminaisons</div><div class="ex-row"><span class="ex-fr">Je parlerais français plus souvent.</span><span class="ex-dot">·</span><span class="ex-ar">كنت سأتكلم الفرنسية أكثر.</span></div></div>
+        <div class="card"><span class="card-label">-IR / finir</span><div class="formula" style="font-size:14px">infinitif + terminaisons</div><div class="ex-row"><span class="ex-fr">Nous finirions le travail demain.</span><span class="ex-dot">·</span><span class="ex-ar">كنا سننهي العمل غدًا.</span></div></div>
+        <div class="card"><span class="card-label">-RE / vendre</span><div class="formula" style="font-size:14px">enlever e + terminaisons</div><div class="ex-row"><span class="ex-fr">Il vendrait sa voiture.</span><span class="ex-dot">·</span><span class="ex-ar">قد يبيع سيارته.</span></div></div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">3) الأفعال الشاذة المهمة</span>
+        <table class="tbl"><tr><th>الفعل</th><th>الأصل</th><th>مثال</th><th>المعنى</th></tr><tr><td>être</td><td>ser-</td><td>je serais</td><td>سأكون / ربما أكون</td></tr><tr><td>avoir</td><td>aur-</td><td>j'aurais</td><td>سيكون عندي</td></tr><tr><td>aller</td><td>ir-</td><td>j'irais</td><td>لذهبت</td></tr><tr><td>faire</td><td>fer-</td><td>je ferais</td><td>كنت سأفعل</td></tr><tr><td>pouvoir</td><td>pourr-</td><td>je pourrais</td><td>يمكنني / قد أستطيع</td></tr><tr><td>vouloir</td><td>voudr-</td><td>je voudrais</td><td>أودّ</td></tr><tr><td>devoir</td><td>devr-</td><td>je devrais</td><td>ينبغي أن</td></tr><tr><td>venir</td><td>viendr-</td><td>je viendrais</td><td>قد آتي</td></tr><tr><td>voir</td><td>verr-</td><td>je verrais</td><td>سأرى</td></tr><tr><td>savoir</td><td>saur-</td><td>je saurais</td><td>سأعرف</td></tr><tr><td>falloir</td><td>faudr-</td><td>il faudrait</td><td>ينبغي / يلزم</td></tr></table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card"><span class="card-label">تصريف vouloir / pouvoir / devoir</span><table class="tbl"><tr><th>ضمير</th><th>vouloir</th><th>pouvoir</th><th>devoir</th></tr><tr><td>je</td><td>voudrais</td><td>pourrais</td><td>devrais</td></tr><tr><td>tu</td><td>voudrais</td><td>pourrais</td><td>devrais</td></tr><tr><td>il / elle</td><td>voudrait</td><td>pourrait</td><td>devrait</td></tr><tr><td>nous</td><td>voudrions</td><td>pourrions</td><td>devrions</td></tr><tr><td>vous</td><td>voudriez</td><td>pourriez</td><td>devriez</td></tr><tr><td>ils / elles</td><td>voudraient</td><td>pourraient</td><td>devraient</td></tr></table></div>
+        <div class="card"><span class="card-label">تصريف être / avoir / aller / faire</span><table class="tbl"><tr><th>ضمير</th><th>être</th><th>avoir</th><th>aller</th><th>faire</th></tr><tr><td>je</td><td>serais</td><td>aurais</td><td>irais</td><td>ferais</td></tr><tr><td>tu</td><td>serais</td><td>aurais</td><td>irais</td><td>ferais</td></tr><tr><td>il / elle</td><td>serait</td><td>aurait</td><td>irait</td><td>ferait</td></tr><tr><td>nous</td><td>serions</td><td>aurions</td><td>irions</td><td>ferions</td></tr><tr><td>vous</td><td>seriez</td><td>auriez</td><td>iriez</td><td>feriez</td></tr><tr><td>ils / elles</td><td>seraient</td><td>auraient</td><td>iraient</td><td>feraient</td></tr></table></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card"><span class="card-label">4) الاستخدامات مع أمثلة</span><div class="ex-row"><span class="ex-fr">Je voudrais un thé, s'il vous plaît.</span><span class="ex-dot">·</span><span class="ex-ar">طلب مؤدب: أودّ شايًا.</span></div><div class="ex-row"><span class="ex-fr">J'aimerais visiter Paris.</span><span class="ex-dot">·</span><span class="ex-ar">رغبة: أودّ زيارة باريس.</span></div><div class="ex-row"><span class="ex-fr">Tu devrais dormir plus tôt.</span><span class="ex-dot">·</span><span class="ex-ar">نصيحة: ينبغي أن تنام أبكر.</span></div><div class="ex-row"><span class="ex-fr">Il serait malade.</span><span class="ex-dot">·</span><span class="ex-ar">احتمال: ربما يكون مريضًا.</span></div></div>
+        <div class="card"><span class="card-label">5) قاعدة Si المهمة</span><div class="formula rule-important" style="font-size:15px;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd;border-left-color:#7c3aed;color:#5b21b6">Si + imparfait → conditionnel présent</div><div class="ex-row"><span class="ex-fr">Si j'avais de l'argent, j'achèterais une voiture.</span><span class="ex-dot">·</span><span class="ex-ar">لو كان عندي مال، لاشتريت سيارة.</span></div><div class="ex-row"><span class="ex-fr">Si je pouvais, je t'aiderais.</span><span class="ex-dot">·</span><span class="ex-ar">لو استطعت، لساعدتك.</span></div><div class="note">خطأ مهم: لا نقول <strong>Si je pourrais...</strong> بعد si هنا.</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card"><span class="card-label">Futur simple vs Conditionnel présent</span><table class="tbl"><tr><th>الزمن</th><th>المعنى</th><th>مثال</th></tr><tr><td>Futur simple</td><td>حدث سيقع أو نتوقع وقوعه</td><td>Je partirai demain.</td></tr><tr><td>Conditionnel présent</td><td>حدث مرتبط بشرط أو رغبة أو احتمال</td><td>Je partirais demain si j'avais le temps.</td></tr></table></div>
+        <div class="card"><span class="card-label">Présent vs Conditionnel</span><table class="tbl"><tr><th>مباشر</th><th>مهذب / نصيحة</th></tr><tr><td>Je veux un café.</td><td>Je voudrais un café.</td></tr><tr><td>Tu dois travailler.</td><td>Tu devrais travailler.</td></tr></table></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">أمثلة إضافية من الملف — طلب مؤدب ورغبة</span>
+          <div class="ex-row"><span class="ex-fr">Je voudrais réserver une chambre.</span><span class="ex-dot">·</span><span class="ex-ar">أودّ أن أحجز غرفة.</span></div>
+          <div class="ex-row"><span class="ex-fr">Pourriez-vous ouvrir la fenêtre ?</span><span class="ex-dot">·</span><span class="ex-ar">هل يمكن أن تفتح النافذة؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Vous pourriez répéter la question ?</span><span class="ex-dot">·</span><span class="ex-ar">هل يمكن أن تعيد السؤال؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Nous aimerions apprendre plus vite.</span><span class="ex-dot">·</span><span class="ex-ar">نودّ أن نتعلم أسرع.</span></div>
+          <div class="ex-row"><span class="ex-fr">Il voudrait parler français couramment.</span><span class="ex-dot">·</span><span class="ex-ar">يودّ أن يتكلم الفرنسية بطلاقة.</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">أمثلة إضافية — نصيحة واحتمال</span>
+          <div class="ex-row"><span class="ex-fr">Tu devrais boire plus d'eau.</span><span class="ex-dot">·</span><span class="ex-ar">ينبغي أن تشرب ماء أكثر.</span></div>
+          <div class="ex-row"><span class="ex-fr">Vous devriez être patient.</span><span class="ex-dot">·</span><span class="ex-ar">ينبغي أن تكونوا صبورين.</span></div>
+          <div class="ex-row"><span class="ex-fr">Il faudrait étudier régulièrement.</span><span class="ex-dot">·</span><span class="ex-ar">ينبغي أن ندرس بانتظام.</span></div>
+          <div class="ex-row"><span class="ex-fr">Elle serait absente aujourd'hui.</span><span class="ex-dot">·</span><span class="ex-ar">ربما تكون غائبة اليوم.</span></div>
+          <div class="ex-row"><span class="ex-fr">Ils viendraient ce soir.</span><span class="ex-dot">·</span><span class="ex-ar">قد يأتون هذا المساء.</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">أمثلة إضافية — نتيجة شرط</span>
+          <div class="ex-row"><span class="ex-fr">Si j'étais libre, je viendrais avec toi.</span><span class="ex-dot">·</span><span class="ex-ar">لو كنت متفرغًا، لأتيت معك.</span></div>
+          <div class="ex-row"><span class="ex-fr">Si nous avions le temps, nous voyagerions.</span><span class="ex-dot">·</span><span class="ex-ar">لو كان عندنا وقت، لسافرنا.</span></div>
+          <div class="ex-row"><span class="ex-fr">Si elle parlait français, elle travaillerait au Canada.</span><span class="ex-dot">·</span><span class="ex-ar">لو كانت تتكلم الفرنسية، لعملت في كندا.</span></div>
+          <div class="ex-row"><span class="ex-fr">Si tu étudiais bien, tu réussirais.</span><span class="ex-dot">·</span><span class="ex-ar">لو ذاكرت جيدًا، لنجحت.</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">كلمات تساعدك تعرفه</span>
+          <div class="verb-cloud"><span class="vp">أودّ</span><span class="vp">هل يمكن؟</span><span class="vp">ينبغي</span><span class="vp">ربما</span><span class="vp">لو... لَ...</span></div>
+          <div class="note" style="margin-top:12px">بالفرنسي انتبه إلى: <strong>je voudrais</strong> · <strong>pourriez-vous</strong> · <strong>tu devrais</strong> · <strong>il serait</strong> · <strong>si... je ferais...</strong></div>
+          <div class="note" style="margin-top:12px">الفكرة: <strong>veux</strong> مباشر، أما <strong>voudrais</strong> ألطف. و<strong>dois</strong> إلزام مباشر، أما <strong>devrais</strong> نصيحة ألطف.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">أفعال شاذة إضافية — venir / voir / savoir / falloir</span>
+        <table class="tbl"><tr><th>ضمير</th><th>venir</th><th>voir</th><th>savoir</th><th>falloir</th></tr><tr><td>je</td><td>viendrais</td><td>verrais</td><td>saurais</td><td>—</td></tr><tr><td>tu</td><td>viendrais</td><td>verrais</td><td>saurais</td><td>—</td></tr><tr><td>il / elle</td><td>viendrait</td><td>verrait</td><td>saurait</td><td>il faudrait</td></tr><tr><td>nous</td><td>viendrions</td><td>verrions</td><td>saurions</td><td>—</td></tr><tr><td>vous</td><td>viendriez</td><td>verriez</td><td>sauriez</td><td>—</td></tr><tr><td>ils / elles</td><td>viendraient</td><td>verraient</td><td>sauraient</td><td>—</td></tr></table>
+        <div class="grid-2" style="margin-top:14px">
+          <div class="ex-row"><span class="ex-fr">Il viendrait demain.</span><span class="ex-dot">·</span><span class="ex-ar">قد يأتي غدًا.</span></div>
+          <div class="ex-row"><span class="ex-fr">Je verrais mieux avec des lunettes.</span><span class="ex-dot">·</span><span class="ex-ar">سأرى أفضل بالنظارات.</span></div>
+          <div class="ex-row"><span class="ex-fr">Je saurais la réponse.</span><span class="ex-dot">·</span><span class="ex-ar">سأعرف الإجابة.</span></div>
+          <div class="ex-row"><span class="ex-fr">Il faudrait être patient.</span><span class="ex-dot">·</span><span class="ex-ar">ينبغي أن نكون صبورين.</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:4px solid var(--purple);background:linear-gradient(135deg,var(--purple-light),#fff)">
+        <span class="card-label">جملة ذهبية للحفظ</span>
+        <div class="article-fr" style="border-right-color:#7c3aed;color:#7c3aed;padding:16px 18px">
+          <div class="fr-line"><span class="fr-num" style="background:#7c3aed">★</span>Je voudrais apprendre le français. Si j'avais le temps, j'étudierais tous les jours. Tu devrais pratiquer davantage, et tu pourrais progresser rapidement.</div>
+        </div>
+        <div class="article-ar" style="background:var(--purple-light)">
+          <div class="ar-line"><span class="ar-num" style="background:#7c3aed">★</span>أودّ أن أتعلم الفرنسية. لو كان لدي الوقت، لذاكرت كل يوم. ينبغي أن تتمرن أكثر، ويمكنك أن تتقدم بسرعة.</div>
+        </div>
+      </div>
+
       <div class="article-card">
-        <div class="article-header" style="background:linear-gradient(135deg,#6d28d9,#7c3aed)"><span class="ah-icon">✏️</span>مقال تدريبي — Conditionnel · حياة الأحلام</div>
+        <div class="article-header" style="background:linear-gradient(135deg,#6d28d9,#7c3aed)"><span class="ah-icon">✏️</span>مقال تدريبي — Conditionnel présent · تعلم الفرنسية</div>
         <div class="article-fr" style="border-right-color:#6d28d9;color:#6d28d9">
-          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">1</span>Si j'avais plus de temps libre, je voyagerais dans le monde entier.</div>
-          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">2</span>Je visiterais le Japon, le Canada et l'Italie avec ma famille.</div>
-          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">3</span>Nous découvririons de nouvelles cultures et nous goûterions de nouveaux plats.</div>
-          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">4</span>Mes enfants apprendraient d'autres langues et deviendraient plus ouverts.</div>
-          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">5</span>Ce serait une vie parfaite pleine d'aventures et de bons souvenirs.</div>
+          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">1</span>Je voudrais apprendre le français pour améliorer mon avenir.</div>
+          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">2</span>Si j'avais plus de temps, j'étudierais chaque jour.</div>
+          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">3</span>Mon professeur dit que je devrais parler plus souvent.</div>
+          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">4</span>Je pourrais progresser rapidement avec beaucoup de pratique.</div>
+          <div class="fr-line"><span class="fr-num" style="background:#6d28d9">5</span>Un jour, j'aimerais vivre au Canada ou visiter Paris.</div>
         </div>
-        <div class="article-ar" style="background:var(--purple-light)">لو كان عندي وقت فراغ أكثر لسافرت في كل العالم. كنت سأزور اليابان وكندا وإيطاليا مع عائلتي. كنا سنكتشف ثقافات جديدة ونتذوق أطعمة مختلفة. كان أطفالي سيتعلمون لغات أخرى ويصبحون أكثر انفتاحًا. كانت ستكون حياة مثالية مليئة بالمغامرات.</div>
+        <div class="article-ar" style="background:var(--purple-light)">
+          <div class="ar-line"><span class="ar-num" style="background:#6d28d9">1</span>أودّ أن أتعلم الفرنسية لكي أحسّن مستقبلي.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#6d28d9">2</span>لو كان لدي وقت أكثر، لذاكرت كل يوم.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#6d28d9">3</span>يقول أستاذي إنني ينبغي أن أتكلم أكثر.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#6d28d9">4</span>يمكنني أن أتقدم بسرعة مع كثير من التدريب.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#6d28d9">5</span>في يوم ما، أودّ أن أعيش في كندا أو أزور باريس.</div>
+        </div>
       </div>
+
+      <div class="card" style="border-top:4px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fffbeb)"><span class="card-label">الخلاصة</span><div class="formula" style="font-size:14px;background:white;border-color:#fde68a;border-left-color:var(--gold);color:#92400e">أصل futur simple + نهايات imparfait: ais · ais · ait · ions · iez · aient</div><div class="verb-cloud" style="margin-top:12px"><span class="vp">طلب مؤدب</span><span class="vp">رغبة</span><span class="vp">نصيحة</span><span class="vp">احتمال</span><span class="vp">نتيجة شرط</span></div></div>
     </section>
 
+    <!-- CONDITIONNEL PASSÉ -->
+    <section class="sec" id="t-condp">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:var(--purple-light)">⏪</div><div class="sec-title">Conditionnel <em>Passé</em></div><div class="sec-ar">الشرط في الماضي — شيء لم يحدث · ندم · لوم · افتراض</div></div>
+        <span class="usage-tag tag-mood">PASSÉ</span>
+      </div>
+
+      <div class="grid-2"><div class="card"><span class="card-label">ما هو؟</span><div class="note"><strong>Le conditionnel passé</strong> يعبّر عن شيء كان ممكن يحدث لكنه لم يحدث، أو ندم، أو لوم، أو افتراض في الماضي، أو خبر غير مؤكد.</div><div class="verb-cloud" style="margin-top:12px"><span class="vp">كنت سأ...</span><span class="vp">كان يجب أن...</span><span class="vp">كان يمكن أن...</span></div></div><div class="card"><span class="card-label">Formation</span><div class="formula rule-important" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd;border-left-color:#7c3aed;color:#5b21b6">conditionnel présent de avoir / être + participe passé</div><div class="ex-row"><span class="ex-fr">J'aurais mangé.</span><span class="ex-dot">·</span><span class="ex-ar">كنت سأأكل.</span></div><div class="ex-row"><span class="ex-fr">Je serais allé(e).</span><span class="ex-dot">·</span><span class="ex-ar">كنت سأذهب.</span></div></div></div>
+
+      <div class="grid-2"><div class="card"><span class="card-label">مع avoir</span><table class="tbl"><tr><th>ضمير</th><th>avoir</th><th>مثال</th></tr><tr><td>je</td><td>aurais</td><td>j'aurais compris</td></tr><tr><td>tu</td><td>aurais</td><td>tu aurais compris</td></tr><tr><td>il / elle</td><td>aurait</td><td>elle aurait fini</td></tr><tr><td>nous</td><td>aurions</td><td>nous aurions fini</td></tr><tr><td>vous</td><td>auriez</td><td>vous auriez réussi</td></tr><tr><td>ils / elles</td><td>auraient</td><td>ils auraient mangé</td></tr></table></div><div class="card"><span class="card-label">مع être</span><table class="tbl"><tr><th>ضمير</th><th>être</th><th>مثال</th></tr><tr><td>je</td><td>serais</td><td>je serais allé(e)</td></tr><tr><td>tu</td><td>serais</td><td>tu serais venu(e)</td></tr><tr><td>il / elle</td><td>serait</td><td>elle serait partie</td></tr><tr><td>nous</td><td>serions</td><td>nous serions arrivés</td></tr><tr><td>vous</td><td>seriez</td><td>vous seriez sortis</td></tr><tr><td>ils / elles</td><td>seraient</td><td>ils seraient partis</td></tr></table></div></div>
+
+      <div class="card"><span class="card-label">أفعال être الشائعة</span><div class="verb-cloud"><span class="vp">aller</span><span class="vp">venir</span><span class="vp">arriver</span><span class="vp">partir</span><span class="vp">naître</span><span class="vp">mourir</span><span class="vp">entrer</span><span class="vp">sortir</span><span class="vp">tomber</span><span class="vp">rester</span><span class="vp">retourner</span></div><div class="note" style="margin-top:12px">مع être يوجد تطابق: Je serais allé / allée · Ils seraient partis · Elles seraient parties.</div></div>
+
+      <div class="grid-2"><div class="card"><span class="card-label">1) شيء لم يحدث</span><div class="ex-row"><span class="ex-fr">J'aurais acheté cette voiture, mais elle était chère.</span><span class="ex-dot">·</span><span class="ex-ar">كنت سأشتري هذه السيارة لكن كانت غالية.</span></div><div class="ex-row"><span class="ex-fr">Je serais venu, mais j'étais malade.</span><span class="ex-dot">·</span><span class="ex-ar">كنت سأأتي لكن كنت مريضًا.</span></div></div><div class="card"><span class="card-label">2) الندم / اللوم</span><div class="ex-row"><span class="ex-fr">J'aurais dû étudier.</span><span class="ex-dot">·</span><span class="ex-ar">كان يجب أن أذاكر.</span></div><div class="ex-row"><span class="ex-fr">J'aurais pu t'aider.</span><span class="ex-dot">·</span><span class="ex-ar">كان يمكنني مساعدتك.</span></div><div class="ex-row"><span class="ex-fr">Tu aurais dû appeler.</span><span class="ex-dot">·</span><span class="ex-ar">كان يجب أن تتصل.</span></div></div></div>
+
+      <div class="grid-2"><div class="card"><span class="card-label">3) جملة الشرط مع SI</span><div class="formula rule-important" style="font-size:15px;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd;border-left-color:#7c3aed;color:#5b21b6">Si + plus-que-parfait → conditionnel passé</div><div class="ex-row"><span class="ex-fr">Si j'avais étudié, j'aurais réussi.</span><span class="ex-dot">·</span><span class="ex-ar">لو كنت ذاكرت، لكنت نجحت.</span></div><div class="ex-row"><span class="ex-fr">Si nous étions partis tôt, nous serions arrivés à l'heure.</span><span class="ex-dot">·</span><span class="ex-ar">لو كنا غادرنا مبكرًا، لكنا وصلنا في الوقت.</span></div></div><div class="card"><span class="card-label">4) خبر غير مؤكد / النفي / الضمائر</span><div class="ex-row"><span class="ex-fr">Le président aurait démissionné.</span><span class="ex-dot">·</span><span class="ex-ar">يُقال إن الرئيس استقال.</span></div><div class="ex-row"><span class="ex-fr">Je n'aurais pas accepté.</span><span class="ex-dot">·</span><span class="ex-ar">ما كنت سأقبل.</span></div><div class="ex-row"><span class="ex-fr">Je t'aurais aidé.</span><span class="ex-dot">·</span><span class="ex-ar">كنت سأساعدك.</span></div></div></div>
+
+      <div class="card"><span class="card-label">Présent vs Passé</span><table class="tbl"><tr><th>النوع</th><th>المعنى</th><th>مثال</th></tr><tr><td>Conditionnel présent</td><td>شيء محتمل الآن أو في المستقبل</td><td>Je voyagerais en France.</td></tr><tr><td>Conditionnel passé</td><td>شيء لم يحدث في الماضي</td><td>J'aurais voyagé en France.</td></tr></table></div>
+
+      <div class="article-card"><div class="article-header" style="background:linear-gradient(135deg,#4c1d95,#7c3aed)"><span class="ah-icon">✏️</span>مقال تدريبي — Conditionnel passé · ندم وفرصة ضائعة</div><div class="article-fr" style="border-right-color:#4c1d95;color:#4c1d95"><div class="fr-line"><span class="fr-num" style="background:#4c1d95">1</span>Si j'avais eu plus de temps, j'aurais appris le français plus tôt.</div><div class="fr-line"><span class="fr-num" style="background:#4c1d95">2</span>J'aurais aimé visiter Paris avec ma famille.</div><div class="fr-line"><span class="fr-num" style="background:#4c1d95">3</span>Nous aurions pu finir le projet plus tôt.</div><div class="fr-line"><span class="fr-num" style="background:#4c1d95">4</span>Je serais allé au cours, mais j'étais malade.</div><div class="fr-line"><span class="fr-num" style="background:#4c1d95">5</span>La prochaine fois, je travaillerai mieux pour réussir.</div></div><div class="article-ar" style="background:var(--purple-light)"><div class="ar-line"><span class="ar-num" style="background:#4c1d95">1</span>لو كان لدي وقت أكثر، لكنت تعلمت الفرنسية مبكرًا.</div><div class="ar-line"><span class="ar-num" style="background:#4c1d95">2</span>كنت أتمنى زيارة باريس مع عائلتي.</div><div class="ar-line"><span class="ar-num" style="background:#4c1d95">3</span>كان يمكننا إنهاء المشروع مبكرًا.</div><div class="ar-line"><span class="ar-num" style="background:#4c1d95">4</span>كنت سأذهب إلى الدرس، لكنني كنت مريضًا.</div><div class="ar-line"><span class="ar-num" style="background:#4c1d95">5</span>في المرة القادمة سأعمل بشكل أفضل لكي أنجح.</div></div></div>
+
+      <div class="card" style="border-top:4px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fffbeb)"><span class="card-label">الخلاصة</span><div class="formula rule-important" style="font-size:14px;background:white;border-color:#fde68a;border-left-color:var(--gold);color:#92400e">Conditionnel présent (avoir/être) + participe passé</div><div class="verb-cloud" style="margin-top:12px"><span class="vp">شيء لم يحدث</span><span class="vp">ندم</span><span class="vp">لوم</span><span class="vp">شرط في الماضي</span><span class="vp">خبر غير مؤكد</span></div></div>
+    </section>
     <!-- SUBJONCTIF -->
     <section class="sec" id="t-subj">
       <div class="sec-header">
@@ -801,7 +1770,13 @@
           <div class="fr-line"><span class="fr-num" style="background:#5b21b6">4</span>Bien qu'il soit fatigué, mon ami continue à travailler avec courage.</div>
           <div class="fr-line"><span class="fr-num" style="background:#5b21b6">5</span>Je suis content que tu aies réussi ton examen — tu mérites ce succès.</div>
         </div>
-        <div class="article-ar" style="background:var(--purple-light)">يجب أن تنجز واجباتك قبل الخروج للعب. أريد أن يكون أطفالي سعداء وبصحة جيدة. من المهم أن نتحدث الفرنسية كل يوم للتقدم. رغم أنه متعب فإن صديقي يواصل العمل بشجاعة. يسعدني أنك نجحت في امتحانك — تستحق هذا النجاح.</div>
+        <div class="article-ar" style="background:var(--purple-light)">
+          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">1</span>يجب أن تنجز واجباتك قبل الخروج للعب.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">2</span>أريد أن يكون أطفالي سعداء وبصحة جيدة.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">3</span>من المهم أن نتحدث الفرنسية كل يوم للتقدم.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">4</span>رغم أنه متعب فإن صديقي يواصل العمل بشجاعة.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">5</span>يسعدني أنك نجحت في امتحانك؛ تستحق هذا النجاح.</div>
+        </div>
       </div>
     </section>
 
@@ -829,7 +1804,13 @@
           <div class="fr-line"><span class="fr-num" style="background:#0e7490">4</span>N'oubliez pas de faire vos devoirs et lisez votre leçon de français.</div>
           <div class="fr-line"><span class="fr-num" style="background:#0e7490">5</span>Soyez ponctuels et respectez toujours les règles de la classe.</div>
         </div>
-        <div class="article-ar" style="background:var(--teal-light)">استيقظ مبكرًا في الصباح وأعدّ حقيبتك للمدرسة. كُل خضروات جيدًا واشرب ماء كثيرًا كل يوم. لنمارس الرياضة معًا هذا الأسبوع ونستمتع بالطقس الجميل. لا تنسوا إنجاز واجباتكم وأعيدوا قراءة درس الفرنسية. كونوا منضبطين واحترموا دائمًا قواعد الفصل.</div>
+        <div class="article-ar" style="background:var(--teal-light)">
+          <div class="ar-line"><span class="ar-num" style="background:#0e7490">1</span>استيقظ مبكرًا في الصباح وأعدّ حقيبتك للمدرسة.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#0e7490">2</span>كُل خضرواتك جيدًا واشرب ماء كثيرًا كل يوم.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#0e7490">3</span>لنمارس الرياضة معًا هذا الأسبوع ونستمتع بالطقس الجميل.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#0e7490">4</span>لا تنسوا إنجاز واجباتكم وأعيدوا قراءة درس الفرنسية.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#0e7490">5</span>كونوا منضبطين واحترموا دائمًا قواعد الفصل.</div>
+        </div>
       </div>
     </section>
 
@@ -856,7 +1837,13 @@
           <div class="fr-line"><span class="fr-num" style="background:#be123c">4</span>Le travail fait par l'équipe a été remarqué et apprécié par le directeur.</div>
           <div class="fr-line"><span class="fr-num" style="background:#be123c">5</span>Les repas préparés par ma femme sont toujours délicieux et très bien présentés.</div>
         </div>
-        <div class="article-ar" style="background:#fdecea">الكتب التي قرأتها في الصيف علّمتني كثيرًا عن الثقافة الفرنسية. الرسالة التي كتبتها أمي كانت مليئة بالحب والنصائح. الصور التي التُقطت خلال الرحلة رائعة جدًا. العمل الذي أنجزه الفريق لاحظه المدير وأثنى عليه. الوجبات التي تحضّرها زوجتي دائمًا لذيذة ومقدّمة بشكل جميل.</div>
+        <div class="article-ar" style="background:#fdecea">
+          <div class="ar-line"><span class="ar-num" style="background:#be123c">1</span>الكتب التي قرأتها في الصيف علّمتني كثيرًا عن الثقافة الفرنسية.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#be123c">2</span>الرسالة التي كتبتها أمي كانت مليئة بالحب والنصائح الثمينة.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#be123c">3</span>الصور التي التُقطت خلال الرحلة رائعة جدًا.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#be123c">4</span>العمل الذي أنجزه الفريق لاحظه المدير وأثنى عليه.</div>
+          <div class="ar-line"><span class="ar-num" style="background:#be123c">5</span>الوجبات التي تحضّرها زوجتي دائمًا لذيذة ومقدّمة بشكل جميل.</div>
+        </div>
       </div>
     </section>
 
@@ -870,7 +1857,7 @@
         <table class="tbl"><tr><th>الحالة</th><th>القاعدة</th></tr><tr><td>أفعال ÊTRE</td><td>تطابق مع الفاعل دائماً (جنساً وعدداً)</td></tr><tr><td>أفعال AVOIR</td><td>تطابق مع COD المتقدّم على الفعل فقط</td></tr><tr><td>الأفعال الانعكاسية</td><td>دائماً مع être</td></tr><tr><td>النفي</td><td>ne + verbe + pas</td></tr></table>
       </div>
       <div class="card"><span class="card-label">📊 ملخص كل الأزمنة</span>
-        <table class="tbl"><tr><th>الزمن</th><th>الاستخدام</th><th>مثال</th></tr><tr><td>Présent</td><td>حال / حقيقة / عادة</td><td>je parle</td></tr><tr><td>Imparfait</td><td>وصف ماضٍ / عادة قديمة</td><td>je parlais</td></tr><tr><td>Passé Composé</td><td>حدث انتهى</td><td>j'ai parlé</td></tr><tr><td>Plus-que-parfait</td><td>قبل حدث في الماضي</td><td>j'avais parlé</td></tr><tr><td>Futur Simple</td><td>مستقبل رسمي / توقع</td><td>je parlerai</td></tr><tr><td>Futur Proche</td><td>مستقبل قريب جداً</td><td>je vais parler</td></tr><tr><td>Conditionnel</td><td>مجاملة / فرضية</td><td>je parlerais</td></tr><tr><td>Subjonctif</td><td>شك / عاطفة / إلزام</td><td>que je parle</td></tr><tr><td>Impératif</td><td>أمر / طلب</td><td>parle !</td></tr></table>
+        <table class="tbl"><tr><th>الزمن</th><th>الاستخدام</th><th>مثال</th></tr><tr><td>Présent</td><td>حال / حقيقة / عادة</td><td>je parle</td></tr><tr><td>Imparfait</td><td>وصف ماضٍ / عادة قديمة</td><td>je parlais</td></tr><tr><td>Passé Composé</td><td>حدث انتهى</td><td>j'ai parlé</td></tr><tr><td>Plus-que-parfait</td><td>قبل حدث في الماضي</td><td>j'avais parlé</td></tr><tr><td>Futur Simple</td><td>مستقبل رسمي / توقع</td><td>je parlerai</td></tr><tr><td>Futur Proche</td><td>مستقبل قريب جداً</td><td>je vais parler</td></tr><tr><td>Conditionnel présent</td><td>مجاملة / رغبة / نصيحة / فرضية</td><td>je parlerais</td></tr><tr><td>Conditionnel passé</td><td>ندم / شيء لم يحدث / شرط في الماضي</td><td>j'aurais parlé</td></tr><tr><td>Subjonctif</td><td>شك / عاطفة / إلزام</td><td>que je parle</td></tr><tr><td>Impératif</td><td>أمر / طلب</td><td>parle !</td></tr></table>
       </div>
     </section>
   </main>
@@ -1869,8 +2856,29 @@
   </main>
 </div><!-- end panel-lire -->
 
+<!-- ════ VOCABULARY PANEL ════ -->
+<div id="panel-vocabulary" class="panel">
+  <main class="main">
+    <section class="sec visible" id="vocabulary-main">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:var(--teal-light)">🗂️</div>
+          <div class="sec-title">Voca<em>bulary</em></div>
+          <div class="sec-ar">مفردات A1 من الملف — French / English / Arabic</div>
+        </div>
+        <span class="usage-tag tag-oral">VOCABULARY</span>
+      </div>
+      <div class="card">
+        <span class="card-label">A1_00_ALl Vocabulary.pdf</span>
+        <div class="note">Grouped by topic. The PDF vocabulary is shown with English and Arabic translations for study.</div>
+      </div>
+      <div class="vocab-grid" id="vocabGrid"></div>
+    </section>
+  </main>
+</div><!-- end panel-vocabulary -->
+
 <footer class="footer">
-  <p><strong>Grammaire &amp; Temps &amp; Expression Orale &amp; Phonétique</strong></p>
+  <p><strong>Grammaire &amp; Temps &amp; Expression Orale &amp; Phonétique &amp; Vocabulary</strong></p>
   <p style="margin-top:8px;font-size:13px">مرجع تعليمي شامل · Bonne chance ! 🇫🇷</p>
 </footer>
 
@@ -1914,6 +2922,9 @@
     <button class="sidebar-link" type="button" data-sidebar-target="lire" onclick="switchTop('lire',document.querySelector('.top-tab[onclick*=lire]'))">
       <span class="sidebar-icon">📖</span><span class="sidebar-text">Lire</span>
     </button>
+    <button class="sidebar-link" type="button" data-sidebar-target="vocabulary" onclick="switchTop('vocabulary',document.querySelector('.top-tab[onclick*=vocabulary]'))">
+      <span class="sidebar-icon">🗂️</span><span class="sidebar-text">Vocabulary</span>
+    </button>
   </nav>
   <nav class="sidebar-section sidebar-resources" aria-label="Liens utiles">
     <span class="sidebar-caption">Liens importants</span>
@@ -1944,6 +2955,9 @@
   </div>
 </aside>
 
+<script src="./assets/js/vocabulary.js" defer></script>
 <script src="./assets/js/main.js" defer></script>
 </body>
 </html>
+
+
