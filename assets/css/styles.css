@@ -1123,6 +1123,20 @@ body{
 .cc-eq{font-family:'Fira Code',monospace;font-size:13px;color:var(--text-mid);flex:1}
 .cc-arr{color:#d1d5db;font-size:14px}
 .cc-res{font-family:'Lora',serif;font-style:italic;font-size:20px;color:var(--blue);font-weight:700}
+.imperative-list{
+  grid-template-columns:1fr;
+}
+.imperative-item{
+  justify-content:flex-start;
+}
+.imperative-item .cc-eq{
+  flex:0 0 64px;
+}
+.imperative-ar{
+  font-family:'Tajawal',sans-serif;
+  font-size:13px;
+  color:var(--text-mid);
+}
 
 /* ═══════════════ BADGE ═══════════════ */
 .hb {

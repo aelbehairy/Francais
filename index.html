@@ -70,6 +70,8 @@
       <button class="pill" onclick="showSec('prepositions',this,'grammaire')"><span class="pi">🔗</span>Prépositions</button>
       <button class="pill" onclick="showSec('adjectifs',this,'grammaire')"><span class="pi">🎨</span>Adjectifs</button>
       <button class="pill" onclick="showSec('adverbes',this,'grammaire')"><span class="pi">🧭</span>Adverbes</button>
+      <button class="pill" onclick="showSec('negation',this,'grammaire')"><span class="pi">🚫</span>Négation</button>
+      <button class="pill" onclick="showSec('questions',this,'grammaire')"><span class="pi">❓</span>Questions</button>
       <button class="pill" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
     </div>
   </nav>
@@ -1364,6 +1366,374 @@
       </div>
 
     </section>
+
+    <!-- NÉGATION -->
+    <section class="sec" id="g-negation">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:#ffe4e6">🚫</div>
+          <div class="sec-title">La <em>négation</em></div>
+          <div class="sec-ar">النفي في الفرنسي - La négation en français — كلمات دالة وأمثلة مهمة للـ TCF</div>
+        </div>
+        <span class="usage-tag tag-past">NÉGATION</span>
+      </div>
+
+      <div class="card" style="border-right:5px solid var(--red-fr);background:linear-gradient(135deg,#fff1f2,#ffe4e6)">
+        <span class="card-label">الفكرة العامة - Idée générale</span>
+        <div class="note" style="direction:rtl;text-align:right">النفي في الفرنسي غالبًا جزأين: <strong>ne</strong> قبل الفعل، وكلمة النفي بعد الفعل أو بعد الفعل المساعد.</div>
+        <div class="formula rule-important">ne + verbe + pas / plus / jamais / rien</div>
+        <div class="ex-row"><span class="ex-fr">Je viens.</span><span class="ex-dot">→</span><span class="ex-fr">Je ne viens pas.</span><span class="ex-ar">أنا لا آتي</span></div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">الكلمات الدالة - Les marqueurs de négation</span>
+        <table class="tbl">
+          <tr><th>النفي</th><th>المعنى</th><th>الكلمة العكسية / الدالة</th><th>مثال</th></tr>
+          <tr><td>ne... pas</td><td>لا</td><td>phrase affirmative</td><td>Je ne viens pas.</td></tr>
+          <tr><td>ne... pas encore</td><td>لم... بعد</td><td>déjà</td><td>Je n'ai pas encore mangé.</td></tr>
+          <tr><td>ne... plus</td><td>لم أعد / لم يعد</td><td>encore</td><td>Je ne travaille plus.</td></tr>
+          <tr><td>ne... jamais</td><td>أبدًا / مطلقًا</td><td>toujours</td><td>Je ne voyage jamais.</td></tr>
+          <tr><td>ne... rien</td><td>لا شيء</td><td>tout / quelque chose</td><td>Je ne comprends rien.</td></tr>
+          <tr><td>ne... personne</td><td>لا أحد</td><td>quelqu'un / tout le monde</td><td>Je ne connais personne.</td></tr>
+          <tr><td>ne... aucun / aucune</td><td>ولا أي + اسم</td><td>un / une / tous / toutes</td><td>Je n'ai aucun problème.</td></tr>
+        </table>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="card-label">1) ne... pas encore</span>
+          <div class="formula">لم... بعد</div>
+          <div class="note" style="direction:rtl;text-align:right">الفعل لم يحدث حتى الآن، لكنه ممكن يحدث لاحقًا.</div>
+          <div class="ex-row"><span class="ex-fr">J'ai déjà mangé.</span><span class="ex-ar">أنا أكلت بالفعل</span></div>
+          <div class="ex-row"><span class="ex-fr">Je n'ai pas encore mangé.</span><span class="ex-ar">أنا لم آكل بعد</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">2) ne... plus</span>
+          <div class="formula">لم أعد / لم يعد</div>
+          <div class="note" style="direction:rtl;text-align:right">كان الفعل يحدث قبل كده، لكنه توقف الآن.</div>
+          <div class="ex-row"><span class="ex-fr">Je mange encore.</span><span class="ex-ar">أنا ما زلت آكل</span></div>
+          <div class="ex-row"><span class="ex-fr">Je ne mange plus.</span><span class="ex-ar">أنا لم أعد آكل</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">3) ne... jamais</span>
+          <div class="formula">أبدًا / مطلقًا</div>
+          <div class="note" style="direction:rtl;text-align:right">غالبًا عكسها <strong>toujours</strong> = دائمًا.</div>
+          <div class="ex-row"><span class="ex-fr">Il est toujours heureux.</span><span class="ex-ar">هو دائمًا سعيد</span></div>
+          <div class="ex-row"><span class="ex-fr">Il n'est jamais heureux.</span><span class="ex-ar">هو ليس سعيدًا أبدًا</span></div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="card-label">4) ne... rien</span>
+          <div class="formula">لا شيء</div>
+          <div class="note" style="direction:rtl;text-align:right">تستخدم مع الأشياء.</div>
+          <div class="ex-row"><span class="ex-fr">Je comprends tout.</span><span class="ex-ar">أنا أفهم كل شيء</span></div>
+          <div class="ex-row"><span class="ex-fr">Je ne comprends rien.</span><span class="ex-ar">أنا لا أفهم شيئًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Il ne mange rien.</span><span class="ex-ar">هو لا يأكل شيئًا</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">5) ne... personne</span>
+          <div class="formula">لا أحد</div>
+          <div class="note" style="direction:rtl;text-align:right">تستخدم مع الأشخاص.</div>
+          <div class="ex-row"><span class="ex-fr">Je parle à tout le monde.</span><span class="ex-ar">أنا أتكلم مع الجميع</span></div>
+          <div class="ex-row"><span class="ex-fr">Je ne parle à personne.</span><span class="ex-ar">أنا لا أتكلم مع أحد</span></div>
+          <div class="ex-row"><span class="ex-fr">Elle ne connaît personne ici.</span><span class="ex-ar">هي لا تعرف أحدًا هنا</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">6) ne... aucun / aucune</span>
+          <div class="formula">ولا أي + اسم</div>
+          <div class="note" style="direction:rtl;text-align:right;display:block">
+            <span class="note-line">لازم بعدها اسم، وتتغير حسب الاسم:</span>
+            <span class="note-line"><strong>aucun</strong></span>
+            <span class="note-line">مذكر مفرد،</span>
+            <span class="note-line"><strong>aucune</strong></span>
+            <span class="note-line">مؤنث مفرد.</span>
+          </div>
+          <div class="ex-row"><span class="ex-fr">Tu n'aimes aucun légume.</span><span class="ex-ar">أنت لا تحب أي خضار</span></div>
+          <div class="ex-row"><span class="ex-fr">Il ne connaît aucune danse.</span><span class="ex-ar">هو لا يعرف أي رقصة</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+          <span class="card-label">التوافق مع الاسم - Accord avec le nom</span>
+        <table class="tbl">
+          <tr><th>الشكل</th><th>يستخدم مع</th><th>مثال</th></tr>
+          <tr><td>aucun</td><td>مذكر مفرد</td><td>Tu ne connais aucun employé.</td></tr>
+          <tr><td>aucune</td><td>مؤنث مفرد</td><td>Nous n'aimons aucune fille.</td></tr>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border-top:4px solid var(--blue);background:linear-gradient(135deg,#eff6ff,#dbeafe)">
+          <span class="card-label">A) مكان النفي مع الزمن البسيط - Place de la négation avec un temps simple</span>
+          <div class="formula">ne + verbe + mot négatif</div>
+          <div class="note" style="direction:rtl;text-align:right">مع présent / futur / imparfait النفي يحيط بالفعل مباشرة.</div>
+          <div class="ex-row"><span class="ex-fr">Elle chantera.</span><span class="ex-dot">→</span><span class="ex-fr">Elle ne chantera plus.</span><span class="ex-ar">هي لن تغني بعد الآن</span></div>
+          <div class="ex-row"><span class="ex-fr">Nous dansions.</span><span class="ex-dot">→</span><span class="ex-fr">Nous ne dansions jamais.</span><span class="ex-ar">لم نكن نرقص أبدًا</span></div>
+        </div>
+        <div class="card" style="border-top:4px solid var(--purple);background:linear-gradient(135deg,#f5f3ff,#ede9fe)">
+          <span class="card-label">B) مكان النفي مع الزمن المركب - Place de la négation avec un temps composé</span>
+          <div class="formula">ne + avoir / être + mot négatif + participe passé</div>
+          <div class="note" style="direction:rtl;text-align:right">مع passé composé / plus-que-parfait النفي يحيط بالفعل المساعد <strong>avoir / être</strong>.</div>
+          <div class="ex-row"><span class="ex-fr">Je suis allé au cinéma.</span><span class="ex-dot">→</span><span class="ex-fr">Je ne suis pas allé au cinéma.</span></div>
+          <div class="ex-row"><span class="ex-fr">Tu avais mangé.</span><span class="ex-dot">→</span><span class="ex-fr">Tu n'avais rien mangé.</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border-top:4px solid var(--red-fr);background:linear-gradient(135deg,#fff1f2,#ffe4e6)">
+          <span class="card-label">انتبه جدًا مع personne و aucun - Attention avec personne et aucun</span>
+          <div class="note" style="direction:rtl;text-align:right">مع <strong>personne</strong> و <strong>aucun / aucune</strong> في passé composé يأتيان غالبًا بعد اسم المفعول.</div>
+          <div class="ex-row"><span class="ex-fr">J'ai vu quelqu'un.</span><span class="ex-dot">→</span><span class="ex-fr">Je n'ai vu personne.</span><span class="ex-ar">لم أرَ أحدًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Elle a rencontré une amie.</span><span class="ex-dot">→</span><span class="ex-fr">Elle n'a rencontré aucune amie.</span><span class="ex-ar">لم تقابل أي صديقة</span></div>
+        </div>
+        <div class="card" style="border-top:4px solid var(--teal);background:linear-gradient(135deg,#ecfeff,#cffafe)">
+          <span class="card-label">C) النفي مع il y a - La négation avec il y a</span>
+          <div class="formula">Il y a → Il n'y a pas...</div>
+          <div class="ex-row"><span class="ex-fr">Il y a du papier au bureau.</span><span class="ex-ar">يوجد ورق في المكتب</span></div>
+          <div class="ex-row"><span class="ex-fr">Il n'y a pas de papier au bureau.</span><span class="ex-ar">لا يوجد ورق في المكتب</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:4px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fffbeb)">
+        <span class="card-label">أمثلة TCF سهلة - Exemples faciles pour le TCF</span>
+        <div class="grid-2">
+          <div class="ex-row"><span class="ex-fr">Je n'ai pas encore fini mon travail.</span><span class="ex-ar">لم أنهِ عملي بعد</span></div>
+          <div class="ex-row"><span class="ex-fr">Je ne bois plus de café le soir.</span><span class="ex-ar">لم أعد أشرب القهوة مساءً</span></div>
+          <div class="ex-row"><span class="ex-fr">Je ne regarde jamais la télévision.</span><span class="ex-ar">لا أشاهد التلفاز أبدًا</span></div>
+          <div class="ex-row"><span class="ex-fr">Je ne comprends rien à cette leçon.</span><span class="ex-ar">لا أفهم شيئًا في هذا الدرس</span></div>
+          <div class="ex-row"><span class="ex-fr">Je ne connais personne dans cette ville.</span><span class="ex-ar">لا أعرف أحدًا في هذه المدينة</span></div>
+          <div class="ex-row"><span class="ex-fr">Je n'ai aucune question.</span><span class="ex-ar">ليس لدي أي سؤال</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:4px solid var(--gold)">
+        <span class="card-label">الخلاصة - Résumé</span>
+        <div class="verb-cloud">
+          <span class="vp">pas encore = لسه ما حصلش</span>
+          <span class="vp">plus = كان بيحصل وتوقف</span>
+          <span class="vp">jamais = أبدًا</span>
+          <span class="vp">rien = لا شيء</span>
+          <span class="vp">personne = لا أحد</span>
+          <span class="vp">aucun / aucune = ولا أي + اسم</span>
+        </div>
+        <div class="formula" style="font-size:14px;margin-top:14px">زمن بسيط: النفي حول الفعل · passé composé: النفي حول être / avoir</div>
+      </div>
+
+    </section>
+
+    <!-- QUESTIONS -->
+    <section class="sec" id="g-questions">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:#fef3c7">❓</div>
+          <div class="sec-title">Les <em>questions</em></div>
+          <div class="sec-ar">الأسئلة في اللغة الفرنسية - Les questions en français — مهم جدًا في TCF والمحادثة</div>
+        </div>
+        <span class="usage-tag tag-fut">QUESTIONS</span>
+      </div>
+
+      <div class="card" style="border-right:5px solid var(--gold);background:linear-gradient(135deg,#fffbeb,#fef3c7)">
+        <span class="card-label">أولًا: أنواع الأسئلة في الفرنسي - Types de questions en français</span>
+        <div class="grid-3">
+          <div class="formula" style="font-size:14px;background:white;border-color:#fde68a;border-left-color:var(--gold);color:#92400e">1) Les questions fermées<br><small>الأسئلة المغلقة: Oui / Non</small></div>
+          <div class="formula" style="font-size:14px;background:white;border-color:#fde68a;border-left-color:var(--gold);color:#92400e">2) Les questions ouvertes<br><small>الأسئلة المفتوحة: معلومة</small></div>
+          <div class="formula" style="font-size:14px;background:white;border-color:#fde68a;border-left-color:var(--gold);color:#92400e">3) Les questions partielles<br><small>الأسئلة الجزئية: Quel</small></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">1) Les questions fermées — الأسئلة المغلقة</span>
+        <div class="note" style="direction:rtl;text-align:right">هي أسئلة إجابتها تكون فقط <strong>Oui</strong> أو <strong>Non</strong>.</div>
+        <div class="ex-row"><span class="ex-fr">Est-ce que tu parles français ?</span><span class="ex-dot">·</span><span class="ex-ar">هل تتكلم الفرنسية؟</span></div>
+        <div class="verb-cloud"><span class="vp">Oui.</span><span class="vp">Non.</span></div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="card-label">A) Registre courant — عادي</span>
+          <div class="formula">Est-ce que + sujet + verbe + complément</div>
+          <div class="ex-row"><span class="ex-fr">Est-ce que tu parles français ?</span><span class="ex-ar">هل تتكلم الفرنسية؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Est-ce que vous aimez le sport ?</span><span class="ex-ar">هل تحبون الرياضة؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Est-ce que vous allez bien ?</span><span class="ex-ar">هل أنتم بخير؟</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">B) Registre formel — رسمي</span>
+          <div class="formula">Verbe + sujet + complément</div>
+          <div class="ex-row"><span class="ex-fr">Parlez-vous français ?</span><span class="ex-ar">هل تتكلمون الفرنسية؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Vont-ils bien ?</span><span class="ex-ar">هل هم بخير؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Ne partez-vous pas en Italie ?</span><span class="ex-ar">هل لن تسافروا إلى إيطاليا؟</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">C) Registre familier — عامي</span>
+          <div class="formula">Sujet + verbe + ?</div>
+          <div class="ex-row"><span class="ex-fr">Vous parlez français ?</span><span class="ex-ar">هل تتكلمون الفرنسية؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Tu n'aimes pas ce fauteuil ?</span><span class="ex-ar">أنت لا تحب هذا الكرسي؟</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border-top:4px solid var(--red-fr);background:linear-gradient(135deg,#fff1f2,#ffe4e6)">
+          <span class="card-label">قاعدة مهمة في courant - Règle importante au registre courant</span>
+          <div class="note" style="direction:rtl;text-align:right;display:block">
+            <span class="note-line">للامتحان احفظ القاعدة المبسطة: لا تستخدم</span>
+            <span class="note-line"><strong>Est-ce que</strong></span>
+            <span class="note-line">مع النفي.</span>
+            <span class="note-line">لكن في الفرنسي الحديث ممكن تسمع:</span>
+            <span class="note-line"><strong>Est-ce que tu n'aimes pas le café ?</strong></span>
+          </div>
+          <div class="ex-row"><span class="ex-fr" style="color:var(--red-fr)">Est-ce que tu ne parles pas français ?</span><span class="ex-ar">تجنّبها في القاعدة المبسطة للامتحان</span></div>
+        </div>
+        <div class="card" style="border-top:4px solid var(--teal);background:linear-gradient(135deg,#ecfeff,#cffafe)">
+          <span class="card-label">Si مع السؤال المنفي - Si avec une question négative</span>
+          <div class="note" style="direction:rtl;text-align:right">لو السؤال بالنفي والإجابة "بلى / بالعكس نعم" نستخدم <strong>Si</strong>.</div>
+          <div class="ex-row"><span class="ex-fr">Ne venez-vous pas ?</span><span class="ex-ar">ألن تأتي؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Si, je viens.</span><span class="ex-ar">بلى، سأأتي.</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">قاعدة T المهمة جدًا - Règle du T euphonique</span>
+        <div class="note" style="direction:rtl;text-align:right">لو الفعل ينتهي بحرف صوتي والفاعل يبدأ بحرف صوتي، نضيف <strong>-t-</strong> لتسهيل النطق فقط.</div>
+        <div class="grid-3">
+          <div class="formula">Parle + il → Parle-t-il ?</div>
+          <div class="formula">Mange + elle → Mange-t-elle ?</div>
+          <div class="formula">Jean joue + il → Jean joue-t-il ?</div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:4px solid var(--gold)">
+        <span class="card-label">ملخص الأسئلة المغلقة - Résumé des questions fermées</span>
+        <table class="tbl">
+          <tr><th>النوع</th><th>الشكل</th></tr>
+          <tr><td>courant</td><td>Est-ce que tu parles ?</td></tr>
+          <tr><td>formel</td><td>Parles-tu ?</td></tr>
+          <tr><td>familier</td><td>Tu parles ?</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <span class="card-label">2) Les questions ouvertes — الأسئلة المفتوحة</span>
+        <div class="note" style="direction:rtl;text-align:right">لا نجيب عليها بـ Oui أو Non، بل تحتاج معلومة: مكان، سبب، طريقة، وقت، عدد...</div>
+        <table class="tbl">
+          <tr><th>فرنسي</th><th>عربي</th><th>مثال</th></tr>
+          <tr><td>Où</td><td>أين</td><td>Où habites-tu ?</td></tr>
+          <tr><td>Pourquoi</td><td>لماذا</td><td>Pourquoi tu es là ?</td></tr>
+          <tr><td>Comment</td><td>كيف</td><td>Comment t'appelles-tu ?</td></tr>
+          <tr><td>Quand</td><td>متى</td><td>Quand partez-vous ?</td></tr>
+          <tr><td>Combien</td><td>كم</td><td>Combien d'enfants avez-vous ?</td></tr>
+          <tr><td>Qui</td><td>من</td><td>Qui est-ce qui va avec toi ?</td></tr>
+          <tr><td>Que / Quoi</td><td>ماذا</td><td>Vous faites quoi ?</td></tr>
+        </table>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="card-label">Courant — عادي</span>
+          <div class="formula">Mot interrogatif + est-ce que + sujet + verbe</div>
+          <div class="ex-row"><span class="ex-fr">Où est-ce que vous partez ?</span><span class="ex-ar">إلى أين ستسافرون؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Pourquoi est-ce que tu cries ?</span><span class="ex-ar">لماذا تصرخ؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Comment est-ce que je peux faire ?</span><span class="ex-ar">كيف يمكنني أن أفعل؟</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">Formel — رسمي</span>
+          <div class="formula">Mot interrogatif + verbe + sujet</div>
+          <div class="ex-row"><span class="ex-fr">Où partez-vous ?</span><span class="ex-ar">إلى أين تذهبون؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Comment t'appelles-tu ?</span><span class="ex-ar">ما اسمك؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Combien d'enfants avez-vous ?</span><span class="ex-ar">كم طفلًا لديك؟</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">Familier — عامي</span>
+          <div class="formula">Sujet + verbe + mot interrogatif ?</div>
+          <div class="ex-row"><span class="ex-fr">Vous faites quoi ?</span><span class="ex-ar">ماذا تفعلون؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Tu pars où ?</span><span class="ex-ar">إلى أين تذهب؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Tu as combien d'enfants ?</span><span class="ex-ar">كم طفل عندك؟</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border-right:5px solid var(--blue);background:linear-gradient(135deg,#eff6ff,#dbeafe)">
+          <span class="card-label">QUI و QUE المهمين جدًا - QUI et QUE très importants</span>
+          <div class="formula rule-important">qui = فاعل · que = مفعول</div>
+          <div class="ex-row"><span class="ex-fr">Qui est-ce qui va avec toi ?</span><span class="ex-ar">من سيذهب معك؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Qui est-ce qui a cassé le vase ?</span><span class="ex-ar">من كسر المزهرية؟</span></div>
+          <div class="ex-row"><span class="ex-fr">Qu'est-ce qui t'a surpris ?</span><span class="ex-ar">ما الذي فاجأك؟</span></div>
+        </div>
+        <div class="card" style="border-right:5px solid var(--purple);background:linear-gradient(135deg,#f5f3ff,#ede9fe)">
+          <span class="card-label">Qu'est-ce que vs Qu'est-ce qui</span>
+          <div class="ex-row"><span class="ex-fr">Qu'est-ce que tu manges ?</span><span class="ex-ar">ماذا تأكل؟ — مفعول به COD</span></div>
+          <div class="ex-row"><span class="ex-fr">Qu'est-ce qui tombe ?</span><span class="ex-ar">ما الذي يسقط؟ — فاعل</span></div>
+          <div class="formula" style="font-size:14px">اختصار ذكي: que = مفعول، qui = فاعل</div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="card-label">Pourquoi</span>
+          <div class="note">مكانها ثابت في بداية السؤال.</div>
+          <div class="ex-row"><span class="ex-fr">Pourquoi est-ce que tu es là ?</span></div>
+          <div class="ex-row"><span class="ex-fr">Pourquoi es-tu là ?</span></div>
+          <div class="ex-row"><span class="ex-fr">Pourquoi tu es là ?</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">Combien</span>
+          <div class="formula">Combien de + nom</div>
+          <div class="ex-row"><span class="ex-fr" style="color:var(--green)">Combien d'enfants ?</span></div>
+          <div class="ex-row"><span class="ex-fr" style="color:var(--red-fr)">Combien enfants</span><span class="ex-ar">خطأ</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">Quoi حسب المستوى - Quoi selon le registre</span>
+          <div class="ex-row"><span class="ex-fr">Qu'est-ce que vous faites ?</span><span class="ex-ar">courant</span></div>
+          <div class="ex-row"><span class="ex-fr">Que faites-vous ?</span><span class="ex-ar">formel</span></div>
+          <div class="ex-row"><span class="ex-fr">Vous faites quoi ?</span><span class="ex-ar">familier</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">3) Les questions partielles — الأسئلة الجزئية</span>
+        <div class="note" style="direction:rtl;text-align:right">نستخدم <strong>Quel</strong> بمعنى "أي / أيّ"، ولازم يتطابق مع الاسم في النوع والعدد.</div>
+        <table class="tbl">
+          <tr><th>الشكل</th><th>مع</th><th>مثال</th></tr>
+          <tr><td>Quel</td><td>مذكر مفرد</td><td>Quel livre lis-tu ?</td></tr>
+          <tr><td>Quelle</td><td>مؤنث مفرد</td><td>Quelle voiture préfères-tu ?</td></tr>
+          <tr><td>Quels</td><td>مذكر جمع</td><td>Quels films aimes-tu ?</td></tr>
+          <tr><td>Quelles</td><td>مؤنث جمع</td><td>Quelles langues parles-tu ?</td></tr>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border-top:4px solid var(--teal);background:linear-gradient(135deg,#ecfeff,#cffafe)">
+          <span class="card-label">الفرق النهائي - Différence finale</span>
+          <table class="tbl" style="background:white">
+            <tr><th>النوع</th><th>الإجابة</th><th>مثال</th></tr>
+            <tr><td>مغلق</td><td>نعم / لا</td><td>Parlez-vous français ?</td></tr>
+            <tr><td>مفتوح</td><td>معلومة</td><td>Pourquoi apprenez-vous le français ?</td></tr>
+            <tr><td>جزئي</td><td>اختيار محدد</td><td>Quelle langue apprenez-vous ?</td></tr>
+          </table>
+        </div>
+        <div class="card" style="border-top:4px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fffbeb)">
+          <span class="card-label">شكل TCF المهم للحفظ - Forme TCF à mémoriser</span>
+          <table class="tbl" style="background:white">
+            <tr><th>النوع</th><th>courant</th><th>formel</th><th>familier</th></tr>
+            <tr><td>مغلق</td><td>Est-ce que tu viens ?</td><td>Viens-tu ?</td><td>Tu viens ?</td></tr>
+            <tr><td>مفتوح</td><td>Où est-ce que tu vas ?</td><td>Où vas-tu ?</td><td>Tu vas où ?</td></tr>
+            <tr><td>جزئي</td><td>Quel livre est-ce que tu lis ?</td><td>Quel livre lis-tu ?</td><td>Tu lis quel livre ?</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="article-card">
+        <div class="article-header" style="background:linear-gradient(135deg,#f59e0b,#0891b2)"><span class="ah-icon">✏️</span>جملة شاملة — Les questions</div>
+        <div class="article-fr" style="border-right-color:#f59e0b;color:#92400e">
+          <div class="fr-line"><span class="fr-num" style="background:#f59e0b">1</span>Tu viens ?</div>
+          <div class="fr-line"><span class="fr-num" style="background:#f59e0b">2</span>Où est-ce que tu vas ?</div>
+          <div class="fr-line"><span class="fr-num" style="background:#f59e0b">3</span>Quel livre lis-tu ?</div>
+        </div>
+        <div class="article-ar" style="background:#fffbeb">الأول سؤال مغلق، الثاني سؤال مفتوح، والثالث سؤال جزئي باستخدام Quel.</div>
+      </div>
+
+    </section>
   </main>
 </div>
 
@@ -1786,15 +2156,170 @@
         <div><div class="sec-icon" style="background:var(--teal-light)">📢</div><div class="sec-title"><em>Impératif</em></div><div class="sec-ar">صيغة الأمر</div></div>
         <span class="usage-tag tag-now">ORDRE</span>
       </div>
-      <div class="formula" style="background:linear-gradient(135deg,#ecfeff,#cffafe);border-color:#67e8f9;border-left-color:#0891b2;color:#0e4f5c">tu &nbsp;·&nbsp; nous &nbsp;·&nbsp; vous &nbsp;&nbsp;(بدون ضمائر)</div>
+      <div class="card" style="border-right:5px solid var(--teal);background:linear-gradient(135deg,#ecfeff,#cffafe)">
+        <span class="card-label">1) يعني إيه l'impératif؟</span>
+        <div class="formula" style="background:white;border-color:#67e8f9;border-left-color:#0891b2;color:#0e4f5c">verbe au présent sans pronom sujet</div>
+        <div class="note" style="direction:rtl;text-align:right">
+          <strong>l'impératif</strong> يستخدم للأمر، النصيحة، أو الطلب. نأخذ الفعل غالبا من المضارع، لكن بدون ضمير الفاعل.
+        </div>
+        <div class="contract-grid imperative-list">
+          <div class="cc imperative-item">
+            <span class="cc-eq">أمر</span>
+            <span class="cc-arr">·</span>
+            <span class="cc-res" style="font-family:'Lora',serif;font-style:italic;color:var(--teal)">Viens ici !</span>
+            <span class="imperative-ar">تعال هنا!</span>
+          </div>
+          <div class="cc imperative-item">
+            <span class="cc-eq">نصيحة</span>
+            <span class="cc-arr">·</span>
+            <span class="cc-res" style="font-family:'Lora',serif;font-style:italic;color:var(--teal)">Mange plus de légumes !</span>
+            <span class="imperative-ar">كُل خضارا أكثر!</span>
+          </div>
+          <div class="cc imperative-item">
+            <span class="cc-eq">طلب</span>
+            <span class="cc-arr">·</span>
+            <span class="cc-res" style="font-family:'Lora',serif;font-style:italic;color:var(--teal)">Donne-moi le livre.</span>
+            <span class="imperative-ar">أعطني الكتاب.</span>
+          </div>
+        </div>
+        <div class="ex-row"><span class="ex-fr" style="color:var(--red-fr)">Tu viens ici</span><span class="ex-dot">→</span><span class="ex-fr" style="color:var(--green)">Viens ici !</span><span class="ex-ar">نحذف ضمير الفاعل</span></div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">2) بيتصرف مع مين؟</span>
+        <div class="formula" style="background:linear-gradient(135deg,#ecfeff,#cffafe);border-color:#67e8f9;border-left-color:#0891b2;color:#0e4f5c">tu &nbsp;·&nbsp; nous &nbsp;·&nbsp; vous &nbsp;&nbsp;(بدون ضمائر)</div>
+        <table class="tbl">
+          <tr><th>الشخص</th><th>المعنى</th><th>مثال</th></tr>
+          <tr><td>tu</td><td>أنتَ / أنتِ</td><td>Mange !</td></tr>
+          <tr><td>nous</td><td>نحن</td><td>Mangeons !</td></tr>
+          <tr><td>vous</td><td>أنتم / حضرتك</td><td>Mangez !</td></tr>
+        </table>
+      </div>
+
       <div class="grid-3">
-        <div class="card" style="text-align:center"><span class="card-label">tu</span><div style="font-family:'Lora',serif;font-style:italic;font-size:34px;color:var(--teal);margin:12px 0;font-weight:700">parle</div><div style="font-size:14px;color:var(--text-light)">بدون S</div></div>
+        <div class="card" style="text-align:center"><span class="card-label">tu</span><div style="font-family:'Lora',serif;font-style:italic;font-size:34px;color:var(--teal);margin:12px 0;font-weight:700">parle</div><div style="font-size:14px;color:var(--text-light)">بدون S مع -er</div></div>
         <div class="card" style="text-align:center"><span class="card-label">nous</span><div style="font-family:'Lora',serif;font-style:italic;font-size:34px;color:var(--teal);margin:12px 0;font-weight:700">parlons</div><div style="font-size:14px;color:var(--text-light)">لنتكلم</div></div>
         <div class="card" style="text-align:center"><span class="card-label">vous</span><div style="font-family:'Lora',serif;font-style:italic;font-size:34px;color:var(--teal);margin:12px 0;font-weight:700">parlez</div><div style="font-size:14px;color:var(--text-light)">جمع / تأدب</div></div>
       </div>
-      <div class="card"><span class="card-label">أفعال شائعة</span>
-        <table class="tbl"><tr><th>Infinitif</th><th>tu</th><th>nous</th><th>vous</th></tr><tr><td>être</td><td>sois</td><td>soyons</td><td>soyez</td></tr><tr><td>avoir</td><td>aie</td><td>ayons</td><td>ayez</td></tr><tr><td>aller</td><td>va</td><td>allons</td><td>allez</td></tr><tr><td>faire</td><td>fais</td><td>faisons</td><td>faites</td></tr></table>
+
+      <div class="card">
+        <span class="card-label">مثال مع boire</span>
+        <table class="tbl">
+          <tr><th>الفعل</th><th>الترجمة</th></tr>
+          <tr><td>Bois de l'eau !</td><td>اشرب ماء!</td></tr>
+          <tr><td>Buvons ce café !</td><td>لنشرب هذه القهوة!</td></tr>
+          <tr><td>Buvez des jus !</td><td>اشربوا عصيرا!</td></tr>
+        </table>
       </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">3) قاعدة مهمة جدا: أفعال -er</span>
+          <div class="formula" style="background:linear-gradient(135deg,#fff7ed,#fed7aa);border-color:#fdba74;border-left-color:var(--orange);color:#9a3412">tu + verbe -er = sans s</div>
+          <div class="ex-row"><span class="ex-fr">Tu manges</span><span class="ex-dot">→</span><span class="ex-fr" style="color:var(--green)">Mange !</span><span class="ex-ar">كُل!</span></div>
+          <div class="ex-row"><span class="ex-fr" style="color:var(--green)">Parle moins fort.</span><span class="ex-dot">·</span><span class="ex-ar">تكلم بصوت أقل.</span></div>
+          <div class="ex-row"><span class="ex-fr" style="color:var(--green)">Va acheter du pain.</span><span class="ex-dot">·</span><span class="ex-ar">اذهب واشتر خبزا.</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">أمثلة خطأ وصواب</span>
+          <table class="tbl">
+            <tr><th>خطأ</th><th>صحيح</th></tr>
+            <tr><td style="color:var(--red-fr)">Manges !</td><td style="color:var(--green)">Mange !</td></tr>
+            <tr><td style="color:var(--red-fr)">Parles moins fort.</td><td style="color:var(--green)">Parle moins fort.</td></tr>
+            <tr><td style="color:var(--red-fr)">Vas acheter du pain.</td><td style="color:var(--green)">Va acheter du pain.</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">4) أفعال شاذة مهمة</span>
+        <table class="tbl">
+          <tr><th>Infinitif</th><th>tu</th><th>nous</th><th>vous</th><th>مثال</th></tr>
+          <tr><td>être</td><td>sois</td><td>soyons</td><td>soyez</td><td>Sois responsable ! — كن مسؤولا!</td></tr>
+          <tr><td>avoir</td><td>aie</td><td>ayons</td><td>ayez</td><td>Aie confiance en toi. — ثق في نفسك.</td></tr>
+          <tr><td>savoir</td><td>sache</td><td>sachons</td><td>sachez</td><td>Sache que c'est important. — اعلم أن هذا مهم.</td></tr>
+          <tr><td>aller</td><td>va</td><td>allons</td><td>allez</td><td>Va ! — اذهب!</td></tr>
+          <tr><td>faire</td><td>fais</td><td>faisons</td><td>faites</td><td>Faites attention ! — انتبهوا!</td></tr>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">5) النفي في الأمر</span>
+          <div class="formula" style="background:linear-gradient(135deg,#fdecea,#fecaca);border-color:#fca5a5;border-left-color:#dc2626;color:#991b1b">ne + verbe + pas</div>
+          <div class="ex-row"><span class="ex-fr">Ne mange pas trop de gâteaux.</span><span class="ex-dot">·</span><span class="ex-ar">لا تأكل كعكا كثيرا.</span></div>
+          <div class="ex-row"><span class="ex-fr">Ne parle pas fort.</span><span class="ex-dot">·</span><span class="ex-ar">لا تتكلم بصوت عال.</span></div>
+          <div class="ex-row"><span class="ex-fr">Ne viens pas tard.</span><span class="ex-dot">·</span><span class="ex-ar">لا تأت متأخرا.</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">6) مكان الضمائر مع الأمر المثبت</span>
+          <div class="formula">verbe + pronom</div>
+          <div class="note" style="direction:rtl;text-align:right">في الجملة المثبتة، الضمير يأتي بعد الفعل ومعه شرطة.</div>
+          <div class="ex-row"><span class="ex-fr">Donne-moi le livre.</span><span class="ex-dot">·</span><span class="ex-ar">أعطني الكتاب.</span></div>
+          <div class="ex-row"><span class="ex-fr">Écoute-moi.</span><span class="ex-dot">·</span><span class="ex-ar">اسمعني.</span></div>
+          <div class="ex-row"><span class="ex-fr">Souvenez-vous-en !</span><span class="ex-dot">·</span><span class="ex-ar">تذكروه / تذكروا ذلك!</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">7) لو عندي أكثر من ضمير</span>
+          <div class="formula">verbe + COD + COI</div>
+          <div class="ex-row"><span class="ex-fr" style="color:var(--green)">Donnez-le-moi.</span><span class="ex-dot">·</span><span class="ex-ar">أعطوه لي.</span></div>
+          <table class="tbl">
+            <tr><th>السؤال</th><th>الضمير</th><th>الوظيفة</th></tr>
+            <tr><td>Donnez quoi ?</td><td>le</td><td>COD = الشيء / الكتاب</td></tr>
+            <tr><td>Donnez à qui ?</td><td>moi</td><td>COI = لي</td></tr>
+          </table>
+          <div class="note" style="direction:rtl;text-align:right;color:var(--red-fr)">لا نقول: <strong>Donnez-moi-le</strong></div>
+        </div>
+        <div class="card">
+          <span class="card-label">8) حالة خاصة مع en</span>
+          <div class="formula">Donne-m'en.</div>
+          <div class="note" style="direction:rtl;text-align:right">إذا كان الضمير <strong>en</strong> موجودا، غالبا يأتي في المكان الثاني.</div>
+          <div class="ex-row"><span class="ex-fr">Tu veux du pain ?</span><span class="ex-dot">→</span><span class="ex-fr">Donne-m'en un morceau.</span><span class="ex-ar">أعطني منه قطعة.</span></div>
+          <table class="tbl">
+            <tr><th>خطأ</th><th>صحيح</th></tr>
+            <tr><td style="color:var(--red-fr)">Donne-moi-en</td><td style="color:var(--green)">Donne-m'en.</td></tr>
+            <tr><td style="color:var(--red-fr)">Donne moi z'en</td><td style="color:var(--green)">Donne-m'en.</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">9) الضمائر في الأمر المنفي</span>
+          <div class="formula" style="background:linear-gradient(135deg,#fdecea,#fecaca);border-color:#fca5a5;border-left-color:#dc2626;color:#991b1b">ne + pronom + verbe + pas</div>
+          <div class="ex-row"><span class="ex-fr">Ne me le donne pas.</span><span class="ex-dot">·</span><span class="ex-ar">لا تعطني إياه.</span></div>
+          <div class="ex-row"><span class="ex-fr">Ne te lève pas.</span><span class="ex-dot">·</span><span class="ex-ar">لا تنهض.</span></div>
+          <div class="ex-row"><span class="ex-fr">Ne vous perdez pas.</span><span class="ex-dot">·</span><span class="ex-ar">لا تضيعوا الطريق.</span></div>
+          <div class="ex-row"><span class="ex-fr" style="color:var(--green)">Donne-le-moi.</span><span class="ex-dot">↔</span><span class="ex-fr" style="color:var(--red-fr)">Ne me le donne pas.</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">10) متى نضع s مع tu؟</span>
+          <div class="formula" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#86efac;border-left-color:#16a34a;color:#166534">tu -er + y / en = s</div>
+          <div class="note" style="direction:rtl;text-align:right">الأصل مع أفعال -er: <strong>Mange</strong>، <strong>Parle</strong>، <strong>Va</strong>. لكن نضيف <strong>s</strong> إذا جاء بعدها مباشرة <strong>y</strong> أو <strong>en</strong> لتسهيل النطق.</div>
+          <div class="ex-row"><span class="ex-fr">Vas-y !</span><span class="ex-dot">·</span><span class="ex-ar">اذهب هناك!</span></div>
+          <div class="ex-row"><span class="ex-fr">Manges-en !</span><span class="ex-dot">·</span><span class="ex-ar">كُل منه!</span></div>
+          <div class="ex-row"><span class="ex-fr">Parles-en à ton ami.</span><span class="ex-dot">·</span><span class="ex-ar">تحدث عنه مع صديقك.</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="border-right:5px solid var(--gold);background:linear-gradient(135deg,#fffbeb,#fef3c7)">
+        <span class="card-label">ملخص سريع للحفظ</span>
+        <table class="tbl">
+          <tr><th>القاعدة</th><th>المثال</th></tr>
+          <tr><td>الأمر بدون ضمير</td><td>Viens !</td></tr>
+          <tr><td>مع tu / nous / vous فقط</td><td>Mange / Mangeons / Mangez</td></tr>
+          <tr><td>أفعال -er تحذف s مع tu</td><td>Mange !</td></tr>
+          <tr><td>aller يحذف s</td><td>Va !</td></tr>
+          <tr><td>نضيف s قبل y / en</td><td>Vas-y / Manges-en</td></tr>
+          <tr><td>النفي</td><td>Ne mange pas</td></tr>
+          <tr><td>الضمير في المثبت بعد الفعل</td><td>Donne-moi</td></tr>
+          <tr><td>الضمير في المنفي قبل الفعل</td><td>Ne me donne pas</td></tr>
+        </table>
+      </div>
+
       <div class="article-card">
         <div class="article-header" style="background:linear-gradient(135deg,#0e7490,#0891b2)"><span class="ah-icon">✏️</span>مقال تدريبي — Impératif · أوامر المدرسة</div>
         <div class="article-fr" style="border-right-color:#0e7490;color:#0e7490">
