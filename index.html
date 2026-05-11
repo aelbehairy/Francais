@@ -43,7 +43,7 @@
       <span class="ti">📚</span> Grammaire
     </button>
     <button class="top-tab" onclick="switchTop('oral',this)">
-      <span class="ti">🎤</span> Question (Mariane)
+      <span class="ti">🎤</span> Oral Mariane
     </button>
     <button class="top-tab" onclick="switchTop('phonetique',this)">
       <span class="ti">🔊</span> Phonétique
@@ -2392,14 +2392,15 @@
 <div id="panel-oral" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs" id="pills-oral">
-      <button class="pill active" onclick="showMariane(this)"><span class="pi">🎤</span>Question (Mariane)</button>
+      <button class="pill" onclick="showMariane(this)"><span class="pi">🎤</span>Oral (Mariane et Linda)</button>
+      <button class="pill active" onclick="showOral('devoirs',this)"><span class="pi">📝</span>Devoirs</button>
     </div>
   </nav>
   <main class="main">
-    <div class="card mariane-nav-card">
+    <div class="card mariane-nav-card" id="mariane-question-nav" hidden>
       <span class="card-label">Mariane · Expression Orale</span>
       <div class="nav-pills mariane-pills nested-child-tabs" id="pills-mariane">
-        <button class="pill active" onclick="showOral('routine',this)"><span class="pi">⏰</span>Q1 Routine</button>
+        <button class="pill" onclick="showOral('routine',this)"><span class="pi">⏰</span>Q1 Routine</button>
         <button class="pill" onclick="showOral('presentation',this)"><span class="pi">👋</span>Q2 Présentation</button>
         <button class="pill" onclick="showOral('professions',this)"><span class="pi">💼</span>Q3 Professions</button>
         <button class="pill" onclick="showOral('projets',this)"><span class="pi">🎯</span>Q4 Projets</button>
@@ -2412,7 +2413,7 @@
     </div>
 
     <!-- Q1 -->
-    <section class="sec visible" id="o-routine">
+    <section class="sec" id="o-routine">
       <div class="sec-header">
         <div><div class="sec-icon" style="background:var(--teal-light)">⏰</div><div class="sec-title">Question <em>1</em></div><div class="sec-ar">الروتين اليومي</div></div>
         <span class="usage-tag tag-oral">ORAL</span>
@@ -2694,6 +2695,22 @@
           <div class="ar-text" style="background:var(--orange-light);border-color:#fdba74;border-right-color:var(--orange)">في الخريف كانت الأوراق تتساقط والريح تهب بهدوء. كنت أحب المشي في الشوارع الهادئة ومراقبة الطبيعة. في العام الماضي التقطت صوراً كثيرة للمناظر الطبيعية.</div>
         </div>
       </div>
+    </section>
+
+    <!-- DEVOIRS MARIANNE -->
+    <section class="sec visible" id="o-devoirs">
+      <div class="card mariane-nav-card visible-anim">
+        <span class="card-label">Devoirs · Marianne</span>
+        <div class="nav-pills devoir-level-tabs nested-child-tabs">
+          <button class="pill active" type="button" onclick="setDevoirAnswerMode('long',this)"><span class="pi">C1</span>Answer Long</button>
+          <button class="pill" type="button" onclick="setDevoirAnswerMode('short',this)"><span class="pi">C1</span>Answer Short</button>
+        </div>
+      </div>
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:var(--green-light)">📝</div><div class="sec-title">Devoirs <em>Marianne</em></div><div class="sec-ar">34 devoirs avec réponses C1</div></div>
+        <span class="usage-tag tag-oral">DEVOIRS</span>
+      </div>
+      <div id="marianne-devoirs" class="devoirs-timeline" aria-live="polite"></div>
     </section>
   </main>
 </div><!-- end panel-oral -->
@@ -3439,7 +3456,7 @@
       <span class="sidebar-icon">📚</span><span class="sidebar-text">Grammaire</span>
     </button>
     <button class="sidebar-link" type="button" data-sidebar-target="oral" onclick="switchTop('oral',document.querySelector('.top-tab[onclick*=oral]'))">
-      <span class="sidebar-icon">🎤</span><span class="sidebar-text">Question Mariane</span>
+      <span class="sidebar-icon">🎤</span><span class="sidebar-text">Oral Mariane</span>
     </button>
     <button class="sidebar-link" type="button" data-sidebar-target="phonetique" onclick="switchTop('phonetique',document.querySelector('.top-tab[onclick*=phonetique]'))">
       <span class="sidebar-icon">🔊</span><span class="sidebar-text">Phonétique</span>
