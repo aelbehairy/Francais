@@ -725,36 +725,59 @@ body{
 /* ═══════════════ DASHBOARD SIDEBAR ═══════════════ */
 .sidebar {
   position: fixed;
-  top: 28px;
+  top: 12px;
   left: 0;
-  width: 96px;
-  max-width: calc(100vw - 32px);
-  max-height: calc(100vh - 56px);
-  padding: 18px 14px 14px;
+  width: 60px;
+  max-width: calc(100vw - 16px);
+  height: 60px;
+  max-height: 60px;
+  padding: 10px;
   background:
     radial-gradient(circle at 20% 0%, rgba(59,130,246,.22) 0%, transparent 42%),
     radial-gradient(circle at 100% 12%, rgba(124,58,237,.20) 0%, transparent 46%),
     linear-gradient(180deg, #0f1220 0%, #060912 100%);
   border: 1px solid rgba(255,255,255,.11);
-  border-radius: 28px;
+  border-radius: 0 18px 18px 0;
   box-shadow: 0 22px 60px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.08);
   color: var(--text-hero);
   direction: ltr;
   z-index: 1000;
-  overflow: hidden auto;
-  transition: width .26s ease, border-radius .26s ease, box-shadow .26s ease;
+  overflow: hidden;
+  transition: width .26s ease, height .24s ease, max-height .24s ease, border-radius .26s ease, box-shadow .26s ease;
   scrollbar-width: none;
 }
 .sidebar::-webkit-scrollbar{display:none}
 .sidebar:not(.open):not(:hover):not(:focus-within){overflow:hidden}
-.sidebar.open,
-.sidebar:hover,
-.sidebar:focus-within {
-  width: 314px;
-  border-radius: 26px;
+.sidebar.open {
+  width:min(314px, calc(100vw - 16px));
+  height:auto;
+  max-height:calc(100vh - 24px);
+  padding:18px 14px 14px;
+  border-radius:0 24px 24px 0;
   box-shadow: 0 26px 70px rgba(0,0,0,.42), 0 0 0 1px rgba(59,130,246,.08), inset 0 1px 0 rgba(255,255,255,.1);
   overflow:hidden auto;
 }
+.sidebar:not(.open) .sidebar-chrome,
+.sidebar:not(.open) .sidebar-brand,
+.sidebar:not(.open) .sidebar-profile,
+.sidebar:not(.open) .sidebar-search,
+.sidebar:not(.open) .sidebar-section,
+.sidebar:not(.open) .sidebar-footer {
+  display:none;
+}
+.sidebar:not(.open) .sidebar-top {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  margin:0;
+  padding:0;
+  border:0;
+}
+.sidebar-footer {
+  display:none;
+}
+.sidebar.open .sidebar-toggle{transform:rotate(180deg)}
 .sidebar-chrome {
   display:flex;
   gap:8px;
