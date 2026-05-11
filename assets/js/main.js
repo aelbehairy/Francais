@@ -999,7 +999,7 @@ var sidebarToggle = document.getElementById('sidebar-toggle');
 var sidebarPin = document.getElementById('sidebar-pin');
 var sidebarSearch = document.getElementById('sidebar-search');
 var isPinned = false;
-var mobileSidebarQuery = window.matchMedia('(max-width: 1024px)');
+var mobileSidebarQuery = window.matchMedia('(max-width: 1024px), (max-width: 1366px) and (pointer: coarse)');
 
 function setSidebarActive(target){
   if(!sidebar || !target) return;

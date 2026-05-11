@@ -750,7 +750,7 @@ body{
 .sidebar.open,
 .sidebar:hover,
 .sidebar:focus-within {
-  width: 314px;
+  width: 235px;
   border-radius: 26px;
   box-shadow: 0 26px 70px rgba(0,0,0,.42), 0 0 0 1px rgba(59,130,246,.08), inset 0 1px 0 rgba(255,255,255,.1);
   overflow:hidden auto;
@@ -985,7 +985,7 @@ body{
   padding-bottom:0;
 }
 
-@media(max-width:1024px){
+@media(max-width:1024px), (max-width:1366px) and (pointer:coarse){
   .sidebar {
     top:12px;
     left:0;
@@ -1009,7 +1009,7 @@ body{
   .sidebar.open,
   .sidebar.open:hover,
   .sidebar.open:focus-within {
-    width:min(314px, calc(100vw - 16px));
+    width:min(235px, calc(100vw - 16px));
     height:auto;
     max-height:calc(100vh - 24px);
     padding:18px 14px 14px;
