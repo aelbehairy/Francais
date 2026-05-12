@@ -66,6 +66,26 @@ body{
   min-height:100vh;
   overflow-x:hidden;
   line-height:1.7;
+  direction:ltr;
+  text-align:left;
+}
+
+.panel,
+.main,
+.sec,
+.card,
+.note,
+.q-body,
+.ar-text,
+.ex-ar,
+.vocab-ar,
+.article-ar,
+.sec-ar,
+.tbl,
+.tbl th,
+.tbl td {
+  direction:ltr!important;
+  text-align:left!important;
 }
 
 /* ═══════════════ HERO ═══════════════ */
@@ -388,10 +408,10 @@ body{
 }
 .sec-export-top-left{
   display:flex;
-  justify-content:flex-start;
+  justify-content:flex-end;
   align-items:center;
   direction:ltr;
-  text-align:left;
+  text-align:right;
   margin:0 0 10px 0;
 }
 .sec-export-top-left .sec-tool-btn{
@@ -420,13 +440,13 @@ body{
 }
 .sec-header-actions {
   display:flex;
-  justify-content:flex-start;
+  justify-content:flex-end;
   align-items:center;
   gap:6px;
   width:100%;
   margin:-16px 0 22px;
   direction:ltr;
-  text-align:left;
+  text-align:right;
 }
 .sec-tool-btn {
   display:inline-flex;
@@ -477,11 +497,11 @@ body{
 .all-questions-actions{
   width:100%;
   display:flex;
-  justify-content:flex-start;
+  justify-content:flex-end;
   align-items:center;
   margin:-10px 0 22px;
   direction:ltr;
-  text-align:left;
+  text-align:right;
 }
 .export-pdf-btn{
   background:linear-gradient(135deg,#fff7ed,#ffedd5);
@@ -497,12 +517,12 @@ body{
 .tcf-ecrit-actions{
   width:100%;
   display:flex;
-  justify-content:flex-start;
+  justify-content:flex-end;
   align-items:center;
   margin:-10px 0 22px;
   padding-left:0;
   direction:ltr;
-  text-align:left;
+  text-align:right;
 }
 .tag-now{background:var(--blue-light);color:var(--blue);border:1.5px solid #bfdbfe;}
 .tag-past{background:var(--red-light);color:var(--red-fr);border:1.5px solid #fca5a5;}
