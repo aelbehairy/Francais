@@ -281,7 +281,8 @@ body{
 /* ═══════════════ PANELS & MAIN ═══════════════ */
 .panel{display:none}
 .panel.active{display:block}
-#panel-oral{background:#f8fbff}
+#panel-oral,
+#panel-temps{background:#f8fbff}
 
 .lire-fieldset {
   margin-top:16px;
