@@ -892,6 +892,63 @@ function initSecHeaderControls(){
   });
 }
 
+function actionIcon(type){
+  var icons = {
+    collapse: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3v5H3"/><path d="M3 3l7 7"/><path d="M16 21v-5h5"/><path d="M21 21l-7-7"/></svg></span>',
+    expand: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M21 3l-7 7"/><path d="M9 21H3v-6"/><path d="M3 21l7-7"/></svg></span>',
+    export: '<span class="btn-icon pdf-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M8 14h1.8a1.4 1.4 0 0 0 0-2.8H8v5.6"/><path d="M12.8 11.2v5.6h1.1a2.8 2.8 0 0 0 0-5.6z"/><path d="M17.6 16.8v-5.6H21"/><path d="M17.6 14H20"/></svg></span>'
+  };
+  return icons[type] || '';
+}
+
+function escapeInlineArg(value){
+  return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+function makeControlAction(label, type, open, selector){
+  return '<button class="sec-tool-btn" type="button" onclick="setQCardsOpen(\''+escapeInlineArg(selector)+'\', '+open+', event)" aria-label="'+label+'">' +
+    actionIcon(type) +
+    '<strong>'+label+'</strong>' +
+  '</button>';
+}
+
+function makeExportAction(selector, title){
+  return '<button class="sec-tool-btn export-pdf-btn" type="button" onclick="exportSectionToPdf(\''+escapeInlineArg(selector)+'\', \''+escapeInlineArg(title)+'\', event)" aria-label="Export PDF">' +
+    actionIcon('export') +
+    '<strong>Export PDF</strong>' +
+  '</button>';
+}
+
+function initSecHeaderControls(){
+  document.querySelectorAll('.panel .sec').forEach(function(sec){
+    var header = sec.querySelector(':scope > .sec-header');
+    if(!header || !sec.id) return;
+    var selector = sec.id === 'o-devoirs'
+      ? '#marianne-devoirs .devoir-answer-panel:not([hidden]) .q-card'
+      : '#'+sec.id+' .q-card';
+    var exportSelector = '#'+sec.id;
+    var titleNode = header.querySelector('.sec-title');
+    var exportTitle = titleNode ? titleNode.textContent.trim() : sec.id;
+    var actions = sec.querySelector(':scope > .sec-header-actions');
+    var hasQCards = !!document.querySelector(selector);
+    if(!sec.querySelector(':scope > .sec-export-top-left')){
+      header.insertAdjacentHTML('beforebegin', '<div class="sec-export-top-left">'+makeExportAction(exportSelector, exportTitle)+'</div>');
+    }
+    if(actions){
+      actions.querySelectorAll(':scope > .export-pdf-btn').forEach(function(btn){
+        btn.remove();
+      });
+    }
+    if(!actions && hasQCards){
+      actions = document.createElement('div');
+      actions.className = 'sec-header-actions';
+      actions.innerHTML = makeControlAction('Collapse', 'collapse', false, selector) + makeControlAction('Expand', 'expand', true, selector);
+      header.insertAdjacentElement('afterend', actions);
+      return;
+    }
+  });
+}
+
 function updateDevoirAnswerPanels(){
   document.querySelectorAll('.devoir-answer-panel').forEach(function(panel){
     panel.hidden = panel.getAttribute('data-answer-mode') !== devoirAnswerMode;
@@ -1219,6 +1276,45 @@ function setQCardsOpen(selector, open, event){
   document.querySelectorAll(selector).forEach(function(card){
     card.classList.toggle('open', open);
   });
+}
+
+function exportSectionToPdf(selector, title, event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  var section = document.querySelector(selector);
+  if(!section) return;
+  var printable = section.cloneNode(true);
+  printable.querySelectorAll('.q-card').forEach(function(card){
+    card.classList.add('open');
+  });
+  printable.querySelectorAll('.card, .q-card, .article-card, .sec').forEach(function(el){
+    el.classList.add('visible-anim');
+  });
+  printable.querySelectorAll('.sec-export-top-left, .sec-header-actions, button, .q-arrow').forEach(function(el){
+    el.remove();
+  });
+  var printWindow = window.open('', '_blank');
+  if(!printWindow){
+    window.print();
+    return;
+  }
+  var styles = Array.prototype.map.call(document.querySelectorAll('link[rel="stylesheet"], style'), function(node){
+    return node.outerHTML;
+  }).join('\n');
+  printWindow.document.open();
+  printWindow.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title>'+styles+'<style>body{background:#fff!important;padding:24px!important}.sec,.card,.q-card,.article-card{display:block!important;opacity:1!important;transform:none!important}.q-body{display:block!important}.card,.q-card,.sec-header{box-shadow:none!important}.sec-header{padding:28px 32px!important}.q-card{margin-bottom:14px!important;break-inside:auto!important;page-break-inside:auto!important}.fr-text,.ar-text,.sec-header{break-inside:avoid;page-break-inside:avoid}.q-header{cursor:default!important}@page{size:A4;margin:12mm}</style></head><body>'+printable.outerHTML+'</body></html>');
+  printWindow.document.close();
+  printWindow.focus();
+  setTimeout(function(){
+    if(printWindow.document.body){
+      printWindow.document.body.querySelectorAll('.card, .q-card, .article-card, .sec').forEach(function(el){
+        el.classList.add('visible-anim');
+      });
+    }
+    printWindow.print();
+  }, 750);
 }
 
 // ── Card fade-in on scroll ──

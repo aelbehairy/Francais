@@ -261,6 +261,7 @@ body{
 /* ═══════════════ PANELS & MAIN ═══════════════ */
 .panel{display:none}
 .panel.active{display:block}
+#panel-oral{background:#f8fbff}
 
 .lire-fieldset {
   margin-top:16px;
@@ -368,7 +369,7 @@ body{
 .main {
   max-width:1380px;margin:0 auto;
   padding:44px 24px 80px;
-  background:transparent;
+  background:#f8fbff;
 }
 
 /* ═══════════════ SECTION ═══════════════ */
@@ -384,6 +385,18 @@ body{
   background:var(--white);border-radius:20px;padding:28px 32px;
   box-shadow:var(--shadow-md);
   border:1.5px solid #e8eaf0;
+}
+.sec-export-top-left{
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+  direction:ltr;
+  text-align:left;
+  margin:0 0 10px 0;
+}
+.sec-export-top-left .sec-tool-btn{
+  min-height:30px;
+  padding:5px 10px;
 }
 .sec-icon {
   width:56px;height:56px;border-radius:16px;
@@ -407,10 +420,13 @@ body{
 }
 .sec-header-actions {
   display:flex;
-  justify-content:flex-end;
+  justify-content:flex-start;
   align-items:center;
   gap:6px;
+  width:100%;
   margin:-16px 0 22px;
+  direction:ltr;
+  text-align:left;
 }
 .sec-tool-btn {
   display:inline-flex;
@@ -433,12 +449,50 @@ body{
   font-size:14px;
   line-height:1;
 }
+.sec-tool-btn .btn-icon{
+  width:16px;
+  height:16px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 16px;
+}
+.sec-tool-btn .btn-icon svg{
+  width:16px;
+  height:16px;
+  display:block;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
 .sec-tool-btn:hover,
 .sec-tool-btn:active {
   background:var(--blue);
   border-color:var(--blue);
   color:var(--white);
   transform:translateY(-1px);
+}
+.all-questions-actions{
+  width:100%;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+  margin:-10px 0 22px;
+  direction:ltr;
+  text-align:left;
+}
+.export-pdf-btn{
+  background:linear-gradient(135deg,#fff7ed,#ffedd5);
+  border-color:#fdba74;
+  color:var(--orange);
+}
+.export-pdf-btn:hover,
+.export-pdf-btn:active{
+  background:var(--orange);
+  border-color:var(--orange);
+  color:var(--white);
 }
 .tcf-ecrit-actions{
   width:100%;

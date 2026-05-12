@@ -2586,6 +2586,14 @@
         <div><div class="sec-icon" style="background:var(--gold-light)">📋</div><div class="sec-title">All <em>Questions</em></div><div class="sec-ar">كل أسئلة Oral — Mariane et Linda</div></div>
         <span class="usage-tag tag-oral">ORAL</span>
       </div>
+      <div class="sec-header-actions all-questions-actions">
+        <button class="sec-tool-btn" type="button" onclick="setQCardsOpen('#o-all-questions .q-card', false, event)" aria-label="Collapse">
+          <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3v5H3"/><path d="M3 3l7 7"/><path d="M16 21v-5h5"/><path d="M21 21l-7-7"/></svg></span><strong>Collapse</strong>
+        </button>
+        <button class="sec-tool-btn" type="button" onclick="setQCardsOpen('#o-all-questions .q-card', true, event)" aria-label="Expand">
+          <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M21 3l-7 7"/><path d="M9 21H3v-6"/><path d="M3 21l7-7"/></svg></span><strong>Expand</strong>
+        </button>
+      </div>
       <div class="q-card open">
         <div class="q-header" onclick="toggleQ(this)"><span class="q-num">01</span><div><div class="q-label">Question</div><div class="q-text">Parlez de votre routine quotidienne.</div></div><span class="q-arrow">▾</span></div>
         <div class="q-body">
@@ -2664,7 +2672,14 @@
 
       <div class="q-card open">
         <div class="q-header" onclick="toggleQ(this)"><span class="q-num">09</span><div><div class="q-label">Question</div><div class="q-text">Parlez des quatre saisons.</div></div><span class="q-arrow">▾</span></div>
-        <div class="q-body"><div class="fr-text"><div class="fr-line">Quand j'étais enfant, j'aimais beaucoup les quatre saisons.</div><div class="fr-line">En été, il faisait chaud et je jouais souvent à la plage avec mes amis. Un jour, je suis allé à la mer et j'ai nagé pendant des heures.</div><div class="fr-line">En hiver, il faisait froid et je restais à la maison avec ma famille. L'année dernière, il a neigé et j'ai fait un bonhomme de neige.</div><div class="fr-line">Au printemps, le temps était agréable et les fleurs poussaient partout. Un jour, j'ai visité un jardin magnifique avec mes amis.</div><div class="fr-line">En automne, les feuilles tombaient et le vent soufflait doucement. L'année dernière, j'ai pris beaucoup de photos des paysages.</div></div><div class="ar-text">عندما كنت صغيرًا، كنت أحب الفصول الأربعة كثيرًا. في الصيف كان الجو حارًا وكنت ألعب غالبًا على الشاطئ مع أصدقائي، وذات يوم ذهبت إلى البحر وسبحت لساعات. في الشتاء كان الجو باردًا وكنت أبقى في المنزل مع عائلتي، وفي العام الماضي تساقط الثلج وصنعت رجل ثلج. في الربيع كان الجو لطيفًا وكانت الزهور تنمو في كل مكان، وذات يوم زرت حديقة رائعة مع أصدقائي. في الخريف كانت الأوراق تتساقط والريح تهب بهدوء، وفي العام الماضي التقطت صورًا كثيرة للمناظر الطبيعية.</div></div>
+        <div class="q-body">
+          <span class="card-label">Answer 1</span>
+          <div class="fr-text"><div class="fr-line">Quand j'étais enfant, j'aimais beaucoup les quatre saisons.</div><div class="fr-line">En été, il faisait chaud et je jouais souvent à la plage avec mes amis. Un jour, je suis allé à la mer et j'ai nagé pendant des heures.</div><div class="fr-line">En hiver, il faisait froid et je restais à la maison avec ma famille. L'année dernière, il a neigé et j'ai fait un bonhomme de neige.</div><div class="fr-line">Au printemps, le temps était agréable et les fleurs poussaient partout. Un jour, j'ai visité un jardin magnifique avec mes amis.</div><div class="fr-line">En automne, les feuilles tombaient et le vent soufflait doucement. L'année dernière, j'ai pris beaucoup de photos des paysages.</div></div><div class="ar-text">عندما كنت صغيرًا، كنت أحب الفصول الأربعة كثيرًا. في الصيف كان الجو حارًا وكنت ألعب غالبًا على الشاطئ مع أصدقائي، وذات يوم ذهبت إلى البحر وسبحت لساعات. في الشتاء كان الجو باردًا وكنت أبقى في المنزل مع عائلتي، وفي العام الماضي تساقط الثلج وصنعت رجل ثلج. في الربيع كان الجو لطيفًا وكانت الزهور تنمو في كل مكان، وذات يوم زرت حديقة رائعة مع أصدقائي. في الخريف كانت الأوراق تتساقط والريح تهب بهدوء، وفي العام الماضي التقطت صورًا كثيرة للمناظر الطبيعية.</div>
+          <div class="oral-divider"></div>
+          <span class="card-label">Answer 2</span>
+          <div class="fr-text"><div class="fr-line">Tout d'abord, en été, il fait chaud et le soleil est présent.</div><div class="fr-line">C'est pour cela que j'aime voyager et passer du temps à la mer. Je peux nager et profiter de la plage.</div><div class="fr-line">Cette période est, pour moi, la plus agréable.</div><div class="fr-line">Ensuite, au printemps, le climat devient doux et confortable. Les fleurs apparaissent et la nature est magnifique.</div><div class="fr-line">De plus, les gens sortent davantage pour profiter du beau temps.</div><div class="fr-line">En revanche, en automne, la situation change. Les feuilles tombent et la température baisse.</div><div class="fr-line">À cause de cela, je reste souvent chez moi. Cette saison ne m'intéresse pas beaucoup.</div><div class="fr-line">Enfin, en hiver, il fait très froid et il neige parfois. Donc, je préfère rester à l'intérieur et éviter le froid.</div><div class="fr-line">Pour conclure, si j'avais le choix, je choisirais l'été, car j'apprécie le soleil et la mer.</div></div>
+          <div class="ar-text">أولًا، في الصيف يكون الجو حارًا والشمس موجودة. لذلك أحب السفر وقضاء الوقت على البحر، حيث أستطيع السباحة والاستمتاع بالشاطئ. هذه الفترة هي الأجمل بالنسبة لي. بعد ذلك، في الربيع يصبح المناخ معتدلًا ومريحًا، وتظهر الزهور وتكون الطبيعة رائعة. بالإضافة إلى ذلك، يخرج الناس أكثر للاستمتاع بالطقس الجميل. أما في الخريف، فالوضع يتغير؛ تتساقط الأوراق وتنخفض درجة الحرارة. لهذا أبقى غالبًا في المنزل، وهذا الفصل لا يهمني كثيرًا. أخيرًا، في الشتاء يكون الجو باردًا جدًا ويتساقط الثلج أحيانًا، لذلك أفضل البقاء في الداخل وتجنب البرد. في الختام، لو كان لدي الاختيار، لاخترت الصيف لأنني أحب الشمس والبحر.</div>
+        </div>
       </div>
     </section>
 
@@ -3008,6 +3023,20 @@
             <div class="fr-line">L'année dernière, j'ai pris beaucoup de photos des paysages.</div>
           </div>
           <div class="ar-text" style="background:var(--orange-light);border-color:#fdba74;border-right-color:var(--orange)">في الخريف كانت الأوراق تتساقط والريح تهب بهدوء. كنت أحب المشي في الشوارع الهادئة ومراقبة الطبيعة. في العام الماضي التقطت صوراً كثيرة للمناظر الطبيعية.</div>
+          <div class="oral-divider"></div>
+          <span class="card-label">Deuxième réponse</span>
+          <div class="fr-text" style="border-left-color:var(--red-fr)">
+            <div class="fr-line">Tout d'abord, en été, il fait chaud et le soleil est présent.</div>
+            <div class="fr-line">C'est pour cela que j'aime voyager et passer du temps à la mer. Je peux nager et profiter de la plage.</div>
+            <div class="fr-line">Cette période est, pour moi, la plus agréable.</div>
+            <div class="fr-line">Ensuite, au printemps, le climat devient doux et confortable. Les fleurs apparaissent et la nature est magnifique.</div>
+            <div class="fr-line">De plus, les gens sortent davantage pour profiter du beau temps.</div>
+            <div class="fr-line">En revanche, en automne, la situation change. Les feuilles tombent et la température baisse.</div>
+            <div class="fr-line">À cause de cela, je reste souvent chez moi. Cette saison ne m'intéresse pas beaucoup.</div>
+            <div class="fr-line">Enfin, en hiver, il fait très froid et il neige parfois. Donc, je préfère rester à l'intérieur et éviter le froid.</div>
+            <div class="fr-line">Pour conclure, si j'avais le choix, je choisirais l'été, car j'apprécie le soleil et la mer.</div>
+          </div>
+          <div class="ar-text">أولًا، في الصيف يكون الجو حارًا والشمس موجودة. لذلك أحب السفر وقضاء الوقت على البحر، حيث أستطيع السباحة والاستمتاع بالشاطئ. هذه الفترة هي الأجمل بالنسبة لي. بعد ذلك، في الربيع يصبح المناخ معتدلًا ومريحًا، وتظهر الزهور وتكون الطبيعة رائعة. بالإضافة إلى ذلك، يخرج الناس أكثر للاستمتاع بالطقس الجميل. أما في الخريف، فالوضع يتغير؛ تتساقط الأوراق وتنخفض درجة الحرارة. لهذا أبقى غالبًا في المنزل، وهذا الفصل لا يهمني كثيرًا. أخيرًا، في الشتاء يكون الجو باردًا جدًا ويتساقط الثلج أحيانًا، لذلك أفضل البقاء في الداخل وتجنب البرد. في الختام، لو كان لدي الاختيار، لاخترت الصيف لأنني أحب الشمس والبحر.</div>
         </div>
       </div>
     </section>
@@ -4099,10 +4128,10 @@
       </div>
       <div class="sec-header-actions tcf-ecrit-actions">
         <button class="sec-tool-btn" type="button" onclick="setQCardsOpen('#tcf-ecrit .q-card', false, event)" aria-label="Collapse">
-          <span>⤡</span><strong>Collapse</strong>
+          <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3v5H3"/><path d="M3 3l7 7"/><path d="M16 21v-5h5"/><path d="M21 21l-7-7"/></svg></span><strong>Collapse</strong>
         </button>
         <button class="sec-tool-btn" type="button" onclick="setQCardsOpen('#tcf-ecrit .q-card', true, event)" aria-label="Expand">
-          <span>⤢</span><strong>Expand</strong>
+          <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M21 3l-7 7"/><path d="M9 21H3v-6"/><path d="M3 21l7-7"/></svg></span><strong>Expand</strong>
         </button>
       </div>
       <div class="card tcf-consignes-card">
