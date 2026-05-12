@@ -960,6 +960,9 @@ function restoreRoute(){
   } else if(route.panel === 'phonetique'){
     switchTop('phonetique', topBtn);
     if(route.section) showPhon(route.section, document.querySelector("#pills-phonetique .pill[onclick*=\"'" + route.section + "'\"]"));
+  } else if(route.panel === 'tcf'){
+    switchTop('tcf', topBtn);
+    if(route.section) showTcf(route.section, document.querySelector("#pills-tcf .pill[onclick*=\"'" + route.section + "'\"]"));
   } else {
     switchTop(route.panel, topBtn);
   }
@@ -1176,9 +1179,9 @@ function showMariane(btn){
   var firstQuestion = document.querySelector('#pills-mariane .pill');
   document.querySelectorAll('#pills-mariane .pill').forEach(function(b){ b.classList.remove('active'); });
   if(firstQuestion) firstQuestion.classList.add('active');
-  var firstSec = document.getElementById('o-routine');
+  var firstSec = document.getElementById('o-all-questions');
   if(firstSec) firstSec.classList.add('visible');
-  updateRoute('oral', 'routine');
+  updateRoute('oral', 'all-questions');
   scrollToNav('panel-oral');
 }
 
@@ -1191,6 +1194,16 @@ function showPhon(id, btn){
   if(btn) btn.classList.add('active');
   updateRoute('phonetique', id);
   scrollToNav('panel-phonetique');
+}
+
+function showTcf(id, btn){
+  document.querySelectorAll('#panel-tcf .sec').forEach(function(s){ s.classList.remove('visible'); });
+  document.querySelectorAll('#pills-tcf .pill').forEach(function(b){ b.classList.remove('active'); });
+  var sec = document.getElementById('tcf-'+id);
+  if(sec) sec.classList.add('visible');
+  if(btn) btn.classList.add('active');
+  updateRoute('tcf', id);
+  scrollToNav('panel-tcf');
 }
 
 // ── Q-Card toggle ──

@@ -54,6 +54,9 @@
     <button class="top-tab" onclick="switchTop('vocabulary',this)">
       <span class="ti">🗂️</span> Vocabulary
     </button>
+    <button class="top-tab" onclick="switchTop('tcf',this)">
+      <span class="ti">📝</span> TCF
+    </button>
   </div>
 </div>
 
@@ -2564,6 +2567,7 @@
     <div class="card mariane-nav-card" id="mariane-question-nav" hidden>
       <span class="card-label">Mariane · Expression Orale</span>
       <div class="nav-pills mariane-pills nested-child-tabs" id="pills-mariane">
+        <button class="pill" onclick="showOral('all-questions',this)"><span class="pi">📋</span>All Questions</button>
         <button class="pill" onclick="showOral('routine',this)"><span class="pi">⏰</span>Q1 Routine</button>
         <button class="pill" onclick="showOral('presentation',this)"><span class="pi">👋</span>Q2 Présentation</button>
         <button class="pill" onclick="showOral('professions',this)"><span class="pi">💼</span>Q3 Professions</button>
@@ -2575,6 +2579,94 @@
         <button class="pill" onclick="showOral('saisons',this)"><span class="pi">🍂</span>Q9 Saisons</button>
       </div>
     </div>
+
+    <!-- ALL QUESTIONS -->
+    <section class="sec" id="o-all-questions">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:var(--gold-light)">📋</div><div class="sec-title">All <em>Questions</em></div><div class="sec-ar">كل أسئلة Oral — Mariane et Linda</div></div>
+        <span class="usage-tag tag-oral">ORAL</span>
+      </div>
+      <div class="q-card open">
+        <div class="q-header" onclick="toggleQ(this)"><span class="q-num">01</span><div><div class="q-label">Question</div><div class="q-text">Parlez de votre routine quotidienne.</div></div><span class="q-arrow">▾</span></div>
+        <div class="q-body">
+          <span class="card-label">Answer 1</span>
+          <div class="fr-text"><div class="fr-line">Le matin, je me lève à sept heures tous les jours.</div><div class="fr-line">Je vais à la salle de bain pour me laver le visage et je me brosse les dents.</div><div class="fr-line">Ensuite, je fais mon lit et je prends le petit déjeuner à la maison avec ma famille.</div><div class="fr-line">À huit heures exactement, je m'habille et je vais au travail en autobus.</div><div class="fr-line">À midi, je mange avec mes collègues, et le soir, je rentre à la maison, je lis un peu et je me couche.</div></div>
+          <div class="ar-text">أستيقظ الساعة السابعة كل يوم. أذهب إلى الحمام لأغسل وجهي وأفرش أسناني. بعد ذلك أرتب سريري وأتناول الفطور مع عائلتي. في الثامنة أرتدي ملابسي وأذهب للعمل بالحافلة. عند الظهر آكل مع زملائي، وفي المساء أعود إلى المنزل، أقرأ قليلًا ثم أنام.</div>
+          <div class="oral-divider"></div>
+          <span class="card-label">Answer 2 · C1</span>
+          <div class="fr-text"><div class="fr-line">En règle générale, je commence ma journée assez tôt, puisque je me lève vers sept heures chaque matin.</div><div class="fr-line">Dès mon réveil, je vais dans la salle de bain pour me rafraîchir, me laver le visage et me brosser les dents.</div><div class="fr-line">Ensuite, je fais mes ablutions et je fais ma prière du matin, car c'est pour moi un moment important de calme et de spiritualité qui me permet de bien commencer la journée.</div><div class="fr-line">Par ailleurs, je prends quelques minutes pour faire mon lit et me préparer tranquillement avant de prendre mon petit-déjeuner avec ma famille, ce qui représente un moment agréable et convivial pour moi.</div><div class="fr-line">Vers huit heures, je me rends à mon travail en autobus.</div><div class="fr-line">À midi, je déjeune souvent avec mes collègues, ce qui me permet d’échanger avec eux aussi bien sur le plan professionnel que personnel.</div><div class="fr-line">En fin de journée, après le travail, je rentre chez moi.</div><div class="fr-line">Selon mon niveau d’énergie, je prends parfois le temps de lire un peu ou simplement de me détendre avant d’aller me coucher afin d’être prêt pour le lendemain.</div></div>
+          <div class="ar-text">عادةً أبدأ يومي مبكرًا وأستيقظ حوالي السابعة. بعد الاستيقاظ أذهب إلى الحمام، ثم أتوضأ وأصلي صلاة الصباح لأنها لحظة هدوء وروحانية. بعد ذلك أرتب سريري وأستعد بهدوء، ثم أتناول الإفطار مع عائلتي. حوالي الثامنة أذهب إلى العمل بالحافلة. عند الظهر أتناول الغداء مع زملائي، وفي نهاية اليوم أعود إلى المنزل، وأقرأ قليلًا أو أسترخي قبل النوم.</div>
+        </div>
+      </div>
+
+      <div class="q-card open">
+        <div class="q-header" onclick="toggleQ(this)"><span class="q-num">02</span><div><div class="q-label">Question</div><div class="q-text">Présentez-vous.</div></div><span class="q-arrow">▾</span></div>
+        <div class="q-body">
+          <span class="card-label">Answer 1</span>
+          <div class="fr-text"><div class="fr-line">Je m'appelle Ahmed et j'ai 41 ans.</div><div class="fr-line">Je suis Égyptien, mais aujourd'hui j'habite en Arabie Saoudite à cause de mon travail.</div><div class="fr-line">Je suis professeur d'université et ma femme, Aya, est dentiste ; nous avons deux enfants.</div><div class="fr-line">Pendant mon temps libre, j'aime beaucoup le sport, comme le football, et je vais à la salle de sport.</div><div class="fr-line">J'étudie aussi le français pour améliorer mon niveau personnel et je me sens très motivé.</div></div>
+          <div class="ar-text">اسمي أحمد وعمري 41 سنة. أنا مصري، وأسكن اليوم في السعودية بسبب عملي. أعمل أستاذًا جامعيًا، وزوجتي آية طبيبة أسنان، ولدينا طفلان. في وقت الفراغ أحب الرياضة، خاصة كرة القدم، وأذهب إلى صالة الرياضة. أدرس الفرنسية أيضًا لتحسين مستواي الشخصي وأشعر بحماس كبير.</div>
+          <div class="oral-divider"></div>
+          <span class="card-label">Answer 2 · C1</span>
+          <div class="fr-text"><div class="fr-line">Je m'appelle Ahmed, j'ai quarante et un ans et je suis d'origine égyptienne.</div><div class="fr-line">Je suis né et j’ai grandi en Égypte ; cependant, aujourd’hui, mes responsabilités professionnelles m’amènent à travailler entre l’Arabie saoudite et les États-Unis.</div><div class="fr-line">En tant que professeur d’université spécialisé en intelligence artificielle, je suis particulièrement passionné par la technologie, l’innovation ainsi que la recherche scientifique.</div><div class="fr-line">Sur le plan familial, je suis marié à Aya, qui exerce la profession de dentiste.</div><div class="fr-line">Ensemble, nous avons deux enfants : notre fille aînée, Malk, âgée de deux ans, ainsi que notre fils Aly, le benjamin, âgé d’un an.</div><div class="fr-line">Bien que mon emploi du temps soit souvent très chargé, je veille toujours à préserver du temps pour ma famille, puisqu’elle représente pour moi une source essentielle de bonheur, de stabilité et de motivation.</div><div class="fr-line">J’ai malheureusement perdu mes parents, une expérience qui m’a appris à accorder davantage d’importance aux relations humaines ainsi qu’aux moments précieux partagés avec les personnes que j’aime.</div><div class="fr-line">Ainsi, pendant mon temps libre, je privilégie les moments passés avec ma famille.</div><div class="fr-line">Néanmoins, je suis également passionné par le football, qui me permet de me détendre et de maintenir un bon équilibre dans ma vie quotidienne.</div></div>
+          <div class="ar-text">اسمي أحمد، عمري 41 سنة وأنا من أصل مصري. وُلدت ونشأت في مصر، لكن مسؤولياتي المهنية تجعلني أعمل بين السعودية والولايات المتحدة. أنا أستاذ جامعي متخصص في الذكاء الاصطناعي ومهتم بالتكنولوجيا والابتكار والبحث العلمي. أنا متزوج من آية، وهي طبيبة أسنان، ولدينا طفلان: ملك عمرها سنتان وعلي عمره سنة. رغم انشغالي، أحرص على تخصيص وقت لعائلتي لأنها مصدر السعادة والاستقرار والدافع. فقدت والديّ، وهذا جعلني أقدّر العلاقات الإنسانية أكثر. في وقت الفراغ أحب قضاء الوقت مع عائلتي، كما أحب كرة القدم لأنها تساعدني على الاسترخاء.</div>
+        </div>
+      </div>
+
+      <div class="q-card open">
+        <div class="q-header" onclick="toggleQ(this)"><span class="q-num">03</span><div><div class="q-label">Question</div><div class="q-text">Parlez des professions de votre famille.</div></div><span class="q-arrow">▾</span></div>
+        <div class="q-body"><div class="fr-text"><div class="fr-line">Dans ma famille, les professions sont variées.</div><div class="fr-line">Par exemple, ma sœur cadette étudie la médecine à l'université pour devenir médecin.</div><div class="fr-line">J'ai aussi des frères qui travaillent dans d'autres domaines comme l'architecture ou l'ingénierie.</div><div class="fr-line">Certains préfèrent la technologie et travaillent comme informaticiens, tandis que d'autres sont employés dans le secteur bancaire.</div><div class="fr-line">Cette diversité professionnelle montre l'ambition de chaque membre de la famille pour réussir.</div></div><div class="ar-text">في عائلتي المهن متنوعة. أختي الصغرى تدرس الطب في الجامعة لتصبح طبيبة. لدي أيضًا إخوة يعملون في مجالات أخرى مثل العمارة أو الهندسة. بعضهم يفضل التكنولوجيا ويعمل في مجال المعلوماتية، وآخرون يعملون في القطاع البنكي. هذا التنوع المهني يوضح طموح كل فرد في العائلة للنجاح.</div></div>
+      </div>
+
+      <div class="q-card open">
+        <div class="q-header" onclick="toggleQ(this)"><span class="q-num">04</span><div><div class="q-label">Question</div><div class="q-text">Parlez de vos projets futurs.</div></div><span class="q-arrow">▾</span></div>
+        <div class="q-body">
+          <span class="card-label">Answer 1</span>
+          <div class="fr-text"><div class="fr-line">Je suis une personne très ambitieuse et je veux réussir tous mes projets.</div><div class="fr-line">Pour l'avenir, je compte préparer et discuter ma thèse de doctorat à l'Université de Montréal.</div><div class="fr-line">Mon rêve est de vivre au Canada avec ma famille car j'aime le calme et la vie organisée là-bas.</div><div class="fr-line">J'ai aussi l'intention de créer ma propre entreprise dans le domaine de l'intelligence artificielle.</div><div class="fr-line">Je pense suivre des formations pour atteindre mes objectifs professionnels et améliorer mes connaissances.</div></div>
+          <div class="ar-text">أنا شخص طموح جدًا وأريد النجاح في كل مشاريعي. في المستقبل أخطط لتحضير ومناقشة رسالة الدكتوراه في جامعة مونتريال. حلمي أن أعيش في كندا مع عائلتي لأنني أحب الهدوء والحياة المنظمة هناك. لدي أيضًا نية لإنشاء شركتي الخاصة في مجال الذكاء الاصطناعي. وأفكر في متابعة تدريبات لتحقيق أهدافي المهنية وتحسين معارفي.</div>
+          <div class="oral-divider"></div>
+          <span class="card-label">Answer 2 · C1</span>
+          <div class="fr-text"><div class="fr-line">Je suis une personne très ambitieuse et je souhaite réussir tous mes projets.</div><div class="fr-line">Pour l'avenir, je compte préparer et soutenir ma thèse de doctorat à l'Université de Montréal.</div><div class="fr-line">Mon rêve est de vivre au Canada avec ma famille, car j'apprécie le calme, la qualité de vie et l'organisation qui caractérisent ce pays.</div><div class="fr-line">J'aimerais également obtenir la citoyenneté canadienne afin de construire un avenir stable et durable pour ma famille.</div><div class="fr-line">Par ailleurs, j'ai l'intention de créer ma propre entreprise dans le domaine de l'intelligence artificielle, un secteur qui me passionne énormément.</div><div class="fr-line">Enfin, je pense suivre des formations spécialisées pour atteindre mes objectifs professionnels et enrichir davantage mes connaissances.</div></div>
+          <div class="ar-text">أنا شخص طموح جدًا وأرغب في النجاح في كل مشاريعي. في المستقبل أخطط لتحضير ومناقشة رسالة الدكتوراه في جامعة مونتريال. حلمي أن أعيش في كندا مع عائلتي لأنني أقدّر الهدوء وجودة الحياة والنظام في هذا البلد. أود أيضًا الحصول على الجنسية الكندية لبناء مستقبل مستقر لعائلتي. كما أنوي إنشاء شركتي الخاصة في مجال الذكاء الاصطناعي، وهو مجال أحبه كثيرًا. وأخيرًا أفكر في متابعة تدريبات متخصصة لتحقيق أهدافي المهنية وتوسيع معارفي.</div>
+        </div>
+      </div>
+
+      <div class="q-card open">
+        <div class="q-header" onclick="toggleQ(this)"><span class="q-num">05</span><div><div class="q-label">Question</div><div class="q-text">Décrivez un ami.</div></div><span class="q-arrow">▾</span></div>
+        <div class="q-body"><div class="fr-text"><div class="fr-line">Mon ami Paul est un homme jeune, grand et mince.</div><div class="fr-line">Il a les cheveux bruns et courts, et ses yeux sont marron.</div><div class="fr-line">Concernant ses qualités, c'est une personne honnête, gentille et sympathique.</div><div class="fr-line">Il est aussi patient, prudent et très travailleur dans ses projets.</div><div class="fr-line">Cependant, parfois il peut être trop silencieux, mais il reste un ami fidèle qui cherche toujours le succès.</div></div><div class="ar-text">صديقي بول رجل شاب، طويل ونحيف. شعره بني وقصير، وعيناه بنيتان. من حيث الصفات، هو شخص صادق ولطيف ومحبوب. كما أنه صبور وحذر ومجتهد جدًا في مشاريعه. أحيانًا يكون صامتًا جدًا، لكنه يبقى صديقًا وفيًا يسعى دائمًا إلى النجاح.</div></div>
+      </div>
+
+      <div class="q-card open">
+        <div class="q-header" onclick="toggleQ(this)"><span class="q-num">06</span><div><div class="q-label">Question</div><div class="q-text">Décrivez votre maison et votre quartier.</div></div><span class="q-arrow">▾</span></div>
+        <div class="q-body"><div class="fr-text"><div class="fr-line">Ma maison est grande et confortable. Il y a trois chambres, un salon, une cuisine et deux salles de bains.</div><div class="fr-line">Ma chambre est propre et calme. J'aime beaucoup le salon parce qu'il est lumineux et spacieux.</div><div class="fr-line">Dans la cuisine, ma famille prépare de bons repas, et il y a aussi un petit balcon avec une belle vue.</div></div><div class="ar-text">منزلي كبير ومريح. فيه ثلاث غرف وصالون ومطبخ وحمامان. غرفتي نظيفة وهادئة، وأحب الصالون لأنه مضيء وواسع. في المطبخ تحضّر عائلتي وجبات لذيذة، ويوجد أيضًا شرفة صغيرة بإطلالة جميلة.</div><div class="oral-divider"></div><div class="fr-text"><div class="fr-line">Mon quartier est tranquille et agréable. Il y a des magasins, une pharmacie, une boulangerie et un supermarché près de chez moi.</div><div class="fr-line">Parfois, je vais au parc pour marcher. Les voisins sont gentils et respectueux.</div></div><div class="ar-text">حيّي هادئ وممتع. توجد محلات وصيدلية ومخبز وسوبرماركت بالقرب من منزلي. أحيانًا أذهب إلى الحديقة للمشي. الجيران لطفاء ومحترمون.</div></div>
+      </div>
+
+      <div class="q-card open">
+        <div class="q-header" onclick="toggleQ(this)"><span class="q-num">07</span><div><div class="q-label">Question</div><div class="q-text">Parlez du centre commercial.</div></div><span class="q-arrow">▾</span></div>
+        <div class="q-body"><div class="fr-text"><div class="fr-line">Le centre commercial près de chez moi est grand et moderne.</div><div class="fr-line">Il y a beaucoup de magasins de vêtements, de chaussures et de téléphones.</div><div class="fr-line">Il y a aussi un supermarché, des cafés et des restaurants. Le centre est propre et bien organisé.</div><div class="fr-line">J'aime y aller le week-end avec ma famille. Parfois, j'achète des vêtements ou des cadeaux.</div><div class="fr-line">Grâce à ce centre commercial, nous passons un bon moment ensemble.</div></div><div class="ar-text">المركز التجاري القريب من منزلي كبير وحديث. توجد فيه محلات كثيرة للملابس والأحذية والهواتف. كما يوجد سوبرماركت ومقاهٍ ومطاعم. المركز نظيف ومنظم جيدًا. أحب الذهاب إليه في عطلة نهاية الأسبوع مع عائلتي، وأحيانًا أشتري ملابس أو هدايا. بفضل هذا المركز نقضي وقتًا جميلًا معًا.</div></div>
+      </div>
+
+      <div class="q-card open">
+        <div class="q-header" onclick="toggleQ(this)"><span class="q-num">08</span><div><div class="q-label">Questions</div><div class="q-text">Vacances — trois réponses</div></div><span class="q-arrow">▾</span></div>
+        <div class="q-body">
+          <span class="card-label all-question-prompt">8.1 Combien de jours ont duré vos vacances ?</span>
+          <div class="fr-text"><div class="fr-line">Mes vacances ont duré cinq jours, ce qui était relativement court, mais très enrichissant.</div><div class="fr-line">Au début, je pensais que ce n'était pas suffisant, cependant, j'ai réussi à bien profiter de mon temps.</div><div class="fr-line">Pendant cette période, le climat était agréable et je me sentais détendu.</div><div class="fr-line">Par conséquent, même si les vacances étaient brèves, elles ont été très bénéfiques pour moi.</div></div>
+          <div class="ar-text">استمرت إجازتي خمسة أيام، وكانت قصيرة نسبيًا لكنها مفيدة جدًا. في البداية ظننت أن الوقت غير كافٍ، لكنني استطعت الاستمتاع بوقتي. خلال هذه الفترة كان الجو لطيفًا وكنت أشعر بالراحة. لذلك، رغم أن الإجازة كانت قصيرة، كانت نافعة جدًا بالنسبة لي.</div>
+          <div class="oral-divider"></div>
+          <span class="card-label all-question-prompt">8.2 Qu'est-ce que vous avez fait ?</span>
+          <div class="fr-text"><div class="fr-line">Pendant mes vacances, j'ai fait plusieurs activités intéressantes.</div><div class="fr-line">Tout d'abord, je suis allé à la mer où j'ai nagé et j'ai profité du soleil.</div><div class="fr-line">Ensuite, je sortais souvent avec mes amis, et nous parlions pendant des heures dans un café.</div><div class="fr-line">De plus, je passais du temps avec ma famille, ce qui était très important pour moi.</div><div class="fr-line">Ainsi, ces activités m'ont permis de me détendre et de changer ma routine quotidienne.</div></div>
+          <div class="ar-text">خلال إجازتي قمت بعدة أنشطة ممتعة. أولًا ذهبت إلى البحر حيث سبحت واستمتعت بالشمس. بعد ذلك كنت أخرج كثيرًا مع أصدقائي ونتحدث لساعات في مقهى. كما قضيت وقتًا مع عائلتي، وهذا كان مهمًا جدًا بالنسبة لي. وهكذا ساعدتني هذه الأنشطة على الاسترخاء وتغيير روتيني اليومي.</div>
+          <div class="oral-divider"></div>
+          <span class="card-label all-question-prompt">8.3 Comment était votre séjour ?</span>
+          <div class="fr-text"><div class="fr-line">Mon séjour était globalement très agréable, même s'il y avait quelques moments de fatigue.</div><div class="fr-line">Le temps était parfait et l'ambiance était détendue, ce qui m'a permis de me reposer.</div><div class="fr-line">Un jour, j'ai découvert un nouvel endroit et j'ai vécu une expérience différente.</div><div class="fr-line">En revanche, à la fin du séjour, j'étais un peu triste parce que les vacances se terminaient.</div><div class="fr-line">Néanmoins, je garde de très bons souvenirs de cette période.</div></div>
+          <div class="ar-text">كانت إقامتي عمومًا ممتعة جدًا، رغم وجود بعض لحظات التعب. كان الطقس مثاليًا والأجواء مريحة، مما ساعدني على الراحة. في أحد الأيام اكتشفت مكانًا جديدًا وعشت تجربة مختلفة. لكن في نهاية الإقامة كنت حزينًا قليلًا لأن الإجازة انتهت. ومع ذلك أحتفظ بذكريات جميلة جدًا عن هذه الفترة.</div>
+        </div>
+      </div>
+
+      <div class="q-card open">
+        <div class="q-header" onclick="toggleQ(this)"><span class="q-num">09</span><div><div class="q-label">Question</div><div class="q-text">Parlez des quatre saisons.</div></div><span class="q-arrow">▾</span></div>
+        <div class="q-body"><div class="fr-text"><div class="fr-line">Quand j'étais enfant, j'aimais beaucoup les quatre saisons.</div><div class="fr-line">En été, il faisait chaud et je jouais souvent à la plage avec mes amis. Un jour, je suis allé à la mer et j'ai nagé pendant des heures.</div><div class="fr-line">En hiver, il faisait froid et je restais à la maison avec ma famille. L'année dernière, il a neigé et j'ai fait un bonhomme de neige.</div><div class="fr-line">Au printemps, le temps était agréable et les fleurs poussaient partout. Un jour, j'ai visité un jardin magnifique avec mes amis.</div><div class="fr-line">En automne, les feuilles tombaient et le vent soufflait doucement. L'année dernière, j'ai pris beaucoup de photos des paysages.</div></div><div class="ar-text">عندما كنت صغيرًا، كنت أحب الفصول الأربعة كثيرًا. في الصيف كان الجو حارًا وكنت ألعب غالبًا على الشاطئ مع أصدقائي، وذات يوم ذهبت إلى البحر وسبحت لساعات. في الشتاء كان الجو باردًا وكنت أبقى في المنزل مع عائلتي، وفي العام الماضي تساقط الثلج وصنعت رجل ثلج. في الربيع كان الجو لطيفًا وكانت الزهور تنمو في كل مكان، وذات يوم زرت حديقة رائعة مع أصدقائي. في الخريف كانت الأوراق تتساقط والريح تهب بهدوء، وفي العام الماضي التقطت صورًا كثيرة للمناظر الطبيعية.</div></div>
+      </div>
+    </section>
 
     <!-- Q1 -->
     <section class="sec" id="o-routine">
@@ -2609,13 +2701,14 @@
           <div class="fr-text">
             <div class="fr-line">En règle générale, je commence ma journée assez tôt, puisque je me lève vers sept heures chaque matin.</div>
             <div class="fr-line">Dès mon réveil, je vais dans la salle de bain pour me rafraîchir, me laver le visage et me brosser les dents.</div>
-            <div class="fr-line">Ensuite, je prends quelques minutes pour faire mon lit et me préparer tranquillement avant de prendre mon petit-déjeuner avec ma famille, ce qui représente un moment agréable pour moi.</div>
+            <div class="fr-line">Ensuite, je fais mes ablutions et je fais ma prière du matin, car c'est pour moi un moment important de calme et de spiritualité qui me permet de bien commencer la journée.</div>
+            <div class="fr-line">Par ailleurs, je prends quelques minutes pour faire mon lit et me préparer tranquillement avant de prendre mon petit-déjeuner avec ma famille, ce qui représente un moment agréable et convivial pour moi.</div>
             <div class="fr-line">Vers huit heures, je me rends à mon travail en autobus.</div>
             <div class="fr-line">À midi, je déjeune souvent avec mes collègues, ce qui me permet d’échanger avec eux aussi bien sur le plan professionnel que personnel.</div>
             <div class="fr-line">En fin de journée, après le travail, je rentre chez moi.</div>
             <div class="fr-line">Selon mon niveau d’énergie, je prends parfois le temps de lire un peu ou simplement de me détendre avant d’aller me coucher afin d’être prêt pour le lendemain.</div>
           </div>
-          <div class="ar-text">عادةً أبدأ يومي مبكرًا، إذ أستيقظ حوالي السابعة صباحًا. أذهب إلى الحمام لأنتعش وأغسل وجهي وأفرش أسناني جيدًا. بعد ذلك أرتب سريري وأستعد بهدوء قبل أن أفطر مع عائلتي، وهذا يمثل لحظة ممتعة بالنسبة لي. حوالي الساعة الثامنة، أذهب إلى عملي بالحافلة. عند الظهر، غالبًا ما أتناول الغداء مع زملائي، مما يتيح لي التحدث معهم على الصعيدين المهني والشخصي. في نهاية اليوم، بعد العمل، أعود إلى المنزل. بناءً على مستوى طاقتي، أخصص أحيانًا وقتًا للقراءة قليلًا أو ببساطة للاسترخاء قبل أن أذهب إلى النوم لكي أكون مستعدًا ليوم الغد.</div>
+          <div class="ar-text">عادةً أبدأ يومي مبكرًا، إذ أستيقظ حوالي السابعة صباحًا. أذهب إلى الحمام لأنتعش وأغسل وجهي وأفرش أسناني. بعد ذلك أتوضأ وأؤدي صلاة الصباح، لأن هذا يمثل بالنسبة لي لحظة مهمة من الهدوء والروحانية تساعدني على بدء اليوم بشكل جيد. بالإضافة إلى ذلك، أخصص بضع دقائق لترتيب سريري والاستعداد بهدوء قبل أن أتناول الإفطار مع عائلتي، وهذا يمثل لحظة لطيفة وودّية بالنسبة لي. حوالي الساعة الثامنة، أذهب إلى عملي بالحافلة. عند الظهر، غالبًا ما أتناول الغداء مع زملائي، مما يتيح لي التحدث معهم على الصعيدين المهني والشخصي. في نهاية اليوم، بعد العمل، أعود إلى المنزل. بناءً على مستوى طاقتي، أخصص أحيانًا وقتًا للقراءة قليلًا أو ببساطة للاسترخاء قبل أن أذهب إلى النوم لكي أكون مستعدًا ليوم الغد.</div>
         </div>
       </div>
     </section>
@@ -3979,8 +4072,142 @@
   </main>
 </div><!-- end panel-vocabulary -->
 
+<!-- ════ TCF PANEL ════ -->
+<div id="panel-tcf" class="panel">
+  <nav class="nav-wrap">
+    <div class="nav-pills first-child-tabs" id="pills-tcf">
+      <button class="pill active" onclick="showTcf('ecrit',this)"><span class="pi">✍️</span>Écrit</button>
+      <button class="pill" onclick="showTcf('invitation',this)"><span class="pi">💌</span>Invitation</button>
+      <button class="pill" onclick="showTcf('vocabulary',this)"><span class="pi">📚</span>Vocabulary</button>
+    </div>
+  </nav>
+  <main class="main">
+    <section class="sec visible" id="tcf-ecrit">
+      <div class="card mariane-nav-card visible-anim">
+        <span class="card-label">Sous-onglets</span>
+        <div class="nav-pills nested-child-tabs" style="justify-content:flex-start;margin-top:10px">
+          <button class="pill active" type="button"><span class="pi">1</span>Écrit 1</button>
+        </div>
+      </div>
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:var(--blue-light)">✍️</div>
+          <div class="sec-title">TCF <em>Écrit</em></div>
+          <div class="sec-ar">Tâche 1 écrit — sujets et exemples</div>
+        </div>
+        <span class="usage-tag tag-now">TCF</span>
+      </div>
+      <div class="sec-header-actions tcf-ecrit-actions">
+        <button class="sec-tool-btn" type="button" onclick="setQCardsOpen('#tcf-ecrit .q-card', false, event)" aria-label="Collapse">
+          <span>⤡</span><strong>Collapse</strong>
+        </button>
+        <button class="sec-tool-btn" type="button" onclick="setQCardsOpen('#tcf-ecrit .q-card', true, event)" aria-label="Expand">
+          <span>⤢</span><strong>Expand</strong>
+        </button>
+      </div>
+      <div class="card tcf-consignes-card">
+        <span class="card-label">Consignes — Copy of Exercice.pdf</span>
+        <div class="grid-2 tcf-consignes-grid">
+          <div class="ex-row"><span class="ex-fr">Sujet 1 : Votre ami Mehdi vient de déménager dans votre ville et cherche des renseignements sur les moyens de transports. Écrivez un message en lui donnant les informations nécessaires.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 2 : Votre ami Cédric vient à votre mariage au Château de Chambon et ne connaît pas ce château. Décrivez le lieu, la localisation et les transports.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 3 : Vous allez bientôt déménager. Écrivez à votre ami(e) pour demander son aide avec la date, le lieu et les transports.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 4 : Invitez vos amis à célébrer votre anniversaire tout en sollicitant leur soutien pour organiser la fête.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 5 : Un événement sportif aura lieu dans votre ville. Invitez vos amis avec la date, le lieu et l'inscription.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 6 : Vous voulez partir en week-end avec vos amis. Décrivez le projet : lieu, transport, activités.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 7 : Vous avez déménagé dans une nouvelle ville. Écrivez à Léo pour décrire votre appartement, le quartier, la ville et les activités découvertes.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 8 : Pour votre anniversaire, vos amis demandent quels cadeaux vous souhaitez. Décrivez les vêtements que vous aimeriez recevoir.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 9 : Répondez à une annonce pour pratiquer le français. Présentez-vous et expliquez pourquoi vous voulez pratiquer cette langue.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 10 : Répondez à Camille qui veut faire du sport avec vous. Décrivez votre activité sportive : lieu, durée, prix.</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-label">Exemples de réponses</span>
+        <div class="q-card tcf-sujet-card open"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">1</span><div><div class="q-label">Transport</div><div class="q-text">Votre ami Mehdi vient de déménager dans votre ville et cherche des renseignements sur les moyens de transports. Écrivez un message en lui donnant les informations nécessaires.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Mehdi,</div><div class="fr-line">Bienvenue dans la ville ! Pour tes déplacements, tu as plusieurs options : le métro, les bus et les tramways. Il existe des abonnements mensuels à environ 70 €, mais si tu ne te déplaces pas souvent, tu peux acheter des tickets à l'unité ou en carnet. Les transports fonctionnent de 5 h à minuit, et certaines lignes de bus circulent la nuit. Si tu préfères le vélo, il y a aussi un service de location. Fais-moi signe si tu veux qu'on explore la ville ensemble !</div><div class="fr-line">À bientôt !</div></div></div></div>
+        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">2</span><div><div class="q-label">Lieu</div><div class="q-text">Vous avez invité votre ami Cédric à votre mariage au Château de Chambon et il vous a répondu qu'il ne connaît pas ce château. Décrivez à votre ami le lieu, la localisation et les transports.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Cédric,</div><div class="fr-line">Je suis ravi que tu viennes à mon mariage ! Le Château de Chambon est un lieu magnifique, situé à environ 30 km de la ville, en pleine nature. Tu peux y aller en voiture ou en train jusqu'à la gare la plus proche, puis prendre un taxi. Le château date du XVIIe siècle et offre une vue splendide. Je suis sûr que tu vas adorer ! Dis-moi si tu as besoin d'aide pour l'organisation du trajet.</div><div class="fr-line">À très vite !</div></div></div></div>
+        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">3</span><div><div class="q-label">Déménagement</div><div class="q-text">Vous allez bientôt déménager. Écrivez un message à votre ami(e) pour demander son aide en fournissant les informations : date, lieu, transports.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Coucou,</div><div class="fr-line">J'espère que tu vas bien ! Je voulais te demander un coup de main pour mon déménagement. Je quitte mon appartement le 15 du mois prochain et j'aurais besoin d'aide pour transporter mes affaires. J'ai loué un camion et tout sera prêt dès 9 h du matin. Il y aura aussi quelques amis, et bien sûr, je prévois de quoi manger et boire pour nous motiver ! Fais-moi signe si tu es disponible.</div><div class="fr-line">Merci d'avance !</div></div></div></div>
+        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">4</span><div><div class="q-label">Anniversaire</div><div class="q-text">Invitez vos amis à célébrer votre anniversaire tout en sollicitant leur soutien pour organiser la fête.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut tout le monde,</div><div class="fr-line">Mon anniversaire approche et j'aimerais le fêter avec vous ! Je vous invite le samedi 20 à la maison pour une super soirée. Pour que tout soit parfait, j'aurais besoin d'un peu d'aide pour la déco et le repas. Si quelqu'un peut apporter des boissons ou un dessert, ce serait génial ! Confirmez-moi votre présence et dites-moi si vous pouvez donner un coup de main.</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
+        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">5</span><div><div class="q-label">Sport</div><div class="q-text">Un événement sportif aura lieu dans votre ville bientôt. Faites parvenir un message à vos amis pour les inviter : date, lieu, inscription.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Hey les amis,</div><div class="fr-line">Un grand événement sportif aura lieu dans notre ville le 15 du mois prochain ! Il y aura des courses, des tournois de foot et même des défis de fitness. L'inscription est gratuite, mais il faut la faire avant le 10. Ça pourrait être super sympa de participer ensemble ! Dites-moi si ça vous tente et on pourra s'organiser.</div><div class="fr-line">À bientôt !</div></div></div></div>
+        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">6</span><div><div class="q-label">Week-end</div><div class="q-text">Vous voulez partir en week-end avec vos amis le mois prochain. Vous leur écrivez un message pour décrire votre projet : lieu, transport, activités.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Coucou tout le monde,</div><div class="fr-line">J'aimerais organiser un week-end entre amis le mois prochain ! Je pense à une petite escapade à la montagne pour profiter de la nature, faire des randonnées et se détendre. On pourrait partir en voiture ou en train selon le nombre de participants. Dites-moi si vous êtes partants et quelles dates vous conviendraient !</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
+        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">7</span><div><div class="q-label">Nouvelle ville</div><div class="q-text">Vous avez déménagé dans une nouvelle ville il y a un mois. Rédigez un courriel à votre ami Léo pour lui donner de vos nouvelles : appartement, quartier, ville et activités découvertes.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Léo,</div><div class="fr-line">Ça fait un mois que j'ai déménagé et je voulais te donner des nouvelles ! Mon appartement est sympa, avec une belle vue sur un parc. Le quartier est dynamique, avec plein de petits cafés et magasins. La ville est agréable, et j'ai déjà découvert quelques activités : il y a un club de sport sympa et un marché local tous les week-ends. J'espère que tout va bien de ton côté !</div><div class="fr-line">À bientôt !</div></div></div></div>
+        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">8</span><div><div class="q-label">Cadeaux</div><div class="q-text">Vous allez fêter votre anniversaire. Vos amis vous demandent ce que vous souhaitez comme cadeaux. Vous voulez des vêtements, vous leur écrivez un message pour décrire les vêtements que vous aimeriez recevoir.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut les amis,</div><div class="fr-line">Merci de penser à mon anniversaire ! Si vous voulez me faire plaisir, j'aimerais bien recevoir des vêtements. J'adore les pulls en laine et les chemises élégantes, surtout en bleu ou en gris. Sinon, un joli t-shirt ou une écharpe me ferait aussi plaisir ! Peu importe, l'important est de passer un bon moment ensemble.</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
+        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">9</span><div><div class="q-label">Français</div><div class="q-text">Vous avez lu une annonce qui propose d'aider les personnes qui souhaitent apprendre le français et pratiquer avec d'autres personnes. Envoyez un email pour répondre à cette annonce en vous présentant et en expliquant pourquoi vous voulez pratiquer cette langue.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Objet : Demande de participation au programme d'apprentissage du français</div><div class="fr-line">Bonjour,</div><div class="fr-line">Je suis très intéressé(e) par votre programme d'aide aux personnes qui souhaitent pratiquer le français. J'apprends cette langue depuis un moment et j'aimerais améliorer mon niveau en échangeant avec des locuteurs natifs. Je serais ravi(e) de discuter et d'échanger sur différents sujets pour progresser. Pouvez-vous m'indiquer comment rejoindre votre programme ?</div><div class="fr-line">Merci d'avance pour votre réponse !</div><div class="fr-line">Cordialement, Sara</div></div></div></div>
+        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">10</span><div><div class="q-label">Fitness</div><div class="q-text">Camille sait que vous faites du sport depuis le mois dernier et veut venir avec vous. Répondez à votre ami Camille en décrivant votre activité sportive et en donnant des informations utiles : lieu, durée, prix.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Camille,</div><div class="fr-line">Je suis super content(e) que ça t'intéresse ! Je fais du fitness dans une salle près du centre-ville. Les séances durent une heure et coûtent 30 € par mois. Il y a aussi des cours collectifs, c'est motivant ! Si tu veux essayer, viens avec moi la semaine prochaine, je te montrerai tout.</div><div class="fr-line">À bientôt !</div></div></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="tcf-invitation">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:var(--red-light)">💌</div>
+          <div class="sec-title">TCF <em>Invitation</em></div>
+          <div class="sec-ar">Message d'invitation — modèle et exercices</div>
+        </div>
+        <span class="usage-tag tag-past">INVITATION</span>
+      </div>
+      <div class="card tcf-invitation-card">
+        <div class="tcf-doc">
+          <div class="tcf-consigne">
+            <div><span class="tcf-blue-square"></span><strong>Consigne :</strong></div>
+            <div>Tu vas bientôt te marier et tu souhaites inviter tes amis à la fête.</div>
+            <div>Écris un <strong><u>message d'invitation</u></strong> à envoyer à tes amis.</div>
+            <div><strong>👉 Ton message doit faire environ 120 mots.</strong></div>
+          </div>
+
+          <div class="tcf-invitation-model">
+            <p class="tcf-green">Chers amis,</p>
+            <p class="tcf-green">C'est avec une immense joie que nous vous invitons à célébrer notre mariage <strong>le samedi 10 août, à partir de 17h, à la salle Émeraude, à Montréal</strong>.</p>
+            <p class="tcf-blue">Après la cérémonie, une grande fête est prévue avec un dîner, de la musique et plein de surprises !</p>
+            <p class="tcf-orange">Votre présence rendra ce moment encore plus spécial pour nous.</p>
+            <p class="tcf-orange">Venez partager notre bonheur, danser, rire et créer de merveilleux souvenirs ensemble.</p>
+            <p class="tcf-pink">Merci de confirmer votre présence avant le 25 juillet.</p>
+            <p class="tcf-pink">On a hâte de vous retrouver pour cette journée unique et inoubliable</p>
+            <p class="tcf-pink">À très bientôt !</p>
+          </div>
+
+          <table class="tcf-analysis-table">
+            <tr><td><span class="tcf-sq green"></span><strong>Introduction</strong></td><td>« Chers amis, ... »</td><td>Annonce de l'événement et date</td></tr>
+            <tr><td><span class="tcf-sq blue"></span><strong>Détails pratiques</strong></td><td>« Samedi 10 août... salle Émeraude... »</td><td>Lieu, heure, activités</td></tr>
+            <tr><td><span class="tcf-sq orange"></span><strong>Moment attendu</strong></td><td>« Votre présence rendra ce moment... »</td><td>Émotion, lien avec les invités</td></tr>
+            <tr><td><span class="tcf-sq red"></span><strong>Invitation chaleureuse</strong></td><td>« Venez partager notre bonheur... »</td><td>Ton amical, invitation claire</td></tr>
+            <tr><td><span class="tcf-sq purple"></span><strong>Conclusion</strong></td><td>« Merci de confirmer... À très bientôt ! »</td><td>Demande de réponse + message positif de fin</td></tr>
+          </table>
+        </div>
+
+        <div class="tcf-exercices">
+          <div class="tcf-exercice-block">
+            <strong>Exercice <u>1</u> :</strong>
+            <p><u>tu</u> souhaites inviter tes amis à la fête de ton <strong>anniversaire</strong><br>Écris un <strong><u>message d'invitation</u></strong> à envoyer à tes amis.<br><strong>👉 Ton message doit faire environ 120 mots.</strong></p>
+          </div>
+          <div class="tcf-exercice-block">
+            <strong>Exercice 2 :</strong>
+            <p><u>tu</u> souhaites inviter tes amis à <strong>un week-end sportif</strong> que tu vas organiser.<br>Écris un <strong><u>message d'invitation</u></strong> à envoyer à tes amis.<br><strong>👉 Ton message doit faire environ 120 mots.</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="tcf-vocabulary">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:var(--green-light)">📚</div>
+          <div class="sec-title">TCF <em>Vocabulary</em></div>
+          <div class="sec-ar">Vocabulaire tâche 1 EE</div>
+        </div>
+        <span class="usage-tag tag-fut">VOCAB</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Copy of vocab tache 1 EE.pdf</span>
+        <div class="note" style="margin-bottom:14px">هذا الملف PDF مصور، لذلك تم إدراجه داخل الصفحة كمرجع مرئي كامل.</div>
+        <object data="assets/tcf/vocab-tache-1-ee.pdf" type="application/pdf" style="width:100%;height:760px;border:1.5px solid #e8eaf0;border-radius:14px;background:white">
+          <div class="note">إذا لم يظهر ملف PDF في المتصفح، افتحه من هنا: <a href="assets/tcf/vocab-tache-1-ee.pdf">vocab-tache-1-ee.pdf</a></div>
+        </object>
+      </div>
+    </section>
+  </main>
+</div><!-- end panel-tcf -->
+
 <footer class="footer">
-  <p><strong>Grammaire &amp; Temps &amp; Expression Orale &amp; Phonétique &amp; Vocabulary</strong></p>
+  <p><strong>Grammaire &amp; Temps &amp; Expression Orale &amp; Phonétique &amp; Vocabulary &amp; TCF</strong></p>
   <p style="margin-top:8px;font-size:13px">مرجع تعليمي شامل · Bonne chance ! 🇫🇷</p>
 </footer>
 
@@ -4026,6 +4253,9 @@
     </button>
     <button class="sidebar-link" type="button" data-sidebar-target="vocabulary" onclick="switchTop('vocabulary',document.querySelector('.top-tab[onclick*=vocabulary]'))">
       <span class="sidebar-icon">🗂️</span><span class="sidebar-text">Vocabulary</span>
+    </button>
+    <button class="sidebar-link" type="button" data-sidebar-target="tcf" onclick="switchTop('tcf',document.querySelector('.top-tab[onclick*=tcf]'))">
+      <span class="sidebar-icon">📝</span><span class="sidebar-text">TCF</span>
     </button>
   </nav>
   <nav class="sidebar-section sidebar-resources" aria-label="Liens utiles">
