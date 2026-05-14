@@ -4106,6 +4106,7 @@
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs" id="pills-tcf">
       <button class="pill active" onclick="showTcf('ecrit',this)"><span class="pi">✍️</span>Écrit</button>
+      <button class="pill" onclick="showTcf('oral',this)"><span class="pi">🎤</span>Oral</button>
       <button class="pill" onclick="showTcf('invitation',this)"><span class="pi">💌</span>Invitation</button>
       <button class="pill" onclick="showTcf('vocabulary',this)"><span class="pi">📚</span>Vocabulary</button>
     </div>
@@ -4161,6 +4162,96 @@
         <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">8</span><div><div class="q-label">Cadeaux</div><div class="q-text">Vous allez fêter votre anniversaire. Vos amis vous demandent ce que vous souhaitez comme cadeaux. Vous voulez des vêtements, vous leur écrivez un message pour décrire les vêtements que vous aimeriez recevoir.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut les amis,</div><div class="fr-line">Merci de penser à mon anniversaire ! Si vous voulez me faire plaisir, j'aimerais bien recevoir des vêtements. J'adore les pulls en laine et les chemises élégantes, surtout en bleu ou en gris. Sinon, un joli t-shirt ou une écharpe me ferait aussi plaisir ! Peu importe, l'important est de passer un bon moment ensemble.</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
         <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">9</span><div><div class="q-label">Français</div><div class="q-text">Vous avez lu une annonce qui propose d'aider les personnes qui souhaitent apprendre le français et pratiquer avec d'autres personnes. Envoyez un email pour répondre à cette annonce en vous présentant et en expliquant pourquoi vous voulez pratiquer cette langue.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Objet : Demande de participation au programme d'apprentissage du français</div><div class="fr-line">Bonjour,</div><div class="fr-line">Je suis très intéressé(e) par votre programme d'aide aux personnes qui souhaitent pratiquer le français. J'apprends cette langue depuis un moment et j'aimerais améliorer mon niveau en échangeant avec des locuteurs natifs. Je serais ravi(e) de discuter et d'échanger sur différents sujets pour progresser. Pouvez-vous m'indiquer comment rejoindre votre programme ?</div><div class="fr-line">Merci d'avance pour votre réponse !</div><div class="fr-line">Cordialement, Sara</div></div></div></div>
         <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">10</span><div><div class="q-label">Fitness</div><div class="q-text">Camille sait que vous faites du sport depuis le mois dernier et veut venir avec vous. Répondez à votre ami Camille en décrivant votre activité sportive et en donnant des informations utiles : lieu, durée, prix.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Camille,</div><div class="fr-line">Je suis super content(e) que ça t'intéresse ! Je fais du fitness dans une salle près du centre-ville. Les séances durent une heure et coûtent 30 € par mois. Il y a aussi des cours collectifs, c'est motivant ! Si tu veux essayer, viens avec moi la semaine prochaine, je te montrerai tout.</div><div class="fr-line">À bientôt !</div></div></div></div>
+      </div>
+    </section>
+
+    <section class="sec" id="tcf-oral">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:var(--teal-light)">🎤</div>
+          <div class="sec-title">TCF <em>Oral</em></div>
+          <div class="sec-ar">Task 1 — Entretien dirigé: réponses simples, naturelles et fortes</div>
+        </div>
+        <span class="usage-tag tag-oral">ORAL</span>
+      </div>
+      <div class="sec-header-actions tcf-ecrit-actions">
+        <button class="sec-tool-btn" type="button" onclick="setQCardsOpen('#tcf-oral .q-card', false, event)" aria-label="Collapse">
+          <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3v5H3"/><path d="M3 3l7 7"/><path d="M16 21v-5h5"/><path d="M21 21l-7-7"/></svg></span><strong>Collapse</strong>
+        </button>
+        <button class="sec-tool-btn" type="button" onclick="setQCardsOpen('#tcf-oral .q-card', true, event)" aria-label="Expand">
+          <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M21 3l-7 7"/><path d="M9 21H3v-6"/><path d="M3 21l7-7"/></svg></span><strong>Expand</strong>
+        </button>
+      </div>
+
+      <div class="card tcf-oral-guide">
+        <span class="card-label">Template الذهبي لأي سؤال</span>
+        <div class="formula rule-important">Réponse + détail + opinion / reason</div>
+        <div class="fr-text">
+          <div class="fr-line">Oui, j'aime voyager.</div>
+          <div class="fr-line">Cela me permet de découvrir de nouvelles cultures.</div>
+          <div class="fr-line">Personnellement, je trouve que voyager est très enrichissant.</div>
+        </div>
+        <div class="note" style="direction:rtl;text-align:right">احفظ Patterns مش مقالات: جواب قصير، تفصيل واحد، ورأي أو سبب.</div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">Questions & réponses — Task 1</span>
+        <div class="q-card tcf-oral-card open"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">01</span><div><div class="q-label">Question</div><div class="q-text">Présentez-vous.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Bonjour, je m'appelle Ahmed.</div><div class="fr-line">J'ai quarante et un ans et je suis égyptien.</div><div class="fr-line">J'habite actuellement en Arabie saoudite avec ma famille.</div><div class="fr-line">Je travaille dans le domaine informatique comme ingénieur logiciel.</div><div class="fr-line">En ce moment, j'apprends le français pour mes projets futurs.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">02</span><div><div class="q-label">Question</div><div class="q-text">Quel âge avez-vous ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">J'ai quarante et un ans.</div><div class="fr-line">Je pense que c'est un bon âge, parce que j'ai de l'expérience professionnelle, mais aussi de nouveaux objectifs.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">03</span><div><div class="q-label">Question</div><div class="q-text">D'où venez-vous ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Je viens d'Égypte.</div><div class="fr-line">C'est un pays avec une histoire très riche et une culture très intéressante.</div><div class="fr-line">Je suis toujours fier de mon pays.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">04</span><div><div class="q-label">Question</div><div class="q-text">Où habitez-vous ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">J'habite actuellement à Djeddah, en Arabie saoudite.</div><div class="fr-line">C'est une grande ville moderne près de la mer Rouge.</div><div class="fr-line">J'aime cette ville parce qu'elle est agréable pour la famille.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">05</span><div><div class="q-label">Question</div><div class="q-text">Que faites-vous dans la vie ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Je travaille comme ingénieur logiciel.</div><div class="fr-line">Je développe des applications et je résous des problèmes techniques.</div><div class="fr-line">J'aime mon travail parce qu'il est intéressant et dynamique.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">06</span><div><div class="q-label">Question</div><div class="q-text">Parlez-moi de votre travail.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Je travaille dans l'informatique.</div><div class="fr-line">Mon travail demande de la concentration et de la logique.</div><div class="fr-line">Chaque jour, j'apprends de nouvelles choses.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">07</span><div><div class="q-label">Question</div><div class="q-text">Pourquoi apprenez-vous le français ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">J'apprends le français pour plusieurs raisons.</div><div class="fr-line">D'abord, j'en ai besoin pour mes projets futurs.</div><div class="fr-line">Ensuite, c'est une langue importante au Canada.</div><div class="fr-line">Et aussi, j'aime apprendre de nouvelles langues.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">08</span><div><div class="q-label">Question</div><div class="q-text">Depuis quand apprenez-vous le français ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">J'apprends le français depuis quelque temps.</div><div class="fr-line">Au début, c'était difficile.</div><div class="fr-line">Mais maintenant, je progresse petit à petit.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">09</span><div><div class="q-label">Question</div><div class="q-text">Comment apprenez-vous le français ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">J'apprends le français en écoutant des dialogues, en lisant et en pratiquant l'oral.</div><div class="fr-line">J'essaie aussi d'apprendre du vocabulaire chaque jour.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">10</span><div><div class="q-label">Question</div><div class="q-text">Êtes-vous marié ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Oui, je suis marié.</div><div class="fr-line">La vie de famille est très importante pour moi.</div><div class="fr-line">Elle me donne de la motivation et de l'équilibre.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">11</span><div><div class="q-label">Question</div><div class="q-text">Avez-vous des enfants ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Oui, j'ai des enfants.</div><div class="fr-line">Ils sont encore jeunes.</div><div class="fr-line">J'aime passer du temps avec eux et m'occuper d'eux.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">12</span><div><div class="q-label">Question</div><div class="q-text">Parlez-moi de votre famille.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Ma famille est très importante pour moi.</div><div class="fr-line">Je suis marié et j'ai des enfants.</div><div class="fr-line">J'essaie toujours de passer du temps avec eux malgré mon travail.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">13</span><div><div class="q-label">Question</div><div class="q-text">Décrivez votre journée habituelle.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">En général, je me lève tôt.</div><div class="fr-line">Je me prépare et je vais au travail.</div><div class="fr-line">Après le travail, je rentre chez moi pour passer du temps avec ma famille.</div><div class="fr-line">Si j'ai du temps, j'étudie un peu le français.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">14</span><div><div class="q-label">Question</div><div class="q-text">Que faites-vous le week-end ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Le week-end, je me repose avec ma famille.</div><div class="fr-line">Parfois, nous sortons pour dîner ou faire des courses.</div><div class="fr-line">Si j'ai du temps, je révise aussi le français.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">15</span><div><div class="q-label">Question</div><div class="q-text">Quels sont vos loisirs ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Pendant mon temps libre, j'aime apprendre de nouvelles choses.</div><div class="fr-line">J'aime la technologie, les vidéos éducatives et parfois écouter du français.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">16</span><div><div class="q-label">Question</div><div class="q-text">Aimez-vous le sport ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Oui, même si je ne fais pas beaucoup de sport actuellement.</div><div class="fr-line">Je pense que le sport est important pour la santé.</div><div class="fr-line">J'aimerais recommencer à marcher régulièrement.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">17</span><div><div class="q-label">Question</div><div class="q-text">Quel est votre plat préféré ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">J'aime le poisson avec du riz.</div><div class="fr-line">Je trouve ce plat simple, délicieux et équilibré.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">18</span><div><div class="q-label">Question</div><div class="q-text">Aimez-vous voyager ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Oui, beaucoup.</div><div class="fr-line">Voyager permet de découvrir de nouvelles cultures.</div><div class="fr-line">Je trouve cela très enrichissant.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">19</span><div><div class="q-label">Question</div><div class="q-text">Quel pays aimeriez-vous visiter ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">J'aimerais visiter le Canada.</div><div class="fr-line">C'est un pays bien organisé avec une bonne qualité de vie.</div><div class="fr-line">En plus, je pourrais pratiquer le français.</div></div></div></div>
+        <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">20</span><div><div class="q-label">Question</div><div class="q-text">Quels sont vos projets pour l'avenir ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">À l'avenir, j'aimerais améliorer mon français.</div><div class="fr-line">Je veux développer mes compétences professionnelles.</div><div class="fr-line">Mon objectif principal est d'offrir un avenir stable à ma famille.</div></div></div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card tcf-oral-rules">
+          <span class="card-label">Expressions الذهبية</span>
+          <div class="ex-row"><span class="ex-fr">Je pense que...</span><span class="ex-ar">للرأي</span></div>
+          <div class="ex-row"><span class="ex-fr">À mon avis...</span><span class="ex-ar">للرأي</span></div>
+          <div class="ex-row"><span class="ex-fr">Personnellement...</span><span class="ex-ar">للرأي</span></div>
+          <div class="oral-divider"></div>
+          <div class="ex-row"><span class="ex-fr">D'abord...</span><span class="ex-ar">للربط</span></div>
+          <div class="ex-row"><span class="ex-fr">Ensuite...</span><span class="ex-ar">للربط</span></div>
+          <div class="ex-row"><span class="ex-fr">En plus...</span><span class="ex-ar">للربط</span></div>
+          <div class="ex-row"><span class="ex-fr">Aussi...</span><span class="ex-ar">للربط</span></div>
+        </div>
+        <div class="card tcf-oral-rules">
+          <span class="card-label">Futur, expérience et secours</span>
+          <div class="ex-row"><span class="ex-fr">J'aimerais...</span><span class="ex-ar">للمستقبل</span></div>
+          <div class="ex-row"><span class="ex-fr">Je veux...</span><span class="ex-ar">للمستقبل</span></div>
+          <div class="ex-row"><span class="ex-fr">Mon objectif est de...</span><span class="ex-ar">للمستقبل</span></div>
+          <div class="oral-divider"></div>
+          <div class="ex-row"><span class="ex-fr">Au début...</span><span class="ex-ar">للتجربة</span></div>
+          <div class="ex-row"><span class="ex-fr">Maintenant...</span><span class="ex-ar">للتجربة</span></div>
+          <div class="ex-row"><span class="ex-fr">Petit à petit...</span><span class="ex-ar">للتجربة</span></div>
+          <div class="oral-divider"></div>
+          <div class="fr-text" style="margin-bottom:0"><div class="fr-line">C'est une bonne question.</div><div class="fr-line">Personnellement, je pense que...</div><div class="fr-line">Par exemple...</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="border-right:5px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fef3c7)">
+        <span class="card-label" style="color:var(--gold)">نصيحة مهمة</span>
+        <div class="note" style="direction:rtl;text-align:right">لا تحفظ الإجابة كروبوت. احفظ الجمل الأساسية وبدّل بينها.</div>
+        <div class="grid-3" style="margin-top:14px">
+          <div class="ex-row"><span class="ex-fr">J'aime voyager.</span></div>
+          <div class="ex-row"><span class="ex-fr">J'adore voyager.</span></div>
+          <div class="ex-row"><span class="ex-fr">J'aime découvrir de nouveaux endroits.</span></div>
+        </div>
       </div>
     </section>
 
@@ -4320,5 +4411,4 @@
 <script src="./assets/js/main.js" defer></script>
 </body>
 </html>
-
 
