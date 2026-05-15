@@ -134,11 +134,111 @@ var vocabularyGroups = [
   ]}
 ];
 
-function renderVocabulary(){
-  var grid = document.getElementById('vocabGrid');
+var newVocabularyGroups = [
+  {title:'Nouveaux mots — TCF Expliquer', subtitle:'Opening a message', rows:[
+    ['un message','a message','رسالة'],
+    ['une manière','a way / manner','طريقة'],
+    ['poli / polie','polite','مهذب / مهذبة'],
+    ['engageant / engageante','engaging','جذاب / تفاعلي'],
+    ["une formule d'ouverture",'opening formula','عبارة افتتاح'],
+    ['les nouvelles','news / updates','الأخبار'],
+    ['Quoi de neuf ?','What’s new?','ما الجديد؟'],
+    ['au sujet de','about / regarding','بخصوص'],
+    ['prendre de vos nouvelles','to check on you','الاطمئنان عليك'],
+    ["l'heure de l'examen",'the exam time','موعد الامتحان'],
+    ['le cours','the course / class','الدرس / الدورة'],
+    ['libre','free / available','متاح / غير مشغول']
+  ]},
+  {title:'Nouveaux mots — Demandes', subtitle:'Making polite requests', rows:[
+    ['une demande','a request','طلب'],
+    ['direct / directe','direct','مباشر / مباشرة'],
+    ['doux / douce','gentle / soft','لطيف / ألطف'],
+    ['élégant / élégante','elegant','راقي / أنيق'],
+    ['le cinéma','the cinema','السينما'],
+    ['le parc','the park','الحديقة'],
+    ['un moment','a moment / time','وقت / لحظة'],
+    ['ensemble','together','معًا'],
+    ['la maison','the house','المنزل'],
+    ['s’il vous plaît','please','من فضلك / من فضلكم'],
+    ['ça te convient','it suits you','هذا يناسبك'],
+    ["ça t'irait",'would that suit you?','هل سيكون ذلك مناسبًا لك؟']
+  ]},
+  {title:'Nouveaux mots — Détails', subtitle:'Clarifying a request', rows:[
+    ['un détail','a detail','تفصيل'],
+    ['clarifier','to clarify','يوضح'],
+    ['Quoi ?','What?','ماذا؟'],
+    ['Où ?','Where?','أين؟'],
+    ['Quand ?','When?','متى؟'],
+    ['Pourquoi ?','Why?','لماذا؟'],
+    ['un ticket','a ticket','تذكرة'],
+    ['deux tickets','two tickets','تذكرتان'],
+    ['samedi prochain','next Saturday','السبت القادم'],
+    ['demain matin','tomorrow morning','غدًا صباحًا'],
+    ['demain soir','tomorrow evening','غدًا مساءً'],
+    ['à 18 h','at 6 p.m.','الساعة السادسة مساءً'],
+    ['à 20 h','at 8 p.m.','الساعة الثامنة مساءً'],
+    ['au gym','at the gym','في النادي الرياضي'],
+    ['quelques meubles','some furniture','بعض الأثاث']
+  ]},
+  {title:'Nouveaux mots — TCF Oral', subtitle:'Speaking practice words', rows:[
+    ['un ingénieur logiciel','a software engineer','مهندس برمجيات'],
+    ['le domaine informatique','the IT field','مجال المعلوماتية'],
+    ['un projet futur','a future project','مشروع مستقبلي'],
+    ['une expérience professionnelle','professional experience','خبرة مهنية'],
+    ['la mer Rouge','the Red Sea','البحر الأحمر'],
+    ['la concentration','concentration','التركيز'],
+    ['la logique','logic','المنطق'],
+    ['la motivation','motivation','الدافع / الحافز'],
+    ["l'équilibre",'balance','التوازن'],
+    ['les loisirs','hobbies','الهوايات'],
+    ['enrichissant / enrichissante','enriching','مفيد / مُثرٍ'],
+    ['stable','stable','مستقر']
+  ]}
+];
+
+var verbVocabularyGroups = [
+  {title:'Verbes — Irréguliers', subtitle:'Most common irregular verbs', rows:[
+    ['être','to be','يكون'],['avoir','to have','يمتلك / عنده'],['aller','to go','يذهب'],['faire','to do / make','يفعل / يقوم بـ'],['pouvoir','can / to be able to','يستطيع'],['vouloir','to want','يريد'],['devoir','must / to have to','يجب / ينبغي'],['savoir','to know information','يعرف معلومة'],['connaître','to know a person/place','يعرف شخصًا / مكانًا'],['dire','to say','يقول'],['prendre','to take','يأخذ'],['venir','to come','يأتي'],['voir','to see','يرى'],['mettre','to put','يضع'],['lire','to read','يقرأ'],['écrire','to write','يكتب'],['sortir','to go out','يخرج'],['partir','to leave','يغادر'],['dormir','to sleep','ينام'],['sentir','to feel / smell','يشعر / يشم'],['servir','to serve','يخدم / يقدم'],['offrir','to offer / give a gift','يقدم هدية'],['ouvrir','to open','يفتح'],['couvrir','to cover','يغطي'],['courir','to run','يجري'],['recevoir','to receive','يستقبل / يتلقى'],['apercevoir','to glimpse','يلمح'],['boire','to drink','يشرب'],['croire','to believe','يعتقد'],['vivre','to live','يعيش'],['suivre','to follow','يتبع'],['conduire','to drive','يقود'],['traduire','to translate','يترجم'],['construire','to build','يبني'],['produire','to produce','ينتج'],['rire','to laugh','يضحك'],['sourire','to smile','يبتسم'],['naître','to be born','يولد'],['mourir','to die','يموت'],['falloir','to be necessary','يجب - غير شخصي'],['pleuvoir','to rain','تمطر']
+  ]},
+  {title:'Verbes — Groupe 1 (-ER)', subtitle:'Most common regular -ER verbs', rows:[
+    ['parler','to speak','يتحدث'],['travailler','to work','يعمل'],['habiter','to live','يسكن'],['aimer','to like / love','يحب'],['étudier','to study','يدرس'],['écouter','to listen','يستمع'],['regarder','to watch','يشاهد'],['demander','to ask / request','يسأل / يطلب'],['chercher','to look for','يبحث'],['trouver','to find','يجد'],['donner','to give','يعطي'],['acheter','to buy','يشتري'],['manger','to eat','يأكل'],['commencer','to begin','يبدأ'],['continuer','to continue','يستمر'],['arriver','to arrive','يصل'],['rester','to stay','يبقى'],['entrer','to enter','يدخل'],['retourner','to return','يعود'],['visiter','to visit','يزور'],['jouer','to play','يلعب'],['voyager','to travel','يسافر'],['gagner','to win / earn','يفوز / يكسب'],['payer','to pay','يدفع'],['appeler','to call','يتصل'],['aider','to help','يساعد'],['expliquer','to explain','يشرح'],['montrer','to show','يُظهر'],['oublier','to forget','ينسى'],['porter','to wear / carry','يرتدي / يحمل']
+  ]},
+  {title:'Verbes — Groupe 2 (-IR)', subtitle:'Regular -IR verbs', rows:[
+    ['finir','to finish','ينهي'],['choisir','to choose','يختار'],['réussir','to succeed','ينجح'],['grandir','to grow','يكبر'],['réfléchir','to think / reflect','يفكر'],['remplir','to fill','يملأ'],['obéir','to obey','يطيع'],['punir','to punish','يعاقب'],['applaudir','to applaud','يصفق'],['grossir','to gain weight','يزيد وزنه']
+  ]},
+  {title:'Verbes — Nouveaux des leçons', subtitle:'Verbs from TCF Expliquer and new examples', rows:[
+    ['formuler','to formulate','يصيغ'],
+    ['commencer','to begin / start','يبدأ'],
+    ['contextualiser','to contextualize','يضع في سياق'],
+    ['répondre','to answer','يجيب'],
+    ['tenir','to hold','يمسك'],
+    ['attendre','to wait','ينتظر'],
+    ['entendre','to hear','يسمع'],
+    ['rendre','to return / give back','يعيد / يرجع'],
+    ['accompagner','to accompany','يرافق'],
+    ['convenir à','to suit','يناسب'],
+    ['décorer','to decorate','يزين'],
+    ['clarifier','to clarify','يوضح'],
+    ['se trouver','to be located','يقع / يوجد'],
+    ['passer du temps','to spend time','يقضي وقتًا'],
+    ['déplacer','to move / relocate','ينقل / يحرك'],
+    ['pratiquer','to practice','يمارس / يتدرب'],
+    ['réviser','to review','يراجع'],
+    ["s'occuper de",'to take care of','يعتني بـ'],
+    ['progresser','to progress','يتقدم'],
+    ['résoudre','to solve','يحل'],
+    ['développer','to develop','يطور'],
+    ['confirmer','to confirm','يؤكد'],
+    ["s'organiser",'to organize oneself','ينظم نفسه'],
+    ['participer','to participate','يشارك']
+  ]}
+];
+
+function renderVocabularyGroups(gridId, groups){
+  var grid = document.getElementById(gridId);
   if(!grid) return;
   grid.innerHTML = '';
-  vocabularyGroups.forEach(function(group){
+  groups.forEach(function(group){
     var card = document.createElement('div');
     card.className = 'card visible-anim';
 
@@ -196,6 +296,24 @@ function renderVocabulary(){
     card.appendChild(wrap);
     grid.appendChild(card);
   });
+}
+
+function showVocabularySub(id, btn){
+  document.querySelectorAll('#panel-vocabulary .vocab-subview').forEach(function(view){
+    view.classList.remove('visible');
+  });
+  document.querySelectorAll('#panel-vocabulary .vocab-subtabs .pill').forEach(function(pill){
+    pill.classList.remove('active');
+  });
+  var view = document.getElementById('vocab-sub-' + id);
+  if(view) view.classList.add('visible');
+  if(btn) btn.classList.add('active');
+}
+
+function renderVocabulary(){
+  renderVocabularyGroups('vocabGrid', vocabularyGroups);
+  renderVocabularyGroups('vocabNewGrid', newVocabularyGroups);
+  renderVocabularyGroups('vocabVerbGrid', verbVocabularyGroups);
 }
 
 document.addEventListener('DOMContentLoaded', renderVocabulary);

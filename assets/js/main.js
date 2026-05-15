@@ -61,6 +61,209 @@ function renderLireLinks(){
   });
 }
 
+var irregVerbData = [
+  {v:'être', ar:'يكون', p:['suis','es','est','sommes','êtes','sont'], pp:'été', aux:'avoir', fut:'ser', subj:['sois','sois','soit','soyons','soyez','soient'], ps:['fus','fus','fut','fûmes','fûtes','furent'], imp:['sois','soyons','soyez']},
+  {v:'avoir', ar:'يمتلك / عنده', p:['ai','as','a','avons','avez','ont'], pp:'eu', aux:'avoir', fut:'aur', subj:['aie','aies','ait','ayons','ayez','aient'], ps:['eus','eus','eut','eûmes','eûtes','eurent'], imp:['aie','ayons','ayez']},
+  {v:'aller', ar:'يذهب', p:['vais','vas','va','allons','allez','vont'], pp:'allé', aux:'être', fut:'ir', subj:['aille','ailles','aille','allions','alliez','aillent'], ps:['allai','allas','alla','allâmes','allâtes','allèrent'], imp:['va','allons','allez']},
+  {v:'faire', ar:'يفعل / يقوم بـ', p:['fais','fais','fait','faisons','faites','font'], pp:'fait', aux:'avoir', fut:'fer', subj:['fasse','fasses','fasse','fassions','fassiez','fassent'], ps:['fis','fis','fit','fîmes','fîtes','firent'], imp:['fais','faisons','faites']},
+  {v:'pouvoir', ar:'يستطيع', p:['peux','peux','peut','pouvons','pouvez','peuvent'], pp:'pu', aux:'avoir', fut:'pourr', subj:['puisse','puisses','puisse','puissions','puissiez','puissent'], ps:['pus','pus','put','pûmes','pûtes','purent'], noImp:true},
+  {v:'vouloir', ar:'يريد', p:['veux','veux','veut','voulons','voulez','veulent'], pp:'voulu', aux:'avoir', fut:'voudr', subj:['veuille','veuilles','veuille','voulions','vouliez','veuillent'], ps:['voulus','voulus','voulut','voulûmes','voulûtes','voulurent'], imp:['veuille','veuillons','veuillez']},
+  {v:'devoir', ar:'يجب / ينبغي', p:['dois','dois','doit','devons','devez','doivent'], pp:'dû', aux:'avoir', fut:'devr', subj:['doive','doives','doive','devions','deviez','doivent'], ps:['dus','dus','dut','dûmes','dûtes','durent'], noImp:true},
+  {v:'savoir', ar:'يعرف معلومة', p:['sais','sais','sait','savons','savez','savent'], pp:'su', aux:'avoir', fut:'saur', subj:['sache','saches','sache','sachions','sachiez','sachent'], ps:['sus','sus','sut','sûmes','sûtes','surent'], imp:['sache','sachons','sachez']},
+  {v:'connaître', ar:'يعرف شخص / مكان', p:['connais','connais','connaît','connaissons','connaissez','connaissent'], pp:'connu', aux:'avoir', fut:'connaîtr', subj:['connaisse','connaisses','connaisse','connaissions','connaissiez','connaissent'], ps:['connus','connus','connut','connûmes','connûtes','connurent'], imp:['connais','connaissons','connaissez']},
+  {v:'dire', ar:'يقول', p:['dis','dis','dit','disons','dites','disent'], pp:'dit', aux:'avoir', fut:'dir', subj:['dise','dises','dise','disions','disiez','disent'], ps:['dis','dis','dit','dîmes','dîtes','dirent'], imp:['dis','disons','dites']},
+  {v:'prendre', ar:'يأخذ', p:['prends','prends','prend','prenons','prenez','prennent'], pp:'pris', aux:'avoir', fut:'prendr', subj:['prenne','prennes','prenne','prenions','preniez','prennent'], ps:['pris','pris','prit','prîmes','prîtes','prirent'], imp:['prends','prenons','prenez']},
+  {v:'venir', ar:'يأتي', p:['viens','viens','vient','venons','venez','viennent'], pp:'venu', aux:'être', fut:'viendr', subj:['vienne','viennes','vienne','venions','veniez','viennent'], ps:['vins','vins','vint','vînmes','vîntes','vinrent'], imp:['viens','venons','venez']},
+  {v:'voir', ar:'يرى', p:['vois','vois','voit','voyons','voyez','voient'], pp:'vu', aux:'avoir', fut:'verr', subj:['voie','voies','voie','voyions','voyiez','voient'], ps:['vis','vis','vit','vîmes','vîtes','virent'], imp:['vois','voyons','voyez']},
+  {v:'mettre', ar:'يضع', p:['mets','mets','met','mettons','mettez','mettent'], pp:'mis', aux:'avoir', fut:'mettr', subj:['mette','mettes','mette','mettions','mettiez','mettent'], ps:['mis','mis','mit','mîmes','mîtes','mirent'], imp:['mets','mettons','mettez']},
+  {v:'tenir', ar:'يمسك', p:['tiens','tiens','tient','tenons','tenez','tiennent'], pp:'tenu', aux:'avoir', fut:'tiendr', subj:['tienne','tiennes','tienne','tenions','teniez','tiennent'], ps:['tins','tins','tint','tînmes','tîntes','tinrent'], imp:['tiens','tenons','tenez']},
+  {v:'lire', ar:'يقرأ', p:['lis','lis','lit','lisons','lisez','lisent'], pp:'lu', aux:'avoir', fut:'lir', subj:['lise','lises','lise','lisions','lisiez','lisent'], ps:['lus','lus','lut','lûmes','lûtes','lurent'], imp:['lis','lisons','lisez']},
+  {v:'écrire', ar:'يكتب', p:['écris','écris','écrit','écrivons','écrivez','écrivent'], pp:'écrit', aux:'avoir', fut:'écrir', subj:['écrive','écrives','écrive','écrivions','écriviez','écrivent'], ps:['écrivis','écrivis','écrivit','écrivîmes','écrivîtes','écrivirent'], imp:['écris','écrivons','écrivez']},
+  {v:'sortir', ar:'يخرج', p:['sors','sors','sort','sortons','sortez','sortent'], pp:'sorti', aux:'être', fut:'sortir', subj:['sorte','sortes','sorte','sortions','sortiez','sortent'], ps:['sortis','sortis','sortit','sortîmes','sortîtes','sortirent'], imp:['sors','sortons','sortez']},
+  {v:'partir', ar:'يغادر', p:['pars','pars','part','partons','partez','partent'], pp:'parti', aux:'être', fut:'partir', subj:['parte','partes','parte','partions','partiez','partent'], ps:['partis','partis','partit','partîmes','partîtes','partirent'], imp:['pars','partons','partez']},
+  {v:'dormir', ar:'ينام', p:['dors','dors','dort','dormons','dormez','dorment'], pp:'dormi', aux:'avoir', fut:'dormir', subj:['dorme','dormes','dorme','dormions','dormiez','dorment'], imp:['dors','dormons','dormez']},
+  {v:'sentir', ar:'يشعر', p:['sens','sens','sent','sentons','sentez','sentent'], pp:'senti', aux:'avoir', fut:'sentir', subj:['sente','sentes','sente','sentions','sentiez','sentent'], imp:['sens','sentons','sentez']},
+  {v:'servir', ar:'يخدم / يقدم', p:['sers','sers','sert','servons','servez','servent'], pp:'servi', aux:'avoir', fut:'servir', subj:['serve','serves','serve','servions','serviez','servent'], imp:['sers','servons','servez']},
+  {v:'offrir', ar:'يقدم هدية', p:['offre','offres','offre','offrons','offrez','offrent'], pp:'offert', aux:'avoir', fut:'offrir', subj:['offre','offres','offre','offrions','offriez','offrent'], imp:['offre','offrons','offrez']},
+  {v:'ouvrir', ar:'يفتح', p:['ouvre','ouvres','ouvre','ouvrons','ouvrez','ouvrent'], pp:'ouvert', aux:'avoir', fut:'ouvrir', subj:['ouvre','ouvres','ouvre','ouvrions','ouvriez','ouvrent'], imp:['ouvre','ouvrons','ouvrez']},
+  {v:'couvrir', ar:'يغطي', p:['couvre','couvres','couvre','couvrons','couvrez','couvrent'], pp:'couvert', aux:'avoir', fut:'couvrir', subj:['couvre','couvres','couvre','couvrions','couvriez','couvrent'], imp:['couvre','couvrons','couvrez']},
+  {v:'courir', ar:'يجري', p:['cours','cours','court','courons','courez','courent'], pp:'couru', aux:'avoir', fut:'courr', subj:['coure','coures','coure','courions','couriez','courent'], imp:['cours','courons','courez']},
+  {v:'recevoir', ar:'يستقبل / يتلقى', p:['reçois','reçois','reçoit','recevons','recevez','reçoivent'], pp:'reçu', aux:'avoir', fut:'recevr', subj:['reçoive','reçoives','reçoive','recevions','receviez','reçoivent'], imp:['reçois','recevons','recevez']},
+  {v:'apercevoir', ar:'يلمح', p:['aperçois','aperçois','aperçoit','apercevons','apercevez','aperçoivent'], pp:'aperçu', aux:'avoir', fut:'apercevr', subj:['aperçoive','aperçoives','aperçoive','apercevions','aperceviez','aperçoivent'], imp:['aperçois','apercevons','apercevez']},
+  {v:'boire', ar:'يشرب', p:['bois','bois','boit','buvons','buvez','boivent'], pp:'bu', aux:'avoir', fut:'boir', subj:['boive','boives','boive','buvions','buviez','boivent'], imp:['bois','buvons','buvez']},
+  {v:'croire', ar:'يعتقد', p:['crois','crois','croit','croyons','croyez','croient'], pp:'cru', aux:'avoir', fut:'croir', subj:['croie','croies','croie','croyions','croyiez','croient'], ps:['crus','crus','crut','crûmes','crûtes','crurent'], imp:['crois','croyons','croyez']},
+  {v:'vivre', ar:'يعيش', p:['vis','vis','vit','vivons','vivez','vivent'], pp:'vécu', aux:'avoir', fut:'vivr', subj:['vive','vives','vive','vivions','viviez','vivent'], ps:['vécus','vécus','vécut','vécûmes','vécûtes','vécurent'], imp:['vis','vivons','vivez']},
+  {v:'suivre', ar:'يتبع', p:['suis','suis','suit','suivons','suivez','suivent'], pp:'suivi', aux:'avoir', fut:'suivr', subj:['suive','suives','suive','suivions','suiviez','suivent'], imp:['suis','suivons','suivez']},
+  {v:'conduire', ar:'يقود', p:['conduis','conduis','conduit','conduisons','conduisez','conduisent'], pp:'conduit', aux:'avoir', fut:'conduir', subj:['conduise','conduises','conduise','conduisions','conduisiez','conduisent'], imp:['conduis','conduisons','conduisez']},
+  {v:'traduire', ar:'يترجم', p:['traduis','traduis','traduit','traduisons','traduisez','traduisent'], pp:'traduit', aux:'avoir', fut:'traduir', subj:['traduise','traduisses','traduise','traduisions','traduisiez','traduisent'], imp:['traduis','traduisons','traduisez']},
+  {v:'construire', ar:'يبني', p:['construis','construis','construit','construisons','construisez','construisent'], pp:'construit', aux:'avoir', fut:'construir', subj:['construise','construises','construise','construisions','construisiez','construisent'], imp:['construis','construisons','construisez']},
+  {v:'produire', ar:'ينتج', p:['produis','produis','produit','produisons','produisez','produisent'], pp:'produit', aux:'avoir', fut:'produir', subj:['produise','produises','produise','produisions','produisiez','produisent'], imp:['produis','produisons','produisez']},
+  {v:'rire', ar:'يضحك', p:['ris','ris','rit','rions','riez','rient'], pp:'ri', aux:'avoir', fut:'rir', subj:['rie','ries','rie','riions','riiez','rient'], imp:['ris','rions','riez']},
+  {v:'sourire', ar:'يبتسم', p:['souris','souris','sourit','sourions','souriez','sourient'], pp:'souri', aux:'avoir', fut:'sourir', subj:['sourie','souries','sourie','souriions','souriiez','sourient'], imp:['souris','sourions','souriez']},
+  {v:'naître', ar:'يولد', p:['nais','nais','naît','naissons','naissez','naissent'], pp:'né', aux:'être', fut:'naîtr', subj:['naisse','naisses','naisse','naissions','naissiez','naissent'], imp:['nais','naissons','naissez']},
+  {v:'mourir', ar:'يموت', p:['meurs','meurs','meurt','mourons','mourez','meurent'], pp:'mort', aux:'être', fut:'mourr', subj:['meure','meures','meure','mourions','mouriez','meurent'], imp:['meurs','mourons','mourez']},
+  {v:'attendre', ar:'ينتظر', p:['attends','attends','attend','attendons','attendez','attendent'], pp:'attendu', aux:'avoir', fut:'attendr', subj:['attende','attendes','attende','attendions','attendiez','attendent'], ps:['attendis','attendis','attendit','attendîmes','attendîtes','attendirent'], imp:['attends','attendons','attendez']},
+  {v:'entendre', ar:'يسمع', p:['entends','entends','entend','entendons','entendez','entendent'], pp:'entendu', aux:'avoir', fut:'entendr', subj:['entende','entendes','entende','entendions','entendiez','entendent'], ps:['entendis','entendis','entendit','entendîmes','entendîtes','entendirent'], imp:['entends','entendons','entendez']},
+  {v:'répondre', ar:'يجيب', p:['réponds','réponds','répond','répondons','répondez','répondent'], pp:'répondu', aux:'avoir', fut:'répondr', subj:['réponde','répondes','réponde','répondions','répondiez','répondent'], ps:['répondis','répondis','répondit','répondîmes','répondîtes','répondirent'], imp:['réponds','répondons','répondez']},
+  {v:'rendre', ar:'يعيد', p:['rends','rends','rend','rendons','rendez','rendent'], pp:'rendu', aux:'avoir', fut:'rendr', subj:['rende','rendes','rende','rendions','rendiez','rendent'], ps:['rendis','rendis','rendit','rendîmes','rendîtes','rendirent'], imp:['rends','rendons','rendez']},
+  {v:'falloir', ar:'يجب - غير شخصي', p:['—','—','faut','—','—','—'], pp:'fallu', aux:'avoir', fut:'faudr', subj:['—','—','faille','—','—','—'], noImp:true, impersonal:true},
+  {v:'pleuvoir', ar:'تمطر', p:['—','—','pleut','—','—','—'], pp:'plu', aux:'avoir', fut:'pleuvr', subj:['—','—','pleuve','—','—','—'], noImp:true, impersonal:true}
+];
+
+var irregSimplePronouns = ['je','tu','il/elle','nous','vous','ils/elles'];
+var irregQuePronouns = ['que je','que tu','qu’il/elle','que nous','que vous','qu’ils/elles'];
+var irregImperativePronouns = ['tu','nous','vous'];
+var irregEndings = {
+  imparfait:['ais','ais','ait','ions','iez','aient'],
+  futur:['ai','as','a','ons','ez','ont'],
+  cond:['ais','ais','ait','ions','iez','aient']
+};
+var irregAuxPresent = {
+  avoir:['ai','as','a','avons','avez','ont'],
+  être:['suis','es','est','sommes','êtes','sont']
+};
+var irregAuxImparfait = {
+  avoir:['avais','avais','avait','avions','aviez','avaient'],
+  être:['étais','étais','était','étions','étiez','étaient']
+};
+var irregAuxCond = {
+  avoir:['aurais','aurais','aurait','aurions','auriez','auraient'],
+  être:['serais','serais','serait','serions','seriez','seraient']
+};
+
+function irregImparfaitForms(verb){
+  if(verb.v === 'être') return ['étais','étais','était','étions','étiez','étaient'];
+  if(verb.v === 'falloir') return ['—','—','fallait','—','—','—'];
+  if(verb.v === 'pleuvoir') return ['—','—','pleuvait','—','—','—'];
+  var stem = verb.p[3].replace(/ons$/,'');
+  return irregEndings.imparfait.map(function(end){ return stem + end; });
+}
+
+function irregFutureForms(verb, mode){
+  var endings = mode === 'cond' ? irregEndings.cond : irregEndings.futur;
+  if(verb.impersonal){
+    var only = verb.fut + endings[2];
+    return ['—','—',only,'—','—','—'];
+  }
+  return endings.map(function(end){ return verb.fut + end; });
+}
+
+function irregFuturProcheForms(verb){
+  if(verb.impersonal) return ['—','—','va ' + verb.v,'—','—','—'];
+  return ['vais','vas','va','allons','allez','vont'].map(function(aux){ return aux + ' ' + verb.v; });
+}
+
+function irregCompoundForms(verb, auxMap){
+  if(verb.impersonal) return ['—','—',auxMap[verb.aux][2] + ' ' + verb.pp,'—','—','—'];
+  return auxMap[verb.aux].map(function(aux, index){
+    var pp = verb.pp;
+    if(verb.aux === 'être'){
+      pp += index < 3 ? '(e)' : '(e)(s)';
+    }
+    return aux + ' ' + pp;
+  });
+}
+
+function irregRowsForTense(tense){
+  return irregVerbData.map(function(verb){
+    var forms;
+    if(tense === 'present') forms = verb.p;
+    else if(tense === 'imparfait') forms = irregImparfaitForms(verb);
+    else if(tense === 'passe') forms = irregCompoundForms(verb, irregAuxPresent);
+    else if(tense === 'ppq') forms = irregCompoundForms(verb, irregAuxImparfait);
+    else if(tense === 'futur') forms = irregFutureForms(verb, 'futur');
+    else if(tense === 'proche') forms = irregFuturProcheForms(verb);
+    else if(tense === 'cond') forms = irregFutureForms(verb, 'cond');
+    else if(tense === 'condp') forms = irregCompoundForms(verb, irregAuxCond);
+    else if(tense === 'subj') forms = verb.subj;
+    else if(tense === 'psimple') forms = verb.ps || ['—','—','—','—','—','—'];
+    else if(tense === 'imp') forms = verb.noImp ? ['—','—','—'] : verb.imp;
+    else forms = [verb.pp, verb.aux, verb.ar];
+    return {verb:verb, forms:forms};
+  });
+}
+
+function renderIrregTable(tense, wrapId, titleId){
+  var wrap = document.getElementById(wrapId || 'irregTableWrap');
+  var title = document.getElementById(titleId || 'irregTableTitle');
+  if(!wrap || !title) return;
+  var labels = {
+    present:'Présent', imparfait:'Imparfait', passe:'Passé composé', ppq:'Plus-que-parfait',
+    futur:'Futur simple', proche:'Futur proche', cond:'Conditionnel présent',
+    condp:'Conditionnel passé', subj:'Subjonctif', psimple:'Passé simple',
+    imp:'Impératif', part:'Participe passé'
+  };
+  title.textContent = labels[tense] + ' — Les verbes irréguliers';
+  var headers = tense === 'subj' ? irregQuePronouns : (tense === 'imp' ? irregImperativePronouns : irregSimplePronouns);
+  if(tense === 'part') headers = ['Participe passé','Auxiliaire','العربية'];
+  var html = '<div class="tbl-wrap"><table class="tbl irreg-table"><tr><th>Verbe</th>';
+  headers.forEach(function(head){ html += '<th>' + escapeHtml(head) + '</th>'; });
+  html += '</tr>';
+  irregRowsForTense(tense).forEach(function(row){
+    html += '<tr><td><strong>' + escapeHtml(row.verb.v) + '</strong><small>' + escapeHtml(row.verb.ar) + '</small></td>';
+    row.forms.forEach(function(form){ html += '<td>' + escapeHtml(form) + '</td>'; });
+    html += '</tr>';
+  });
+  html += '</table></div>';
+  wrap.innerHTML = html;
+}
+
+function toggleInlineIrreg(id, btn){
+  var panel = document.getElementById(id);
+  if(!panel) return;
+  var sec = panel.closest('.sec');
+  var card = panel.closest('.inline-irreg-card');
+  var willOpen = !panel.classList.contains('visible');
+  panel.classList.toggle('visible', willOpen);
+  if(sec) sec.classList.toggle('irreg-mode', willOpen);
+  if(card) card.classList.toggle('irreg-open', willOpen);
+  if(btn) btn.classList.toggle('active', willOpen);
+}
+
+function initIrregTables(){
+  var tabs = document.getElementById('irregTenseTabs');
+  if(!tabs) return;
+  tabs.querySelectorAll('[data-irreg-tense]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabs.querySelectorAll('.pill').forEach(function(pill){ pill.classList.remove('active'); });
+      btn.classList.add('active');
+      renderIrregTable(btn.getAttribute('data-irreg-tense'));
+    });
+  });
+  renderIrregTable('present');
+}
+
+function initInlineIrregSections(){
+  var configs = [
+    ['present','Présent'], ['imparfait','Imparfait'], ['passe','Passé composé'],
+    ['ppq','Plus-que-parfait'], ['futur','Futur simple'], ['proche','Futur proche'],
+    ['cond','Conditionnel présent'], ['condp','Conditionnel passé'], ['subj','Subjonctif'],
+    ['imp','Impératif'], ['part','Participe passé']
+  ];
+  configs.forEach(function(item){
+    var tense = item[0];
+    var label = item[1];
+    var sec = document.getElementById('t-' + tense);
+    if(!sec || sec.querySelector('.inline-irreg-card')) return;
+    var header = sec.querySelector('.sec-header');
+    var card = document.createElement('div');
+    card.className = 'inline-irreg-card';
+    card.innerHTML =
+      '<div class="inline-irreg-top">' +
+        '<button class="pill inline-irreg-btn" type="button" onclick="toggleInlineIrreg(\'inline-irreg-' + tense + '\',this)"><span class="pi">⚙️</span>Irréguliers</button>' +
+      '</div>' +
+      '<div class="inline-irreg-panel" id="inline-irreg-' + tense + '">' +
+        '<div class="inline-irreg-return"><button class="pill" type="button" onclick="toggleInlineIrreg(\'inline-irreg-' + tense + '\',this)"><span class="pi">←</span>Retour au temps</button></div>' +
+        '<div class="note" style="direction:rtl;text-align:right;margin-bottom:14px">جدول الأفعال الشاذة لهذا الزمن: الضمائر في الأعمدة، والأفعال في الصفوف.</div>' +
+        '<span class="card-label" id="inline-irreg-title-' + tense + '">' + escapeHtml(label) + ' — Les verbes irréguliers</span>' +
+        '<div id="inline-irreg-wrap-' + tense + '"></div>' +
+      '</div>';
+    if(header) sec.insertBefore(card, header);
+    else sec.insertBefore(card, sec.firstChild);
+    renderIrregTable(tense, 'inline-irreg-wrap-' + tense, 'inline-irreg-title-' + tense);
+  });
+}
+
 function escapeHtml(value){
   return String(value).replace(/[&<>"']/g, function(ch){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
@@ -1050,6 +1253,8 @@ document.addEventListener('DOMContentLoaded', function(){
     }, {passive:false});
   });
   renderLireLinks();
+  initIrregTables();
+  initInlineIrregSections();
   restoreRoute();
 });
 
@@ -1261,6 +1466,14 @@ function showTcf(id, btn){
   if(btn) btn.classList.add('active');
   updateRoute('tcf', id);
   scrollToNav('panel-tcf');
+}
+
+function showTcfEcritSub(id, btn){
+  document.querySelectorAll('#tcf-ecrit .tcf-ecrit-sub').forEach(function(s){ s.classList.remove('visible'); });
+  document.querySelectorAll('#tcf-ecrit .nested-child-tabs .pill').forEach(function(b){ b.classList.remove('active'); });
+  var sec = document.getElementById('tcf-ecrit-'+id);
+  if(sec) sec.classList.add('visible');
+  if(btn) btn.classList.add('active');
 }
 
 // ── Q-Card toggle ──

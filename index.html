@@ -1923,6 +1923,7 @@
       <button class="pill" onclick="showSec('subj',this,'temps')"><span class="pi">🎭</span>Subjonctif</button>
       <button class="pill" onclick="showSec('imp',this,'temps')"><span class="pi">📢</span>Impératif</button>
       <button class="pill" onclick="showSec('part',this,'temps')"><span class="pi">✅</span>Participe Passé</button>
+      <button class="pill" onclick="showSec('irreguliers',this,'temps')"><span class="pi">⚙️</span>Irréguliers</button>
       <button class="pill" onclick="showSec('regles',this,'temps')"><span class="pi">⭐</span>Règles</button>
     </div>
   </nav>
@@ -2536,6 +2537,40 @@
           <div class="ar-line"><span class="ar-num" style="background:#be123c">4</span>العمل الذي أنجزه الفريق لاحظه المدير وأثنى عليه.</div>
           <div class="ar-line"><span class="ar-num" style="background:#be123c">5</span>الوجبات التي تحضّرها زوجتي دائمًا لذيذة ومقدّمة بشكل جميل.</div>
         </div>
+      </div>
+    </section>
+
+    <!-- IRRÉGULIERS -->
+    <section class="sec" id="t-irreguliers">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:var(--gold-light)">⚙️</div>
+          <div class="sec-title">Verbes <em>Irréguliers</em></div>
+          <div class="sec-ar">صفحة مستقلة للأفعال الشاذة في كل الأزمنة</div>
+        </div>
+        <span class="usage-tag" style="background:#fff7ed;color:var(--orange);border:1.5px solid #fdba74">IRRÉGULIERS</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Choisir le temps</span>
+        <div class="nav-pills nested-child-tabs irreg-tense-tabs" id="irregTenseTabs">
+          <button class="pill active" type="button" data-irreg-tense="present">Présent</button>
+          <button class="pill" type="button" data-irreg-tense="imparfait">Imparfait</button>
+          <button class="pill" type="button" data-irreg-tense="passe">Passé composé</button>
+          <button class="pill" type="button" data-irreg-tense="ppq">Plus-que-parfait</button>
+          <button class="pill" type="button" data-irreg-tense="futur">Futur simple</button>
+          <button class="pill" type="button" data-irreg-tense="proche">Futur proche</button>
+          <button class="pill" type="button" data-irreg-tense="cond">Conditionnel présent</button>
+          <button class="pill" type="button" data-irreg-tense="condp">Conditionnel passé</button>
+          <button class="pill" type="button" data-irreg-tense="subj">Subjonctif</button>
+          <button class="pill" type="button" data-irreg-tense="psimple">Passé simple</button>
+          <button class="pill" type="button" data-irreg-tense="imp">Impératif</button>
+          <button class="pill" type="button" data-irreg-tense="part">Participe passé</button>
+        </div>
+      </div>
+      <div class="card irreg-table-card">
+        <span class="card-label" id="irregTableTitle">Présent — Les verbes irréguliers</span>
+        <div class="note" style="direction:rtl;text-align:right;margin-bottom:14px">المحتوى مبني على ملفي Word المرفقين، مع الإبقاء على الأفعال الإضافية المهمة للـ TCF. الأفعال غير الشخصية مثل <strong>falloir</strong> و <strong>pleuvoir</strong> تُستخدم غالبًا مع <strong>il</strong> فقط.</div>
+        <div id="irregTableWrap"></div>
       </div>
     </section>
 
@@ -4095,8 +4130,21 @@
       <div class="card">
         <span class="card-label">A1_00_ALl Vocabulary.pdf</span>
         <div class="note">Grouped by topic. The PDF vocabulary is shown with English and Arabic translations for study.</div>
+        <div class="nav-pills nested-child-tabs vocab-subtabs" style="justify-content:flex-start;margin-top:14px">
+          <button class="pill active" type="button" onclick="showVocabularySub('all',this)"><span class="pi">📚</span>Tous</button>
+          <button class="pill" type="button" onclick="showVocabularySub('new',this)"><span class="pi">⭐</span>Nouveaux mots</button>
+          <button class="pill" type="button" onclick="showVocabularySub('verbs',this)"><span class="pi">🔤</span>Verbes</button>
+        </div>
       </div>
-      <div class="vocab-grid" id="vocabGrid"></div>
+      <div class="vocab-subview visible" id="vocab-sub-all">
+        <div class="vocab-grid" id="vocabGrid"></div>
+      </div>
+      <div class="vocab-subview" id="vocab-sub-new">
+        <div class="vocab-grid" id="vocabNewGrid"></div>
+      </div>
+      <div class="vocab-subview" id="vocab-sub-verbs">
+        <div class="vocab-grid" id="vocabVerbGrid"></div>
+      </div>
     </section>
   </main>
 </div><!-- end panel-vocabulary -->
@@ -4116,9 +4164,11 @@
       <div class="card mariane-nav-card visible-anim">
         <span class="card-label">Sous-onglets</span>
         <div class="nav-pills nested-child-tabs" style="justify-content:flex-start;margin-top:10px">
-          <button class="pill active" type="button"><span class="pi">1</span>Écrit 1</button>
+          <button class="pill active" type="button" onclick="showTcfEcritSub('ecrit1',this)"><span class="pi">1</span>Écrit 1</button>
+          <button class="pill" type="button" onclick="showTcfEcritSub('expliquer',this)"><span class="pi">💡</span>Expliquer</button>
         </div>
       </div>
+      <div class="tcf-ecrit-sub visible" id="tcf-ecrit-ecrit1">
       <div class="sec-header">
         <div>
           <div class="sec-icon" style="background:var(--blue-light)">✍️</div>
@@ -4162,6 +4212,313 @@
         <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">8</span><div><div class="q-label">Cadeaux</div><div class="q-text">Vous allez fêter votre anniversaire. Vos amis vous demandent ce que vous souhaitez comme cadeaux. Vous voulez des vêtements, vous leur écrivez un message pour décrire les vêtements que vous aimeriez recevoir.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut les amis,</div><div class="fr-line">Merci de penser à mon anniversaire ! Si vous voulez me faire plaisir, j'aimerais bien recevoir des vêtements. J'adore les pulls en laine et les chemises élégantes, surtout en bleu ou en gris. Sinon, un joli t-shirt ou une écharpe me ferait aussi plaisir ! Peu importe, l'important est de passer un bon moment ensemble.</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
         <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">9</span><div><div class="q-label">Français</div><div class="q-text">Vous avez lu une annonce qui propose d'aider les personnes qui souhaitent apprendre le français et pratiquer avec d'autres personnes. Envoyez un email pour répondre à cette annonce en vous présentant et en expliquant pourquoi vous voulez pratiquer cette langue.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Objet : Demande de participation au programme d'apprentissage du français</div><div class="fr-line">Bonjour,</div><div class="fr-line">Je suis très intéressé(e) par votre programme d'aide aux personnes qui souhaitent pratiquer le français. J'apprends cette langue depuis un moment et j'aimerais améliorer mon niveau en échangeant avec des locuteurs natifs. Je serais ravi(e) de discuter et d'échanger sur différents sujets pour progresser. Pouvez-vous m'indiquer comment rejoindre votre programme ?</div><div class="fr-line">Merci d'avance pour votre réponse !</div><div class="fr-line">Cordialement, Sara</div></div></div></div>
         <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">10</span><div><div class="q-label">Fitness</div><div class="q-text">Camille sait que vous faites du sport depuis le mois dernier et veut venir avec vous. Répondez à votre ami Camille en décrivant votre activité sportive et en donnant des informations utiles : lieu, durée, prix.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Camille,</div><div class="fr-line">Je suis super content(e) que ça t'intéresse ! Je fais du fitness dans une salle près du centre-ville. Les séances durent une heure et coûtent 30 € par mois. Il y a aussi des cours collectifs, c'est motivant ! Si tu veux essayer, viens avec moi la semaine prochaine, je te montrerai tout.</div><div class="fr-line">À bientôt !</div></div></div></div>
+      </div>
+      </div>
+
+      <div class="tcf-ecrit-sub tcf-expliquer" id="tcf-ecrit-expliquer">
+        <div class="sec-header">
+          <div>
+            <div class="sec-icon" style="background:var(--gold-light)">💡</div>
+            <div class="sec-title">TCF Écrit <em>Expliquer</em></div>
+            <div class="sec-ar">Comment commencer un message de manière polie et engageante</div>
+          </div>
+          <span class="usage-tag" style="background:#fff7ed;color:var(--orange);border:1.5px solid #fdba74">OBJECTIF</span>
+        </div>
+
+        <div class="card tcf-objectif-visual">
+          <h2>Objectif</h2>
+          <div class="objectif-title-ar">الهدف</div>
+          <p>Apprendre à commencer un message de manière polie et engageante</p>
+          <div class="objectif-sub-ar">تعلّم كيف تبدأ رسالة بطريقة مهذبة وجذابة</div>
+          <div class="objectif-steps">
+            <div class="objectif-step"><span>1</span><strong>Les formules<br>d'ouverture</strong><small>عبارات الافتتاح</small></div>
+            <div class="objectif-step"><span>2</span><strong>Demander des<br>nouvelles</strong><small>السؤال عن الأخبار</small></div>
+            <div class="objectif-step"><span>3</span><strong>Contextualiser<br>votre message</strong><small>وضع الرسالة في سياق</small></div>
+            <div class="objectif-step"><span>4</span><strong>Exercices<br>pratiques</strong><small>تمارين عملية</small></div>
+            <div class="objectif-step"><span>5</span><strong>Quiz</strong><small>اختبار</small></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Objectif — الهدف</span>
+          <div class="formula rule-important">Apprendre à commencer un message de manière polie et engageante</div>
+          <div class="note" style="direction:rtl;text-align:right">تعلّم كيف تبدأ رسالة أو محادثة بطريقة مهذبة، محترمة، وطبيعية.</div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">1) Les formules d'ouverture — رسمي</span>
+            <div class="ex-row"><span class="ex-fr">Bonjour Madame,</span><span class="ex-ar">صباح الخير سيدتي</span></div>
+            <div class="ex-row"><span class="ex-fr">Bonjour Monsieur,</span><span class="ex-ar">صباح الخير سيدي</span></div>
+            <div class="ex-row"><span class="ex-fr">Bonsoir,</span><span class="ex-ar">مساء الخير</span></div>
+            <div class="ex-row"><span class="ex-fr">J'espère que vous allez bien.</span><span class="ex-ar">أتمنى أن تكون بخير</span></div>
+            <div class="ex-row"><span class="ex-fr">J'espère que tout va bien pour vous.</span><span class="ex-ar">أتمنى أن يكون كل شيء بخير لديك</span></div>
+          </div>
+          <div class="card">
+            <span class="card-label">غير رسمي — avec un ami</span>
+            <div class="ex-row"><span class="ex-fr">Salut !</span><span class="ex-ar">هاي</span></div>
+            <div class="ex-row"><span class="ex-fr">Coucou !</span><span class="ex-ar">أهلا</span></div>
+            <div class="ex-row"><span class="ex-fr">Salut, comment vas-tu ?</span><span class="ex-ar">مرحبا، كيف حالك؟</span></div>
+            <div class="oral-divider"></div>
+            <div class="fr-text" style="margin-bottom:0"><div class="fr-line">Bonjour Linda, j'espère que vous allez bien.</div></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">2) Demander des nouvelles</span>
+            <div class="ex-row"><span class="ex-fr">Comment allez-vous ?</span><span class="ex-ar">كيف حالك؟ رسمي</span></div>
+            <div class="ex-row"><span class="ex-fr">Comment vas-tu ?</span><span class="ex-ar">كيف حالك؟ غير رسمي</span></div>
+            <div class="ex-row"><span class="ex-fr">Comment vont vos parents ?</span><span class="ex-ar">كيف حال والديك؟</span></div>
+            <div class="ex-row"><span class="ex-fr">Est-ce que tout va bien ?</span><span class="ex-ar">هل كل شيء بخير؟</span></div>
+            <div class="ex-row"><span class="ex-fr">Quoi de neuf ?</span><span class="ex-ar">ما الجديد؟</span></div>
+            <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Comment vont votre père et votre mère ?</div></div>
+          </div>
+          <div class="card">
+            <span class="card-label">3) Contextualiser votre message</span>
+            <div class="ex-row"><span class="ex-fr">Je vous écris pour...</span><span class="ex-ar">أكتب لك من أجل...</span></div>
+            <div class="ex-row"><span class="ex-fr">Je voulais vous demander...</span><span class="ex-ar">أردت أن أسألك...</span></div>
+            <div class="ex-row"><span class="ex-fr">Je vous contacte au sujet de...</span><span class="ex-ar">أتواصل معك بخصوص...</span></div>
+            <div class="ex-row"><span class="ex-fr">Je voulais prendre de vos nouvelles.</span><span class="ex-ar">أردت الاطمئنان عليك</span></div>
+            <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Je vous écris pour vous demander l'heure de l'examen.</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">4) Exercices pratiques</span>
+          <div class="grid-2">
+            <div class="ex-row"><span class="ex-fr">Exam today?</span><span class="ex-ar">رسالة مباشرة وضعيفة</span></div>
+            <div class="fr-text" style="margin-bottom:0"><div class="fr-line">Bonjour Linda, j'espère que vous allez bien. Je voulais vous demander à quelle heure a lieu l'examen aujourd'hui.</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">5) Quiz</span>
+          <div class="grid-2">
+            <div class="ex-row"><span class="ex-fr" style="color:var(--red-fr);font-weight:800">Salut. Examen quand ?</span><span class="ex-ar">ضعيف</span></div>
+            <div class="ex-row"><span class="ex-fr" style="color:var(--green);font-weight:800">Bonjour, j'espère que vous allez bien. À quelle heure a lieu l'examen aujourd'hui ?</span><span class="ex-ar">أفضل</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="border-left:5px solid var(--blue)">
+            <span class="card-label">القالب المثالي — رسمي</span>
+            <div class="formula">Bonjour + nom</div>
+            <div class="formula">J'espère que vous allez bien.</div>
+            <div class="formula">Comment allez-vous ?</div>
+            <div class="formula">Je vous écris pour...</div>
+            <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Bonjour Madame, j'espère que vous allez bien. Je vous écris pour demander des informations sur le cours.</div></div>
+          </div>
+          <div class="card" style="border-left:5px solid var(--teal)">
+            <span class="card-label">القالب المثالي — غير رسمي</span>
+            <div class="formula">Salut + nom</div>
+            <div class="formula">Comment vas-tu ?</div>
+            <div class="formula">Je voulais te demander...</div>
+            <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Salut Ahmed, comment vas-tu ? Je voulais te demander si tu es libre demain.</div></div>
+          </div>
+        </div>
+
+        <div class="sec-header" style="margin-top:26px">
+          <div>
+            <div class="sec-icon" style="background:var(--green-light)">🙏</div>
+            <div class="sec-title">Comment formuler <em>une demande ?</em></div>
+            <div class="sec-ar">كيف تصيغ طلبًا بالفرنسية بطريقة طبيعية ومهذبة؟</div>
+          </div>
+          <span class="usage-tag tag-fut">DEMANDE</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">1) Directe mais polie</span>
+            <div class="fr-text"><div class="fr-line">Peux-tu m'accompagner au cinéma ?</div></div>
+            <div class="note" style="direction:rtl;text-align:right">هل يمكنك أن ترافقني إلى السينما؟</div>
+            <div class="ex-row"><span class="ex-fr">Peux-tu ?</span><span class="ex-ar">هل تستطيع؟ من pouvoir</span></div>
+            <div class="ex-row"><span class="ex-fr">m'accompagner</span><span class="ex-ar">أن ترافقني: me + accompagner</span></div>
+            <div class="ex-row"><span class="ex-fr">au cinéma</span><span class="ex-ar">إلى السينما: à + le = au</span></div>
+          </div>
+          <div class="card">
+            <span class="card-label">2) Plus douce</span>
+            <div class="fr-text"><div class="fr-line">Dis-moi si ça te convient d'aller avec moi au parc.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">أخبرني إذا كان يناسبك الذهاب معي إلى الحديقة.</div>
+            <div class="ex-row"><span class="ex-fr">Dis-moi</span><span class="ex-ar">أخبرني: dire à l'impératif</span></div>
+            <div class="ex-row"><span class="ex-fr">ça te convient</span><span class="ex-ar">هذا يناسبك: convenir à</span></div>
+            <div class="ex-row"><span class="ex-fr">d'aller avec moi au parc</span><span class="ex-ar">أن تذهب معي إلى الحديقة</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">3) Très polie — B1/B2</span>
+            <div class="fr-text"><div class="fr-line">Est-ce que ça t'irait de faire du sport ensemble ?</div></div>
+            <div class="note" style="direction:rtl;text-align:right">هل سيكون مناسبًا لك أن نمارس الرياضة معًا؟</div>
+            <div class="ex-row"><span class="ex-fr">Est-ce que</span><span class="ex-ar">أداة سؤال: هل</span></div>
+            <div class="ex-row"><span class="ex-fr">ça t'irait</span><span class="ex-ar">هل سيكون مناسبًا لك؟ conditionnel من aller</span></div>
+            <div class="ex-row"><span class="ex-fr">faire du sport ensemble</span><span class="ex-ar">ممارسة الرياضة معًا</span></div>
+          </div>
+          <div class="card">
+            <span class="card-label">4) Très élégant</span>
+            <div class="fr-text"><div class="fr-line">Aurais-tu un moment pour m'aider à décorer ma maison ?</div></div>
+            <div class="note" style="direction:rtl;text-align:right">هل سيكون لديك وقت لمساعدتي في تزيين منزلي؟</div>
+            <div class="ex-row"><span class="ex-fr">Aurais-tu</span><span class="ex-ar">هل سيكون لديك؟ conditionnel من avoir</span></div>
+            <div class="ex-row"><span class="ex-fr">un moment pour m'aider</span><span class="ex-ar">وقت لمساعدتي</span></div>
+            <div class="ex-row"><span class="ex-fr">à décorer ma maison</span><span class="ex-ar">في تزيين منزلي</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Ordre de politesse — ترتيب درجات التهذيب</span>
+          <table class="tbl">
+            <tr><th>Niveau</th><th>Formule</th><th>Style</th><th>العربية</th></tr>
+            <tr><td>1</td><td>Peux-tu... ?</td><td>Direct</td><td>مباشر</td></tr>
+            <tr><td>2</td><td>Dis-moi si ça te convient...</td><td>Plus doux</td><td>ألطف</td></tr>
+            <tr><td>3</td><td>Est-ce que ça t'irait... ?</td><td>Très poli</td><td>مهذب جدًا</td></tr>
+            <tr><td>4</td><td>Aurais-tu... ?</td><td>Très élégant</td><td>راقي جدًا</td></tr>
+          </table>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">قوالب تحفظها للـ TCF</span>
+            <div class="ex-row"><span class="ex-fr">Peux-tu m'aider ?</span><span class="ex-ar">هل يمكنك مساعدتي؟</span></div>
+            <div class="ex-row"><span class="ex-fr">Est-ce que ça t'irait de venir avec moi ?</span><span class="ex-ar">هل يناسبك أن تأتي معي؟</span></div>
+            <div class="ex-row"><span class="ex-fr">Auriez-vous un moment pour m'aider ?</span><span class="ex-ar">هل لديكم وقت لمساعدتي؟</span></div>
+          </div>
+          <div class="card">
+            <span class="card-label">Tu / Vous</span>
+            <div class="ex-row"><span class="ex-fr">Peux-tu...</span><span class="ex-ar">مع صديق</span></div>
+            <div class="ex-row"><span class="ex-fr">Pouvez-vous...</span><span class="ex-ar">مع شخص باحترام</span></div>
+            <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Pouvez-vous m'aider, s'il vous plaît ?</div></div>
+            <div class="note" style="direction:rtl;text-align:right;margin-top:12px">هل يمكنك مساعدتي من فضلك؟</div>
+          </div>
+        </div>
+
+        <div class="card tcf-detail-visual">
+          <div class="detail-copy">
+            <h2>Donner des<br>détails pour<br>clarifier</h2>
+            <p>Répondre aux questions :</p>
+            <ul>
+              <li>Quoi ?</li>
+              <li>Où ?</li>
+              <li>Quand ?</li>
+              <li>Pourquoi ?</li>
+            </ul>
+            <strong>Peux-tu aller avec moi au cinéma Vox, qui se trouve au centre commercial ? J'ai acheté deux tickets pour samedi prochain à 18 h.</strong>
+          </div>
+          <div class="detail-illustration" aria-hidden="true">
+            <div class="detail-circle">
+              <div class="detail-lens">Detail</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-header" style="margin-top:26px">
+          <div>
+            <div class="sec-icon" style="background:var(--red-light)">🔎</div>
+            <div class="sec-title">Donner des détails <em>pour clarifier</em></div>
+            <div class="sec-ar">إعطاء تفاصيل لتوضيح الرسالة</div>
+          </div>
+          <span class="usage-tag tag-past">DÉTAILS</span>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Pourquoi ajouter des détails ?</span>
+          <div class="grid-2">
+            <div class="ex-row"><span class="ex-fr" style="color:var(--red-fr);font-weight:800">Viens avec moi.</span><span class="ex-ar">تعال معي: غامضة جدًا</span></div>
+            <div class="ex-row"><span class="ex-fr" style="color:var(--green);font-weight:800">Peux-tu aller avec moi au cinéma samedi prochain à 18h ?</span><span class="ex-ar">طلب واضح ومحدد</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">Répondre aux questions</span>
+            <table class="tbl">
+              <tr><th>Question</th><th>Ce qu'on ajoute</th><th>Exemples</th></tr>
+              <tr><td>Quoi ?</td><td>l'activité</td><td>aller au cinéma · faire du sport</td></tr>
+              <tr><td>Où ?</td><td>le lieu</td><td>au cinéma Vox · au parc · chez moi</td></tr>
+              <tr><td>Quand ?</td><td>le temps</td><td>samedi prochain · à 18h · demain matin</td></tr>
+              <tr><td>Pourquoi ?</td><td>la raison</td><td>J'ai acheté deux tickets · Je veux passer du temps avec toi</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <span class="card-label">الفكرة الأساسية</span>
+            <table class="tbl">
+              <tr><th>السؤال</th><th>ماذا تضيف؟</th></tr>
+              <tr><td>Quoi ?</td><td>النشاط</td></tr>
+              <tr><td>Où ?</td><td>المكان</td></tr>
+              <tr><td>Quand ?</td><td>الوقت</td></tr>
+              <tr><td>Pourquoi ?</td><td>السبب</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Exemple complet</span>
+          <div class="fr-text">
+            <div class="fr-line">Peux-tu aller avec moi au cinéma Vox, qui se trouve au centre commercial ?</div>
+            <div class="fr-line">J'ai acheté deux tickets pour samedi prochain à 18 h.</div>
+          </div>
+          <div class="note" style="direction:rtl;text-align:right">هل يمكنك الذهاب معي إلى سينما فوكس الموجودة في المركز التجاري؟ لقد اشتريت تذكرتين للسبت القادم الساعة السادسة مساءً.</div>
+          <div class="grid-2" style="margin-top:14px">
+            <div class="ex-row"><span class="ex-fr">Peux-tu</span><span class="ex-ar">هل تستطيع؟ من pouvoir</span></div>
+            <div class="ex-row"><span class="ex-fr">aller avec moi</span><span class="ex-ar">الذهاب معي</span></div>
+            <div class="ex-row"><span class="ex-fr">au cinéma Vox</span><span class="ex-ar">إلى سينما فوكس: à + le = au</span></div>
+            <div class="ex-row"><span class="ex-fr">qui se trouve</span><span class="ex-ar">التي تقع / الموجودة: se trouver</span></div>
+            <div class="ex-row"><span class="ex-fr">au centre commercial</span><span class="ex-ar">في المركز التجاري</span></div>
+            <div class="ex-row"><span class="ex-fr">J'ai acheté</span><span class="ex-ar">لقد اشتريت: passé composé من acheter</span></div>
+            <div class="ex-row"><span class="ex-fr">deux tickets</span><span class="ex-ar">تذكرتين</span></div>
+            <div class="ex-row"><span class="ex-fr">pour samedi prochain à 18 h</span><span class="ex-ar">للسبت القادم الساعة السادسة</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">Exemple faible</span>
+            <div class="ex-row"><span class="ex-fr" style="color:var(--red-fr);font-weight:800">Peux-tu venir ?</span><span class="ex-ar">هل تستطيع أن تأتي؟ غامضة جدًا</span></div>
+          </div>
+          <div class="card">
+            <span class="card-label">Exemple fort</span>
+            <div class="fr-text" style="margin-bottom:0"><div class="fr-line">Peux-tu venir chez moi demain soir à 20h pour regarder un film ?</div></div>
+            <div class="note" style="direction:rtl;text-align:right;margin-top:12px">هل يمكنك المجيء إلى منزلي غدًا الساعة 8 مساءً لمشاهدة فيلم؟</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Analyse de l'exemple fort</span>
+          <div class="grid-2">
+            <div class="ex-row"><span class="ex-fr">quoi → regarder un film</span><span class="ex-ar">ماذا؟ مشاهدة فيلم</span></div>
+            <div class="ex-row"><span class="ex-fr">où → chez moi</span><span class="ex-ar">أين؟ في منزلي</span></div>
+            <div class="ex-row"><span class="ex-fr">quand → demain soir à 20h</span><span class="ex-ar">متى؟ غدًا مساءً الساعة 8</span></div>
+            <div class="ex-row"><span class="ex-fr">pourquoi → regarder un film</span><span class="ex-ar">لماذا؟ لمشاهدة فيلم</span></div>
+          </div>
+        </div>
+
+        <div class="card word-template-card">
+          <span class="card-label">Modèles à mémoriser — قوالب للحفظ</span>
+          <div class="word-example">
+            <span class="word-num">1</span>
+            <div>
+              <strong>Invitation</strong>
+              <div class="fr-text"><div class="fr-line">Peux-tu venir avec moi au restaurant demain à 19h ?</div><div class="fr-line">J'aimerais passer un bon moment avec toi.</div></div>
+              <div class="note">هل يمكنك أن تأتي معي إلى المطعم غدًا الساعة السابعة مساءً؟ أود أن أقضي وقتًا جميلًا معك.</div>
+            </div>
+          </div>
+          <div class="word-example">
+            <span class="word-num">2</span>
+            <div>
+              <strong>Aide</strong>
+              <div class="fr-text"><div class="fr-line">Aurais-tu un moment pour m'aider ce soir chez moi ?</div><div class="fr-line">J'ai besoin de déplacer quelques meubles.</div></div>
+              <div class="note">هل سيكون لديك وقت لمساعدتي هذا المساء في منزلي؟ أحتاج إلى نقل بعض الأثاث.</div>
+            </div>
+          </div>
+          <div class="word-example">
+            <span class="word-num">3</span>
+            <div>
+              <strong>Sport</strong>
+              <div class="fr-text"><div class="fr-line">Est-ce que ça t'irait de faire du sport avec moi au gym samedi matin ?</div></div>
+              <div class="note">هل يناسبك أن تمارس الرياضة معي في النادي الرياضي صباح السبت؟</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -4411,4 +4768,3 @@
 <script src="./assets/js/main.js" defer></script>
 </body>
 </html>
-
