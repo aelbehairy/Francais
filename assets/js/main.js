@@ -1471,8 +1471,11 @@ function showTcf(id, btn){
 function showTcfEcritSub(id, btn){
   document.querySelectorAll('#tcf-ecrit .tcf-ecrit-sub').forEach(function(s){ s.classList.remove('visible'); });
   document.querySelectorAll('#tcf-ecrit .nested-child-tabs .pill').forEach(function(b){ b.classList.remove('active'); });
+  var invitation = document.getElementById('tcf-invitation');
+  if(invitation) invitation.classList.remove('visible');
   var sec = document.getElementById('tcf-ecrit-'+id);
   if(sec) sec.classList.add('visible');
+  if(id === 'invitation' && invitation) invitation.classList.add('visible');
   if(btn) btn.classList.add('active');
 }
 
@@ -1480,6 +1483,29 @@ function showTcfEcritSub(id, btn){
 function toggleQ(hdr){
   hdr.closest('.q-card').classList.toggle('open');
 }
+
+function toggleEngagingAnswer(btn){
+  var answer = btn.nextElementSibling;
+  if(!answer) return;
+  var visible = answer.classList.toggle('visible');
+  btn.textContent = visible ? 'Masquer la réponse' : 'Afficher la réponse';
+}
+
+function addTcfResponseWordCounts(){
+  document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-sujet-card .fr-text').forEach(function(response){
+    var text = Array.prototype.map.call(response.querySelectorAll('.fr-line'), function(line){
+      return line.textContent.trim();
+    }).join(' ');
+    var words = text.match(/[A-Za-zÀ-ÖØ-öø-ÿ]+(?:['’-][A-Za-zÀ-ÖØ-öø-ÿ]+)*/g) || [];
+    var badge = document.createElement('span');
+    badge.className = 'tcf-response-word-count';
+    badge.textContent = '(' + words.length + ' mots)';
+    response.classList.add('has-word-count');
+    response.appendChild(badge);
+  });
+}
+
+addTcfResponseWordCounts();
 
 function setQCardsOpen(selector, open, event){
   if(event){

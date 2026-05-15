@@ -4155,7 +4155,6 @@
     <div class="nav-pills first-child-tabs" id="pills-tcf">
       <button class="pill active" onclick="showTcf('ecrit',this)"><span class="pi">✍️</span>Écrit</button>
       <button class="pill" onclick="showTcf('oral',this)"><span class="pi">🎤</span>Oral</button>
-      <button class="pill" onclick="showTcf('invitation',this)"><span class="pi">💌</span>Invitation</button>
       <button class="pill" onclick="showTcf('vocabulary',this)"><span class="pi">📚</span>Vocabulary</button>
     </div>
   </nav>
@@ -4166,6 +4165,8 @@
         <div class="nav-pills nested-child-tabs" style="justify-content:flex-start;margin-top:10px">
           <button class="pill active" type="button" onclick="showTcfEcritSub('ecrit1',this)"><span class="pi">1</span>Écrit 1</button>
           <button class="pill" type="button" onclick="showTcfEcritSub('expliquer',this)"><span class="pi">💡</span>Expliquer</button>
+          <button class="pill" type="button" onclick="showTcfEcritSub('comparer',this)"><span class="pi">⚖️</span>Comparer</button>
+          <button class="pill" type="button" onclick="showTcfEcritSub('invitation',this)"><span class="pi">💌</span>Invitation</button>
         </div>
       </div>
       <div class="tcf-ecrit-sub visible" id="tcf-ecrit-ecrit1">
@@ -4261,6 +4262,7 @@
             <div class="ex-row"><span class="ex-fr">Salut, comment vas-tu ?</span><span class="ex-ar">مرحبا، كيف حالك؟</span></div>
             <div class="oral-divider"></div>
             <div class="fr-text" style="margin-bottom:0"><div class="fr-line">Bonjour Linda, j'espère que vous allez bien.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">مرحبًا ليندا، أتمنى أن تكوني بخير.</div>
           </div>
         </div>
 
@@ -4273,6 +4275,7 @@
             <div class="ex-row"><span class="ex-fr">Est-ce que tout va bien ?</span><span class="ex-ar">هل كل شيء بخير؟</span></div>
             <div class="ex-row"><span class="ex-fr">Quoi de neuf ?</span><span class="ex-ar">ما الجديد؟</span></div>
             <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Comment vont votre père et votre mère ?</div></div>
+            <div class="note" style="direction:rtl;text-align:right">كيف حال والدك ووالدتك؟</div>
           </div>
           <div class="card">
             <span class="card-label">3) Contextualiser votre message</span>
@@ -4281,6 +4284,7 @@
             <div class="ex-row"><span class="ex-fr">Je vous contacte au sujet de...</span><span class="ex-ar">أتواصل معك بخصوص...</span></div>
             <div class="ex-row"><span class="ex-fr">Je voulais prendre de vos nouvelles.</span><span class="ex-ar">أردت الاطمئنان عليك</span></div>
             <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Je vous écris pour vous demander l'heure de l'examen.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">أكتب إليك لأسألك عن موعد الامتحان.</div>
           </div>
         </div>
 
@@ -4289,6 +4293,7 @@
           <div class="grid-2">
             <div class="ex-row"><span class="ex-fr">Exam today?</span><span class="ex-ar">رسالة مباشرة وضعيفة</span></div>
             <div class="fr-text" style="margin-bottom:0"><div class="fr-line">Bonjour Linda, j'espère que vous allez bien. Je voulais vous demander à quelle heure a lieu l'examen aujourd'hui.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">مرحبًا ليندا، أتمنى أن تكوني بخير. أردت أن أسألك في أي ساعة يُعقد الامتحان اليوم.</div>
           </div>
         </div>
 
@@ -4308,6 +4313,7 @@
             <div class="formula">Comment allez-vous ?</div>
             <div class="formula">Je vous écris pour...</div>
             <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Bonjour Madame, j'espère que vous allez bien. Je vous écris pour demander des informations sur le cours.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">مرحبًا سيدتي، أتمنى أن تكوني بخير. أكتب إليك لطلب معلومات عن الدرس.</div>
           </div>
           <div class="card" style="border-left:5px solid var(--teal)">
             <span class="card-label">القالب المثالي — غير رسمي</span>
@@ -4315,6 +4321,159 @@
             <div class="formula">Comment vas-tu ?</div>
             <div class="formula">Je voulais te demander...</div>
             <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Salut Ahmed, comment vas-tu ? Je voulais te demander si tu es libre demain.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">مرحبًا أحمد، كيف حالك؟ أردت أن أسألك إن كنت متفرغًا غدًا.</div>
+          </div>
+        </div>
+
+        <div class="sec-header" style="margin-top:26px">
+          <div>
+            <div class="sec-icon" style="background:var(--teal-light)">✨</div>
+            <div class="sec-title">Rendre le message <em>engageant</em></div>
+            <div class="sec-ar">كيف تجعل الرسالة مشجعة وجذابة وتدفع الشخص إلى الرد أو المشاركة؟</div>
+          </div>
+          <span class="usage-tag" style="background:#ecfeff;color:var(--teal);border:1.5px solid #99f6e4">ENGAGEANT</span>
+        </div>
+
+        <div class="card tcf-objectif-visual">
+          <h2>Objectifs</h2>
+          <div class="objectif-title-ar">الأهداف</div>
+          <p>Ajouter une phrase qui donne envie de répondre ou de participer</p>
+          <div class="objectif-sub-ar">أضف جملة تجعل القارئ يرغب في الرد أو المشاركة</div>
+          <div class="objectif-steps objectif-steps-3">
+            <div class="objectif-step"><span>1</span><strong>Encourager le destinataire à répondre ou à participer</strong><small>تشجيع المرسل إليه على الرد أو المشاركة</small></div>
+            <div class="objectif-step"><span>4</span><strong>Motiver le destinataire</strong><small>تحفيز الشخص وتشجيعه</small></div>
+            <div class="objectif-step"><span>5</span><strong>Encourager une réponse</strong><small>تشجيع الرد</small></div>
+          </div>
+        </div>
+
+        <div class="card" style="border-right:5px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fef3c7)">
+          <span class="card-label">الهدف العام</span>
+          <div class="note" style="direction:rtl;text-align:right">بدل أن تكتب طلبًا عاديًا فقط، أضف جملة جذابة تجعل الرسالة أكثر حيوية وتشجع الشخص على الرد أو المشاركة.</div>
+          <div class="grid-2" style="margin-top:14px">
+            <div>
+              <div class="fr-text"><div class="fr-line">On pourrait organiser une sortie au parc.</div></div>
+              <div class="note" style="direction:rtl;text-align:right">يمكننا تنظيم خروجة إلى الحديقة.</div>
+            </div>
+            <div>
+              <div class="fr-text"><div class="fr-line">On pourrait organiser une sortie au parc, je suis sûr que tu vas adorer !</div></div>
+              <div class="note" style="direction:rtl;text-align:right">يمكننا تنظيم خروجة إلى الحديقة، أنا متأكد أنك ستحبها!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">1) Encourager à répondre ou à participer</span>
+            <div class="ex-row"><span class="ex-fr">J'attends ta réponse.</span><span class="ex-ar">أنا في انتظار ردك.</span></div>
+            <div class="ex-row"><span class="ex-fr">Dis-moi si tu es d'accord.</span><span class="ex-ar">قل لي إذا كنت موافقًا.</span></div>
+            <div class="ex-row"><span class="ex-fr">Qu'en penses-tu ?</span><span class="ex-ar">ما رأيك؟</span></div>
+            <div class="note" style="direction:rtl;text-align:right">هذه الجمل تجعل الرسالة كاملة ومهذبة، خاصة في الدعوة أو الطلب.</div>
+          </div>
+          <div class="card">
+            <span class="card-label">2) Motiver le destinataire</span>
+            <div class="ex-row"><span class="ex-fr">Ne rate pas l'occasion.</span><span class="ex-ar">لا تفوّت الفرصة.</span></div>
+            <div class="ex-row"><span class="ex-fr">Ce serait super de partager cela avec toi.</span><span class="ex-ar">سيكون رائعًا أن أشارك هذا معك.</span></div>
+            <div class="ex-row"><span class="ex-fr">Je suis sûr(e) que tu vas adorer !</span><span class="ex-ar">أنا متأكد أنك ستحب ذلك جدًا!</span></div>
+            <div class="ex-row"><span class="ex-fr">C'est une opportunité en or, ne la laisse pas filer !</span><span class="ex-ar">إنها فرصة ذهبية، لا تدعها تضيع!</span></div>
+            <div class="ex-row"><span class="ex-fr">Je t'attends, ce sera une belle aventure !</span><span class="ex-ar">أنا في انتظارك، ستكون مغامرة جميلة!</span></div>
+            <div class="ex-row"><span class="ex-fr">Je suis convaincu(e) que ça va te plaire.</span><span class="ex-ar">أنا مقتنع أن هذا سيعجبك.</span></div>
+            <div class="ex-row"><span class="ex-fr">Fais-moi confiance, ça vaut vraiment le coup !</span><span class="ex-ar">ثق بي، الأمر يستحق فعلًا!</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">Points de langue importants</span>
+            <div class="ex-row"><span class="ex-fr">rater</span><span class="ex-ar">يفوّت / يضيع</span></div>
+            <div class="ex-row"><span class="ex-fr">occasion</span><span class="ex-ar">فرصة</span></div>
+            <div class="ex-row"><span class="ex-fr">Ce serait</span><span class="ex-ar">سيكون من الرائع — conditionnel</span></div>
+            <div class="ex-row"><span class="ex-fr">opportunité en or</span><span class="ex-ar">فرصة ذهبية</span></div>
+            <div class="ex-row"><span class="ex-fr">laisser filer</span><span class="ex-ar">يترك الشيء يفلت أو يضيع</span></div>
+            <div class="ex-row"><span class="ex-fr">plaire à quelqu'un</span><span class="ex-ar">يعجب شخصًا</span></div>
+            <div class="ex-row"><span class="ex-fr">Ça te plaît ? / Ça va te plaire.</span><span class="ex-ar">هل يعجبك؟ / سيعجبك.</span></div>
+            <div class="ex-row"><span class="ex-fr">ça vaut le coup</span><span class="ex-ar">الأمر يستحق</span></div>
+          </div>
+          <div class="card">
+            <span class="card-label">3) Encourager une réponse</span>
+            <div class="ex-row"><span class="ex-fr">Qu'en penses-tu ?</span><span class="ex-ar">ما رأيك في ذلك؟</span></div>
+            <div class="ex-row"><span class="ex-fr">Dis-moi si tu es d'accord.</span><span class="ex-ar">قل لي إذا كنت موافقًا.</span></div>
+            <div class="ex-row"><span class="ex-fr">J'attends ton avis avec impatience !</span><span class="ex-ar">أنتظر رأيك بفارغ الصبر!</span></div>
+            <div class="ex-row"><span class="ex-fr">Fais-moi savoir ce que tu en penses.</span><span class="ex-ar">أخبرني برأيك في ذلك.</span></div>
+            <div class="ex-row"><span class="ex-fr">J'aimerais bien connaître ton point de vue.</span><span class="ex-ar">أود معرفة وجهة نظرك.</span></div>
+            <div class="ex-row"><span class="ex-fr">Hâte d'avoir ton retour !</span><span class="ex-ar">متشوق لسماع ردك!</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Exemple développé</span>
+          <div class="fr-text"><div class="fr-line">J'ai trouvé une salle de sport magnifique, située à seulement 10 minutes à pied de notre quartier. Ce qui est encore plus intéressant, c'est qu'ils proposent actuellement des offres sur les abonnements mensuels, à seulement 50 dollars par mois. C'est une occasion à saisir / à ne pas rater.</div></div>
+          <div class="note" style="direction:rtl;text-align:right">لقد وجدت صالة رياضية رائعة، تقع على بُعد 10 دقائق فقط مشيًا من حيّنا. وما هو أكثر إثارة للاهتمام أنهم يقدمون حاليًا عروضًا على الاشتراكات الشهرية، فقط بـ 50 دولارًا في الشهر. إنها فرصة يجب اغتنامها / لا يجب تفويتها.</div>
+          <div class="grid-2" style="margin-top:14px">
+            <div class="ex-row"><span class="ex-fr">J'ai trouvé</span><span class="ex-ar">وجدت — من trouver</span></div>
+            <div class="ex-row"><span class="ex-fr">une salle de sport magnifique</span><span class="ex-ar">صالة رياضية رائعة</span></div>
+            <div class="ex-row"><span class="ex-fr">située à seulement 10 minutes à pied</span><span class="ex-ar">تقع على بُعد 10 دقائق فقط مشيًا</span></div>
+            <div class="ex-row"><span class="ex-fr">Ce qui est encore plus intéressant</span><span class="ex-ar">ما هو أكثر إثارة للاهتمام</span></div>
+            <div class="ex-row"><span class="ex-fr">ils proposent actuellement des offres</span><span class="ex-ar">هم يقدمون حاليًا عروضًا</span></div>
+            <div class="ex-row"><span class="ex-fr">sur les abonnements mensuels</span><span class="ex-ar">على الاشتراكات الشهرية</span></div>
+            <div class="ex-row"><span class="ex-fr">à seulement 50 dollars par mois</span><span class="ex-ar">فقط بـ 50 دولارًا في الشهر</span></div>
+            <div class="ex-row"><span class="ex-fr">une occasion à saisir / à ne pas rater</span><span class="ex-ar">فرصة يجب اغتنامها / لا يجب تفويتها</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">La règle d'or au TCF</span>
+            <div class="formula">1. Ouvrir le message</div>
+            <div class="formula">2. Expliquer la raison</div>
+            <div class="formula">3. Donner les détails</div>
+            <div class="formula">4. Motiver la personne</div>
+            <div class="formula">5. Demander une réponse</div>
+            <div class="fr-text" style="margin-top:14px;margin-bottom:0">
+              <div class="fr-line">Salut Ahmed, j'espère que tu vas bien.</div>
+              <div class="fr-line">Je t'écris parce que j'ai trouvé une salle de sport magnifique.</div>
+              <div class="fr-line">Elle se trouve près de chez nous et l'abonnement coûte seulement 50 dollars par mois.</div>
+              <div class="fr-line">Je suis sûr que ça va te plaire.</div>
+              <div class="fr-line">Dis-moi si tu es d'accord. J'attends ta réponse.</div>
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-label">Exemple complet à mémoriser</span>
+            <div class="fr-text"><div class="fr-line">Salut Ahmed, j'espère que tu vas bien.</div><div class="fr-line">J'ai trouvé une salle de sport magnifique, située à seulement dix minutes à pied de notre quartier. En plus, ils proposent actuellement une offre intéressante sur les abonnements mensuels. Je suis sûr que ça va te plaire, et je pense que c'est une occasion à ne pas rater. Dis-moi si tu es d'accord. J'attends ta réponse.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">مرحبًا أحمد، أتمنى أن تكون بخير. لقد وجدت صالة رياضية رائعة تقع على بُعد عشر دقائق فقط مشيًا من حيّنا. بالإضافة إلى ذلك، يقدمون حاليًا عرضًا جيدًا على الاشتراكات الشهرية. أنا متأكد أن هذا سيعجبك، وأعتقد أنها فرصة لا يجب تفويتها. أخبرني إذا كنت موافقًا. أنا في انتظار ردك.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Exercices — réponses masquées</span>
+          <div class="grid-3">
+            <div class="engaging-exercise">
+              <div class="fr-text devoir-prompt"><div class="fr-line">1. Réécrivez cette phrase en ajoutant une formule engageante :</div><div class="fr-line">On pourrait organiser une sortie au parc.</div></div>
+              <button class="pill engaging-answer-btn" type="button" onclick="toggleEngagingAnswer(this)">Afficher la réponse</button>
+              <div class="fr-text devoir-answer engaging-exercise-answer"><div class="fr-line">On pourrait organiser une sortie au parc, je suis sûr que tu vas adorer !</div><div class="fr-line">On pourrait organiser une sortie au parc. Ce serait super de partager cela avec toi.</div></div>
+            </div>
+            <div class="engaging-exercise">
+              <div class="fr-text devoir-prompt"><div class="fr-line">2. Complétez :</div><div class="fr-line">J'attends _____ pour confirmer.</div></div>
+              <button class="pill engaging-answer-btn" type="button" onclick="toggleEngagingAnswer(this)">Afficher la réponse</button>
+              <div class="fr-text devoir-answer engaging-exercise-answer"><div class="fr-line">J'attends ta réponse pour confirmer.</div></div>
+            </div>
+            <div class="engaging-exercise">
+              <div class="fr-text devoir-prompt"><div class="fr-line">3. Quelle phrase est engageante ?</div><div class="fr-line">a) J'attends ta réponse.</div><div class="fr-line">b) Fais ce que tu veux.</div><div class="fr-line">c) À toi de voir.</div></div>
+              <button class="pill engaging-answer-btn" type="button" onclick="toggleEngagingAnswer(this)">Afficher la réponse</button>
+              <div class="fr-text devoir-answer engaging-exercise-answer"><div class="fr-line">a) J'attends ta réponse.</div><div class="fr-line">Elle est polie et encourage une réponse.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Expressions à mémoriser</span>
+          <div class="grid-2">
+            <div class="ex-row"><span class="ex-fr">Je suis sûr que tu vas adorer.</span><span class="ex-ar">أنا متأكد أنك ستحب ذلك.</span></div>
+            <div class="ex-row"><span class="ex-fr">Ça vaut vraiment le coup.</span><span class="ex-ar">الأمر يستحق فعلًا.</span></div>
+            <div class="ex-row"><span class="ex-fr">C'est une occasion à ne pas rater.</span><span class="ex-ar">إنها فرصة لا تُفوّت.</span></div>
+            <div class="ex-row"><span class="ex-fr">Dis-moi si tu es d'accord.</span><span class="ex-ar">أخبرني إذا كنت موافقًا.</span></div>
+            <div class="ex-row"><span class="ex-fr">Qu'en penses-tu ?</span><span class="ex-ar">ما رأيك؟</span></div>
+            <div class="ex-row"><span class="ex-fr">J'attends ta réponse.</span><span class="ex-ar">أنا في انتظار ردك.</span></div>
+            <div class="ex-row"><span class="ex-fr">Fais-moi savoir ce que tu en penses.</span><span class="ex-ar">أخبرني برأيك في ذلك.</span></div>
           </div>
         </div>
 
@@ -4383,8 +4542,8 @@
             <div class="ex-row"><span class="ex-fr">Est-ce que ça t'irait de venir avec moi ?</span><span class="ex-ar">هل يناسبك أن تأتي معي؟</span></div>
             <div class="ex-row"><span class="ex-fr">Auriez-vous un moment pour m'aider ?</span><span class="ex-ar">هل لديكم وقت لمساعدتي؟</span></div>
           </div>
-          <div class="card">
-            <span class="card-label">Tu / Vous</span>
+        <div class="card">
+          <span class="card-label">Tu / Vous</span>
             <div class="ex-row"><span class="ex-fr">Peux-tu...</span><span class="ex-ar">مع صديق</span></div>
             <div class="ex-row"><span class="ex-fr">Pouvez-vous...</span><span class="ex-ar">مع شخص باحترام</span></div>
             <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Pouvez-vous m'aider, s'il vous plaît ?</div></div>
@@ -4520,6 +4679,126 @@
           </div>
         </div>
       </div>
+
+      <div class="tcf-ecrit-sub tcf-expliquer" id="tcf-ecrit-comparer">
+        <div class="sec-header">
+          <div>
+            <div class="sec-icon" style="background:var(--purple-light)">⚖️</div>
+            <div class="sec-title">Comparer <em>les types de messages</em></div>
+            <div class="sec-ar">الفرق بين Invitation و message pour convaincre / encourager une réponse</div>
+          </div>
+          <span class="usage-tag" style="background:#f5f3ff;color:#6d28d9;border:1.5px solid #c4b5fd">COMPARER</span>
+        </div>
+
+        <div class="card" style="border-right:5px solid var(--gold);background:linear-gradient(135deg,var(--gold-light),#fef3c7)">
+          <span class="card-label">الفكرة الأساسية</span>
+          <div class="grid-2">
+            <div>
+              <div class="formula rule-important">Invitation = inviter quelqu'un à un événement ou à une activité</div>
+              <div class="note" style="direction:rtl;text-align:right">الدعوة هدفها أن تدعو شخصًا إلى حدث أو نشاط.</div>
+            </div>
+            <div>
+              <div class="formula rule-important">Convaincre / encourager = donner envie, motiver, obtenir une réponse</div>
+              <div class="note" style="direction:rtl;text-align:right">النوع الآخر هدفه الإقناع أو التحفيز أو تشجيع الشخص على الرد، وليس بالضرورة دعوة مباشرة.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">1) Invitation — دعوة</span>
+            <div class="note" style="direction:rtl;text-align:right">الهدف: دعوة شخص لحدث أو نشاط مثل عيد ميلاد، سينما، مطعم، رحلة، زفاف، أو رياضة.</div>
+            <div class="fr-text"><div class="fr-line">Je t'invite à mon anniversaire samedi soir.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">أنا أدعوك لعيد ميلادي مساء السبت.</div>
+            <div class="oral-divider"></div>
+            <div class="formula">1. Salutation</div>
+            <div class="formula">2. Invitation directe</div>
+            <div class="formula">3. Détails : où ? quand ? pourquoi ?</div>
+            <div class="formula">4. Confirmation</div>
+            <div class="fr-text" style="margin-top:14px;margin-bottom:0"><div class="fr-line">Salut Ahmed,</div><div class="fr-line">Je t'invite à dîner chez moi samedi prochain à 20h pour célébrer mon anniversaire.</div><div class="fr-line">J'espère que tu pourras venir. Confirme-moi ta présence.</div></div>
+          </div>
+          <div class="card">
+            <span class="card-label">2) Message engageant / persuasif</span>
+            <div class="note" style="direction:rtl;text-align:right">الهدف: إقناع الشخص أو تحفيزه أو تشجيعه على الرد. قد يكون اقتراحًا أو طلبًا أو توصية، وليس بالضرورة دعوة.</div>
+            <div class="fr-text"><div class="fr-line">J'ai trouvé une salle de sport magnifique.</div><div class="fr-line">Je suis sûr que ça va te plaire.</div><div class="fr-line">Dis-moi ce que tu en penses.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">وجدت جيم رائعًا. أنا متأكد أنه سيعجبك. قل لي رأيك.</div>
+            <div class="oral-divider"></div>
+            <div class="formula">Convaincre</div>
+            <div class="formula">Encourager</div>
+            <div class="formula">Proposer</div>
+            <div class="formula">Motiver</div>
+            <div class="formula">Donner envie</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Le الفرق العملي</span>
+          <table class="tbl">
+            <tr><th>Élément</th><th>Invitation</th><th>Convaincre / encourager une réponse</th></tr>
+            <tr><td>Objectif</td><td>Inviter</td><td>Écrire pour convaincre, motiver ou demander une réponse</td></tr>
+            <tr><td>Événement</td><td>Oui, souvent</td><td>Pas obligatoire</td></tr>
+            <tr><td>Lieu et heure</td><td>Souvent nécessaires</td><td>Possibles, mais pas toujours</td></tr>
+            <tr><td>Ton</td><td>Invitation</td><td>Persuasif</td></tr>
+            <tr><td>Mots-clés</td><td>inviter, venir, participer, rejoindre, célébrer</td><td>convaincre, plaire, occasion, motiver, donner envie</td></tr>
+          </table>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">Exemple 1 — Invitation</span>
+            <div class="fr-text"><div class="fr-line">Salut Sara,</div><div class="fr-line">Je t'invite au cinéma samedi à 18h au centre commercial. J'ai acheté deux billets. J'espère que tu pourras venir.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">هذا Invitation لأنك تدعوها بوضوح، مع وقت ومكان.</div>
+          </div>
+          <div class="card">
+            <span class="card-label">Exemple 2 — Message persuasif</span>
+            <div class="fr-text"><div class="fr-line">Salut Sara,</div><div class="fr-line">J'ai trouvé un nouveau cinéma magnifique avec des fauteuils VIP et une promotion spéciale. Je suis sûr que ça va te plaire. Qu'en penses-tu ?</div></div>
+            <div class="note" style="direction:rtl;text-align:right">هذا Persuasive message لأنك تحاول إقناعها، وليس فقط دعوتها.</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">Dans les consignes TCF</span>
+            <div class="ex-row"><span class="ex-fr">Invitez votre ami à votre anniversaire.</span><span class="ex-ar">Invitation</span></div>
+            <div class="ex-row"><span class="ex-fr">Convainquez votre ami de vous accompagner à la salle de sport.</span><span class="ex-ar">Persuasion</span></div>
+            <div class="note" style="direction:rtl;text-align:right">إذا كان المطلوب convaincre وكتبت دعوة بسيطة فقط، تنخفض الدرجة لأنك لم تنفذ المطلوب بدقة.</div>
+          </div>
+          <div class="card">
+            <span class="card-label">Quand les deux se mélangent</span>
+            <div class="fr-text"><div class="fr-line">Je t'invite à essayer cette nouvelle salle de sport.</div><div class="fr-line">C'est une opportunité à ne pas rater !</div></div>
+            <div class="note" style="direction:rtl;text-align:right">هنا توجد دعوة + إقناع في نفس الرسالة.</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">Règle facile à mémoriser</span>
+            <div class="formula">Si la consigne dit invite → écris une invitation.</div>
+            <div class="formula">Si la consigne dit convaincre / proposer / encourager → écris un message persuasif.</div>
+            <div class="note" style="direction:rtl;text-align:right">قاعدة سهلة: كلمة السؤال تحدد نوع الرسالة.</div>
+          </div>
+          <div class="card">
+            <span class="card-label">Mots-clés de la consigne</span>
+            <div class="grid-2">
+              <div>
+                <div class="formula">Invitation</div>
+                <div class="ex-row"><span class="ex-fr">inviter</span></div>
+                <div class="ex-row"><span class="ex-fr">organiser</span></div>
+                <div class="ex-row"><span class="ex-fr">participer</span></div>
+                <div class="ex-row"><span class="ex-fr">célébrer</span></div>
+              </div>
+              <div>
+                <div class="formula">Persuasion</div>
+                <div class="ex-row"><span class="ex-fr">convaincre</span></div>
+                <div class="ex-row"><span class="ex-fr">encourager</span></div>
+                <div class="ex-row"><span class="ex-fr">proposer</span></div>
+                <div class="ex-row"><span class="ex-fr">motiver</span></div>
+                <div class="ex-row"><span class="ex-fr">donner envie</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="sec" id="tcf-oral">
@@ -4623,24 +4902,6 @@
       </div>
       <div class="card tcf-invitation-card">
         <div class="tcf-doc">
-          <div class="tcf-consigne">
-            <div><span class="tcf-blue-square"></span><strong>Consigne :</strong></div>
-            <div>Tu vas bientôt te marier et tu souhaites inviter tes amis à la fête.</div>
-            <div>Écris un <strong><u>message d'invitation</u></strong> à envoyer à tes amis.</div>
-            <div><strong>👉 Ton message doit faire environ 120 mots.</strong></div>
-          </div>
-
-          <div class="tcf-invitation-model">
-            <p class="tcf-green">Chers amis,</p>
-            <p class="tcf-green">C'est avec une immense joie que nous vous invitons à célébrer notre mariage <strong>le samedi 10 août, à partir de 17h, à la salle Émeraude, à Montréal</strong>.</p>
-            <p class="tcf-blue">Après la cérémonie, une grande fête est prévue avec un dîner, de la musique et plein de surprises !</p>
-            <p class="tcf-orange">Votre présence rendra ce moment encore plus spécial pour nous.</p>
-            <p class="tcf-orange">Venez partager notre bonheur, danser, rire et créer de merveilleux souvenirs ensemble.</p>
-            <p class="tcf-pink">Merci de confirmer votre présence avant le 25 juillet.</p>
-            <p class="tcf-pink">On a hâte de vous retrouver pour cette journée unique et inoubliable</p>
-            <p class="tcf-pink">À très bientôt !</p>
-          </div>
-
           <table class="tcf-analysis-table">
             <tr><td><span class="tcf-sq green"></span><strong>Introduction</strong></td><td>« Chers amis, ... »</td><td>Annonce de l'événement et date</td></tr>
             <tr><td><span class="tcf-sq blue"></span><strong>Détails pratiques</strong></td><td>« Samedi 10 août... salle Émeraude... »</td><td>Lieu, heure, activités</td></tr>
@@ -4650,14 +4911,171 @@
           </table>
         </div>
 
-        <div class="tcf-exercices">
-          <div class="tcf-exercice-block">
-            <strong>Exercice <u>1</u> :</strong>
-            <p><u>tu</u> souhaites inviter tes amis à la fête de ton <strong>anniversaire</strong><br>Écris un <strong><u>message d'invitation</u></strong> à envoyer à tes amis.<br><strong>👉 Ton message doit faire environ 120 mots.</strong></p>
+        <div class="grid-2" style="margin-top:22px">
+          <div class="card">
+            <span class="card-label">الفكرة العامة</span>
+            <div class="ex-row"><span class="ex-fr">Tu vas bientôt te marier et tu souhaites inviter tes amis à la fête.</span><span class="ex-ar">أنت ستتزوج قريبًا وتريد دعوة أصدقائك للحفل.</span></div>
+            <div class="ex-row"><span class="ex-fr">Écris un message d'invitation à envoyer à tes amis.</span><span class="ex-ar">اكتب رسالة دعوة ترسلها لأصدقائك.</span></div>
+            <div class="note" style="direction:rtl;text-align:right">المطلوب هنا هو كتابة دعوة واضحة لحفل زفاف، في حدود 120 كلمة تقريبًا.</div>
           </div>
-          <div class="tcf-exercice-block">
-            <strong>Exercice 2 :</strong>
-            <p><u>tu</u> souhaites inviter tes amis à <strong>un week-end sportif</strong> que tu vas organiser.<br>Écris un <strong><u>message d'invitation</u></strong> à envoyer à tes amis.<br><strong>👉 Ton message doit faire environ 120 mots.</strong></p>
+          <div class="card">
+            <span class="card-label">Invitation = éléments obligatoires</span>
+            <div class="formula">Invitation claire</div>
+            <div class="formula">Date + heure + lieu</div>
+            <div class="formula">Activité</div>
+            <div class="formula">Demande de confirmation</div>
+            <div class="note" style="direction:rtl;text-align:right">قاعدة مهمة: الدعوة يجب أن تحتوي على دعوة واضحة + وقت + مكان + نشاط + طلب تأكيد.</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">1) Introduction</span>
+            <div class="fr-text"><div class="fr-line">Chers amis,</div><div class="fr-line">C'est avec une immense joie que nous vous invitons à célébrer notre mariage...</div></div>
+            <div class="note" style="direction:rtl;text-align:right">أصدقائي الأعزاء. بكل فرح كبير ندعوكم للاحتفال بزواجنا.</div>
+            <div class="ex-row"><span class="ex-fr">C'est avec une immense joie que...</span><span class="ex-ar">بكل سعادة كبيرة...</span></div>
+            <div class="ex-row"><span class="ex-fr">nous vous invitons</span><span class="ex-ar">نحن ندعوكم</span></div>
+            <div class="ex-row"><span class="ex-fr">célébrer notre mariage</span><span class="ex-ar">الاحتفال بزواجنا</span></div>
+          </div>
+          <div class="card">
+            <span class="card-label">2) Détails de l'invitation</span>
+            <div class="fr-text"><div class="fr-line">le samedi 10 août, à partir de 17h, à la salle Émeraude, à Montréal.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">يوم السبت 10 أغسطس، ابتداءً من الساعة 5 مساءً، في قاعة Émeraude في مونتريال.</div>
+            <div class="ex-row"><span class="ex-fr">Quand ?</span><span class="ex-ar">متى؟</span></div>
+            <div class="ex-row"><span class="ex-fr">Où ?</span><span class="ex-ar">أين؟</span></div>
+            <div class="ex-row"><span class="ex-fr">À quelle heure ?</span><span class="ex-ar">الساعة كام؟</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">3) Détails de la fête</span>
+            <div class="fr-text"><div class="fr-line">Après la cérémonie, une grande fête est prévue avec un dîner, de la musique et plein de surprises !</div></div>
+            <div class="note" style="direction:rtl;text-align:right">بعد المراسم، هناك حفلة كبيرة مع عشاء وموسيقى والكثير من المفاجآت.</div>
+            <div class="ex-row"><span class="ex-fr">Après la cérémonie</span><span class="ex-ar">بعد المراسم</span></div>
+            <div class="ex-row"><span class="ex-fr">une grande fête est prévue</span><span class="ex-ar">تم التخطيط لحفلة كبيرة</span></div>
+            <div class="ex-row"><span class="ex-fr">un dîner</span><span class="ex-ar">عشاء</span></div>
+            <div class="ex-row"><span class="ex-fr">plein de surprises</span><span class="ex-ar">الكثير من المفاجآت</span></div>
+          </div>
+          <div class="card">
+            <span class="card-label">4) Phrase chaleureuse</span>
+            <div class="fr-text"><div class="fr-line">Votre présence rendra ce moment encore plus spécial pour nous.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">وجودكم سيجعل هذه اللحظة أكثر خصوصية بالنسبة لنا.</div>
+            <div class="fr-text" style="margin-top:14px"><div class="fr-line">Venez partager notre bonheur, danser, rire et créer de merveilleux souvenirs ensemble.</div></div>
+            <div class="note" style="direction:rtl;text-align:right">تعالوا لتشاركوا سعادتنا، ونرقص، ونضحك، ونصنع ذكريات رائعة معًا.</div>
+            <div class="ex-row"><span class="ex-fr">Venez</span><span class="ex-ar">تعالوا</span></div>
+            <div class="ex-row"><span class="ex-fr">partager notre bonheur</span><span class="ex-ar">شاركونا سعادتنا</span></div>
+            <div class="ex-row"><span class="ex-fr">créer des souvenirs</span><span class="ex-ar">نصنع ذكريات</span></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <span class="card-label">5) Fin et demande de réponse</span>
+            <div class="fr-text"><div class="fr-line">Merci de confirmer votre présence avant le 25 juillet.</div><div class="fr-line">On a hâte de vous retrouver pour cette journée unique et inoubliable.</div><div class="fr-line">À très bientôt !</div></div>
+            <div class="note" style="direction:rtl;text-align:right">من فضلكم أكدوا حضوركم قبل 25 يوليو. نحن متحمسون جدًا لرؤيتكم في هذا اليوم الفريد والذي لا يُنسى. إلى لقاء قريب!</div>
+          </div>
+          <div class="card">
+            <span class="card-label">Phrases à mémoriser</span>
+            <div class="ex-row"><span class="ex-fr">Je vous invite à célébrer...</span><span class="ex-ar">أدعوكم للاحتفال بـ...</span></div>
+            <div class="ex-row"><span class="ex-fr">La fête aura lieu...</span><span class="ex-ar">الحفلة ستقام...</span></div>
+            <div class="ex-row"><span class="ex-fr">À partir de 17h</span><span class="ex-ar">ابتداءً من الساعة 5</span></div>
+            <div class="ex-row"><span class="ex-fr">Votre présence me fera très plaisir.</span><span class="ex-ar">وجودكم سيسعدني كثيرًا.</span></div>
+            <div class="ex-row"><span class="ex-fr">Merci de confirmer votre présence.</span><span class="ex-ar">من فضلكم أكدوا حضوركم.</span></div>
+            <div class="ex-row"><span class="ex-fr">J'ai hâte de vous voir.</span><span class="ex-ar">أنا متحمس لرؤيتكم.</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Le modèle à mémoriser pour toute invitation</span>
+          <div class="grid-2">
+            <div class="formula">1. Salutation — Bonjour / Salut / Chers amis</div>
+            <div class="formula">2. Annonce de l'événement — Je vous invite à...</div>
+            <div class="formula">3. Détails — date + heure + lieu</div>
+            <div class="formula">4. Activités — dîner / musique / sport / cinéma / surprises</div>
+            <div class="formula">5. Phrase chaleureuse — Votre présence me fera très plaisir.</div>
+            <div class="formula">6. Confirmation — Merci de confirmer votre présence.</div>
+            <div class="formula">7. Fin — À bientôt !</div>
+          </div>
+        </div>
+
+        <div class="tcf-exercices">
+          <div class="note" style="direction:rtl;text-align:right;margin-bottom:18px">في التمارين التالية، اكتب دائمًا دعوة واضحة مع الوقت، المكان، النشاط، وطلب تأكيد.</div>
+        </div>
+
+        <div class="card">
+          <span class="card-label">Sujets d'entraînement</span>
+          <div class="q-card tcf-sujet-card open visible-anim">
+            <div class="q-header" onclick="toggleQ(this)">
+              <span class="q-num">1</span>
+              <div>
+                <div class="q-label">Mariage</div>
+                <div class="q-text">Tu vas bientôt te marier et tu souhaites inviter tes amis à la fête.</div>
+                <div class="tcf-sujet-subtext">Écris un message d'invitation à envoyer à tes amis.</div>
+              </div>
+              <span class="q-arrow">▾</span>
+            </div>
+            <div class="q-body">
+              <div class="tcf-invitation-model">
+                <span class="tcf-response-word-count">(91 mots)</span>
+                <p class="tcf-green">Chers amis,</p>
+                <p class="tcf-green">C'est avec une immense joie que nous vous invitons à célébrer notre mariage <strong>le samedi 10 août, à partir de 17h, à la salle Émeraude, à Montréal</strong>.</p>
+                <p class="tcf-blue">Après la cérémonie, une grande fête est prévue avec un dîner, de la musique et plein de surprises !</p>
+                <p class="tcf-orange">Votre présence rendra ce moment encore plus spécial pour nous.</p>
+                <p class="tcf-orange">Venez partager notre bonheur, danser, rire et créer de merveilleux souvenirs ensemble.</p>
+                <p class="tcf-pink">Merci de confirmer votre présence avant le 25 juillet.</p>
+                <p class="tcf-pink">On a hâte de vous retrouver pour cette journée unique et inoubliable</p>
+                <p class="tcf-pink">À très bientôt !</p>
+              </div>
+            </div>
+          </div>
+          <div class="q-card tcf-sujet-card visible-anim">
+            <div class="q-header" onclick="toggleQ(this)">
+              <span class="q-num">2</span>
+              <div>
+                <div class="q-label">Examen · Anniversaire</div>
+                <div class="q-text">Tu souhaites inviter tes amis à la fête de ton anniversaire.</div>
+                <div class="tcf-sujet-subtext">Écris un message d'invitation à envoyer à tes amis.</div>
+              </div>
+              <span class="q-arrow">▾</span>
+            </div>
+            <div class="q-body">
+              <div class="tcf-invitation-model">
+                <span class="tcf-response-word-count">(121 mots)</span>
+                <p class="tcf-green">Chers amis,</p>
+                <p class="tcf-green">J'espère que vous allez bien. Je vous écris avec beaucoup de joie pour vous inviter à la fête de mon anniversaire, qui aura lieu le samedi 15 juin à partir de 19h chez moi, à Montréal.</p>
+                <p class="tcf-blue">Nous allons passer une soirée agréable avec de la musique, un délicieux dîner, un grand gâteau d'anniversaire et plusieurs jeux amusants. Ce sera une excellente occasion de nous retrouver, de rire et de créer de beaux souvenirs ensemble.</p>
+                <p class="tcf-orange">Votre présence me fera vraiment très plaisir, car un anniversaire est encore plus spécial lorsqu'on le célèbre avec les personnes qu'on aime.</p>
+                <p class="tcf-pink">Merci de confirmer votre présence avant le 10 juin.</p>
+                <p class="tcf-pink">J'ai hâte de vous voir et de partager ce moment merveilleux avec vous !</p>
+                <p class="tcf-pink">À très bientôt !</p>
+              </div>
+              <div class="note" style="direction:rtl;text-align:right">أنت تريد دعوة أصدقائك لحفل عيد ميلادك.</div>
+            </div>
+          </div>
+          <div class="q-card tcf-sujet-card visible-anim">
+            <div class="q-header" onclick="toggleQ(this)">
+              <span class="q-num">3</span>
+              <div>
+                <div class="q-label">Examen · Week-end sportif</div>
+                <div class="q-text">Tu souhaites inviter tes amis à un week-end sportif que tu vas organiser.</div>
+                <div class="tcf-sujet-subtext">Écris un message d'invitation à envoyer à tes amis.</div>
+              </div>
+              <span class="q-arrow">▾</span>
+            </div>
+            <div class="q-body">
+              <div class="tcf-invitation-model">
+                <span class="tcf-response-word-count">(116 mots)</span>
+                <p class="tcf-green">Salut les amis,</p>
+                <p class="tcf-green">J'espère que vous allez bien. Je souhaite organiser un week-end sportif et j'aimerais beaucoup vous inviter à participer avec moi !</p>
+                <p class="tcf-blue">L'événement aura lieu le samedi 22 et dimanche 23 juillet dans un centre sportif près de Montréal. Nous allons pratiquer plusieurs activités comme le football, la natation, le jogging et quelques exercices de fitness. Il y aura aussi des moments de détente, un déjeuner en groupe et beaucoup d'ambiance positive.</p>
+                <p class="tcf-orange">Je pense que ce sera une excellente occasion pour faire du sport, améliorer notre santé et passer du bon temps ensemble.</p>
+                <p class="tcf-orange">Ne ratez pas cette belle opportunité ! Votre participation me ferait très plaisir.</p>
+                <p class="tcf-pink">Merci de me confirmer votre présence rapidement.</p>
+                <p class="tcf-pink">J'attends votre réponse avec impatience !</p>
+              </div>
+              <div class="note" style="direction:rtl;text-align:right">أنت تنظم عطلة نهاية أسبوع رياضية وتريد دعوة أصدقائك.</div>
+            </div>
           </div>
         </div>
       </div>
