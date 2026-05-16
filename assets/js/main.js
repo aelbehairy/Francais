@@ -1605,6 +1605,74 @@ function addTcfTranslations(){
 
 addTcfTranslations();
 
+function getTcfReviewMarks(){
+  try{
+    return JSON.parse(localStorage.getItem('tcfReviewMarks') || '{}');
+  } catch(err){
+    return {};
+  }
+}
+
+function saveTcfReviewMarks(marks){
+  try{
+    localStorage.setItem('tcfReviewMarks', JSON.stringify(marks));
+  } catch(err){
+    // Ignore storage failures so the page still works in private browsing modes.
+  }
+}
+
+function getTcfReviewKey(row){
+  var section = row.closest('.tcf-ecrit-sub, #tcf-oral, #tcf-vocabulary, #tcf-invitation');
+  var scope = section && section.id ? section.id : 'tcf';
+  var text = Array.prototype.map.call(row.querySelectorAll('.ex-fr, .ex-ar'), function(node){
+    return node.textContent.trim();
+  }).join('|');
+  return scope + '::' + text;
+}
+
+function addTcfReviewCheckboxes(){
+  var marks = getTcfReviewMarks();
+  document.querySelectorAll('#panel-tcf .ex-row').forEach(function(row){
+    if(row.querySelector('.tcf-review-check') || !row.querySelector('.ex-fr')) return;
+
+    var key = getTcfReviewKey(row);
+    var label = document.createElement('label');
+    label.className = 'tcf-review-check';
+    label.title = 'Mark this sentence to review again';
+
+    var checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = !!marks[key];
+    checkbox.setAttribute('aria-label', 'Mark this sentence to review again');
+
+    var visual = document.createElement('span');
+    visual.setAttribute('aria-hidden', 'true');
+
+    var marker = document.createElement('em');
+    marker.className = 'tcf-review-marker';
+    marker.textContent = '↺';
+    marker.setAttribute('aria-hidden', 'true');
+
+    label.appendChild(checkbox);
+    label.appendChild(visual);
+    row.insertBefore(label, row.firstChild);
+    row.insertBefore(marker, label.nextSibling);
+    row.classList.toggle('needs-review', checkbox.checked);
+
+    checkbox.addEventListener('change', function(){
+      row.classList.toggle('needs-review', checkbox.checked);
+      if(checkbox.checked){
+        marks[key] = true;
+      } else {
+        delete marks[key];
+      }
+      saveTcfReviewMarks(marks);
+    });
+  });
+}
+
+addTcfReviewCheckboxes();
+
 function setQCardsOpen(selector, open, event){
   if(event){
     event.preventDefault();

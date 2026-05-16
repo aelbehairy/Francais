@@ -784,6 +784,61 @@ body{
   transition:background .15s;
 }
 .ex-row:hover{background:#eff6ff}
+.tcf-review-check{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:24px;
+  min-width:24px;
+  height:24px;
+  cursor:pointer;
+}
+.tcf-review-check input{
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+}
+.tcf-review-check span{
+  width:20px;
+  height:20px;
+  border:2px solid #94a3b8;
+  border-radius:6px;
+  background:#fff;
+  transition:border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.tcf-review-check input:focus-visible + span{
+  outline:3px solid rgba(37,99,235,.24);
+  outline-offset:2px;
+}
+.tcf-review-check input:checked + span{
+  border-color:var(--blue);
+  background:var(--blue);
+  box-shadow:inset 0 0 0 3px #fff;
+}
+.tcf-review-marker{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  width:24px;
+  min-width:24px;
+  height:24px;
+  border-radius:999px;
+  background:#f97316;
+  color:#fff;
+  font-style:normal;
+  font-weight:800;
+  line-height:1;
+}
+#panel-tcf .ex-row.needs-review{
+  border-color:#fdba74;
+  border-left:4px solid #f97316;
+  background:#fff7ed;
+}
+#panel-tcf .ex-row.needs-review .tcf-review-marker{
+  display:inline-flex;
+}
 .ex-fr{font-family:'Lora',serif;font-style:italic;font-size:19px;color:var(--text-dark)}
 .ex-dot{color:#d1d5db;font-size:20px}
 .ex-ar{font-size:15px;color:var(--text-light);font-family:'Tajawal',sans-serif}
@@ -1503,6 +1558,30 @@ body{
 }
 .tcf-ecrit-sub{display:none}
 .tcf-ecrit-sub.visible{display:block;animation:secIn .3s ease}
+.tcf-structure-card .tbl{
+  margin-top:14px;
+}
+.tcf-structure-card .tbl td:first-child{
+  width:54px;
+  text-align:center;
+}
+.tcf-structure-example{
+  margin-top:16px;
+  margin-bottom:0;
+}
+.tcf-expression-columns{
+  margin-bottom:0;
+}
+.tcf-structure-image-card{
+  overflow:hidden;
+}
+.tcf-structure-image{
+  display:block;
+  width:100%;
+  height:auto;
+  margin-top:14px;
+  border-radius:12px;
+}
 .tcf-expliquer,
 .tcf-expliquer .card,
 .tcf-expliquer .ex-row,
