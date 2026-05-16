@@ -1340,11 +1340,29 @@ body{
 }
 .tcf-sujet-card .q-text{font-size:24px}
 .tcf-sujet-card .q-text{
-  color:var(--red-fr);
+  color:var(--blue);
   font-weight:800;
   font-style:normal;
 }
-.tcf-sujet-card .q-num{color:var(--red-fr)}
+.tcf-sujet-card .q-num{color:var(--blue)}
+.tcf-invitation-question .q-num,
+.tcf-invitation-question .q-text{
+  color:var(--green);
+}
+.tcf-invitation-question .q-header{
+  background:linear-gradient(135deg,#f0fdf4,#dcfce7);
+}
+.tcf-invitation-question .q-header:hover,
+.tcf-invitation-question .q-header:active{
+  background:linear-gradient(135deg,#dcfce7,#bbf7d0);
+}
+.tcf-consigne-invitation{
+  color:var(--green);
+  font-weight:700;
+}
+.tcf-consignes-grid .ex-fr{
+  color:var(--blue);
+}
 .tcf-sujet-subtext{
   margin-top:4px;
   color:var(--blue);
@@ -1352,6 +1370,16 @@ body{
   font-size:15px;
   font-weight:700;
   line-height:1.35;
+}
+.tcf-sujet-translation{
+  margin-top:6px;
+  color:#0e7490;
+  font-family:'Tajawal',sans-serif;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.5;
+  direction:rtl;
+  text-align:right;
 }
 .tcf-consignes-card,
 .tcf-consignes-grid,
