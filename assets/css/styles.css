@@ -525,6 +525,67 @@ body{
   direction:ltr;
   text-align:right;
 }
+.tcf-expliquer-actions{
+  margin-top:-4px;
+}
+.tcf-statement-summary{
+  padding:18px;
+}
+.tcf-statement-summary-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:18px;
+}
+.tcf-statement-summary-head h2{
+  margin:0;
+  font-size:20px;
+  color:var(--text-dark);
+}
+.tcf-statement-summary-ar{
+  margin-top:4px;
+  direction:rtl;
+  text-align:right;
+  color:var(--text-mid);
+  font-family:'Tajawal',sans-serif;
+  font-size:16px;
+}
+.summary-print-btn{
+  width:40px;
+  min-width:40px;
+  padding:0;
+  justify-content:center;
+}
+.tcf-statement-summary[hidden]{
+  display:none!important;
+}
+.tcf-statement-group + .tcf-statement-group{
+  margin-top:18px;
+}
+.tcf-statement-group h3{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+  margin:0 0 10px;
+  font-size:16px;
+  color:var(--text-dark);
+}
+.tcf-statement-group h3 small{
+  direction:rtl;
+  text-align:right;
+  color:var(--text-mid);
+  font-family:'Tajawal',sans-serif;
+  font-size:15px;
+  font-weight:700;
+}
+.tcf-statement-group h3 span{
+  color:var(--blue);
+}
+.tcf-statement-group .ex-row:last-child{
+  margin-bottom:0;
+}
 .tag-now{background:var(--blue-light);color:var(--blue);border:1.5px solid #bfdbfe;}
 .tag-past{background:var(--red-light);color:var(--red-fr);border:1.5px solid #fca5a5;}
 .tag-fut{background:var(--green-light);color:var(--green);border:1.5px solid #6ee7b7;}
@@ -831,13 +892,27 @@ body{
   font-weight:800;
   line-height:1;
 }
-#panel-tcf .ex-row.needs-review{
+#panel-tcf .ex-row.needs-review,
+#panel-vocabulary tr.needs-review td{
   border-color:#fdba74;
   border-left:4px solid #f97316;
   background:#fff7ed;
 }
-#panel-tcf .ex-row.needs-review .tcf-review-marker{
+#panel-tcf .ex-row.needs-review .tcf-review-marker,
+#panel-vocabulary tr.needs-review .tcf-review-marker{
   display:inline-flex;
+}
+.vocab-review-cell{
+  width:64px;
+  min-width:64px;
+}
+.vocab-review-tools{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.vocab-statement .vocab-review-tools{
+  margin-bottom:10px;
 }
 .ex-fr{font-family:'Lora',serif;font-style:italic;font-size:19px;color:var(--text-dark)}
 .ex-dot{color:#d1d5db;font-size:20px}

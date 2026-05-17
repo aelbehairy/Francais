@@ -257,7 +257,7 @@ function renderVocabularyGroups(gridId, groups){
     var table = document.createElement('table');
     table.className = 'tbl';
     var head = document.createElement('tr');
-    ['Français','English','العربية'].forEach(function(title){
+    ['Review','Français','English','العربية'].forEach(function(title){
       var th = document.createElement('th');
       th.textContent = title;
       head.appendChild(th);
@@ -273,8 +273,9 @@ function renderVocabularyGroups(gridId, groups){
       if(isStatement){
         tr.className = 'vocab-statement-row';
         var stacked = document.createElement('td');
-        stacked.colSpan = 3;
+        stacked.colSpan = 4;
         stacked.className = 'vocab-statement';
+        stacked.appendChild(makeVocabularyReviewTools(gridId, group.title, row, tr));
         ['vocab-fr','vocab-en','vocab-ar'].forEach(function(className, index){
           var line = document.createElement('div');
           line.className = className;
@@ -285,6 +286,10 @@ function renderVocabularyGroups(gridId, groups){
         table.appendChild(tr);
         return;
       }
+      var reviewCell = document.createElement('td');
+      reviewCell.className = 'vocab-review-cell';
+      reviewCell.appendChild(makeVocabularyReviewTools(gridId, group.title, row, tr));
+      tr.appendChild(reviewCell);
       row.forEach(function(value){
         var td = document.createElement('td');
         td.textContent = value;
@@ -296,6 +301,69 @@ function renderVocabularyGroups(gridId, groups){
     card.appendChild(wrap);
     grid.appendChild(card);
   });
+}
+
+function getVocabularyReviewMarks(){
+  try{
+    return JSON.parse(localStorage.getItem('vocabularyReviewMarks') || '{}');
+  } catch(err){
+    return {};
+  }
+}
+
+function saveVocabularyReviewMarks(marks){
+  try{
+    localStorage.setItem('vocabularyReviewMarks', JSON.stringify(marks));
+  } catch(err){
+    // Keep vocabulary usable if local storage is unavailable.
+  }
+}
+
+function getVocabularyReviewKey(gridId, groupTitle, row){
+  return [gridId, groupTitle].concat(row).join('::');
+}
+
+function makeVocabularyReviewTools(gridId, groupTitle, row, tr){
+  var marks = getVocabularyReviewMarks();
+  var key = getVocabularyReviewKey(gridId, groupTitle, row);
+  var wrap = document.createElement('div');
+  wrap.className = 'vocab-review-tools';
+
+  var label = document.createElement('label');
+  label.className = 'tcf-review-check';
+  label.title = 'Mark this word to review again';
+
+  var checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.checked = !!marks[key];
+  checkbox.setAttribute('aria-label', 'Mark this word to review again');
+
+  var visual = document.createElement('span');
+  visual.setAttribute('aria-hidden', 'true');
+
+  var marker = document.createElement('em');
+  marker.className = 'tcf-review-marker';
+  marker.textContent = '↺';
+  marker.setAttribute('aria-hidden', 'true');
+
+  label.appendChild(checkbox);
+  label.appendChild(visual);
+  wrap.appendChild(label);
+  wrap.appendChild(marker);
+  tr.classList.toggle('needs-review', checkbox.checked);
+
+  checkbox.addEventListener('change', function(){
+    var latestMarks = getVocabularyReviewMarks();
+    tr.classList.toggle('needs-review', checkbox.checked);
+    if(checkbox.checked){
+      latestMarks[key] = true;
+    } else {
+      delete latestMarks[key];
+    }
+    saveVocabularyReviewMarks(latestMarks);
+  });
+
+  return wrap;
 }
 
 function showVocabularySub(id, btn){

@@ -1099,7 +1099,8 @@ function actionIcon(type){
   var icons = {
     collapse: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3v5H3"/><path d="M3 3l7 7"/><path d="M16 21v-5h5"/><path d="M21 21l-7-7"/></svg></span>',
     expand: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M21 3l-7 7"/><path d="M9 21H3v-6"/><path d="M3 21l7-7"/></svg></span>',
-    export: '<span class="btn-icon pdf-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M8 14h1.8a1.4 1.4 0 0 0 0-2.8H8v5.6"/><path d="M12.8 11.2v5.6h1.1a2.8 2.8 0 0 0 0-5.6z"/><path d="M17.6 16.8v-5.6H21"/><path d="M17.6 14H20"/></svg></span>'
+    export: '<span class="btn-icon pdf-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M8 14h1.8a1.4 1.4 0 0 0 0-2.8H8v5.6"/><path d="M12.8 11.2v5.6h1.1a2.8 2.8 0 0 0 0-5.6z"/><path d="M17.6 16.8v-5.6H21"/><path d="M17.6 14H20"/></svg></span>',
+    print: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg></span>'
   };
   return icons[type] || '';
 }
@@ -1122,8 +1123,14 @@ function makeExportAction(selector, title){
   '</button>';
 }
 
+function makePrintAction(selector, title){
+  return '<button class="sec-tool-btn summary-print-btn" type="button" onclick="exportSectionToPdf(\''+escapeInlineArg(selector)+'\', \''+escapeInlineArg(title)+'\', event)" aria-label="Print">' +
+    actionIcon('print') +
+  '</button>';
+}
+
 function initSecHeaderControls(){
-  document.querySelectorAll('.panel .sec').forEach(function(sec){
+  document.querySelectorAll('.panel .sec, .tcf-ecrit-sub').forEach(function(sec){
     var header = sec.querySelector(':scope > .sec-header');
     if(!header || !sec.id) return;
     var selector = sec.id === 'o-devoirs'
@@ -1489,6 +1496,120 @@ function toggleEngagingAnswer(btn){
   if(!answer) return;
   var visible = answer.classList.toggle('visible');
   btn.textContent = visible ? 'Masquer la réponse' : 'Afficher la réponse';
+}
+
+var tcfExpliquerStatements = [
+  { title:"Les formules d'ouverture - formel", arTitle:'عبارات الافتتاح - رسمي', className:'is-primary', rows:[
+    ['Bonjour Madame,','صباح الخير سيدتي'],
+    ['Bonjour Monsieur,','صباح الخير سيدي'],
+    ['Bonsoir,','مساء الخير'],
+    ["J'espère que vous allez bien.",'أتمنى أن تكون بخير'],
+    ["J'espère que tout va bien pour vous.",'أتمنى أن يكون كل شيء بخير لديك']
+  ]},
+  { title:"Les formules d'ouverture - avec un ami", arTitle:'عبارات الافتتاح - مع صديق', rows:[
+    ['Salut !','هاي'],
+    ['Coucou !','أهلا'],
+    ['Salut, comment vas-tu ?','مرحبا، كيف حالك؟'],
+    ["Bonjour Linda, j'espère que vous allez bien.",'مرحبًا ليندا، أتمنى أن تكوني بخير.']
+  ]},
+  { title:'Demander des nouvelles', arTitle:'السؤال عن الأخبار', rows:[
+    ['Comment allez-vous ?','كيف حالك؟ رسمي'],
+    ['Comment vas-tu ?','كيف حالك؟ غير رسمي'],
+    ['Comment vont vos parents ?','كيف حال والديك؟'],
+    ['Est-ce que tout va bien ?','هل كل شيء بخير؟'],
+    ['Quoi de neuf ?','ما الجديد؟'],
+    ['Comment vont votre père et votre mère ?','كيف حال والدك ووالدتك؟']
+  ]},
+  { title:'Contextualiser votre message', arTitle:'وضع الرسالة في سياق', rows:[
+    ['Je vous écris pour...','أكتب لك من أجل...'],
+    ['Je voulais vous demander...','أردت أن أسألك...'],
+    ['Je vous contacte au sujet de...','أتواصل معك بخصوص...'],
+    ['Je voulais prendre de vos nouvelles.','أردت الاطمئنان عليك'],
+    ["Je vous écris pour vous demander l'heure de l'examen.",'أكتب إليك لأسألك عن موعد الامتحان.']
+  ]},
+  { title:'Encourager à répondre ou à participer', arTitle:'تشجيع الرد أو المشاركة', rows:[
+    ["J'attends ta réponse.",'أنا في انتظار ردك.'],
+    ["Dis-moi si tu es d'accord.",'قل لي إذا كنت موافقًا.'],
+    ["Qu'en penses-tu ?",'ما رأيك؟']
+  ]},
+  { title:'Motiver le destinataire', arTitle:'تحفيز المرسل إليه', rows:[
+    ["Ne rate pas l'occasion.",'لا تفوّت الفرصة.'],
+    ['Ce serait super de partager cela avec toi.','سيكون رائعًا أن أشارك هذا معك.'],
+    ['Je suis sûr(e) que tu vas adorer !','أنا متأكد أنك ستحب ذلك جدًا!'],
+    ["C'est une opportunité en or, ne la laisse pas filer !",'إنها فرصة ذهبية، لا تدعها تضيع!'],
+    ["Je t'attends, ce sera une belle aventure !",'أنا في انتظارك، ستكون مغامرة جميلة!'],
+    ['Je suis convaincu(e) que ça va te plaire.','أنا مقتنع أن هذا سيعجبك.'],
+    ['Fais-moi confiance, ça vaut vraiment le coup !','ثق بي، الأمر يستحق فعلًا!']
+  ]},
+  { title:'Encourager une réponse', arTitle:'تشجيع الرد', rows:[
+    ["Qu'en penses-tu ?",'ما رأيك في ذلك؟'],
+    ["Dis-moi si tu es d'accord.",'قل لي إذا كنت موافقًا.'],
+    ["J'attends ton avis avec impatience !",'أنتظر رأيك بفارغ الصبر!'],
+    ['Fais-moi savoir ce que tu en penses.','أخبرني برأيك في ذلك.'],
+    ["J'aimerais bien connaître ton point de vue.",'أود معرفة وجهة نظرك.'],
+    ["Hâte d'avoir ton retour !",'متشوق لسماع ردك!']
+  ]},
+  { title:'Formuler une demande', arTitle:'صياغة طلب', rows:[
+    ["Peux-tu m'accompagner au cinéma ?",'هل يمكنك أن ترافقني إلى السينما؟'],
+    ["Dis-moi si ça te convient d'aller avec moi au parc.",'أخبرني إذا كان يناسبك الذهاب معي إلى الحديقة.'],
+    ["Est-ce que ça t'irait de faire du sport ensemble ?",'هل سيكون مناسبًا لك أن نمارس الرياضة معًا؟'],
+    ["Aurais-tu un moment pour m'aider à décorer ma maison ?",'هل سيكون لديك وقت لمساعدتي في تزيين منزلي؟'],
+    ["Peux-tu m'aider ?",'هل يمكنك مساعدتي؟'],
+    ["Est-ce que ça t'irait de venir avec moi ?",'هل يناسبك أن تأتي معي؟'],
+    ["Auriez-vous un moment pour m'aider ?",'هل لديكم وقت لمساعدتي؟'],
+    ["Pouvez-vous m'aider, s'il vous plaît ?",'هل يمكنك مساعدتي من فضلك؟']
+  ]},
+  { title:'Donner des détails', arTitle:'إعطاء التفاصيل', rows:[
+    ['Peux-tu aller avec moi au cinéma samedi prochain à 18h ?','هل يمكنك الذهاب معي إلى السينما السبت القادم الساعة السادسة؟'],
+    ['Peux-tu aller avec moi au cinéma Vox, qui se trouve au centre commercial ?','هل يمكنك الذهاب معي إلى سينما فوكس الموجودة في المركز التجاري؟'],
+    ["J'ai acheté deux tickets pour samedi prochain à 18 h.",'لقد اشتريت تذكرتين للسبت القادم الساعة السادسة مساءً.'],
+    ['Peux-tu venir chez moi demain soir à 20h pour regarder un film ?','هل يمكنك المجيء إلى منزلي غدًا الساعة 8 مساءً لمشاهدة فيلم؟']
+  ]},
+  { title:'Modèles à mémoriser', arTitle:'قوالب للحفظ', rows:[
+    ['Peux-tu venir avec moi au restaurant demain à 19h ?','هل يمكنك أن تأتي معي إلى المطعم غدًا الساعة السابعة مساءً؟'],
+    ["J'aimerais passer un bon moment avec toi.",'أود أن أقضي وقتًا جميلًا معك.'],
+    ["Aurais-tu un moment pour m'aider ce soir chez moi ?",'هل سيكون لديك وقت لمساعدتي هذا المساء في منزلي؟'],
+    ["J'ai besoin de déplacer quelques meubles.",'أحتاج إلى نقل بعض الأثاث.'],
+    ["Est-ce que ça t'irait de faire du sport avec moi au gym samedi matin ?",'هل يناسبك أن تمارس الرياضة معي في النادي الرياضي صباح السبت؟']
+  ]}
+];
+
+function renderTcfExpliquerStatements(){
+  var container = document.getElementById('tcf-expliquer-statements');
+  if(!container || container.dataset.ready === 'true') return;
+  container.innerHTML =
+    '<div class="tcf-statement-summary-head">' +
+      '<div>' +
+        '<h2>All Statements</h2>' +
+        '<div class="tcf-statement-summary-ar">كل الجمل</div>' +
+      '</div>' +
+      makePrintAction('#tcf-expliquer-statements', 'TCF Écrit Expliquer - All Statements') +
+    '</div>' +
+    tcfExpliquerStatements.map(function(group){
+    return '<section class="tcf-statement-group '+(group.className || '')+'">' +
+      '<h3><span>'+group.title+'</span><small>'+group.arTitle+'</small></h3>' +
+      group.rows.map(function(row){
+        return '<div class="ex-row"><span class="ex-fr">'+row[0]+'</span><span class="ex-ar">'+row[1]+'</span></div>';
+      }).join('') +
+    '</section>';
+  }).join('');
+  container.dataset.ready = 'true';
+}
+
+function toggleTcfExpliquerStatements(event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  renderTcfExpliquerStatements();
+  var container = document.getElementById('tcf-expliquer-statements');
+  var button = event && event.currentTarget;
+  if(!container) return;
+  var willShow = container.hidden;
+  container.hidden = !willShow;
+  if(button){
+    button.setAttribute('aria-expanded', String(willShow));
+  }
 }
 
 function addTcfResponseWordCounts(){
