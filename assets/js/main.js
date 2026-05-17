@@ -1123,6 +1123,26 @@ function makeExportAction(selector, title){
   '</button>';
 }
 
+function makePrintCheckedAction(handler, label){
+  return '<button class="sec-tool-btn print-checked-btn" type="button" onclick="'+handler+'" aria-label="'+label+'">' +
+    actionIcon('print') +
+    '<strong>Print checked</strong>' +
+  '</button>';
+}
+
+function getPrintCheckedAction(sec){
+  if(sec.id === 'vocabulary-main'){
+    return makePrintCheckedAction('printCheckedVocabulary(event)', 'Print checked words');
+  }
+  if(sec.id === 'tcf-oral'){
+    return makePrintCheckedAction("printCheckedTcf('oral', event)", 'Print checked statements');
+  }
+  if(sec.classList.contains('tcf-ecrit-sub') || sec.id === 'tcf-invitation'){
+    return makePrintCheckedAction("printCheckedTcf('ecrit', event)", 'Print checked statements');
+  }
+  return '';
+}
+
 function makePrintAction(selector, title){
   return '<button class="sec-tool-btn summary-print-btn" type="button" onclick="exportSectionToPdf(\''+escapeInlineArg(selector)+'\', \''+escapeInlineArg(title)+'\', event)" aria-label="Print">' +
     actionIcon('print') +
@@ -1142,7 +1162,7 @@ function initSecHeaderControls(){
     var actions = sec.querySelector(':scope > .sec-header-actions');
     var hasQCards = !!document.querySelector(selector);
     if(!sec.querySelector(':scope > .sec-export-top-left')){
-      header.insertAdjacentHTML('beforebegin', '<div class="sec-export-top-left">'+makeExportAction(exportSelector, exportTitle)+'</div>');
+      header.insertAdjacentHTML('beforebegin', '<div class="sec-export-top-left">'+getPrintCheckedAction(sec)+makeExportAction(exportSelector, exportTitle)+'</div>');
     }
     if(actions){
       actions.querySelectorAll(':scope > .export-pdf-btn').forEach(function(btn){
@@ -1793,6 +1813,85 @@ function addTcfReviewCheckboxes(){
 }
 
 addTcfReviewCheckboxes();
+
+function printCheckedTcf(area, event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  var root;
+  var title;
+  if(area === 'oral'){
+    root = document.getElementById('tcf-oral');
+    title = 'TCF Oral - Checked Statements';
+  } else {
+    root = document.querySelector('#tcf-ecrit .tcf-ecrit-sub.visible');
+    if(!root && document.getElementById('tcf-invitation').classList.contains('visible')){
+      root = document.getElementById('tcf-invitation');
+    }
+    title = 'TCF Ecrit - Checked Statements';
+  }
+  if(!root) return;
+
+  var checkedRows = Array.prototype.filter.call(root.querySelectorAll('.ex-row'), function(row){
+    var checkbox = row.querySelector('.tcf-review-check input[type="checkbox"]');
+    return checkbox && checkbox.checked;
+  });
+
+  if(!checkedRows.length){
+    window.alert('No checked statements on this page yet.');
+    return;
+  }
+
+  var groups = [];
+  checkedRows.forEach(function(row){
+    var card = row.closest('.card');
+    var label = card && card.querySelector('.card-label');
+    var groupTitle = label ? label.textContent.trim() : 'Statements';
+    var group = groups.find(function(item){ return item.title === groupTitle; });
+    if(!group){
+      group = {title:groupTitle, rows:[]};
+      groups.push(group);
+    }
+    group.rows.push({
+      fr: Array.prototype.map.call(row.querySelectorAll('.ex-fr'), function(node){
+        return node.textContent.trim();
+      }).join(' / '),
+      ar: Array.prototype.map.call(row.querySelectorAll('.ex-ar'), function(node){
+        return node.textContent.trim();
+      }).join(' / ')
+    });
+  });
+
+  var printWindow = window.open('', '_blank');
+  if(!printWindow) return;
+
+  var content = groups.map(function(group){
+    var rows = group.rows.map(function(row){
+      return '<tr><td>'+escapePrintHtml(row.fr)+'</td><td>'+escapePrintHtml(row.ar)+'</td></tr>';
+    }).join('');
+    return '<section><h2>'+escapePrintHtml(group.title)+'</h2><table><thead><tr><th>Français</th><th>العربية</th></tr></thead><tbody>'+rows+'</tbody></table></section>';
+  }).join('');
+
+  printWindow.document.open();
+  printWindow.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escapePrintHtml(title)+'</title><style>body{font-family:Arial,sans-serif;color:#111827;margin:28px}h1{font-size:24px;margin:0 0 20px}h2{font-size:16px;margin:24px 0 10px;color:#1d4ed8}section{break-inside:avoid;margin-bottom:18px}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px 10px;border:1px solid #d1d5db;text-align:left}th{background:#eff6ff}td:last-child,th:last-child{direction:rtl;text-align:right}@page{size:A4;margin:12mm}</style></head><body><h1>'+escapePrintHtml(title)+'</h1>'+content+'</body></html>');
+  printWindow.document.close();
+  printWindow.focus();
+  setTimeout(function(){ printWindow.print(); }, 300);
+}
+
+function escapePrintHtml(value){
+  return String(value || '').replace(/[&<>"']/g, function(char){
+    return {
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#39;'
+    }[char];
+  });
+}
 
 function setQCardsOpen(selector, open, event){
   if(event){

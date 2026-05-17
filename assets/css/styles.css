@@ -411,6 +411,7 @@ body{
   display:flex;
   justify-content:flex-end;
   align-items:center;
+  gap:6px;
   direction:ltr;
   text-align:right;
   margin:0 0 10px 0;

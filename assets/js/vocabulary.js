@@ -378,6 +378,73 @@ function showVocabularySub(id, btn){
   if(btn) btn.classList.add('active');
 }
 
+function printCheckedVocabulary(event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  var groups = [];
+  document.querySelectorAll('#panel-vocabulary .card').forEach(function(card){
+    var checkedRows = Array.prototype.filter.call(card.querySelectorAll('tr'), function(row){
+      var checkbox = row.querySelector('.vocab-review-tools input[type="checkbox"]');
+      return checkbox && checkbox.checked;
+    });
+    if(!checkedRows.length) return;
+
+    var title = card.querySelector('.card-label');
+    groups.push({
+      title: title ? title.textContent.trim() : 'Vocabulary',
+      rows: checkedRows.map(function(row){
+        var statement = row.querySelector('.vocab-statement');
+        if(statement){
+          return [
+            statement.querySelector('.vocab-fr'),
+            statement.querySelector('.vocab-en'),
+            statement.querySelector('.vocab-ar')
+          ].map(function(node){ return node ? node.textContent.trim() : ''; });
+        }
+        return Array.prototype.map.call(row.querySelectorAll('td'), function(cell){
+          return cell.textContent.trim();
+        }).slice(1);
+      })
+    });
+  });
+
+  if(!groups.length){
+    window.alert('No checked vocabulary items yet.');
+    return;
+  }
+
+  var printWindow = window.open('', '_blank');
+  if(!printWindow) return;
+
+  var content = groups.map(function(group){
+    var rows = group.rows.map(function(row){
+      return '<tr><td>'+escapeVocabularyHtml(row[0])+'</td><td>'+escapeVocabularyHtml(row[1])+'</td><td>'+escapeVocabularyHtml(row[2])+'</td></tr>';
+    }).join('');
+    return '<section><h2>'+escapeVocabularyHtml(group.title)+'</h2><table><thead><tr><th>Français</th><th>English</th><th>العربية</th></tr></thead><tbody>'+rows+'</tbody></table></section>';
+  }).join('');
+
+  printWindow.document.open();
+  printWindow.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checked Vocabulary</title><style>body{font-family:Arial,sans-serif;color:#111827;margin:28px}h1{font-size:24px;margin:0 0 20px}h2{font-size:16px;margin:24px 0 10px;color:#0f766e}section{break-inside:avoid;margin-bottom:18px}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px 10px;border:1px solid #d1d5db;text-align:left}th{background:#f0fdfa}td:last-child,th:last-child{direction:rtl;text-align:right}@page{size:A4;margin:12mm}</style></head><body><h1>Checked Vocabulary</h1>'+content+'</body></html>');
+  printWindow.document.close();
+  printWindow.focus();
+  setTimeout(function(){ printWindow.print(); }, 300);
+}
+
+function escapeVocabularyHtml(value){
+  return String(value || '').replace(/[&<>"']/g, function(char){
+    return {
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#39;'
+    }[char];
+  });
+}
+
 function renderVocabulary(){
   renderVocabularyGroups('vocabGrid', vocabularyGroups);
   renderVocabularyGroups('vocabNewGrid', newVocabularyGroups);
