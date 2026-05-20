@@ -1285,6 +1285,9 @@ function getPrintCheckedAction(sec){
   if(sec.id === 'tcf-oral'){
     return makePrintCheckedAction("printCheckedTcf('oral', event)", 'Print checked statements');
   }
+  if(sec.id === 'tcf-vocabulary'){
+    return makePrintCheckedAction('showTcfVocabView(\'text\', document.querySelector(\'#tcf-vocab-view-tabs .pill[onclick*=text]\')); printCheckedTcfVocab()', 'Print checked words');
+  }
   if(sec.classList.contains('tcf-ecrit-sub') || sec.id === 'tcf-invitation'){
     return makePrintCheckedAction("printCheckedTcf('ecrit', event)", 'Print checked statements');
   }
@@ -1311,6 +1314,11 @@ function initSecHeaderControls(){
     var hasQCards = !!document.querySelector(selector);
     if(!sec.querySelector(':scope > .sec-export-top-left')){
       header.insertAdjacentHTML('beforebegin', '<div class="sec-export-top-left">'+getPrintCheckedAction(sec)+makeExportAction(exportSelector, exportTitle)+'</div>');
+    } else {
+      var exportTopLeft = sec.querySelector(':scope > .sec-export-top-left');
+      if(exportTopLeft && !exportTopLeft.querySelector('.print-checked-btn')){
+        exportTopLeft.insertAdjacentHTML('beforeend', getPrintCheckedAction(sec));
+      }
     }
     if(actions){
       actions.querySelectorAll(':scope > .export-pdf-btn').forEach(function(btn){
