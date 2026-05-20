@@ -61,6 +61,154 @@ function renderLireLinks(){
   });
 }
 
+function showBookPreview(path, title, btn){
+  var frame = document.getElementById('book-preview-frame');
+  var titleEl = document.getElementById('book-preview-title');
+  var link = document.getElementById('book-preview-link');
+  var inlineLink = document.getElementById('book-preview-fallback-inline');
+  document.querySelectorAll('#book-preview-tabs .pill').forEach(function(pill){
+    pill.classList.remove('active');
+  });
+  if(btn) btn.classList.add('active');
+  if(frame) frame.setAttribute('data', path);
+  if(titleEl) titleEl.textContent = title;
+  if(link) link.href = path;
+  if(inlineLink){
+    inlineLink.href = path;
+    inlineLink.textContent = title + '.pdf';
+  }
+}
+
+function showDissertation(id, btn){
+  document.querySelectorAll('#vocab-sub-essay .dissertation-doc').forEach(function(doc){
+    doc.classList.remove('visible');
+    doc.hidden = true;
+  });
+  document.querySelectorAll('#dissertation-tabs .pill').forEach(function(pill){
+    pill.classList.remove('active');
+  });
+  var doc = document.getElementById('dissertation-' + id);
+  if(doc){
+    doc.hidden = false;
+    doc.classList.add('visible');
+    setTimeout(function(){
+      doc.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 20);
+  }
+  if(btn) btn.classList.add('active');
+}
+
+function showTcfVocabView(id, btn){
+  document.querySelectorAll('#tcf-vocabulary .tcf-vocab-view').forEach(function(view){
+    view.classList.remove('visible');
+    view.hidden = true;
+  });
+  document.querySelectorAll('#tcf-vocab-view-tabs .pill').forEach(function(pill){
+    pill.classList.remove('active');
+  });
+  var view = document.getElementById('tcf-vocab-' + id);
+  if(view){
+    view.hidden = false;
+    view.classList.add('visible');
+  }
+  if(btn) btn.classList.add('active');
+}
+
+function initTcfVocabSelection(){
+  document.querySelectorAll('#tcf-vocab-text .mini-table, #tcf-vocab-text .phrase-bank > div').forEach(function(block, index){
+    if(block.querySelector('.tcf-vocab-select')) return;
+    var title = block.querySelector('h5');
+    if(!title) return;
+    var label = document.createElement('label');
+    label.className = 'tcf-vocab-select';
+    label.innerHTML = '<input type="checkbox" aria-label="Select for printing"> <span>Select</span>';
+    title.appendChild(label);
+    block.dataset.printIndex = String(index + 1);
+  });
+  document.querySelectorAll('#tcf-vocab-text .mini-table table tr').forEach(function(row){
+    if(row.querySelector('th') || row.querySelector('.tcf-vocab-row-check')) return;
+    var firstCell = row.querySelector('td');
+    if(!firstCell) return;
+    var label = document.createElement('label');
+    label.className = 'tcf-vocab-row-check';
+    label.innerHTML = '<input type="checkbox" aria-label="Check word for printing">';
+    firstCell.insertBefore(label, firstCell.firstChild);
+  });
+  document.querySelectorAll('#tcf-vocab-text .phrase-bank p').forEach(function(line){
+    if(line.querySelector('.tcf-vocab-row-check')) return;
+    var label = document.createElement('label');
+    label.className = 'tcf-vocab-row-check phrase-check';
+    label.innerHTML = '<input type="checkbox" aria-label="Check phrase for printing">';
+    line.insertBefore(label, line.firstChild);
+  });
+}
+
+function printSelectedTcfVocab(){
+  initTcfVocabSelection();
+  var selected = Array.from(document.querySelectorAll('#tcf-vocab-text .mini-table, #tcf-vocab-text .phrase-bank > div')).filter(function(block){
+    var checkbox = block.querySelector('.tcf-vocab-select input');
+    return checkbox && checkbox.checked;
+  });
+  if(!selected.length){
+    window.alert('Please select at least one vocabulary block to print.');
+    return;
+  }
+  var content = selected.map(function(block){
+    var clone = block.cloneNode(true);
+    clone.querySelectorAll('.tcf-vocab-select').forEach(function(el){ el.remove(); });
+    return '<section class="print-block">' + clone.innerHTML + '</section>';
+  }).join('');
+  var printWindow = window.open('', '_blank');
+  if(!printWindow) return;
+  printWindow.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Selected TCF Vocabulary</title><style>body{font-family:Arial,sans-serif;color:#111827;margin:28px;background:#fff}h1{font-size:24px;color:#1d4ed8;margin:0 0 22px}section{break-inside:avoid;margin:0 0 22px;border:1px solid #dbeafe;border-radius:10px;overflow:hidden}h5{margin:0;padding:14px 16px;background:#eff6ff;color:#1e3a8a;font-size:18px}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px 10px;border:1px solid #d1d5db;text-align:left;vertical-align:top}th{background:#f3f4f6}p{margin:0;padding:10px 14px;border-top:1px solid #e5e7eb;line-height:1.45}@page{size:A4;margin:12mm}</style></head><body><h1>Selected TCF Vocabulary</h1>' + content + '<script>window.onload=function(){window.print();};<\/script></body></html>');
+  printWindow.document.close();
+}
+
+function printCheckedTcfVocab(){
+  initTcfVocabSelection();
+  var sections = [];
+  document.querySelectorAll('#tcf-vocab-text .mini-table').forEach(function(block){
+    var checkedRows = Array.from(block.querySelectorAll('tr')).filter(function(row){
+      var checkbox = row.querySelector('.tcf-vocab-row-check input');
+      return checkbox && checkbox.checked;
+    });
+    if(!checkedRows.length) return;
+    var title = block.querySelector('h5') ? block.querySelector('h5').cloneNode(true) : null;
+    if(title) title.querySelectorAll('.tcf-vocab-select, .tcf-vocab-row-check').forEach(function(el){ el.remove(); });
+    var rows = checkedRows.map(function(row){
+      var clone = row.cloneNode(true);
+      clone.querySelectorAll('.tcf-vocab-row-check').forEach(function(el){ el.remove(); });
+      return clone.outerHTML;
+    }).join('');
+    sections.push('<section><h2>' + (title ? title.textContent.trim() : 'Vocabulary') + '</h2><table><tr><th>Français</th><th>Anglais</th></tr>' + rows + '</table></section>');
+  });
+  document.querySelectorAll('#tcf-vocab-text .phrase-bank > div').forEach(function(block){
+    var checkedPhrases = Array.from(block.querySelectorAll('p')).filter(function(line){
+      var checkbox = line.querySelector('.tcf-vocab-row-check input');
+      return checkbox && checkbox.checked;
+    });
+    if(!checkedPhrases.length) return;
+    var title = block.querySelector('h5') ? block.querySelector('h5').cloneNode(true) : null;
+    if(title) title.querySelectorAll('.tcf-vocab-select, .tcf-vocab-row-check').forEach(function(el){ el.remove(); });
+    var phrases = checkedPhrases.map(function(line){
+      var clone = line.cloneNode(true);
+      clone.querySelectorAll('.tcf-vocab-row-check').forEach(function(el){ el.remove(); });
+      return '<p>' + clone.textContent.trim() + '</p>';
+    }).join('');
+    sections.push('<section><h2>' + (title ? title.textContent.trim() : 'Phrases') + '</h2>' + phrases + '</section>');
+  });
+  if(!sections.length){
+    window.alert('Please check at least one word or phrase to print.');
+    return;
+  }
+  var printWindow = window.open('', '_blank');
+  if(!printWindow) return;
+  printWindow.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Checked TCF Vocabulary</title><style>body{font-family:Arial,sans-serif;color:#111827;margin:28px;background:#fff}h1{font-size:24px;color:#1d4ed8;margin:0 0 22px}section{break-inside:avoid;margin:0 0 22px}h2{margin:0 0 10px;padding:12px 14px;background:#eff6ff;color:#1e3a8a;border-left:5px solid #2563eb;border-radius:8px;font-size:18px}table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:8px}th,td{padding:9px 10px;border:1px solid #d1d5db;text-align:left;vertical-align:top}th{background:#f3f4f6}p{margin:0 0 8px;padding:10px 12px;border:1px solid #dbeafe;border-radius:8px;line-height:1.45}@page{size:A4;margin:12mm}</style></head><body><h1>Checked TCF Vocabulary</h1>' + sections.join('') + '<script>window.onload=function(){window.print();};<\/script></body></html>');
+  printWindow.document.close();
+}
+
+document.addEventListener('DOMContentLoaded', initTcfVocabSelection);
+
 var irregVerbData = [
   {v:'être', ar:'يكون', p:['suis','es','est','sommes','êtes','sont'], pp:'été', aux:'avoir', fut:'ser', subj:['sois','sois','soit','soyons','soyez','soient'], ps:['fus','fus','fut','fûmes','fûtes','furent'], imp:['sois','soyons','soyez']},
   {v:'avoir', ar:'يمتلك / عنده', p:['ai','as','a','avons','avez','ont'], pp:'eu', aux:'avoir', fut:'aur', subj:['aie','aies','ait','ayons','ayez','aient'], ps:['eus','eus','eut','eûmes','eûtes','eurent'], imp:['aie','ayons','ayez']},

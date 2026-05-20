@@ -64,6 +64,7 @@
 <div id="panel-grammaire" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs" id="pills-grammaire">
+      <button class="pill" onclick="showSec('books',this,'grammaire')"><span class="pi">📚</span>Books</button>
       <button class="pill active" onclick="showSec('pronoms',this,'grammaire')"><span class="pi">👤</span>Pronoms</button>
       <button class="pill" onclick="showSec('verbes',this,'grammaire')"><span class="pi">🔤</span>Verbes</button>
       <button class="pill" onclick="showSec('articles',this,'grammaire')"><span class="pi">📌</span>Articles</button>
@@ -1901,6 +1902,33 @@
       </div>
 
     </section>
+
+    <!-- BOOKS -->
+    <section class="sec" id="g-books">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:#ede9fe">📘</div>
+          <div class="sec-title">Les <em>books</em></div>
+          <div class="sec-ar">الكتب</div>
+        </div>
+        <span class="usage-tag tag-fut">BOOKS</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Choisir un livre</span>
+        <div class="nav-pills nested-child-tabs" id="book-preview-tabs" style="justify-content:flex-start;margin-top:10px;margin-bottom:14px">
+          <button class="pill active" type="button" onclick="showBookPreview('assets/books/en-route-pour-le-fle-a1-a2.pdf','En route pour le FLE A1-A2',this)"><span class="pi">📘</span>En route pour le FLE A1-A2</button>
+          <button class="pill" type="button" onclick="showBookPreview('assets/books/en-route-pour-le-fle-a2-b1.pdf','En route pour le FLE A2-B1',this)"><span class="pi">📗</span>En route pour le FLE A2-B1</button>
+        </div>
+        <span class="card-label" id="book-preview-title">En route pour le FLE A1-A2</span>
+        <object id="book-preview-frame" data="assets/books/en-route-pour-le-fle-a1-a2.pdf" type="application/pdf" style="width:100%;height:760px;border:1.5px solid #e8eaf0;border-radius:14px;background:white">
+          <div class="note">إذا لم يظهر ملف PDF في المتصفح، افتحه من هنا: <a id="book-preview-fallback-inline" href="assets/books/en-route-pour-le-fle-a1-a2.pdf">En route pour le FLE A1-A2.pdf</a></div>
+        </object>
+        <div class="note" style="margin-top:12px">
+          <a id="book-preview-link" href="assets/books/en-route-pour-le-fle-a1-a2.pdf" target="_blank" rel="noopener">Ouvrir le PDF dans un nouvel onglet</a>
+        </div>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -1908,6 +1936,7 @@
 <div id="panel-temps" class="panel active">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs">
+      <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
       <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
       <button class="pill active" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
     </div>
@@ -2594,6 +2623,7 @@
 <div id="panel-oral" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs" id="pills-oral">
+      <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));setTimeout(()=>document.querySelector('#pills-grammaire .pill[onclick*=books]')?.click(),60)"><span class="pi">📚</span>Books</button>
       <button class="pill" onclick="showMariane(this)"><span class="pi">🎤</span>Oral (Mariane et Linda)</button>
       <button class="pill active" onclick="showOral('devoirs',this)"><span class="pi">📝</span>Devoirs</button>
     </div>
@@ -3098,6 +3128,7 @@
 <div id="panel-phonetique" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs" id="pills-phonetique">
+      <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));setTimeout(()=>document.querySelector('#pills-grammaire .pill[onclick*=books]')?.click(),60)"><span class="pi">📚</span>Books</button>
       <button class="pill active" onclick="showPhon('accents',this)"><span class="pi">✍️</span>Accents (é è ê ë ç)</button>
       <button class="pill" onclick="showPhon('e-rule',this)"><span class="pi">🔥</span>قاعدة حرف E</button>
       <button class="pill" onclick="showPhon('combinees',this)"><span class="pi">🔗</span>Voyelles Combinées</button>
@@ -4134,6 +4165,7 @@
           <button class="pill active" type="button" onclick="showVocabularySub('all',this)"><span class="pi">📚</span>Tous</button>
           <button class="pill" type="button" onclick="showVocabularySub('new',this)"><span class="pi">⭐</span>Nouveaux mots</button>
           <button class="pill" type="button" onclick="showVocabularySub('verbs',this)"><span class="pi">🔤</span>Verbes</button>
+          <button class="pill" type="button" onclick="showVocabularySub('essay',this)"><span class="pi">✍️</span>Dissertation</button>
         </div>
       </div>
       <div class="vocab-subview visible" id="vocab-sub-all">
@@ -4145,6 +4177,43 @@
       <div class="vocab-subview" id="vocab-sub-verbs">
         <div class="vocab-grid" id="vocabVerbGrid"></div>
       </div>
+      <div class="vocab-subview" id="vocab-sub-essay">
+        <div class="card">
+          <span class="card-label">Dissertation</span>
+          <div class="nav-pills nested-child-tabs" id="dissertation-tabs" style="justify-content:flex-start;margin-top:10px;margin-bottom:14px">
+            <button class="pill active" type="button" onclick="showDissertation('lucas',this)"><span class="pi">👤</span>Lucas Martin</button>
+            <button class="pill" type="button" onclick="showDissertation('ahmed',this)"><span class="pi">🇨🇦</span>Ahmed en Canada</button>
+          </div>
+          <div class="dissertation-page dissertation-doc visible" id="dissertation-lucas">
+            <p><span class="red-text">Bonjour, <u>je m’appelle</u> Lucas Martin, <u>j’ai</u> 23 ans et <u>je suis</u> français. Je suis <u>né</u> et j’ai <u>grandi</u> à Lyon, mais aujourd’hui j’<u>habite</u> à Toulouse,</span> <span class="blue-text"><u>car</u> j’y <u>fais un</u> master en économie. Mes parents <u>vivent toujours</u> à Lyon et j’ai <u>une</u> soeur cadette <u>qui étudie la</u> médecine. Nous sommes proches, <u>même si</u> je <u>ne rentre pas</u> très <u>souvent</u> <u>à cause de</u> mes études.</span></p>
+
+            <p>Pendant mon temps libre, j’<u>aime</u> beaucoup le sport : je <u>joue au</u> football avec des amis chaque week-end et je <u>vais</u> aussi <u>courir</u> deux fois par semaine. J’aime aussi <u>lire</u> des articles sur l’actualité économique et <u>regarder</u> des documentaires.</p>
+
+            <p>Dans ces moments de détente, je me sens heureux et motivé.</p>
+
+            <p>Pour l’avenir, mon projet principal est de <u>terminer</u> mon master avec succès et de <u>trouver</u> un emploi dans une grande entreprise internationale. J’aimerais <u>voyager</u>, <u>découvrir</u> d’autres cultures et <u>utiliser</u> mes compétences en économie dans un contexte global. Je <u>rêve</u> de <u>travailler</u> dans cette grande entreprise internationale, et d’<u>appliquer</u> ces compétences professionnelles dans un contexte global.</p>
+          </div>
+          <div class="dissertation-page dissertation-doc" id="dissertation-ahmed" hidden>
+            <h2><span class="doc-icon">📋</span> Programme A2 – Immigration au Canada (6 séances)</h2>
+
+            <p>Je m’appelle Ahmed et j’ai immigré au <strong>Canada</strong> il y a deux ans. Quand je suis arrivé, tout était <strong>nouveau</strong> et parfois un peu <strong>difficile</strong>. Je <strong class="red-word">ne</strong> connaissais <strong class="red-word">personne</strong> et je ne parlais <strong>presque pas bien</strong> le français. Mais je <strong class="red-word">n’</strong>ai <strong class="red-word">jamais</strong> abandonné, car j’étais très <strong>motivé</strong> et <strong>curieux</strong>.</p>
+
+            <p>Au début, j’ai suivi des cours de langue. Les professeurs étaient <strong>gentils</strong> et <strong>patients</strong>. Ils expliquaient <strong>clairement</strong> <strong class="red-word">et</strong> ils répétaient <strong>souvent</strong> les exercices. Grâce à eux, j’ai appris <strong>beaucoup</strong> de vocabulaire. Maintenant, je comprends <strong>assez bien</strong> les Canadiens, même s’ils parlent <strong>vite</strong> parfois.</p>
+
+            <p>Ma vie quotidienne a beaucoup changé. Avant, je vivais avec mes parents, mais aujourd’hui je vis dans un petit appartement <strong>confortable</strong> et <strong>lumineux</strong>. Je prépare souvent des repas simples : du riz, <strong>des pâtes</strong>, <strong>de la viande</strong>, ou encore <strong>des légumes</strong> frais. Mais quand je suis fatigué, je <strong class="red-word">ne</strong> mange <strong class="red-word">rien</strong> de compliqué, seulement un peu de pain avec du fromage.</p>
+
+            <p>Le climat est très différent. En hiver, il fait <strong>très froid</strong> et il y a <strong>beaucoup</strong> de neige. Je n’avais jamais vu <strong>autant</strong> de neige dans ma vie ! Au début, je n’aimais <strong>pas du tout</strong> l’hiver, mais maintenant je commence à l’apprécier. Je fais du ski et je sors <strong>souvent</strong> avec mes amis pour marcher. En été, c’est agréable : les journées sont <strong>longues</strong> et les parcs sont <strong>magnifiques</strong>.</p>
+
+            <p>Je rencontre aussi de nouvelles personnes. Parfois, je me sens encore seul, mais je me dis : <em>« Si je faisais plus d’efforts, je rencontrerais davantage de gens ».</em> J’aurais aimé connaître plus de monde dès mon arrivée, mais je comprends que cela prend du temps.</p>
+
+            <p>Aujourd’hui, je travaille dans un petit magasin. Les clients sont <strong>sympathiques</strong>, mais il y a toujours des défis. Un client m’a dit un jour : <em>« Ne perds pas ton courage ! Continue ! »</em> Cette phrase m’a beaucoup aidé.</p>
+
+            <p>Pour l’avenir, j’ai plusieurs projets. Je voudrais obtenir la citoyenneté canadienne et je voudrais aussi étudier à l’université. Si j’<strong>avais plus d’argent</strong>, je voyagerais dans tout le pays. Peut-être que l’année prochaine, je visiterai Vancouver.</p>
+
+            <p>Alors, si tu viens au Canada un jour, <strong>n’aie pas peur !</strong> <strong>Ouvre</strong> ton esprit, <strong>profite</strong> de chaque opportunité et <strong>apprends</strong> la langue chaque jour. Tu verras, même si la vie est parfois difficile, elle devient <strong>toujours plus belle</strong> avec de la patience et des efforts.</p>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 </div><!-- end panel-vocabulary -->
@@ -4153,6 +4222,7 @@
 <div id="panel-tcf" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs" id="pills-tcf">
+      <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));setTimeout(()=>document.querySelector('#pills-grammaire .pill[onclick*=books]')?.click(),60)"><span class="pi">📚</span>Books</button>
       <button class="pill active" onclick="showTcf('ecrit',this)"><span class="pi">✍️</span>Écrit</button>
       <button class="pill" onclick="showTcf('oral',this)"><span class="pi">🎤</span>Oral</button>
       <button class="pill" onclick="showTcf('vocabulary',this)"><span class="pi">📚</span>Vocabulary</button>
@@ -4190,30 +4260,40 @@
       <div class="card tcf-consignes-card">
         <span class="card-label">Consignes — Copy of Exercice.pdf</span>
         <div class="grid-2 tcf-consignes-grid">
+          <div class="tcf-category-title tcf-cat-info"><span>🚌 🤝</span> Catégorie 1 — Demander / donner des informations + demander de l'aide</div>
           <div class="ex-row"><span class="ex-fr">Sujet 1 : Votre ami Mehdi vient de déménager dans votre ville et cherche des renseignements sur les moyens de transports. Écrivez un message en lui donnant les informations nécessaires.</span></div>
           <div class="ex-row"><span class="ex-fr">Sujet 2 : Votre ami Cédric vient à votre mariage au Château de Chambon et ne connaît pas ce château. Décrivez le lieu, la localisation et les transports.</span></div>
           <div class="ex-row"><span class="ex-fr">Sujet 3 : Vous allez bientôt déménager. Écrivez à votre ami(e) pour demander son aide avec la date, le lieu et les transports.</span></div>
+          <div class="tcf-category-title tcf-cat-anniv"><span>🎂 ❤️</span> Catégorie 2 — Anniversaire et week-end</div>
           <div class="ex-row"><span class="ex-fr tcf-consigne-invitation">Sujet 4 (Invitation) : Invitez vos amis à célébrer votre anniversaire tout en sollicitant leur soutien pour organiser la fête.</span></div>
-          <div class="ex-row"><span class="ex-fr tcf-consigne-invitation">Sujet 5 (Invitation) : Un événement sportif aura lieu dans votre ville. Invitez vos amis avec la date, le lieu et l'inscription.</span></div>
           <div class="ex-row"><span class="ex-fr">Sujet 6 : Vous voulez partir en week-end avec vos amis. Décrivez le projet : lieu, transport, activités.</span></div>
+          <div class="tcf-category-title tcf-cat-sport"><span>⚽ 💪</span> Catégorie 3 — Sport et fitness</div>
+          <div class="ex-row"><span class="ex-fr tcf-consigne-invitation">Sujet 5 (Invitation) : Un événement sportif aura lieu dans votre ville. Invitez vos amis avec la date, le lieu et l'inscription.</span></div>
+          <div class="ex-row"><span class="ex-fr">Sujet 10 : Répondez à Camille qui veut faire du sport avec vous. Décrivez votre activité sportive : lieu, durée, prix.</span></div>
+          <div class="tcf-category-title tcf-cat-desc"><span>🏙️</span> Catégorie 4 — Description de lieu, ville et objets</div>
           <div class="ex-row"><span class="ex-fr">Sujet 7 : Vous avez déménagé dans une nouvelle ville. Écrivez à Léo pour décrire votre appartement, le quartier, la ville et les activités découvertes.</span></div>
           <div class="ex-row"><span class="ex-fr">Sujet 8 : Pour votre anniversaire, vos amis demandent quels cadeaux vous souhaitez. Décrivez les vêtements que vous aimeriez recevoir.</span></div>
+          <div class="tcf-category-title tcf-cat-response"><span>📧</span> Catégorie 5 — Répondre à une annonce ou à une demande</div>
           <div class="ex-row"><span class="ex-fr">Sujet 9 : Répondez à une annonce pour pratiquer le français. Présentez-vous et expliquez pourquoi vous voulez pratiquer cette langue.</span></div>
-          <div class="ex-row"><span class="ex-fr">Sujet 10 : Répondez à Camille qui veut faire du sport avec vous. Décrivez votre activité sportive : lieu, durée, prix.</span></div>
         </div>
       </div>
       <div class="card">
         <span class="card-label">Exemples de réponses</span>
-        <div class="q-card tcf-sujet-card open"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">1</span><div><div class="q-label">Transport</div><div class="q-text">Votre ami Mehdi vient de déménager dans votre ville et cherche des renseignements sur les moyens de transports. Écrivez un message en lui donnant les informations nécessaires.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Mehdi,</div><div class="fr-line">Bienvenue dans la ville ! Pour tes déplacements, tu as plusieurs options : le métro, les bus et les tramways. Il existe des abonnements mensuels à environ 70 €, mais si tu ne te déplaces pas souvent, tu peux acheter des tickets à l'unité ou en carnet. Les transports fonctionnent de 5 h à minuit, et certaines lignes de bus circulent la nuit. Si tu préfères le vélo, il y a aussi un service de location. Fais-moi signe si tu veux qu'on explore la ville ensemble !</div><div class="fr-line">À bientôt !</div></div></div></div>
-        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">2</span><div><div class="q-label">Lieu</div><div class="q-text">Vous avez invité votre ami Cédric à votre mariage au Château de Chambon et il vous a répondu qu'il ne connaît pas ce château. Décrivez à votre ami le lieu, la localisation et les transports.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Cédric,</div><div class="fr-line">Je suis ravi que tu viennes à mon mariage ! Le Château de Chambon est un lieu magnifique, situé à environ 30 km de la ville, en pleine nature. Tu peux y aller en voiture ou en train jusqu'à la gare la plus proche, puis prendre un taxi. Le château date du XVIIe siècle et offre une vue splendide. Je suis sûr que tu vas adorer ! Dis-moi si tu as besoin d'aide pour l'organisation du trajet.</div><div class="fr-line">À très vite !</div></div></div></div>
-        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">3</span><div><div class="q-label">Déménagement</div><div class="q-text">Vous allez bientôt déménager. Écrivez un message à votre ami(e) pour demander son aide en fournissant les informations : date, lieu, transports.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Coucou,</div><div class="fr-line">J'espère que tu vas bien ! Je voulais te demander un coup de main pour mon déménagement. Je quitte mon appartement le 15 du mois prochain et j'aurais besoin d'aide pour transporter mes affaires. J'ai loué un camion et tout sera prêt dès 9 h du matin. Il y aura aussi quelques amis, et bien sûr, je prévois de quoi manger et boire pour nous motiver ! Fais-moi signe si tu es disponible.</div><div class="fr-line">Merci d'avance !</div></div></div></div>
-        <div class="q-card tcf-sujet-card tcf-invitation-question"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">4</span><div><div class="q-label">Anniversaire (Invitation)</div><div class="q-text">Invitez vos amis à célébrer votre anniversaire tout en sollicitant leur soutien pour organiser la fête.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut tout le monde,</div><div class="fr-line">Mon anniversaire approche et j'aimerais le fêter avec vous ! Je vous invite le samedi 20 à la maison pour une super soirée. Pour que tout soit parfait, j'aurais besoin d'un peu d'aide pour la déco et le repas. Si quelqu'un peut apporter des boissons ou un dessert, ce serait génial ! Confirmez-moi votre présence et dites-moi si vous pouvez donner un coup de main.</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
-        <div class="q-card tcf-sujet-card tcf-invitation-question"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">5</span><div><div class="q-label">Sport (Invitation)</div><div class="q-text">Un événement sportif aura lieu dans votre ville bientôt. Faites parvenir un message à vos amis pour les inviter : date, lieu, inscription.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Hey les amis,</div><div class="fr-line">Un grand événement sportif aura lieu dans notre ville le 15 du mois prochain ! Il y aura des courses, des tournois de foot et même des défis de fitness. L'inscription est gratuite, mais il faut la faire avant le 10. Ça pourrait être super sympa de participer ensemble ! Dites-moi si ça vous tente et on pourra s'organiser.</div><div class="fr-line">À bientôt !</div></div></div></div>
-        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">6</span><div><div class="q-label">Week-end</div><div class="q-text">Vous voulez partir en week-end avec vos amis le mois prochain. Vous leur écrivez un message pour décrire votre projet : lieu, transport, activités.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Coucou tout le monde,</div><div class="fr-line">J'aimerais organiser un week-end entre amis le mois prochain ! Je pense à une petite escapade à la montagne pour profiter de la nature, faire des randonnées et se détendre. On pourrait partir en voiture ou en train selon le nombre de participants. Dites-moi si vous êtes partants et quelles dates vous conviendraient !</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
-        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">7</span><div><div class="q-label">Nouvelle ville</div><div class="q-text">Vous avez déménagé dans une nouvelle ville il y a un mois. Rédigez un courriel à votre ami Léo pour lui donner de vos nouvelles : appartement, quartier, ville et activités découvertes.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Léo,</div><div class="fr-line">Ça fait un mois que j'ai déménagé et je voulais te donner des nouvelles ! Mon appartement est sympa, avec une belle vue sur un parc. Le quartier est dynamique, avec plein de petits cafés et magasins. La ville est agréable, et j'ai déjà découvert quelques activités : il y a un club de sport sympa et un marché local tous les week-ends. J'espère que tout va bien de ton côté !</div><div class="fr-line">À bientôt !</div></div></div></div>
-        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">8</span><div><div class="q-label">Cadeaux</div><div class="q-text">Vous allez fêter votre anniversaire. Vos amis vous demandent ce que vous souhaitez comme cadeaux. Vous voulez des vêtements, vous leur écrivez un message pour décrire les vêtements que vous aimeriez recevoir.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut les amis,</div><div class="fr-line">Merci de penser à mon anniversaire ! Si vous voulez me faire plaisir, j'aimerais bien recevoir des vêtements. J'adore les pulls en laine et les chemises élégantes, surtout en bleu ou en gris. Sinon, un joli t-shirt ou une écharpe me ferait aussi plaisir ! Peu importe, l'important est de passer un bon moment ensemble.</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
-        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">9</span><div><div class="q-label">Français</div><div class="q-text">Vous avez lu une annonce qui propose d'aider les personnes qui souhaitent apprendre le français et pratiquer avec d'autres personnes. Envoyez un email pour répondre à cette annonce en vous présentant et en expliquant pourquoi vous voulez pratiquer cette langue.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Objet : Demande de participation au programme d'apprentissage du français</div><div class="fr-line">Bonjour,</div><div class="fr-line">Je suis très intéressé(e) par votre programme d'aide aux personnes qui souhaitent pratiquer le français. J'apprends cette langue depuis un moment et j'aimerais améliorer mon niveau en échangeant avec des locuteurs natifs. Je serais ravi(e) de discuter et d'échanger sur différents sujets pour progresser. Pouvez-vous m'indiquer comment rejoindre votre programme ?</div><div class="fr-line">Merci d'avance pour votre réponse !</div><div class="fr-line">Cordialement, Sara</div></div></div></div>
-        <div class="q-card tcf-sujet-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">10</span><div><div class="q-label">Fitness</div><div class="q-text">Camille sait que vous faites du sport depuis le mois dernier et veut venir avec vous. Répondez à votre ami Camille en décrivant votre activité sportive et en donnant des informations utiles : lieu, durée, prix.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Camille,</div><div class="fr-line">Je suis super content(e) que ça t'intéresse ! Je fais du fitness dans une salle près du centre-ville. Les séances durent une heure et coûtent 30 € par mois. Il y a aussi des cours collectifs, c'est motivant ! Si tu veux essayer, viens avec moi la semaine prochaine, je te montrerai tout.</div><div class="fr-line">À bientôt !</div></div></div></div>
+        <div class="tcf-category-title tcf-cat-info"><span>🚌 🤝</span> Catégorie 1 — Demander / donner des informations + demander de l'aide</div>
+        <div class="q-card tcf-sujet-card tcf-cat-info open"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">1</span><div><div class="q-label">Transport</div><div class="q-text">Votre ami Mehdi vient de déménager dans votre ville et cherche des renseignements sur les moyens de transports. Écrivez un message en lui donnant les informations nécessaires.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Mehdi,</div><div class="fr-line">Bienvenue dans la ville ! Pour tes déplacements, tu as plusieurs options : le métro, les bus et les tramways. Il existe des abonnements mensuels à environ 70 €, mais si tu ne te déplaces pas souvent, tu peux acheter des tickets à l'unité ou en carnet. Les transports fonctionnent de 5 h à minuit, et certaines lignes de bus circulent la nuit. Si tu préfères le vélo, il y a aussi un service de location. Fais-moi signe si tu veux qu'on explore la ville ensemble !</div><div class="fr-line">À bientôt !</div></div></div></div>
+        <div class="q-card tcf-sujet-card tcf-cat-info"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">2</span><div><div class="q-label">Lieu</div><div class="q-text">Vous avez invité votre ami Cédric à votre mariage au Château de Chambon et il vous a répondu qu'il ne connaît pas ce château. Décrivez à votre ami le lieu, la localisation et les transports.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Cédric,</div><div class="fr-line">Je suis ravi que tu viennes à mon mariage ! Le Château de Chambon est un lieu magnifique, situé à environ 30 km de la ville, en pleine nature. Tu peux y aller en voiture ou en train jusqu'à la gare la plus proche, puis prendre un taxi. Le château date du XVIIe siècle et offre une vue splendide. Je suis sûr que tu vas adorer ! Dis-moi si tu as besoin d'aide pour l'organisation du trajet.</div><div class="fr-line">À très vite !</div></div></div></div>
+        <div class="q-card tcf-sujet-card tcf-cat-info"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">3</span><div><div class="q-label">Déménagement</div><div class="q-text">Vous allez bientôt déménager. Écrivez un message à votre ami(e) pour demander son aide en fournissant les informations : date, lieu, transports.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Coucou,</div><div class="fr-line">J'espère que tu vas bien ! Je voulais te demander un coup de main pour mon déménagement. Je quitte mon appartement le 15 du mois prochain et j'aurais besoin d'aide pour transporter mes affaires. J'ai loué un camion et tout sera prêt dès 9 h du matin. Il y aura aussi quelques amis, et bien sûr, je prévois de quoi manger et boire pour nous motiver ! Fais-moi signe si tu es disponible.</div><div class="fr-line">Merci d'avance !</div></div></div></div>
+        <div class="tcf-category-title tcf-cat-anniv"><span>🎂 ❤️</span> Catégorie 2 — Anniversaire et week-end</div>
+        <div class="q-card tcf-sujet-card tcf-cat-anniv"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">4</span><div><div class="q-label">Anniversaire (Invitation)</div><div class="q-text">Invitez vos amis à célébrer votre anniversaire tout en sollicitant leur soutien pour organiser la fête.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut tout le monde,</div><div class="fr-line">Mon anniversaire approche et j'aimerais le fêter avec vous ! Je vous invite le samedi 20 à la maison pour une super soirée. Pour que tout soit parfait, j'aurais besoin d'un peu d'aide pour la déco et le repas. Si quelqu'un peut apporter des boissons ou un dessert, ce serait génial ! Confirmez-moi votre présence et dites-moi si vous pouvez donner un coup de main.</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
+        <div class="q-card tcf-sujet-card tcf-cat-anniv"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">6</span><div><div class="q-label">Week-end</div><div class="q-text">Vous voulez partir en week-end avec vos amis le mois prochain. Vous leur écrivez un message pour décrire votre projet : lieu, transport, activités.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Coucou tout le monde,</div><div class="fr-line">J'aimerais organiser un week-end entre amis le mois prochain ! Je pense à une petite escapade à la montagne pour profiter de la nature, faire des randonnées et se détendre. On pourrait partir en voiture ou en train selon le nombre de participants. Dites-moi si vous êtes partants et quelles dates vous conviendraient !</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
+        <div class="tcf-category-title tcf-cat-sport"><span>⚽ 💪</span> Catégorie 3 — Sport et fitness</div>
+        <div class="q-card tcf-sujet-card tcf-cat-sport"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">5</span><div><div class="q-label">Sport (Invitation)</div><div class="q-text">Un événement sportif aura lieu dans votre ville bientôt. Faites parvenir un message à vos amis pour les inviter : date, lieu, inscription.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Hey les amis,</div><div class="fr-line">Un grand événement sportif aura lieu dans notre ville le 15 du mois prochain ! Il y aura des courses, des tournois de foot et même des défis de fitness. L'inscription est gratuite, mais il faut la faire avant le 10. Ça pourrait être super sympa de participer ensemble ! Dites-moi si ça vous tente et on pourra s'organiser.</div><div class="fr-line">À bientôt !</div></div></div></div>
+        <div class="q-card tcf-sujet-card tcf-cat-sport"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">10</span><div><div class="q-label">Fitness</div><div class="q-text">Camille sait que vous faites du sport depuis le mois dernier et veut venir avec vous. Répondez à votre ami Camille en décrivant votre activité sportive et en donnant des informations utiles : lieu, durée, prix.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Camille,</div><div class="fr-line">Je suis super content(e) que ça t'intéresse ! Je fais du fitness dans une salle près du centre-ville. Les séances durent une heure et coûtent 30 € par mois. Il y a aussi des cours collectifs, c'est motivant ! Si tu veux essayer, viens avec moi la semaine prochaine, je te montrerai tout.</div><div class="fr-line">À bientôt !</div></div></div></div>
+        <div class="tcf-category-title tcf-cat-desc"><span>🏙️</span> Catégorie 4 — Description de lieu, ville et objets</div>
+        <div class="q-card tcf-sujet-card tcf-cat-desc"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">7</span><div><div class="q-label">Nouvelle ville</div><div class="q-text">Vous avez déménagé dans une nouvelle ville il y a un mois. Rédigez un courriel à votre ami Léo pour lui donner de vos nouvelles : appartement, quartier, ville et activités découvertes.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Léo,</div><div class="fr-line">Ça fait un mois que j'ai déménagé et je voulais te donner des nouvelles ! Mon appartement est sympa, avec une belle vue sur un parc. Le quartier est dynamique, avec plein de petits cafés et magasins. La ville est agréable, et j'ai déjà découvert quelques activités : il y a un club de sport sympa et un marché local tous les week-ends. J'espère que tout va bien de ton côté !</div><div class="fr-line">À bientôt !</div></div></div></div>
+        <div class="q-card tcf-sujet-card tcf-cat-desc"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">8</span><div><div class="q-label">Cadeaux</div><div class="q-text">Vous allez fêter votre anniversaire. Vos amis vous demandent ce que vous souhaitez comme cadeaux. Vous voulez des vêtements, vous leur écrivez un message pour décrire les vêtements que vous aimeriez recevoir.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut les amis,</div><div class="fr-line">Merci de penser à mon anniversaire ! Si vous voulez me faire plaisir, j'aimerais bien recevoir des vêtements. J'adore les pulls en laine et les chemises élégantes, surtout en bleu ou en gris. Sinon, un joli t-shirt ou une écharpe me ferait aussi plaisir ! Peu importe, l'important est de passer un bon moment ensemble.</div><div class="fr-line">Hâte de vous voir !</div></div></div></div>
+        <div class="tcf-category-title tcf-cat-response"><span>📧</span> Catégorie 5 — Répondre à une annonce ou à une demande</div>
+        <div class="q-card tcf-sujet-card tcf-cat-response"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">9</span><div><div class="q-label">Français</div><div class="q-text">Vous avez lu une annonce qui propose d'aider les personnes qui souhaitent apprendre le français et pratiquer avec d'autres personnes. Envoyez un email pour répondre à cette annonce en vous présentant et en expliquant pourquoi vous voulez pratiquer cette langue.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Objet : Demande de participation au programme d'apprentissage du français</div><div class="fr-line">Bonjour,</div><div class="fr-line">Je suis très intéressé(e) par votre programme d'aide aux personnes qui souhaitent pratiquer le français. J'apprends cette langue depuis un moment et j'aimerais améliorer mon niveau en échangeant avec des locuteurs natifs. Je serais ravi(e) de discuter et d'échanger sur différents sujets pour progresser. Pouvez-vous m'indiquer comment rejoindre votre programme ?</div><div class="fr-line">Merci d'avance pour votre réponse !</div><div class="fr-line">Cordialement, Sara</div></div></div></div>
       </div>
       </div>
 
@@ -5193,11 +5273,116 @@
         <span class="usage-tag tag-fut">VOCAB</span>
       </div>
       <div class="card">
-        <span class="card-label">Copy of vocab tache 1 EE.pdf</span>
-        <div class="note" style="margin-bottom:14px">هذا الملف PDF مصور، لذلك تم إدراجه داخل الصفحة كمرجع مرئي كامل.</div>
-        <object data="assets/tcf/vocab-tache-1-ee.pdf" type="application/pdf" style="width:100%;height:760px;border:1.5px solid #e8eaf0;border-radius:14px;background:white">
-          <div class="note">إذا لم يظهر ملف PDF في المتصفح، افتحه من هنا: <a href="assets/tcf/vocab-tache-1-ee.pdf">vocab-tache-1-ee.pdf</a></div>
-        </object>
+        <span class="card-label">Vocabulaire TCF Canada</span>
+        <div class="nav-pills nested-child-tabs" id="tcf-vocab-view-tabs" style="justify-content:flex-start;margin-top:10px;margin-bottom:14px">
+          <button class="pill active" type="button" onclick="showTcfVocabView('pdf',this)"><span class="pi">📄</span>PDF</button>
+          <button class="pill" type="button" onclick="showTcfVocabView('text',this)"><span class="pi">📚</span>Text Content</button>
+          <button class="pill" type="button" onclick="showTcfVocabView('text',document.querySelector('#tcf-vocab-view-tabs .pill[onclick*=text]'));printSelectedTcfVocab()"><span class="pi">🖨️</span>Printed Select</button>
+          <button class="pill" type="button" onclick="showTcfVocabView('text',document.querySelector('#tcf-vocab-view-tabs .pill[onclick*=text]'));printCheckedTcfVocab()"><span class="pi">✅</span>Print checked</button>
+        </div>
+        <div class="tcf-vocab-view visible" id="tcf-vocab-pdf">
+          <div class="note" style="margin-bottom:14px">هذا الملف PDF مصور، لذلك تم إدراجه داخل الصفحة كمرجع مرئي كامل.</div>
+          <object data="assets/tcf/vocab-tache-1-ee.pdf" type="application/pdf" style="width:100%;height:760px;border:1.5px solid #e8eaf0;border-radius:14px;background:white">
+            <div class="note">إذا لم يظهر ملف PDF في المتصفح، افتحه من هنا: <a href="assets/tcf/vocab-tache-1-ee.pdf">vocab-tache-1-ee.pdf</a></div>
+          </object>
+        </div>
+        <div class="tcf-vocab-view" id="tcf-vocab-text" hidden>
+          <div class="tcf-vocab-doc">
+            <div class="tcf-vocab-hero">
+              <h3>🍁 Sara Toumi TCF Canada</h3>
+              <p>Préparez-vous au TCF Canada avec succès · 2025</p>
+              <button class="tcf-vocab-print-btn" type="button" onclick="printSelectedTcfVocab()">Print selected</button>
+              <button class="tcf-vocab-print-btn secondary" type="button" onclick="printCheckedTcfVocab()">Print checked</button>
+            </div>
+
+            <div class="tcf-vocab-section">
+              <h4>📑 Table of Contents</h4>
+              <table class="tbl">
+                <tr><th>Section</th><th>Page</th></tr>
+                <tr><td><strong>1. Invitations et événements sociaux</strong></td><td>1</td></tr>
+                <tr><td class="toc-subtopic">1.1 Anniversaire</td><td>1</td></tr>
+                <tr><td class="toc-subtopic">1.2 Fête de mariage</td><td>2</td></tr>
+                <tr><td class="toc-subtopic">1.3 Week-end sportif</td><td>2-3</td></tr>
+                <tr><td class="toc-subtopic">1.4 Soirée cinéma</td><td>3</td></tr>
+                <tr><td class="toc-subtopic">1.5 Visite au musée</td><td>4</td></tr>
+                <tr><td><strong>2. Description: lieux et expériences</strong></td><td>4</td></tr>
+                <tr><td class="toc-subtopic">2.1 Appartement / Chambre d'hôtel</td><td>4-5</td></tr>
+                <tr><td class="toc-subtopic">2.2 Quartier / Ville</td><td>5</td></tr>
+                <tr><td class="toc-subtopic">2.3 Nouvelle ville / Nouveau travail</td><td>6</td></tr>
+                <tr><td class="toc-subtopic">2.4 Excursion / Voyage</td><td>6-7</td></tr>
+                <tr><td><strong>3. Demande d'aide et d'informations</strong></td><td>7</td></tr>
+                <tr><td class="toc-subtopic">3.1 Aide: maison / enfants</td><td>7</td></tr>
+                <tr><td class="toc-subtopic">3.2 Infos: transport / cours</td><td>8</td></tr>
+                <tr><td><strong>4. Donner des renseignements: salle de sport</strong></td><td>9</td></tr>
+                <tr><td class="toc-subtopic">4.1 Salle de sport / gym</td><td>9</td></tr>
+                <tr><td><strong>5. Phrases et expressions</strong></td><td>10-14</td></tr>
+                <tr><td class="toc-subtopic">5.1 Anniversaire</td><td>10</td></tr>
+                <tr><td class="toc-subtopic">5.2 Mariage</td><td>10</td></tr>
+                <tr><td class="toc-subtopic">5.3 Soirée cinéma</td><td>11</td></tr>
+                <tr><td class="toc-subtopic">5.4 Visite au musée / Week-end</td><td>11</td></tr>
+                <tr><td class="toc-subtopic">5.5 Décrire un logement / Situation</td><td>12</td></tr>
+                <tr><td class="toc-subtopic">5.6 Travail / Excursion / Voyage</td><td>12</td></tr>
+                <tr><td class="toc-subtopic">5.7 Demander de l'aide</td><td>13</td></tr>
+                <tr><td class="toc-subtopic">5.8 Transport / cours</td><td>13</td></tr>
+                <tr><td class="toc-subtopic">5.9 Salle de sport</td><td>14</td></tr>
+              </table>
+            </div>
+
+            <div class="tcf-vocab-section">
+              <h4>1️⃣ Invitations et événements sociaux</h4>
+              <div class="tcf-vocab-grid">
+                <div class="mini-table"><h5>🎂 Anniversaire</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>fête d'anniversaire</td><td>birthday party</td></tr><tr><td>souffler les bougies</td><td>blow out the candles</td></tr><tr><td>faire une surprise</td><td>throw a surprise</td></tr><tr><td>offrir un cadeau</td><td>give a gift</td></tr><tr><td>gâteau d'anniversaire</td><td>birthday cake</td></tr><tr><td>carte d'anniversaire</td><td>birthday card</td></tr><tr><td>décorer la salle</td><td>decorate the room</td></tr><tr><td>organiser une fête</td><td>organize a party</td></tr><tr><td>ouvrir les cadeaux</td><td>open the presents</td></tr></table></div>
+                <div class="mini-table"><h5>💍 Fête de mariage</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>mariage</td><td>wedding</td></tr><tr><td>cérémonie</td><td>ceremony</td></tr><tr><td>salle de réception</td><td>reception hall</td></tr><tr><td>robe de mariée</td><td>wedding dress</td></tr><tr><td>inviter des proches</td><td>invite close relatives</td></tr><tr><td>partager un moment spécial</td><td>to share a special moment</td></tr></table></div>
+                <div class="mini-table"><h5>⚽ Week-end sportif</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>match de foot</td><td>soccer match</td></tr><tr><td>tournoi</td><td>tournament</td></tr><tr><td>faire une randonnée</td><td>go hiking</td></tr><tr><td>faire du vélo</td><td>go cycling</td></tr><tr><td>faire du sport ensemble</td><td>do sports together</td></tr></table></div>
+                <div class="mini-table"><h5>🎬 Soirée cinéma</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>regarder un film</td><td>watch a movie</td></tr><tr><td>film comique</td><td>comedy movie</td></tr><tr><td>film d'action</td><td>action movie</td></tr><tr><td>cinéma du quartier</td><td>local cinema</td></tr><tr><td>prendre du pop-corn</td><td>grab popcorn</td></tr></table></div>
+                <div class="mini-table"><h5>🎨 Visite au musée</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>exposition</td><td>exhibition</td></tr><tr><td>œuvre d'art</td><td>work of art</td></tr><tr><td>musée d'histoire</td><td>history museum</td></tr><tr><td>visite guidée</td><td>guided tour</td></tr><tr><td>entrée gratuite</td><td>free entry</td></tr></table></div>
+              </div>
+            </div>
+
+            <div class="tcf-vocab-section">
+              <h4>2️⃣ Description: lieux et expériences</h4>
+              <div class="tcf-vocab-grid">
+                <div class="mini-table"><h5>🏠 Appartement / Chambre d'hôtel</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>spacieux / lumineux</td><td>spacious / bright</td></tr><tr><td>bien situé</td><td>well located</td></tr><tr><td>proche des transports</td><td>near public transport</td></tr><tr><td>cuisine équipée</td><td>equipped kitchen</td></tr><tr><td>salle de bain propre</td><td>clean bathroom</td></tr></table></div>
+                <div class="mini-table"><h5>🏘️ Quartier / Ville</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>calme / animé</td><td>quiet / lively</td></tr><tr><td>quartier résidentiel</td><td>residential area</td></tr><tr><td>ville dynamique</td><td>dynamic city</td></tr><tr><td>beaucoup de commerces</td><td>many shops</td></tr><tr><td>espaces verts</td><td>green spaces</td></tr><tr><td>loin du centre-ville</td><td>far from the city center</td></tr><tr><td>bien desservi par les transports</td><td>well served by public transport</td></tr></table></div>
+                <div class="mini-table"><h5>🏢 Nouvelle ville / Nouveau travail</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>m'adapter à</td><td>adapt to</td></tr><tr><td>collègues sympas</td><td>nice colleagues</td></tr><tr><td>environnement agréable</td><td>pleasant environment</td></tr><tr><td>déménager dans</td><td>move to</td></tr><tr><td>découvrir la ville</td><td>discover the city</td></tr></table></div>
+                <div class="mini-table"><h5>✈️ Excursion / Voyage</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>faire une excursion</td><td>go on a trip</td></tr><tr><td>visiter des lieux touristiques</td><td>visit tourist spots</td></tr><tr><td>partir en vacances</td><td>go on vacation</td></tr><tr><td>prendre des photos</td><td>take pictures</td></tr><tr><td>découvrir une nouvelle culture</td><td>to discover a new culture</td></tr></table></div>
+              </div>
+            </div>
+
+            <div class="tcf-vocab-section">
+              <h4>3️⃣ Demande d'aide et d'informations</h4>
+              <div class="tcf-vocab-grid">
+                <div class="mini-table"><h5>🏠 Aide: maison / enfants</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>garder la maison</td><td>house-sit</td></tr><tr><td>garder les enfants</td><td>babysit</td></tr><tr><td>nourrir le chat / chien</td><td>feed the cat / dog</td></tr><tr><td>arroser les plantes</td><td>water the plants</td></tr><tr><td>sortir les poubelles</td><td>take out the trash</td></tr><tr><td>vérifier le courrier</td><td>check the mail</td></tr></table></div>
+                <div class="mini-table"><h5>🚌 Infos: transport / cours</h5><table class="tbl"><tr><th>Français</th><th>Anglais</th></tr><tr><td>horaires de bus</td><td>bus schedule</td></tr><tr><td>ticket de métro</td><td>subway ticket</td></tr><tr><td>trajet le plus rapide</td><td>fastest route</td></tr><tr><td>s'inscrire à un cours de...</td><td>enroll in a class of...</td></tr><tr><td>cours de langue</td><td>language course</td></tr><tr><td>cours de cuisine</td><td>cooking class</td></tr><tr><td>cours de sport</td><td>sports class</td></tr><tr><td>abonnement mensuel</td><td>monthly subscription/pass</td></tr><tr><td>horaires d'ouverture</td><td>opening hours</td></tr><tr><td>salle de sport</td><td>gym / fitness center</td></tr></table></div>
+              </div>
+            </div>
+
+            <div class="tcf-vocab-section">
+              <h4>4️⃣ Donner des renseignements: salle de sport</h4>
+              <table class="tbl">
+                <tr><th>Français</th><th>Anglais</th></tr>
+                <tr><td>salle de sport / gym</td><td>gym</td></tr><tr><td>s'inscrire à la salle</td><td>sign up for the gym</td></tr><tr><td>abonnement mensuel</td><td>monthly membership</td></tr><tr><td>équipements modernes</td><td>modern equipment</td></tr><tr><td>cours collectifs</td><td>group classes</td></tr><tr><td>coach personnel</td><td>personal trainer</td></tr><tr><td>horaires flexibles</td><td>flexible schedule</td></tr><tr><td>proche de chez moi</td><td>near my home</td></tr><tr><td>ambiance motivante</td><td>motivating atmosphere</td></tr>
+              </table>
+            </div>
+
+            <div class="tcf-vocab-section">
+              <h4>💬 Phrases et expressions</h4>
+              <div class="phrase-bank">
+                <div><h5>🎂 Anniversaire</h5><p>Je t'invite à fêter mon anniversaire samedi soir.</p><p>La fête aura lieu chez moi à 19h.</p><p>N'oublie pas d'apporter ton sourire !</p></div>
+                <div><h5>💍 Mariage</h5><p>Nous organisons une fête pour célébrer notre mariage.</p><p>Tu es cordialement invité à la cérémonie.</p><p>Merci de confirmer ta présence.</p></div>
+                <div><h5>🎬 Soirée cinéma</h5><p>On fait une soirée cinéma chez moi ce vendredi.</p><p>On va regarder une comédie drôle.</p><p>Apporte des snacks si tu veux !</p></div>
+                <div><h5>🎨 Visite au musée / Week-end</h5><p>On va visiter le musée des beaux-arts dimanche matin.</p><p>Tu veux venir avec nous ?</p><p>Ce week-end, on organise un tournoi de foot entre amis.</p></div>
+                <div><h5>🏠 Décrire un logement / Situation</h5><p>L'appartement est lumineux et bien situé.</p><p>La chambre est propre et confortable.</p><p>L'hôtel est proche du centre-ville.</p><p>Mon quartier est calme et agréable.</p><p>Il y a beaucoup de commerces et de restaurants.</p><p>La ville est grande et pleine de vie.</p></div>
+                <div><h5>🏢 Travail / Excursion / Voyage</h5><p>J'ai commencé un nouveau travail très motivant.</p><p>Nous avons fait une belle excursion en montagne.</p><p>J'ai découvert une culture très différente.</p></div>
+                <div><h5>🏠 Demander de l'aide</h5><p>Peux-tu garder mes enfants samedi après-midi ?</p><p>Je pars en voyage, peux-tu arroser mes plantes ?</p><p>Merci de ta gentillesse.</p></div>
+                <div><h5>🚌 Transport / cours</h5><p>Sais-tu à quelle heure passe le bus 31 ?</p><p>Peux-tu m'indiquer un bon cours de français ?</p><p>Je cherche un cours de cuisine pour débutants.</p></div>
+                <div><h5>💪 Salle de sport</h5><p>Je suis inscrit(e) à une salle de sport près de chez moi.</p><p>L'abonnement est abordable et les horaires sont flexibles.</p><p>Il y a des cours collectifs et des coachs professionnels.</p><p>Tu veux venir t'entraîner avec moi ?</p></div>
+              </div>
+            </div>
+
+            <div class="tcf-vocab-quote">« La motivation te fait démarrer, l'habitude te fait continuer »</div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
