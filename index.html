@@ -63,7 +63,14 @@
 <!-- ════ GRAMMAIRE PANEL ════ -->
 <div id="panel-grammaire" class="panel">
   <nav class="nav-wrap">
-    <div class="nav-pills first-child-tabs" id="pills-grammaire">
+    <div class="nav-pills first-child-tabs grammar-mode-tabs">
+      <button class="pill" data-grammar-mode="books" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
+      <button class="pill active" data-grammar-mode="roles" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
+      <button class="pill" data-grammar-mode="temps" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
+      <button class="pill" data-grammar-mode="b1" onclick="showGrammarChild('b1',this)">B1</button>
+      <button class="pill" data-grammar-mode="b2" onclick="showGrammarChild('b2',this)">B2</button>
+    </div>
+    <div class="nav-pills nested-child-tabs" id="pills-grammaire">
       <button class="pill" onclick="showSec('books',this,'grammaire')"><span class="pi">📚</span>Books</button>
       <button class="pill active" onclick="showSec('pronoms',this,'grammaire')"><span class="pi">👤</span>Pronoms</button>
       <button class="pill" onclick="showSec('verbes',this,'grammaire')"><span class="pi">🔤</span>Verbes</button>
@@ -77,7 +84,10 @@
       <button class="pill" onclick="showSec('adverbes',this,'grammaire')"><span class="pi">🧭</span>Adverbes</button>
       <button class="pill" onclick="showSec('negation',this,'grammaire')"><span class="pi">🚫</span>Négation</button>
       <button class="pill" onclick="showSec('questions',this,'grammaire')"><span class="pi">❓</span>Questions</button>
+      <button class="pill" onclick="showSec('dont',this,'grammaire')"><span class="pi">🔁</span>Dont</button>
       <button class="pill" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
+      <button class="pill" onclick="showGrammarChild('b1',this)">B1</button>
+      <button class="pill" onclick="showGrammarChild('b2',this)">B2</button>
     </div>
   </nav>
   <main class="main">
@@ -1903,6 +1913,103 @@
 
     </section>
 
+    <!-- DONT -->
+    <section class="sec" id="g-dont">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:#ecfeff">🔁</div>
+          <div class="sec-title">Pronom relatif <em>Dont</em></div>
+          <div class="sec-ar">ضمير الوصل Dont</div>
+        </div>
+        <span class="usage-tag tag-now">DONT</span>
+      </div>
+
+      <div class="card">
+        <span class="card-label">ما هي Dont ؟</span>
+        <div class="note" style="direction:rtl;text-align:right">
+          <strong>Dont</strong> هو ضمير نسبي (<strong>Pronom relatif</strong>) يستخدم لتجنب تكرار الكلمات في الجملة.
+          في أغلب الحالات <strong>Dont = de + nom / de + personne / de chose</strong>.
+          أي عندما تجد أن الفعل أو الصفة أو الاسم يحتاج إلى حرف الجر <strong>de</strong>، يمكن استبدال الجزء المكرر بـ <strong>dont</strong>.
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">القاعدة الأساسية</span>
+        <div class="ex-row"><span class="ex-fr">Je parle de ce livre.</span><span class="ex-dot">+</span><span class="ex-fr">Ce livre est intéressant.</span></div>
+        <div class="note" style="direction:rtl;text-align:right">نلاحظ وجود تكرار لكلمة <strong>ce livre</strong>.</div>
+        <div class="ex-row"><span class="ex-fr">Le livre dont je parle est intéressant.</span><span class="ex-ar">الكتاب الذي أتحدث عنه ممتع.</span></div>
+        <div class="note" style="direction:rtl;text-align:right">كيف أكتشف أنني أحتاج <strong>dont</strong>؟ اسأل نفسك: هل يوجد <strong>de</strong> قبل الاسم المكرر؟ إذا كانت الإجابة نعم، فغالبا نستعمل <strong>dont</strong>.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">أمثلة أساسية</span>
+          <div class="ex-row"><span class="ex-fr">Je parle de ce film. Ce film est célèbre.</span><span class="ex-dot">→</span><span class="ex-fr">Le film dont je parle est célèbre.</span><span class="ex-ar">الفيلم الذي أتحدث عنه مشهور.</span></div>
+          <div class="ex-row"><span class="ex-fr">J'ai besoin de cette voiture. Cette voiture est neuve.</span><span class="ex-dot">→</span><span class="ex-fr">La voiture dont j'ai besoin est neuve.</span><span class="ex-ar">السيارة التي أحتاجها جديدة.</span></div>
+          <div class="ex-row"><span class="ex-fr">Elle rêve de ce voyage. Ce voyage est magnifique.</span><span class="ex-dot">→</span><span class="ex-fr">Le voyage dont elle rêve est magnifique.</span><span class="ex-ar">الرحلة التي تحلم بها رائعة.</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">مع الأشخاص</span>
+          <div class="ex-row"><span class="ex-fr">Je connais cet homme. Je parle souvent de cet homme.</span><span class="ex-dot">→</span><span class="ex-fr">L'homme dont je parle souvent est mon voisin.</span><span class="ex-ar">الرجل الذي أتحدث عنه كثيرا هو جاري.</span></div>
+          <div class="ex-row"><span class="ex-fr">Je suis fier de mon fils. Mon fils travaille au Canada.</span><span class="ex-dot">→</span><span class="ex-fr">Mon fils dont je suis fier travaille au Canada.</span><span class="ex-ar">ابني الذي أفتخر به يعمل في كندا.</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">مع الأفعال والصفات التي تأتي مع de</span>
+          <div class="ex-row"><span class="ex-fr">L'ordinateur dont j'ai besoin coûte cher.</span><span class="ex-ar">الكمبيوتر الذي أحتاجه غالي الثمن.</span></div>
+          <div class="ex-row"><span class="ex-fr">Voici un sujet dont tout le monde parle.</span><span class="ex-ar">هذا موضوع يتحدث عنه الجميع.</span></div>
+          <div class="ex-row"><span class="ex-fr">La ville dont je me souviens est très belle.</span><span class="ex-ar">المدينة التي أتذكرها جميلة جدا.</span></div>
+          <div class="ex-row"><span class="ex-fr">Le chien dont il a peur est grand.</span><span class="ex-ar">الكلب الذي يخاف منه كبير.</span></div>
+          <div class="ex-row"><span class="ex-fr">Le travail dont je suis content est intéressant.</span><span class="ex-ar">العمل الذي أنا سعيد به ممتع.</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">مع الاسم الذي يحتوي على de</span>
+          <div class="note"><strong>L'indifférence de ces personnes est dangereuse.</strong></div>
+          <div class="ex-row"><span class="ex-fr">Ces personnes dont l'indifférence est dangereuse.</span><span class="ex-ar">هؤلاء الأشخاص الذين تكون لا مبالاتهم خطيرة.</span></div>
+          <div class="note"><strong>Il existe toujours des personnes dont l'indifférence met en danger l'avenir d'autrui.</strong></div>
+          <div class="note" style="direction:rtl;text-align:right">لا يزال هناك أشخاص تعرض لامبالاتهم مستقبل الآخرين للخطر.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">أفعال شائعة تأتي مع de وتستخدم معها dont</span>
+        <table class="tbl">
+          <tr><th>Verbe</th><th>المعنى</th></tr>
+          <tr><td>parler de</td><td>يتحدث عن</td></tr>
+          <tr><td>rêver de</td><td>يحلم بـ</td></tr>
+          <tr><td>avoir besoin de</td><td>يحتاج إلى</td></tr>
+          <tr><td>avoir peur de</td><td>يخاف من</td></tr>
+          <tr><td>se souvenir de</td><td>يتذكر</td></tr>
+          <tr><td>s'occuper de</td><td>يهتم بـ</td></tr>
+          <tr><td>dépendre de</td><td>يعتمد على</td></tr>
+          <tr><td>profiter de</td><td>يستفيد من</td></tr>
+          <tr><td>être fier de</td><td>يفتخر بـ</td></tr>
+          <tr><td>être content de</td><td>سعيد بـ</td></tr>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">الفرق بين qui و que و dont</span>
+          <table class="tbl">
+            <tr><th>Pronom</th><th>الاستخدام</th><th>مثال</th></tr>
+            <tr><td>Qui</td><td>للفاعل</td><td>L'homme qui travaille ici est médecin.</td></tr>
+            <tr><td>Que</td><td>للمفعول به</td><td>Le livre que j'ai acheté est intéressant.</td></tr>
+            <tr><td>Dont</td><td>عندما يوجد de</td><td>Le livre dont je parle est intéressant.</td></tr>
+          </table>
+        </div>
+        <div class="card" style="border-top:4px solid var(--teal);background:linear-gradient(135deg,#ecfeff,#cffafe)">
+          <span class="card-label">طريقة سريعة في الامتحان</span>
+          <div class="note" style="direction:rtl;text-align:right">إذا رأيت: <strong>parler de</strong>، <strong>rêver de</strong>، <strong>besoin de</strong>، <strong>peur de</strong>، <strong>souvenir de</strong>، <strong>fier de</strong>، <strong>content de</strong>، فكر مباشرة في <strong>DONT</strong>.</div>
+          <div class="ex-row"><span class="ex-fr">Le Canada a une bonne réputation dont beaucoup de personnes rêvent.</span><span class="ex-ar">كندا لديها سمعة جيدة يحلم بها كثير من الناس.</span></div>
+          <div class="ex-row"><span class="ex-fr">J'ai trouvé un emploi dont je suis fier.</span><span class="ex-ar">وجدت وظيفة أفتخر بها.</span></div>
+          <div class="note" style="direction:rtl;text-align:right">هذه من أكثر الصيغ التي تتكرر في <strong>TCF Canada</strong> و <strong>DELF B1/B2</strong>.</div>
+        </div>
+      </div>
+    </section>
+
     <!-- BOOKS -->
     <section class="sec" id="g-books">
       <div class="sec-header">
@@ -1918,6 +2025,7 @@
         <div class="nav-pills nested-child-tabs" id="book-preview-tabs" style="justify-content:flex-start;margin-top:10px;margin-bottom:14px">
           <button class="pill active" type="button" onclick="showBookPreview('assets/books/en-route-pour-le-fle-a1-a2.pdf','En route pour le FLE A1-A2',this)"><span class="pi">📘</span>En route pour le FLE A1-A2</button>
           <button class="pill" type="button" onclick="showBookPreview('assets/books/en-route-pour-le-fle-a2-b1.pdf','En route pour le FLE A2-B1',this)"><span class="pi">📗</span>En route pour le FLE A2-B1</button>
+          <button class="pill" type="button" onclick="showBookPreview('assets/books/grammaire-du-delf-frenchawy.pdf','Grammaire du DELF',this)"><span class="pi">📙</span>Grammaire du DELF</button>
         </div>
         <span class="card-label" id="book-preview-title">En route pour le FLE A1-A2</span>
         <object id="book-preview-frame" data="assets/books/en-route-pour-le-fle-a1-a2.pdf" type="application/pdf" style="width:100%;height:760px;border:1.5px solid #e8eaf0;border-radius:14px;background:white">
@@ -1935,10 +2043,12 @@
 <!-- ════ TEMPS PANEL ════ -->
 <div id="panel-temps" class="panel active">
   <nav class="nav-wrap">
-    <div class="nav-pills first-child-tabs">
-      <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
-      <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
-      <button class="pill active" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
+    <div class="nav-pills first-child-tabs grammar-mode-tabs">
+      <button class="pill" data-grammar-mode="books" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
+      <button class="pill" data-grammar-mode="roles" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
+      <button class="pill active" data-grammar-mode="temps" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
+      <button class="pill" data-grammar-mode="b1" onclick="showGrammarChild('b1',this)">B1</button>
+      <button class="pill" data-grammar-mode="b2" onclick="showGrammarChild('b2',this)">B2</button>
     </div>
     <div class="nav-pills nested-child-tabs" id="pills-temps">
       <button class="pill active" onclick="showSec('present',this,'temps')"><span class="pi">☀️</span>Présent</button>
@@ -2318,32 +2428,126 @@
         <div><div class="sec-icon" style="background:var(--purple-light)">🎭</div><div class="sec-title">Subjonc<em>tif</em></div><div class="sec-ar">الشك · العاطفة · الإلزام</div></div>
         <span class="usage-tag tag-mood">MODE</span>
       </div>
-      <div class="formula" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd;border-left-color:#7c3aed;color:#5b21b6">radical de ils (présent) &nbsp;+&nbsp; e · es · e · ions · iez · ent</div>
-      <div class="grid-2">
-        <div class="card"><span class="card-label">parler</span>
-          <div class="conj-grid"><div class="conj-cell"><span class="pro">que je</span><span class="form">parle</span></div><div class="conj-cell"><span class="pro">que nous</span><span class="form">parlions</span></div><div class="conj-cell"><span class="pro">que tu</span><span class="form">parles</span></div><div class="conj-cell"><span class="pro">que vous</span><span class="form">parliez</span></div><div class="conj-cell"><span class="pro">qu'il</span><span class="form">parle</span></div><div class="conj-cell"><span class="pro">qu'ils</span><span class="form">parlent</span></div></div>
+      <div class="card">
+        <span class="card-label">ما هو Subjonctif؟</span>
+        <div class="note" style="direction:rtl;text-align:right">
+          <strong>Le subjonctif</strong> هو صيغة فعل في الفرنسية تستخدم غالبا بعد عبارات فيها:
+          <strong>ضرورة، رغبة، شك، خوف، شعور، هدف، أو رأي غير مؤكد.</strong>
         </div>
-        <div class="card"><span class="card-label">استثناءات</span>
-          <table class="tbl"><tr><th>Verbe</th><th>Subjonctif</th></tr><tr><td>être</td><td>sois · soit · soient</td></tr><tr><td>avoir</td><td>aie · ait · aient</td></tr><tr><td>faire</td><td>fasse…</td></tr><tr><td>aller</td><td>aille…</td></tr></table>
+        <div class="ex-row"><span class="ex-fr">Il faut que tu étudies.</span><span class="ex-ar">يجب أن تدرس.</span></div>
+        <div class="note" style="direction:rtl;text-align:right">هنا استخدمنا <strong>étudies</strong>. الشكل مشابه للحاضر العادي، لكن القاعدة هي <strong>Subjonctif</strong> بسبب <strong>Il faut que</strong>.</div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">كيف نكوّن Subjonctif؟</span>
+        <div class="formula" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd;border-left-color:#7c3aed;color:#5b21b6">ils au présent - ent + e · es · e · ions · iez · ent</div>
+        <div class="note" style="direction:rtl;text-align:right">غالبا نأخذ تصريف <strong>ils</strong> في المضارع، نحذف <strong>-ent</strong>، ثم نضيف نهايات Subjonctif.</div>
+        <table class="tbl">
+          <tr><th>Sujet</th><th>Ending</th></tr>
+          <tr><td>que je</td><td>-e</td></tr>
+          <tr><td>que tu</td><td>-es</td></tr>
+          <tr><td>qu'il/elle/on</td><td>-e</td></tr>
+          <tr><td>que nous</td><td>-ions</td></tr>
+          <tr><td>que vous</td><td>-iez</td></tr>
+          <tr><td>qu'ils/elles</td><td>-ent</td></tr>
+        </table>
+        <div class="note"><strong>parler</strong> : ils parlent → parl-</div>
+        <div class="conj-grid">
+          <div class="conj-cell"><span class="pro">que je</span><span class="form">parle</span></div>
+          <div class="conj-cell"><span class="pro">que nous</span><span class="form">parlions</span></div>
+          <div class="conj-cell"><span class="pro">que tu</span><span class="form">parles</span></div>
+          <div class="conj-cell"><span class="pro">que vous</span><span class="form">parliez</span></div>
+          <div class="conj-cell"><span class="pro">qu'il</span><span class="form">parle</span></div>
+          <div class="conj-cell"><span class="pro">qu'ils</span><span class="form">parlent</span></div>
         </div>
       </div>
-      <div class="note">يأتي بعد: il faut que · je veux que · bien que · pour que…</div>
-      <div class="article-card">
-        <div class="article-header" style="background:linear-gradient(135deg,#5b21b6,#6d28d9)"><span class="ah-icon">✏️</span>مقال تدريبي — Subjonctif · نصائح وأمنيات</div>
-        <div class="article-fr" style="border-right-color:#5b21b6;color:#5b21b6">
-          <div class="fr-line"><span class="fr-num" style="background:#5b21b6">1</span>Il faut que tu fasses tes devoirs avant de sortir jouer.</div>
-          <div class="fr-line"><span class="fr-num" style="background:#5b21b6">2</span>Je veux que mes enfants soient heureux et en bonne santé.</div>
-          <div class="fr-line"><span class="fr-num" style="background:#5b21b6">3</span>Il est important que nous parlions français tous les jours pour progresser.</div>
-          <div class="fr-line"><span class="fr-num" style="background:#5b21b6">4</span>Bien qu'il soit fatigué, mon ami continue à travailler avec courage.</div>
-          <div class="fr-line"><span class="fr-num" style="background:#5b21b6">5</span>Je suis content que tu aies réussi ton examen — tu mérites ce succès.</div>
+
+      <div class="card">
+        <span class="card-label">أمثلة مهمة</span>
+        <div class="ex-row"><span class="ex-fr">Il faut que je parle français.</span><span class="ex-ar">يجب أن أتكلم الفرنسية.</span></div>
+        <div class="ex-row"><span class="ex-fr">Il est important que vous travailliez.</span><span class="ex-ar">من المهم أن تعملوا.</span></div>
+        <div class="ex-row"><span class="ex-fr">Je veux que tu viennes.</span><span class="ex-ar">أريد أن تأتي.</span></div>
+        <div class="ex-row"><span class="ex-fr">Je doute qu'il réussisse.</span><span class="ex-ar">أشك أنه سينجح.</span></div>
+        <div class="ex-row"><span class="ex-fr">Pour que les enfants puissent vivre bien, il faut protéger l'environnement.</span><span class="ex-ar">لكي يستطيع الأطفال أن يعيشوا جيدا، يجب حماية البيئة.</span></div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">أشهر العبارات التي يأتي بعدها Subjonctif</span>
+        <table class="tbl">
+          <tr><th>Expression</th><th>المعنى</th></tr>
+          <tr><td>Il faut que</td><td>يجب أن</td></tr>
+          <tr><td>Il est nécessaire que</td><td>من الضروري أن</td></tr>
+          <tr><td>Il est important que</td><td>من المهم أن</td></tr>
+          <tr><td>Je veux que</td><td>أريد أن</td></tr>
+          <tr><td>Je souhaite que</td><td>أتمنى أن</td></tr>
+          <tr><td>Je doute que</td><td>أشك أن</td></tr>
+          <tr><td>Bien que</td><td>رغم أن</td></tr>
+          <tr><td>Pour que</td><td>لكي</td></tr>
+          <tr><td>Afin que</td><td>لكي</td></tr>
+          <tr><td>Avant que</td><td>قبل أن</td></tr>
+          <tr><td>À condition que</td><td>بشرط أن</td></tr>
+        </table>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">être</span>
+          <div class="conj-grid">
+            <div class="conj-cell"><span class="pro">que je</span><span class="form">sois</span></div>
+            <div class="conj-cell"><span class="pro">que nous</span><span class="form">soyons</span></div>
+            <div class="conj-cell"><span class="pro">que tu</span><span class="form">sois</span></div>
+            <div class="conj-cell"><span class="pro">que vous</span><span class="form">soyez</span></div>
+            <div class="conj-cell"><span class="pro">qu'il</span><span class="form">soit</span></div>
+            <div class="conj-cell"><span class="pro">qu'ils</span><span class="form">soient</span></div>
+          </div>
+          <div class="ex-row"><span class="ex-fr">Il faut que tu sois patient.</span><span class="ex-ar">يجب أن تكون صبورا.</span></div>
         </div>
-        <div class="article-ar" style="background:var(--purple-light)">
-          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">1</span>يجب أن تنجز واجباتك قبل الخروج للعب.</div>
-          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">2</span>أريد أن يكون أطفالي سعداء وبصحة جيدة.</div>
-          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">3</span>من المهم أن نتحدث الفرنسية كل يوم للتقدم.</div>
-          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">4</span>رغم أنه متعب فإن صديقي يواصل العمل بشجاعة.</div>
-          <div class="ar-line"><span class="ar-num" style="background:#5b21b6">5</span>يسعدني أنك نجحت في امتحانك؛ تستحق هذا النجاح.</div>
+        <div class="card">
+          <span class="card-label">avoir</span>
+          <div class="conj-grid">
+            <div class="conj-cell"><span class="pro">que j'</span><span class="form">aie</span></div>
+            <div class="conj-cell"><span class="pro">que nous</span><span class="form">ayons</span></div>
+            <div class="conj-cell"><span class="pro">que tu</span><span class="form">aies</span></div>
+            <div class="conj-cell"><span class="pro">que vous</span><span class="form">ayez</span></div>
+            <div class="conj-cell"><span class="pro">qu'il</span><span class="form">ait</span></div>
+            <div class="conj-cell"><span class="pro">qu'ils</span><span class="form">aient</span></div>
+          </div>
+          <div class="ex-row"><span class="ex-fr">Il faut que tu aies du courage.</span><span class="ex-ar">يجب أن يكون عندك شجاعة.</span></div>
         </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card"><span class="card-label">aller</span><div class="note">que j'aille · que tu ailles · qu'il aille · que nous allions · que vous alliez · qu'ils aillent</div><div class="ex-row"><span class="ex-fr">Je veux que tu ailles au marché.</span><span class="ex-ar">أريدك أن تذهب إلى السوق.</span></div></div>
+        <div class="card"><span class="card-label">faire</span><div class="note">que je fasse · que tu fasses · qu'il fasse · que nous fassions · que vous fassiez · qu'ils fassent</div><div class="ex-row"><span class="ex-fr">Il faut que nous fassions attention.</span><span class="ex-ar">يجب أن ننتبه.</span></div></div>
+        <div class="card"><span class="card-label">pouvoir</span><div class="note">que je puisse · que tu puisses · qu'il puisse · que nous puissions · que vous puissiez · qu'ils puissent</div><div class="ex-row"><span class="ex-fr">Pour qu'ils puissent réussir, il faut les aider.</span><span class="ex-ar">لكي يستطيعوا النجاح، يجب مساعدتهم.</span></div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">الفرق بين Indicatif و Subjonctif</span>
+          <div class="ex-row"><span class="ex-fr">Je pense qu'il est malade.</span><span class="ex-ar">أعتقد أنه مريض. = حقيقة أو معلومة مؤكدة</span></div>
+          <div class="ex-row"><span class="ex-fr">Je doute qu'il soit malade.</span><span class="ex-ar">أشك أنه مريض. = شك أو رغبة أو ضرورة</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">أمثلة من النصوص التي عندك</span>
+          <div class="ex-row"><span class="ex-fr">Il est nécessaire que chacun s'adapte rapidement.</span><span class="ex-ar">من الضروري أن يتأقلم كل شخص بسرعة.</span></div>
+          <div class="ex-row"><span class="ex-fr">Il faut que les gouvernements agissent rapidement.</span><span class="ex-ar">يجب أن تتحرك الحكومات بسرعة.</span></div>
+          <div class="ex-row"><span class="ex-fr">Pour que les générations futures puissent vivre dans de bonnes conditions...</span><span class="ex-ar">لكي تتمكن الأجيال القادمة من العيش في ظروف جيدة...</span></div>
+          <div class="ex-row"><span class="ex-fr">Bien que plusieurs solutions existent...</span><span class="ex-ar">رغم وجود عدة حلول...</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:4px solid #7c3aed;background:linear-gradient(135deg,#f5f3ff,#ede9fe)">
+        <span class="card-label">تدريب سريع مع الإجابات</span>
+        <table class="tbl" style="background:white">
+          <tr><th>Question</th><th>Réponse</th></tr>
+          <tr><td>Il faut que tu ___ français. (parler)</td><td><strong>parles</strong></td></tr>
+          <tr><td>Je veux que vous ___ à l'heure. (être)</td><td><strong>soyez</strong></td></tr>
+          <tr><td>Pour qu'il ___ réussir, il doit travailler. (pouvoir)</td><td><strong>puisse</strong></td></tr>
+          <tr><td>Il est important que nous ___ attention. (faire)</td><td><strong>fassions</strong></td></tr>
+          <tr><td>Bien qu'ils ___ fatigués, ils continuent. (être)</td><td><strong>soient</strong></td></tr>
+        </table>
+        <div class="note" style="direction:rtl;text-align:right"><strong>الخلاصة:</strong> احفظ العبارات مثل <strong>Il faut que / Pour que / Bien que / Je doute que</strong>، وأي فعل بعدها غالبا يكون <strong>Subjonctif</strong>.</div>
       </div>
     </section>
 
@@ -2615,6 +2819,278 @@
       <div class="card"><span class="card-label">📊 ملخص كل الأزمنة</span>
         <table class="tbl"><tr><th>الزمن</th><th>الاستخدام</th><th>مثال</th></tr><tr><td>Présent</td><td>حال / حقيقة / عادة</td><td>je parle</td></tr><tr><td>Imparfait</td><td>وصف ماضٍ / عادة قديمة</td><td>je parlais</td></tr><tr><td>Passé Composé</td><td>حدث انتهى</td><td>j'ai parlé</td></tr><tr><td>Plus-que-parfait</td><td>قبل حدث في الماضي</td><td>j'avais parlé</td></tr><tr><td>Futur Simple</td><td>مستقبل رسمي / توقع</td><td>je parlerai</td></tr><tr><td>Futur Proche</td><td>مستقبل قريب جداً</td><td>je vais parler</td></tr><tr><td>Conditionnel présent</td><td>مجاملة / رغبة / نصيحة / فرضية</td><td>je parlerais</td></tr><tr><td>Conditionnel passé</td><td>ندم / شيء لم يحدث / شرط في الماضي</td><td>j'aurais parlé</td></tr><tr><td>Subjonctif</td><td>شك / عاطفة / إلزام</td><td>que je parle</td></tr><tr><td>Impératif</td><td>أمر / طلب</td><td>parle !</td></tr></table>
       </div>
+    </section>
+  </main>
+</div>
+
+<!-- ════ B1 PANEL ════ -->
+<div id="panel-b1" class="panel">
+  <nav class="nav-wrap">
+    <div class="nav-pills first-child-tabs grammar-mode-tabs">
+      <button class="pill" data-grammar-mode="books" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
+      <button class="pill" data-grammar-mode="roles" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
+      <button class="pill" data-grammar-mode="temps" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
+      <button class="pill active" data-grammar-mode="b1" onclick="showGrammarChild('b1',this)">B1</button>
+      <button class="pill" data-grammar-mode="b2" onclick="showGrammarChild('b2',this)">B2</button>
+    </div>
+    <div class="nav-pills nested-child-tabs" id="pills-b1">
+      <button class="pill active" onclick="showSec('lecon1',this,'b1')"><span class="pi">1</span>Leçon 1</button>
+      <button class="pill" onclick="showSec('lecon2',this,'b1')"><span class="pi">2</span>Leçon 2</button>
+      <button class="pill" onclick="showSec('lecon3',this,'b1')"><span class="pi">3</span>Leçon 3</button>
+      <button class="pill" onclick="showSec('lecon4',this,'b1')"><span class="pi">4</span>Leçon 4</button>
+    </div>
+  </nav>
+  <main class="main">
+    <section class="sec visible" id="b1-lecon1">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#eff6ff">B1</div><div class="sec-title">B1 <em>Leçon 1</em></div><div class="sec-ar">الدرس الأول</div></div>
+        <span class="usage-tag tag-now">B1</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Texte 1 - النص بالفرنسية</span>
+        <div class="b1-lesson-title">L'immigration et l'avenir professionnel</div>
+        <div class="note b1-lesson-ar">الهجرة والمستقبل المهني</div>
+        <div class="note b1-lesson-ar">النص يتكلم عن أشخاص يهاجرون إلى كندا لأنهم يريدون حياة أفضل لأطفالهم، لكن بعضهم يجد عملا بسهولة، والبعض الآخر يواجه صعوبات رغم الشهادات. لذلك يلجأ كثيرون إلى تعلم الفرنسية وبرامج حكومية تساعدهم على الاندماج.</div>
+        <div class="formula b1-lesson-text" style="font-size:16px;text-align:left;direction:ltr">
+          <p>Beaucoup de personnes choisissent d'immigrer au Canada parce qu'elles souhaitent offrir à leurs enfants une vie meilleure. Puisque le pays accueille de nombreux immigrants chaque année, il est nécessaire que chacun s'adapte rapidement à une nouvelle culture.</p>
+          <p>Certains immigrants réussissent à trouver un emploi stable, tandis que d'autres, malgré leurs diplômes, rencontrent des difficultés. Cette situation peut créer une certaine frustration, dont il faut parler ouvertement afin de trouver des solutions.</p>
+          <p>En conséquence, plusieurs décident de suivre des cours de langue française, afin qu'ils puissent améliorer leur niveau et atteindre les exigences du marché du travail. Il existe aussi des programmes gouvernementaux, parmi lesquels on trouve des ateliers gratuits.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">1) ترجمة النص</span>
+        <div class="b1-lesson-note">
+          <p><strong>Beaucoup de personnes choisissent d'immigrer au Canada parce qu'elles souhaitent offrir à leurs enfants une vie meilleure.</strong></p>
+          <p class="b1-lesson-ar">كثير من الأشخاص يختارون الهجرة إلى كندا لأنهم يريدون أن يوفروا لأطفالهم حياة أفضل.</p>
+          <p><strong>Puisque le pays accueille de nombreux immigrants chaque année, il est nécessaire que chacun s'adapte rapidement à une nouvelle culture.</strong></p>
+          <p class="b1-lesson-ar">بما أن البلد يستقبل كثيرا من المهاجرين كل سنة، فمن الضروري أن يتأقلم كل شخص بسرعة مع ثقافة جديدة.</p>
+          <p><strong>Certains immigrants réussissent à trouver un emploi stable, tandis que d'autres, malgré leurs diplômes, rencontrent des difficultés.</strong></p>
+          <p class="b1-lesson-ar">بعض المهاجرين ينجحون في إيجاد عمل مستقر، بينما آخرون، رغم شهاداتهم، يواجهون صعوبات.</p>
+          <p><strong>Cette situation peut créer une certaine frustration, dont il faut parler ouvertement afin de trouver des solutions.</strong></p>
+          <p class="b1-lesson-ar">هذه الحالة يمكن أن تخلق نوعا من الإحباط، والذي يجب الحديث عنه بصراحة من أجل إيجاد حلول.</p>
+          <p><strong>En conséquence, plusieurs décident de suivre des cours de langue française, afin qu'ils puissent améliorer leur niveau et atteindre les exigences du marché du travail.</strong></p>
+          <p class="b1-lesson-ar">ونتيجة لذلك، يقرر كثيرون متابعة دروس في اللغة الفرنسية لكي يستطيعوا تحسين مستواهم والوصول إلى متطلبات سوق العمل.</p>
+          <p><strong>Il existe aussi des programmes gouvernementaux, parmi lesquels on trouve des ateliers gratuits.</strong></p>
+          <p class="b1-lesson-ar">توجد أيضا برامج حكومية، من بينها نجد ورشات مجانية.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">2) كلمات مهمة من النص</span>
+        <table class="tbl">
+          <tr><th>Français</th><th>المعنى</th></tr>
+          <tr><td>immigrer</td><td>يهاجر</td></tr>
+          <tr><td>offrir</td><td>يوفر / يقدم</td></tr>
+          <tr><td>accueillir</td><td>يستقبل</td></tr>
+          <tr><td>s'adapter</td><td>يتأقلم</td></tr>
+          <tr><td>une culture</td><td>ثقافة</td></tr>
+          <tr><td>un emploi stable</td><td>عمل مستقر</td></tr>
+          <tr><td>malgré</td><td>رغم</td></tr>
+          <tr><td>des diplômes</td><td>شهادات</td></tr>
+          <tr><td>des difficultés</td><td>صعوبات</td></tr>
+          <tr><td>une frustration</td><td>إحباط</td></tr>
+          <tr><td>ouvertement</td><td>بصراحة</td></tr>
+          <tr><td>des solutions</td><td>حلول</td></tr>
+          <tr><td>suivre des cours</td><td>يتابع دروسا</td></tr>
+          <tr><td>améliorer</td><td>يحسن</td></tr>
+          <tr><td>le marché du travail</td><td>سوق العمل</td></tr>
+          <tr><td>des ateliers gratuits</td><td>ورشات مجانية</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <span class="card-label">3) القواعد الموجودة في النص</span>
+        <h3>Cause - السبب</h3>
+        <div class="note b1-lesson-ar">نستخدمها لشرح السبب.</div>
+        <table class="tbl">
+          <tr><th>أداة</th><th>معناها</th><th>مثال</th></tr>
+          <tr><td>parce que</td><td>لأن</td><td>Ils immigrent parce qu'ils veulent une vie meilleure.</td></tr>
+          <tr><td>puisque</td><td>بما أن</td><td>Puisque le Canada accueille des immigrants, il faut s'adapter.</td></tr>
+        </table>
+        <div class="note b1-lesson-ar"><strong>parce que</strong> = سبب عادي. <strong>puisque</strong> = سبب معروف أو واضح.</div>
+
+        <h3>Conséquence - النتيجة</h3>
+        <div class="note b1-lesson-ar">نستخدمها لشرح النتيجة.</div>
+        <table class="tbl">
+          <tr><th>أداة</th><th>معناها</th><th>مثال</th></tr>
+          <tr><td>En conséquence</td><td>ونتيجة لذلك</td><td>En conséquence, ils suivent des cours de français.</td></tr>
+        </table>
+
+        <h3>Subjonctif - صيغة الشك / الضرورة / الأهمية</h3>
+        <table class="tbl">
+          <tr><th>Expression</th><th>المعنى</th></tr>
+          <tr><td>Il est nécessaire que</td><td>من الضروري أن</td></tr>
+          <tr><td>Il faut que</td><td>يجب أن</td></tr>
+          <tr><td>Je doute que</td><td>أشك أن</td></tr>
+          <tr><td>Il est important que</td><td>من المهم أن</td></tr>
+          <tr><td>Il est rare que</td><td>من النادر أن</td></tr>
+        </table>
+        <div class="note"><strong>Il faut que les immigrants suivent des cours.</strong></div>
+        <div class="note b1-lesson-ar">يجب أن يتابع المهاجرون دروسا.</div>
+
+        <h3>Dont</h3>
+        <div class="note b1-lesson-ar"><strong>dont</strong> معناها غالبا: الذي / التي / الذين + عنه / منها / به. تستخدم بدل: <strong>de + شيء</strong>.</div>
+        <div class="note"><strong>Les difficultés dont il faut parler.</strong></div>
+        <div class="note b1-lesson-ar">الصعوبات التي يجب الحديث عنها. لأن الفعل هو <strong>parler de</strong> = يتحدث عن.</div>
+
+        <h3>Pronoms indéfinis - الضمائر غير المحددة</h3>
+        <table class="tbl">
+          <tr><th>Français</th><th>المعنى</th></tr>
+          <tr><td>certains</td><td>بعضهم</td></tr>
+          <tr><td>d'autres</td><td>آخرون</td></tr>
+          <tr><td>plusieurs</td><td>عدة أشخاص / كثيرون</td></tr>
+          <tr><td>quelques-uns</td><td>بعضهم</td></tr>
+          <tr><td>tous</td><td>الجميع</td></tr>
+          <tr><td>chacun</td><td>كل واحد</td></tr>
+          <tr><td>personne</td><td>لا أحد</td></tr>
+          <tr><td>tout le monde</td><td>كل الناس</td></tr>
+        </table>
+        <div class="note"><strong>Certains réussissent, tandis que d'autres rencontrent des difficultés.</strong></div>
+        <div class="note b1-lesson-ar">بعضهم ينجحون، بينما آخرون يواجهون صعوبات.</div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">4) الأسئلة والإجابات</span>
+        <h3>Exercice 1 - Subjonctif</h3>
+        <div class="note"><strong>Complétez les phrases.</strong></div>
+        <div class="note b1-lesson-ar">أكمل الجمل.</div>
+        <div class="note">
+          <p>a) Il est nécessaire que chacun __________ rapidement.</p>
+          <p>b) Il faut que les immigrants __________ des cours de langue.</p>
+          <p>c) Je doute que certains __________ un emploi immédiatement.</p>
+          <p>d) Il est important que vous __________ français au travail.</p>
+          <p>e) Il est rare que les autorités __________ la question de l'intégration.</p>
+        </div>
+        <div class="b1-answer">
+          <p>a) <strong>Il est nécessaire que chacun s'adapte rapidement.</strong></p>
+          <p class="b1-lesson-ar">من الضروري أن يتأقلم كل شخص بسرعة.</p>
+          <p>b) <strong>Il faut que les immigrants suivent des cours de langue.</strong></p>
+          <p class="b1-lesson-ar">يجب أن يتابع المهاجرون دروس لغة.</p>
+          <p>c) <strong>Je doute que certains trouvent un emploi immédiatement.</strong></p>
+          <p class="b1-lesson-ar">أشك أن بعضهم يجدون عملا فورا.</p>
+          <p>d) <strong>Il est important que vous parliez français au travail.</strong></p>
+          <p class="b1-lesson-ar">من المهم أن تتحدثوا الفرنسية في العمل.</p>
+          <p>e) <strong>Il est rare que les autorités ignorent la question de l'intégration.</strong></p>
+          <p class="b1-lesson-ar">من النادر أن تتجاهل السلطات قضية الاندماج.</p>
+        </div>
+
+        <h3>Exercice 2 - Réécrivez avec « dont »</h3>
+        <div class="note"><strong>Réécrivez avec "dont".</strong></div>
+        <div class="note b1-lesson-ar">أعد كتابة الجمل باستخدام <strong>dont</strong>.</div>
+        <div class="note">
+          <p>a) On doit parler des difficultés. Les difficultés créent de la frustration.</p>
+          <p>b) Beaucoup de personnes rêvent de la réputation du Canada.</p>
+          <p>c) J'ai trouvé un emploi. Je suis fier de cet emploi.</p>
+          <p>d) Elle a rencontré un obstacle. Elle ne s'est jamais remise de cet obstacle.</p>
+          <p>e) Voici des cours. Les étudiants parlent toujours de ces cours.</p>
+        </div>
+        <div class="b1-answer">
+          <p>a) <strong>Les difficultés dont on doit parler créent de la frustration.</strong></p>
+          <p class="b1-lesson-ar">الصعوبات التي يجب أن نتحدث عنها تخلق إحباطا.</p>
+          <p>b) <strong>Le Canada a une réputation dont beaucoup de personnes rêvent.</strong></p>
+          <p class="b1-lesson-ar">كندا لها سمعة يحلم بها كثير من الناس.</p>
+          <p>c) <strong>J'ai trouvé un emploi dont je suis fier.</strong></p>
+          <p class="b1-lesson-ar">وجدت عملا أنا فخور به.</p>
+          <p>d) <strong>Elle a rencontré un obstacle dont elle ne s'est jamais remise.</strong></p>
+          <p class="b1-lesson-ar">واجهت عقبة لم تتعاف منها أبدا.</p>
+          <p>e) <strong>Voici des cours dont les étudiants parlent toujours.</strong></p>
+          <p class="b1-lesson-ar">هذه دروس يتحدث عنها الطلاب دائما.</p>
+        </div>
+
+        <h3>Exercice 3 - Pronoms indéfinis</h3>
+        <div class="note"><strong>Complétez avec des pronoms indéfinis.</strong></div>
+        <div class="note b1-lesson-ar">أكمل بضمائر غير محددة.</div>
+        <div class="note">
+          <p>a) __________ réussissent facilement, tandis que __________ rencontrent des obstacles.</p>
+          <p>b) __________ ont besoin d'aide, __________ préfèrent travailler seuls.</p>
+          <p>c) __________ des immigrants choisissent de retourner dans leur pays d'origine.</p>
+          <p>d) __________ pensent que l'intégration est rapide, mais la réalité est différente.</p>
+          <p>e) __________ ont déjà obtenu la résidence permanente, __________ attendent encore.</p>
+        </div>
+        <div class="b1-answer">
+          <p>a) <strong>Certains réussissent facilement, tandis que d'autres rencontrent des obstacles.</strong></p>
+          <p class="b1-lesson-ar">بعضهم ينجحون بسهولة، بينما آخرون يواجهون عقبات.</p>
+          <p>b) <strong>Quelques-uns ont besoin d'aide, d'autres préfèrent travailler seuls.</strong></p>
+          <p class="b1-lesson-ar">بعضهم يحتاجون إلى مساعدة، وآخرون يفضلون العمل وحدهم.</p>
+          <p>c) <strong>Plusieurs des immigrants choisissent de retourner dans leur pays d'origine.</strong></p>
+          <p class="b1-lesson-ar">كثير من المهاجرين يختارون العودة إلى بلدهم الأصلي.</p>
+          <p>d) <strong>Certains pensent que l'intégration est rapide, mais la réalité est différente.</strong></p>
+          <p class="b1-lesson-ar">بعضهم يظنون أن الاندماج سريع، لكن الواقع مختلف.</p>
+          <p>e) <strong>Quelques-uns ont déjà obtenu la résidence permanente, d'autres attendent encore.</strong></p>
+          <p class="b1-lesson-ar">بعضهم حصلوا بالفعل على الإقامة الدائمة، وآخرون ما زالوا ينتظرون.</p>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="b1-lecon2">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#eff6ff">B1</div><div class="sec-title">B1 <em>Leçon 2</em></div><div class="sec-ar">الدرس الثاني</div></div>
+        <span class="usage-tag tag-now">B1</span>
+      </div>
+      <div class="card"><span class="card-label">Contenu</span><div class="note">Ajoutez ici le contenu de la leçon 2.</div></div>
+    </section>
+    <section class="sec" id="b1-lecon3">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#eff6ff">B1</div><div class="sec-title">B1 <em>Leçon 3</em></div><div class="sec-ar">الدرس الثالث</div></div>
+        <span class="usage-tag tag-now">B1</span>
+      </div>
+      <div class="card"><span class="card-label">Contenu</span><div class="note">Ajoutez ici le contenu de la leçon 3.</div></div>
+    </section>
+    <section class="sec" id="b1-lecon4">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#eff6ff">B1</div><div class="sec-title">B1 <em>Leçon 4</em></div><div class="sec-ar">الدرس الرابع</div></div>
+        <span class="usage-tag tag-now">B1</span>
+      </div>
+      <div class="card"><span class="card-label">Contenu</span><div class="note">Ajoutez ici le contenu de la leçon 4.</div></div>
+    </section>
+  </main>
+</div>
+
+<!-- ════ B2 PANEL ════ -->
+<div id="panel-b2" class="panel">
+  <nav class="nav-wrap">
+    <div class="nav-pills first-child-tabs grammar-mode-tabs">
+      <button class="pill" data-grammar-mode="books" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
+      <button class="pill" data-grammar-mode="roles" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
+      <button class="pill" data-grammar-mode="temps" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
+      <button class="pill" data-grammar-mode="b1" onclick="showGrammarChild('b1',this)">B1</button>
+      <button class="pill active" data-grammar-mode="b2" onclick="showGrammarChild('b2',this)">B2</button>
+    </div>
+    <div class="nav-pills nested-child-tabs" id="pills-b2">
+      <button class="pill active" onclick="showSec('lecon1',this,'b2')"><span class="pi">1</span>Leçon 1</button>
+      <button class="pill" onclick="showSec('lecon2',this,'b2')"><span class="pi">2</span>Leçon 2</button>
+      <button class="pill" onclick="showSec('lecon3',this,'b2')"><span class="pi">3</span>Leçon 3</button>
+      <button class="pill" onclick="showSec('lecon4',this,'b2')"><span class="pi">4</span>Leçon 4</button>
+    </div>
+  </nav>
+  <main class="main">
+    <section class="sec visible" id="b2-lecon1">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#f0fdf4">B2</div><div class="sec-title">B2 <em>Leçon 1</em></div><div class="sec-ar">الدرس الأول</div></div>
+        <span class="usage-tag tag-fut">B2</span>
+      </div>
+      <div class="card"><span class="card-label">Contenu</span><div class="note">Ajoutez ici le contenu de la leçon 1.</div></div>
+    </section>
+    <section class="sec" id="b2-lecon2">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#f0fdf4">B2</div><div class="sec-title">B2 <em>Leçon 2</em></div><div class="sec-ar">الدرس الثاني</div></div>
+        <span class="usage-tag tag-fut">B2</span>
+      </div>
+      <div class="card"><span class="card-label">Contenu</span><div class="note">Ajoutez ici le contenu de la leçon 2.</div></div>
+    </section>
+    <section class="sec" id="b2-lecon3">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#f0fdf4">B2</div><div class="sec-title">B2 <em>Leçon 3</em></div><div class="sec-ar">الدرس الثالث</div></div>
+        <span class="usage-tag tag-fut">B2</span>
+      </div>
+      <div class="card"><span class="card-label">Contenu</span><div class="note">Ajoutez ici le contenu de la leçon 3.</div></div>
+    </section>
+    <section class="sec" id="b2-lecon4">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#f0fdf4">B2</div><div class="sec-title">B2 <em>Leçon 4</em></div><div class="sec-ar">الدرس الرابع</div></div>
+        <span class="usage-tag tag-fut">B2</span>
+      </div>
+      <div class="card"><span class="card-label">Contenu</span><div class="note">Ajoutez ici le contenu de la leçon 4.</div></div>
     </section>
   </main>
 </div>
@@ -5421,6 +5897,12 @@
     <button class="sidebar-link active" type="button" data-sidebar-target="temps" onclick="showGrammarChild('temps',this)">
       <span class="sidebar-icon">⏱️</span><span class="sidebar-text">Temps</span>
     </button>
+    <button class="sidebar-link" type="button" data-sidebar-target="b1" onclick="showGrammarChild('b1',this)">
+      <span class="sidebar-text">B1</span>
+    </button>
+    <button class="sidebar-link" type="button" data-sidebar-target="b2" onclick="showGrammarChild('b2',this)">
+      <span class="sidebar-text">B2</span>
+    </button>
     <button class="sidebar-link" type="button" data-sidebar-target="grammaire" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))">
       <span class="sidebar-icon">📚</span><span class="sidebar-text">Grammaire</span>
     </button>
@@ -5444,6 +5926,9 @@
     <span class="sidebar-caption">Liens importants</span>
     <a href="https://lingua.com/fr/" target="_blank" rel="noopener" class="sidebar-link">
       <span class="sidebar-icon">🌐</span><span class="sidebar-text">Lingua</span>
+    </a>
+    <a href="assets/books/grammaire-du-delf-frenchawy.pdf" target="_blank" rel="noopener" class="sidebar-link">
+      <span class="sidebar-icon">📙</span><span class="sidebar-text">Grammaire du DELF</span>
     </a>
     <a href="https://france-education-international.fr/test/exemples-epreuves-tcf?langue=fr" target="_blank" rel="noopener" class="sidebar-link">
       <span class="sidebar-icon">📝</span><span class="sidebar-text">TCF Exemples</span>

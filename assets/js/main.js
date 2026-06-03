@@ -1394,6 +1394,9 @@ function restoreRoute(){
   if(route.panel === 'temps'){
     showGrammarChild('temps', topBtn);
     if(route.section) showSec(route.section, document.querySelector("#pills-temps .pill[onclick*=\"'" + route.section + "'\"]"), 'temps');
+  } else if(route.panel === 'b1' || route.panel === 'b2'){
+    showGrammarChild(route.panel, topBtn);
+    if(route.section) showSec(route.section, document.querySelector("#pills-" + route.panel + " .pill[onclick*=\"'" + route.section + "'\"]"), route.panel);
   } else if(route.panel === 'grammaire'){
     switchTop('grammaire', topBtn);
     if(route.section) showSec(route.section, document.querySelector("#pills-grammaire .pill[onclick*=\"'" + route.section + "'\"]"), 'grammaire');
@@ -1530,11 +1533,28 @@ function activateFirstSec(panelId, prefix){
   var pills = scopedPills ? scopedPills.querySelectorAll('.pill') : document.querySelectorAll('#'+panelId+' .pill');
   secs.forEach(function(s){ s.classList.remove('visible'); });
   pills.forEach(function(b){ b.classList.remove('active'); });
-  if(secs.length > 0) secs[0].classList.add('visible');
-  if(pills.length > 0) pills[0].classList.add('active');
+  if(secs.length > 0) {
+    var firstSec = secs[0];
+    var firstId = firstSec.id.replace(prefix, '');
+    var matchingPill = null;
+    pills.forEach(function(b){
+      if(!matchingPill && (b.getAttribute('onclick') || '').indexOf("'" + firstId + "'") !== -1) matchingPill = b;
+    });
+    firstSec.classList.add('visible');
+    if(matchingPill) matchingPill.classList.add('active');
+    else if(pills.length > 0) pills[0].classList.add('active');
+  } else if(pills.length > 0) {
+    pills[0].classList.add('active');
+  }
 }
 
 // ── Top Tab switch ──
+function setGrammarModeActive(mode){
+  document.querySelectorAll('.grammar-mode-tabs .pill').forEach(function(b){ b.classList.remove('active'); });
+  var match = mode === 'books' ? 'books' : (mode === 'temps' || mode === 'b1' || mode === 'b2' ? mode : 'roles');
+  document.querySelectorAll('.grammar-mode-tabs .pill[data-grammar-mode="'+match+'"]').forEach(function(b){ b.classList.add('active'); });
+}
+
 function switchTop(tab, btn){
   document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
   document.querySelectorAll('.top-tab').forEach(function(b){ b.classList.remove('active'); });
@@ -1542,7 +1562,10 @@ function switchTop(tab, btn){
   if(panel){ panel.classList.add('active'); }
   if(btn) btn.classList.add('active');
   setSidebarActive(tab);
-  if(tab === 'grammaire') activateFirstSec('panel-grammaire','g-');
+  if(tab === 'grammaire') {
+    activateFirstSec('panel-grammaire','g-');
+    setGrammarModeActive('roles');
+  }
   else if(tab === 'oral') {
     var activeOralPill = document.querySelector('#pills-oral .pill.active') || document.querySelector('#pills-oral .pill');
     if(activeOralPill && activeOralPill.getAttribute('onclick') && activeOralPill.getAttribute('onclick').indexOf("showOral('devoirs'") !== -1){
@@ -1567,24 +1590,22 @@ function showGrammarChild(panelName, btn){
   setSidebarActive(panelName);
   var panel = document.getElementById('panel-'+panelName);
   if(panel) panel.classList.add('active');
-  if(panel){
-    panel.querySelectorAll('.first-child-tabs .pill').forEach(function(b){ b.classList.remove('active'); });
-    var activeChild = panel.querySelector(".first-child-tabs .pill[onclick*=\""+panelName+"\"]");
-    if(activeChild) activeChild.classList.add('active');
-  }
+  setGrammarModeActive(panelName);
   if(panelName === 'temps') activateFirstSec('panel-temps','t-');
-  updateRoute(panelName, panelName === 'temps' ? 'present' : null);
+  else if(panelName === 'b1' || panelName === 'b2') activateFirstSec('panel-'+panelName,panelName+'-');
+  updateRoute(panelName, panelName === 'temps' ? 'present' : (panelName === 'b1' || panelName === 'b2' ? 'lecon1' : null));
   setTimeout(function(){ scrollToNav('panel-'+panelName); }, 50);
 }
 
 // ── Grammaire / Temps section switch ──
 function showSec(id, btn, panel){
-  var pre = panel === 'grammaire' ? 'g-' : 't-';
+  var pre = panel === 'grammaire' ? 'g-' : (panel === 'temps' ? 't-' : panel + '-');
   document.querySelectorAll('#panel-'+panel+' .sec').forEach(function(s){ s.classList.remove('visible'); });
   document.querySelectorAll('#pills-'+panel+' .pill').forEach(function(b){ b.classList.remove('active'); });
   var sec = document.getElementById(pre+id);
   if(sec) sec.classList.add('visible');
   if(btn) btn.classList.add('active');
+  if(panel === 'grammaire') setGrammarModeActive(id === 'books' ? 'books' : 'roles');
   updateRoute(panel, id);
   scrollToNav('panel-'+panel);
 }

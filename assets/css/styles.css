@@ -282,7 +282,35 @@ body{
 .panel{display:none}
 .panel.active{display:block}
 #panel-oral,
-#panel-temps{background:#f8fbff}
+#panel-temps,
+#panel-b1,
+#panel-b2{background:#f8fbff}
+
+.b1-lesson-text p,
+.b1-lesson-note p{
+  margin:0 0 12px;
+  line-height:1.85;
+}
+.b1-lesson-title{
+  font-size:20px;
+  font-weight:700;
+  color:var(--blue);
+  margin:0 0 6px;
+}
+.b1-lesson-ar{
+  direction:rtl;
+  text-align:right;
+}
+.b1-answer{
+  background:#ecfdf5;
+  border:1.5px solid #86efac;
+  border-radius:12px;
+  padding:12px 14px;
+  color:#166534;
+}
+.b1-answer strong{
+  color:#14532d;
+}
 
 .lire-fieldset {
   margin-top:16px;
