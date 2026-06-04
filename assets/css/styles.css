@@ -688,7 +688,7 @@ body{
 
   /* cards */
   .card{padding:16px 14px;border-radius:14px}
-  .card-label{font-size:10px}
+  .card-label{font-size:14px;font-weight:800}
 
   /* formula */
   .formula{font-size:13px;padding:12px 14px;word-break:break-all}
@@ -824,9 +824,21 @@ body{
 .card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px);border-color:#d1d5db}
 
 .card-label {
-  font-family:'Inter',sans-serif;font-size:11px;font-weight:600;
-  letter-spacing:2px;color:var(--text-light);
-  text-transform:uppercase;margin-bottom:14px;display:block;
+  font-family:'Inter','Tajawal',sans-serif;
+  font-size:22px;
+  font-weight:900;
+  line-height:1.35;
+  letter-spacing:0;
+  color:#fff;
+  text-transform:none;
+  display:block;
+  width:100%;
+  padding:14px 18px;
+  margin:-6px 0 18px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#0f766e,#2563eb);
+  box-shadow:0 10px 24px rgba(15,118,110,.18);
+  overflow-wrap:anywhere;
 }
 
 /* ═══════════════ FORMULA ═══════════════ */
