@@ -2806,3 +2806,164 @@ body{
   transition:opacity .45s ease,transform .45s ease;
 }
 .visible-anim{opacity:1!important;transform:none!important}
+
+/* ═══════════════ UNIFIED CONTENT SYSTEM ═══════════════ */
+.main{
+  background:transparent;
+}
+.sec{
+  color:var(--text-dark);
+}
+.sec-header{
+  margin-bottom:22px;
+}
+.sec-title{
+  font-family:'Inter','Tajawal',sans-serif;
+  font-weight:900;
+  letter-spacing:0;
+}
+.sec-ar{
+  color:var(--text-light)!important;
+  font-family:'Tajawal','Inter',sans-serif;
+  font-weight:700;
+}
+.card,
+.q-card,
+.article-card{
+  background:var(--white)!important;
+  border:1.5px solid #e2e8f0!important;
+  border-radius:14px!important;
+  box-shadow:var(--shadow-sm)!important;
+}
+.card:hover,
+.q-card:hover,
+.article-card:hover{
+  border-color:#bfdbfe!important;
+  box-shadow:var(--shadow-md)!important;
+}
+.card-label{
+  font-family:'Inter','Tajawal',sans-serif!important;
+  font-size:21px!important;
+  font-weight:900!important;
+  line-height:1.35!important;
+  letter-spacing:0!important;
+  color:#fff!important;
+  display:block!important;
+  width:100%!important;
+  padding:13px 16px!important;
+  margin:-4px 0 18px!important;
+  border-radius:10px!important;
+  background:linear-gradient(135deg,var(--blue),var(--teal))!important;
+  box-shadow:0 10px 22px rgba(26,86,219,.16)!important;
+  text-transform:none!important;
+}
+.note{
+  background:linear-gradient(135deg,#f8fafc,#eff6ff)!important;
+  border:1.5px solid #dbeafe!important;
+  border-left:5px solid var(--blue)!important;
+  border-radius:12px!important;
+  color:var(--text-dark)!important;
+  font-family:'Inter','Tajawal',sans-serif!important;
+}
+.note::before{
+  content:none!important;
+}
+.formula{
+  background:linear-gradient(135deg,#eff6ff,#ecfdf5)!important;
+  border:1.5px solid #bfdbfe!important;
+  border-left:5px solid var(--blue)!important;
+  border-radius:12px!important;
+  color:var(--blue)!important;
+  font-family:'Fira Code','Inter',monospace!important;
+}
+.tbl-wrap,
+.card[style*="overflow-x:auto"]{
+  border-radius:12px!important;
+}
+.tbl,
+.examples-table{
+  width:100%!important;
+  border-collapse:separate!important;
+  border-spacing:0!important;
+  background:transparent!important;
+  font-family:'Inter','Tajawal',sans-serif!important;
+}
+.tbl th,
+.examples-table th{
+  background:linear-gradient(135deg,#eff6ff,#dbeafe)!important;
+  color:#1e3a8a!important;
+  border-bottom:1.5px solid #bfdbfe!important;
+  padding:11px 13px!important;
+  font-family:'Inter','Tajawal',sans-serif!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  letter-spacing:0!important;
+  text-transform:none!important;
+}
+.tbl td,
+.examples-table td{
+  background:#fff!important;
+  color:var(--text-dark)!important;
+  border-bottom:1px solid #e2e8f0!important;
+  padding:11px 13px!important;
+  font-size:15px!important;
+}
+.tbl tr:hover td,
+.examples-table tr:hover td{
+  background:#f8fbff!important;
+}
+.ex-row{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  padding:10px 12px;
+  margin:8px 0;
+}
+.ex-fr{
+  color:var(--blue)!important;
+  font-weight:800!important;
+}
+.ex-ar{
+  color:var(--text-dark)!important;
+  font-family:'Tajawal','Inter',sans-serif!important;
+  font-weight:700!important;
+}
+.grid-2,
+.grid-3{
+  align-items:stretch;
+}
+.cat-grid{
+  gap:12px;
+}
+.cat-item{
+  background:linear-gradient(135deg,#f8fafc,#eff6ff)!important;
+  border:1.5px solid #dbeafe!important;
+  border-radius:10px!important;
+}
+.cat-fr{
+  color:var(--blue)!important;
+  font-family:'Inter','Tajawal',sans-serif!important;
+}
+.cat-ar{
+  color:var(--text-dark)!important;
+  font-family:'Tajawal','Inter',sans-serif!important;
+}
+.badge{
+  border-radius:999px!important;
+  font-family:'Inter','Tajawal',sans-serif!important;
+  font-weight:900!important;
+}
+
+@media(max-width:720px){
+  .card-label{
+    font-size:17px!important;
+    padding:11px 13px!important;
+  }
+  .tbl th,
+  .tbl td,
+  .examples-table th,
+  .examples-table td{
+    padding:9px 10px!important;
+    font-size:13px!important;
+  }
+}
