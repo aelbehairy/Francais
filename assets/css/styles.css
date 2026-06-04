@@ -841,6 +841,136 @@ body{
   overflow-wrap:anywhere;
 }
 
+/* ═══════════════ SUBJONCTIF GUIDE ═══════════════ */
+.subj-guide{
+  background:transparent;
+  border:0;
+  padding:0;
+}
+.subj-explain-lines{
+  display:grid;
+  gap:10px;
+  padding:22px 26px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#eff6ff,#ecfdf5);
+  border:1.5px solid #bfdbfe;
+  border-left:5px solid var(--blue);
+  color:var(--text-dark);
+  box-shadow:var(--shadow-sm);
+}
+.subj-explain-lines p{
+  margin:0;
+  line-height:1.9;
+  font-size:16px;
+}
+.subj-explain-lines p:not([dir="rtl"]){
+  direction:ltr;
+  text-align:left;
+  font-family:'Inter','Tajawal',sans-serif;
+  font-style:normal;
+}
+.subj-explain-lines p[dir="rtl"]{
+  text-align:right;
+  font-weight:600;
+  color:var(--text-dark);
+}
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.cat-item{
+  display:flex;
+  flex-direction:row-reverse;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  min-height:52px;
+  padding:12px 16px;
+  border:1.5px solid #dbeafe;
+  border-radius:8px;
+  background:linear-gradient(135deg,#f8fafc,#eff6ff);
+}
+.cat-fr{
+  font-family:'Inter','Tajawal',sans-serif;
+  font-style:normal;
+  font-size:16px;
+  font-weight:800;
+  color:var(--blue);
+  text-align:right;
+}
+.cat-ar{
+  color:var(--text-dark);
+  direction:rtl;
+  text-align:right;
+  font-weight:600;
+}
+.examples-table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 7px;
+  direction:ltr;
+}
+.examples-table th{
+  padding:8px 14px;
+  color:var(--blue);
+  font-family:'Fira Code',monospace;
+  font-size:11px;
+  letter-spacing:.8px;
+  text-align:left;
+  text-transform:uppercase;
+}
+.examples-table th:last-child,
+.examples-table td:last-child{
+  direction:rtl;
+  text-align:right;
+}
+.examples-table td{
+  padding:12px 14px;
+  background:#f8fafc;
+  border-top:1px solid #dbeafe;
+  border-bottom:1px solid #dbeafe;
+}
+.examples-table td:first-child{
+  border-left:1px solid #dbeafe;
+  border-radius:8px 0 0 8px;
+}
+.examples-table td:last-child{
+  border-right:1px solid #dbeafe;
+  border-radius:0 8px 8px 0;
+  color:var(--text-dark);
+}
+.examples-table em{
+  color:var(--blue);
+  font-weight:700;
+}
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  font-family:'Fira Code',monospace;
+  font-size:11px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.badge-nec{background:#dbeafe;color:#1d4ed8}
+.badge-des{background:#ffedd5;color:#c2410c}
+.badge-dou{background:#fee2e2;color:#b91c1c}
+.badge-peu{background:#ede9fe;color:#6d28d9}
+.badge-sen{background:#dcfce7;color:#15803d}
+.badge-but{background:#fef3c7;color:#a16207}
+.badge-opi{background:#e0e7ff;color:#3730a3}
+
+@media(max-width:720px){
+  .cat-grid{
+    grid-template-columns:1fr;
+  }
+  .cat-item{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+
 /* ═══════════════ FORMULA ═══════════════ */
 .formula {
   background:linear-gradient(135deg,#eff6ff,#dbeafe);
