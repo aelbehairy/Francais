@@ -1248,7 +1248,8 @@ function actionIcon(type){
     collapse: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3v5H3"/><path d="M3 3l7 7"/><path d="M16 21v-5h5"/><path d="M21 21l-7-7"/></svg></span>',
     expand: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M21 3l-7 7"/><path d="M9 21H3v-6"/><path d="M3 21l7-7"/></svg></span>',
     export: '<span class="btn-icon pdf-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M8 14h1.8a1.4 1.4 0 0 0 0-2.8H8v5.6"/><path d="M12.8 11.2v5.6h1.1a2.8 2.8 0 0 0 0-5.6z"/><path d="M17.6 16.8v-5.6H21"/><path d="M17.6 14H20"/></svg></span>',
-    print: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg></span>'
+    print: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg></span>',
+    play: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>'
   };
   return icons[type] || '';
 }
@@ -1275,6 +1276,20 @@ function makePrintCheckedAction(handler, label){
   return '<button class="sec-tool-btn print-checked-btn" type="button" onclick="'+handler+'" aria-label="'+label+'">' +
     actionIcon('print') +
     '<strong>Print checked</strong>' +
+  '</button>';
+}
+
+function makeTcfEcritPlayAllAction(){
+  return '<button class="sec-tool-btn tcf-audio-btn tcf-play-all-btn" type="button" onclick="playAllTcfEcritSujetAudio(event)" aria-label="Play all Ecrit 1 audio">' +
+    actionIcon('play') +
+    '<strong>Play all</strong>' +
+  '</button>';
+}
+
+function makeTcfOralReadAction(){
+  return '<button class="sec-tool-btn tcf-audio-btn tcf-oral-read-btn" type="button" onclick="toggleTcfOralTask1Speech(event)" aria-label="Read TCF Oral Task 1 questions and answers">' +
+    actionIcon('play') +
+    '<strong>Play all</strong>' +
   '</button>';
 }
 
@@ -1312,10 +1327,19 @@ function initSecHeaderControls(){
     var exportTitle = titleNode ? titleNode.textContent.trim() : sec.id;
     var actions = sec.querySelector(':scope > .sec-header-actions');
     var hasQCards = !!document.querySelector(selector);
+    var extraTopActions = '';
+    if(sec.id === 'tcf-oral') extraTopActions += makeTcfOralReadAction();
+    if(sec.id === 'tcf-ecrit-ecrit1') extraTopActions += makeTcfEcritPlayAllAction();
     if(!sec.querySelector(':scope > .sec-export-top-left')){
-      header.insertAdjacentHTML('beforebegin', '<div class="sec-export-top-left">'+getPrintCheckedAction(sec)+makeExportAction(exportSelector, exportTitle)+'</div>');
+      header.insertAdjacentHTML('beforebegin', '<div class="sec-export-top-left">'+extraTopActions+getPrintCheckedAction(sec)+makeExportAction(exportSelector, exportTitle)+'</div>');
     } else {
       var exportTopLeft = sec.querySelector(':scope > .sec-export-top-left');
+      if(exportTopLeft && sec.id === 'tcf-oral' && !exportTopLeft.querySelector('.tcf-oral-read-btn')){
+        exportTopLeft.insertAdjacentHTML('afterbegin', makeTcfOralReadAction());
+      }
+      if(exportTopLeft && sec.id === 'tcf-ecrit-ecrit1' && !exportTopLeft.querySelector('.tcf-play-all-btn')){
+        exportTopLeft.insertAdjacentHTML('afterbegin', extraTopActions);
+      }
       if(exportTopLeft && !exportTopLeft.querySelector('.print-checked-btn')){
         exportTopLeft.insertAdjacentHTML('beforeend', getPrintCheckedAction(sec));
       }
@@ -1824,6 +1848,742 @@ function addTcfResponseWordCounts(){
 }
 
 addTcfResponseWordCounts();
+
+var tcfOralSpeech = {
+  active: false,
+  queue: [],
+  index: 0,
+  current: null
+};
+
+function getTcfOralTask1SpeechQueue(){
+  return Array.prototype.map.call(document.querySelectorAll('#tcf-oral .tcf-oral-card'), function(card){
+    var num = card.querySelector('.q-num');
+    var question = card.querySelector('.q-text');
+    var answerLines = Array.prototype.map.call(card.querySelectorAll('.q-body .fr-line'), function(line){
+      return line.textContent.trim();
+    }).filter(Boolean);
+    var number = num ? num.textContent.trim() : '';
+    var questionText = question ? question.textContent.trim() : '';
+    return [
+      number ? 'Question ' + number + '.' : 'Question.',
+      questionText,
+      'Réponse.',
+      answerLines.join(' ')
+    ].filter(Boolean).join(' ');
+  }).filter(Boolean);
+}
+
+function updateTcfOralSpeechButtons(){
+  document.querySelectorAll('.tcf-oral-read-btn').forEach(function(btn){
+    btn.classList.toggle('is-playing', tcfOralSpeech.active);
+    btn.setAttribute('aria-label', tcfOralSpeech.active ? 'Stop reading TCF Oral Task 1' : 'Read TCF Oral Task 1 questions and answers');
+    var label = btn.querySelector('strong');
+    if(label) label.textContent = tcfOralSpeech.active ? 'Stop reading' : 'Read Task 1';
+  });
+}
+
+function stopTcfOralTask1Speech(){
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+  }
+  tcfOralSpeech.active = false;
+  tcfOralSpeech.queue = [];
+  tcfOralSpeech.index = 0;
+  tcfOralSpeech.current = null;
+  updateTcfOralSpeechButtons();
+}
+
+function speakNextTcfOralTask1(){
+  if(!tcfOralSpeech.active) return;
+  if(tcfOralSpeech.index >= tcfOralSpeech.queue.length){
+    stopTcfOralTask1Speech();
+    return;
+  }
+  var text = tcfOralSpeech.queue[tcfOralSpeech.index];
+  tcfOralSpeech.index += 1;
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'fr-FR';
+  utterance.rate = 0.92;
+  utterance.pitch = 1;
+  utterance.onend = speakNextTcfOralTask1;
+  utterance.onerror = speakNextTcfOralTask1;
+  tcfOralSpeech.current = utterance;
+  window.speechSynthesis.speak(utterance);
+  updateTcfOralSpeechButtons();
+}
+
+function toggleTcfOralTask1Speech(event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if(!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)){
+    window.alert('Speech reading is not supported in this browser.');
+    return;
+  }
+  if(tcfOralSpeech.active){
+    stopTcfOralTask1Speech();
+    return;
+  }
+  tcfOralSpeech.queue = getTcfOralTask1SpeechQueue();
+  if(!tcfOralSpeech.queue.length) return;
+  tcfOralSpeech.active = true;
+  tcfOralSpeech.index = 0;
+  window.speechSynthesis.cancel();
+  speakNextTcfOralTask1();
+}
+
+function getTcfOralTask1SpeechItems(){
+  var frenchNumbers = {
+    1:'un',
+    2:'deux',
+    3:'trois',
+    4:'quatre',
+    5:'cinq',
+    6:'six',
+    7:'sept',
+    8:'huit',
+    9:'neuf',
+    10:'dix',
+    11:'onze',
+    12:'douze',
+    13:'treize',
+    14:'quatorze',
+    15:'quinze',
+    16:'seize',
+    17:'dix-sept',
+    18:'dix-huit',
+    19:'dix-neuf',
+    20:'vingt'
+  };
+  return Array.prototype.map.call(document.querySelectorAll('#tcf-oral .tcf-oral-card'), function(card, index){
+    var num = card.querySelector('.q-num');
+    var question = card.querySelector('.q-text');
+    var answerLines = Array.prototype.map.call(card.querySelectorAll('.q-body .fr-line'), function(line){
+      return line.textContent.trim();
+    }).filter(Boolean);
+    var number = num ? num.textContent.trim() : String(index + 1).padStart(2, '0');
+    var spokenNumber = frenchNumbers[index + 1] || String(index + 1);
+    var questionText = question ? question.textContent.trim() : '';
+    var answerText = answerLines.join(' ');
+    return {
+      number: number,
+      question: questionText,
+      answer: answerText,
+      text: ['Question numéro ' + spokenNumber + '.', questionText, 'Réponse.', answerText].filter(Boolean).join(' ')
+    };
+  }).filter(function(item){ return !!item.text; });
+}
+
+function ensureTcfOralSpeechState(){
+  if(typeof tcfOralSpeech.playingAll !== 'boolean') tcfOralSpeech.playingAll = false;
+  if(!tcfOralSpeech.speed) tcfOralSpeech.speed = 0.92;
+  if(typeof tcfOralSpeech.popup === 'undefined') tcfOralSpeech.popup = null;
+  if(typeof tcfOralSpeech.token !== 'number') tcfOralSpeech.token = 0;
+  if(typeof tcfOralSpeech.currentOffset !== 'number') tcfOralSpeech.currentOffset = 0;
+  if(typeof tcfOralSpeech.currentLength !== 'number') tcfOralSpeech.currentLength = 1;
+}
+
+function ensureTcfOralSpeechPopup(){
+  ensureTcfOralSpeechState();
+  if(tcfOralSpeech.popup) return tcfOralSpeech.popup;
+  var popup = document.createElement('div');
+  popup.className = 'tcf-audio-popup tcf-oral-speech-popup';
+  popup.hidden = true;
+  popup.innerHTML =
+    '<div class="tcf-audio-panel" role="dialog" aria-modal="true" aria-label="TCF Oral speech player">' +
+      '<div class="tcf-audio-panel-head">' +
+        '<div><div class="tcf-audio-kicker">TCF Oral</div><div class="tcf-audio-title">Task 1</div></div>' +
+        '<button class="tcf-audio-close" type="button" aria-label="Close speech popup">Close</button>' +
+      '</div>' +
+      '<div class="tcf-audio-now">Ready</div>' +
+      '<div class="tcf-audio-progress-row">' +
+        '<span class="tcf-oral-current-step">0%</span>' +
+        '<input class="tcf-oral-progress" type="range" min="0" max="100" value="0" step="1" aria-label="Current question progress">' +
+        '<span class="tcf-oral-total-steps">100%</span>' +
+      '</div>' +
+      '<div class="tcf-audio-controls">' +
+        '<button class="tcf-audio-control tcf-oral-prev" type="button">Prev</button>' +
+        '<button class="tcf-audio-control tcf-oral-repeat" type="button">Repeat</button>' +
+        '<button class="tcf-audio-control tcf-oral-play-pause" type="button">Pause</button>' +
+        '<button class="tcf-audio-control tcf-oral-next" type="button">Next</button>' +
+        '<button class="tcf-audio-control tcf-oral-stop" type="button">Stop</button>' +
+      '</div>' +
+      '<div class="tcf-audio-speed" aria-label="Speech speed">' +
+        '<span>Speed</span>' +
+        '<button class="tcf-oral-speed-btn" type="button" data-speed="0.6">0.6x</button>' +
+        '<button class="tcf-oral-speed-btn active" type="button" data-speed="0.92">1x</button>' +
+        '<button class="tcf-oral-speed-btn" type="button" data-speed="1.15">1.25x</button>' +
+        '<button class="tcf-oral-speed-btn" type="button" data-speed="1.35">1.5x</button>' +
+        '<button class="tcf-oral-speed-btn" type="button" data-speed="1.6">2x</button>' +
+      '</div>' +
+      '<div class="tcf-audio-playlist"><div class="tcf-audio-playlist-title">Questions & réponses</div><div class="tcf-oral-playlist-items"></div></div>' +
+    '</div>';
+  document.body.appendChild(popup);
+  popup.addEventListener('click', function(event){
+    if(event.target === popup) hideTcfOralSpeechPopup();
+  });
+  popup.querySelector('.tcf-audio-close').addEventListener('click', hideTcfOralSpeechPopup);
+  popup.querySelector('.tcf-oral-prev').addEventListener('click', playPreviousTcfOralSpeech);
+  popup.querySelector('.tcf-oral-repeat').addEventListener('click', function(){ speakTcfOralAtIndex(tcfOralSpeech.index, true); });
+  popup.querySelector('.tcf-oral-play-pause').addEventListener('click', toggleTcfOralSpeechPause);
+  popup.querySelector('.tcf-oral-next').addEventListener('click', function(){ speakTcfOralAtIndex(tcfOralSpeech.index + 1, true); });
+  popup.querySelector('.tcf-oral-stop').addEventListener('click', stopTcfOralTask1Speech);
+  popup.querySelector('.tcf-oral-progress').addEventListener('input', function(event){
+    seekTcfOralSpeechProgress(Number(event.target.value));
+  });
+  popup.querySelectorAll('.tcf-oral-speed-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      setTcfOralSpeechSpeed(Number(btn.getAttribute('data-speed')));
+    });
+  });
+  tcfOralSpeech.popup = popup;
+  return popup;
+}
+
+function showTcfOralSpeechPopup(){
+  var popup = ensureTcfOralSpeechPopup();
+  popup.hidden = false;
+  updateTcfOralSpeechButtons();
+}
+
+function hideTcfOralSpeechPopup(){
+  if(tcfOralSpeech.popup) tcfOralSpeech.popup.hidden = true;
+}
+
+function updateTcfOralSpeechPopup(){
+  var popup = ensureTcfOralSpeechPopup();
+  var total = tcfOralSpeech.queue.length || 1;
+  var item = tcfOralSpeech.queue[tcfOralSpeech.index];
+  var percent = tcfOralSpeech.currentLength ? Math.min(100, Math.max(0, Math.round((tcfOralSpeech.currentOffset / tcfOralSpeech.currentLength) * 100))) : 0;
+  popup.querySelector('.tcf-audio-title').textContent = item ? 'Question ' + item.number : 'Task 1';
+  popup.querySelector('.tcf-audio-now').textContent = item ? item.question : 'Ready';
+  popup.querySelector('.tcf-oral-current-step').textContent = percent + '%';
+  popup.querySelector('.tcf-oral-total-steps').textContent = 'Q ' + Math.min(tcfOralSpeech.index + 1, total) + '/' + total;
+  var progress = popup.querySelector('.tcf-oral-progress');
+  progress.max = 100;
+  progress.value = percent;
+  popup.querySelector('.tcf-oral-play-pause').textContent = window.speechSynthesis && window.speechSynthesis.paused ? 'Play' : 'Pause';
+  popup.querySelector('.tcf-oral-prev').disabled = tcfOralSpeech.index <= 0;
+  popup.querySelector('.tcf-oral-next').disabled = tcfOralSpeech.index >= total - 1;
+  popup.querySelectorAll('.tcf-oral-speed-btn').forEach(function(btn){
+    btn.classList.toggle('active', Number(btn.getAttribute('data-speed')) === tcfOralSpeech.speed);
+  });
+  var playlist = popup.querySelector('.tcf-oral-playlist-items');
+  playlist.innerHTML = tcfOralSpeech.queue.map(function(row, index){
+    var active = index === tcfOralSpeech.index ? ' active' : '';
+    return '<button class="tcf-audio-playlist-item'+active+'" type="button" data-index="'+index+'"><span>Question '+row.number+'</span><small>'+(index + 1)+' / '+total+'</small></button>';
+  }).join('');
+  playlist.querySelectorAll('.tcf-audio-playlist-item').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      speakTcfOralAtIndex(Number(btn.getAttribute('data-index')), true);
+    });
+  });
+}
+
+function updateTcfOralSpeechButtons(){
+  ensureTcfOralSpeechState();
+  document.querySelectorAll('.tcf-oral-read-btn').forEach(function(btn){
+    btn.classList.toggle('is-playing', tcfOralSpeech.active && tcfOralSpeech.playingAll);
+    btn.setAttribute('aria-label', tcfOralSpeech.active ? 'Open TCF Oral Task 1 player' : 'Play all TCF Oral Task 1 questions and answers');
+    var label = btn.querySelector('strong');
+    if(label) label.textContent = tcfOralSpeech.active && tcfOralSpeech.playingAll ? 'Playing all' : 'Play all';
+  });
+  document.querySelectorAll('.tcf-oral-play-btn').forEach(function(btn){
+    var index = Number(btn.getAttribute('data-oral-index'));
+    var isActive = tcfOralSpeech.active && tcfOralSpeech.index === index;
+    btn.classList.toggle('is-playing', isActive);
+    btn.setAttribute('aria-label', (isActive ? 'Open' : 'Play') + ' oral question ' + (index + 1));
+    var label = btn.querySelector('strong');
+    if(label) label.textContent = isActive ? 'Playing' : 'Play';
+  });
+  if(tcfOralSpeech.popup && !tcfOralSpeech.popup.hidden) updateTcfOralSpeechPopup();
+}
+
+function stopTcfOralTask1Speech(){
+  ensureTcfOralSpeechState();
+  tcfOralSpeech.active = false;
+  tcfOralSpeech.playingAll = false;
+  tcfOralSpeech.queue = [];
+  tcfOralSpeech.index = 0;
+  tcfOralSpeech.current = null;
+  tcfOralSpeech.token += 1;
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  updateTcfOralSpeechButtons();
+}
+
+function getTcfOralSpeechSeekOffset(text, percent){
+  var offset = Math.floor((text.length * Math.min(Math.max(percent, 0), 100)) / 100);
+  if(offset <= 0) return 0;
+  if(offset >= text.length) return text.length - 1;
+  var previousSpace = text.lastIndexOf(' ', offset);
+  return previousSpace > 0 ? previousSpace + 1 : offset;
+}
+
+function seekTcfOralSpeechProgress(percent){
+  var item = tcfOralSpeech.queue[tcfOralSpeech.index];
+  if(!item) return;
+  speakTcfOralAtIndex(tcfOralSpeech.index, true, getTcfOralSpeechSeekOffset(item.text, percent));
+}
+
+function speakTcfOralAtIndex(index, restart, offset){
+  ensureTcfOralSpeechState();
+  if(!tcfOralSpeech.active) return;
+  if(index < 0) index = 0;
+  if(index >= tcfOralSpeech.queue.length){
+    stopTcfOralTask1Speech();
+    return;
+  }
+  tcfOralSpeech.token += 1;
+  var token = tcfOralSpeech.token;
+  if(restart) window.speechSynthesis.cancel();
+  var item = tcfOralSpeech.queue[index];
+  var startOffset = Math.min(Math.max(Number(offset) || 0, 0), Math.max(item.text.length - 1, 0));
+  tcfOralSpeech.index = index;
+  tcfOralSpeech.currentOffset = startOffset;
+  tcfOralSpeech.currentLength = Math.max(item.text.length, 1);
+  var utterance = new SpeechSynthesisUtterance(item.text.slice(startOffset));
+  utterance.lang = 'fr-FR';
+  utterance.rate = tcfOralSpeech.speed;
+  utterance.pitch = 1;
+  utterance.onboundary = function(event){
+    if(token !== tcfOralSpeech.token) return;
+    if(typeof event.charIndex === 'number'){
+      tcfOralSpeech.currentOffset = Math.min(startOffset + event.charIndex, tcfOralSpeech.currentLength);
+      updateTcfOralSpeechButtons();
+    }
+  };
+  utterance.onend = function(){
+    if(token !== tcfOralSpeech.token) return;
+    tcfOralSpeech.currentOffset = tcfOralSpeech.currentLength;
+    if(tcfOralSpeech.active && tcfOralSpeech.index < tcfOralSpeech.queue.length - 1) speakTcfOralAtIndex(tcfOralSpeech.index + 1, false);
+    else stopTcfOralTask1Speech();
+  };
+  utterance.onerror = function(){
+    if(token !== tcfOralSpeech.token) return;
+    if(tcfOralSpeech.active && tcfOralSpeech.index < tcfOralSpeech.queue.length - 1) speakTcfOralAtIndex(tcfOralSpeech.index + 1, false);
+    else stopTcfOralTask1Speech();
+  };
+  tcfOralSpeech.current = utterance;
+  showTcfOralSpeechPopup();
+  window.speechSynthesis.speak(utterance);
+  updateTcfOralSpeechButtons();
+}
+
+function playPreviousTcfOralSpeech(){
+  speakTcfOralAtIndex(tcfOralSpeech.index - 1, true);
+}
+
+function toggleTcfOralSpeechPause(){
+  if(!window.speechSynthesis) return;
+  if(window.speechSynthesis.paused) window.speechSynthesis.resume();
+  else window.speechSynthesis.pause();
+  updateTcfOralSpeechButtons();
+}
+
+function setTcfOralSpeechSpeed(speed){
+  ensureTcfOralSpeechState();
+  if([0.6, 0.92, 1.15, 1.35, 1.6].indexOf(speed) === -1) return;
+  tcfOralSpeech.speed = speed;
+  if(tcfOralSpeech.active) speakTcfOralAtIndex(tcfOralSpeech.index, true, tcfOralSpeech.currentOffset);
+  else updateTcfOralSpeechButtons();
+}
+
+function startTcfOralTask1Speech(index, playAll){
+  if(!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)){
+    window.alert('Speech reading is not supported in this browser.');
+    return;
+  }
+  if(typeof stopTcfEcritAudio === 'function' && tcfEcritAudio && tcfEcritAudio.current){
+    stopTcfEcritAudio();
+  }
+  ensureTcfOralSpeechState();
+  tcfOralSpeech.queue = getTcfOralTask1SpeechItems();
+  if(!tcfOralSpeech.queue.length) return;
+  tcfOralSpeech.token += 1;
+  window.speechSynthesis.cancel();
+  tcfOralSpeech.active = true;
+  tcfOralSpeech.playingAll = !!playAll;
+  speakTcfOralAtIndex(index || 0, false);
+}
+
+function playTcfOralQuestion(index, event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if(tcfOralSpeech.active && tcfOralSpeech.index === index){
+    showTcfOralSpeechPopup();
+    return;
+  }
+  startTcfOralTask1Speech(index, false);
+}
+
+function toggleTcfOralTask1Speech(event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if(tcfOralSpeech.active){
+    if(!tcfOralSpeech.playingAll){
+      startTcfOralTask1Speech(0, true);
+      return;
+    }
+    showTcfOralSpeechPopup();
+    return;
+  }
+  startTcfOralTask1Speech(0, true);
+}
+
+function addTcfOralSpeechButtons(){
+  document.querySelectorAll('#tcf-oral .tcf-oral-card').forEach(function(card, index){
+    var header = card.querySelector('.q-header');
+    if(!header || header.querySelector('.tcf-oral-play-btn')) return;
+    card.setAttribute('data-oral-index', String(index));
+    var button = document.createElement('button');
+    button.className = 'tcf-sujet-play-btn tcf-oral-play-btn';
+    button.type = 'button';
+    button.setAttribute('data-oral-index', String(index));
+    button.setAttribute('aria-label', 'Play oral question ' + (index + 1));
+    button.innerHTML = actionIcon('play') + '<strong>Play</strong>';
+    button.addEventListener('click', function(event){
+      playTcfOralQuestion(index, event);
+    });
+    button.addEventListener('touchend', function(event){
+      playTcfOralQuestion(index, event);
+    }, {passive:false});
+    var arrow = header.querySelector('.q-arrow');
+    if(arrow) arrow.insertAdjacentElement('beforebegin', button);
+    else header.appendChild(button);
+  });
+  updateTcfOralSpeechButtons();
+}
+
+var tcfEcritAudio = {
+  current: null,
+  currentSujet: null,
+  playlist: [],
+  playlistIndex: 0,
+  playingAll: false,
+  speed: 1,
+  popup: null
+};
+
+function getTcfEcritSujetAudioPath(sujetNumber){
+  var number = Number(sujetNumber);
+  if(number < 1 || number > 10) return '';
+  return 'assets/Mp3/Sujet ' + number + ' (mp3cut.net).mp3';
+}
+
+function formatTcfEcritAudioTime(value){
+  if(!isFinite(value) || value < 0) value = 0;
+  var minutes = Math.floor(value / 60);
+  var seconds = Math.floor(value % 60);
+  return minutes + ':' + String(seconds).padStart(2, '0');
+}
+
+function ensureTcfEcritAudioPopup(){
+  if(tcfEcritAudio.popup) return tcfEcritAudio.popup;
+  var popup = document.createElement('div');
+  popup.className = 'tcf-audio-popup';
+  popup.hidden = true;
+  popup.innerHTML =
+    '<div class="tcf-audio-panel" role="dialog" aria-modal="true" aria-label="TCF Ecrit audio player">' +
+      '<div class="tcf-audio-panel-head">' +
+        '<div><div class="tcf-audio-kicker">TCF Ecrit 1</div><div class="tcf-audio-title">Sujet audio</div></div>' +
+        '<button class="tcf-audio-close" type="button" aria-label="Close audio popup">Close</button>' +
+      '</div>' +
+      '<div class="tcf-audio-now">Ready</div>' +
+      '<div class="tcf-audio-progress-row">' +
+        '<span class="tcf-audio-current-time">0:00</span>' +
+        '<input class="tcf-audio-progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Audio progress">' +
+        '<span class="tcf-audio-duration">0:00</span>' +
+      '</div>' +
+      '<div class="tcf-audio-controls">' +
+        '<button class="tcf-audio-control tcf-audio-prev" type="button">Prev</button>' +
+        '<button class="tcf-audio-control tcf-audio-skip-back" type="button">-10s</button>' +
+        '<button class="tcf-audio-control tcf-audio-play-pause" type="button">Pause</button>' +
+        '<button class="tcf-audio-control tcf-audio-skip-forward" type="button">+10s</button>' +
+        '<button class="tcf-audio-control tcf-audio-next" type="button">Next</button>' +
+      '</div>' +
+      '<div class="tcf-audio-speed" aria-label="Playback speed">' +
+        '<span>Speed</span>' +
+        '<button class="tcf-audio-speed-btn" type="button" data-speed="0.25">0.25x</button>' +
+        '<button class="tcf-audio-speed-btn" type="button" data-speed="0.5">0.5x</button>' +
+        '<button class="tcf-audio-speed-btn active" type="button" data-speed="1">1x</button>' +
+        '<button class="tcf-audio-speed-btn" type="button" data-speed="1.5">1.5x</button>' +
+        '<button class="tcf-audio-speed-btn" type="button" data-speed="2">2x</button>' +
+      '</div>' +
+      '<div class="tcf-audio-playlist" hidden><div class="tcf-audio-playlist-title">Playlist</div><div class="tcf-audio-playlist-items"></div></div>' +
+    '</div>';
+  document.body.appendChild(popup);
+  popup.addEventListener('click', function(event){
+    if(event.target === popup) hideTcfEcritAudioPopup();
+  });
+  popup.querySelector('.tcf-audio-close').addEventListener('click', hideTcfEcritAudioPopup);
+  popup.querySelector('.tcf-audio-play-pause').addEventListener('click', toggleTcfEcritAudioPlayPause);
+  popup.querySelector('.tcf-audio-skip-back').addEventListener('click', function(){ skipTcfEcritAudio(-10); });
+  popup.querySelector('.tcf-audio-skip-forward').addEventListener('click', function(){ skipTcfEcritAudio(10); });
+  popup.querySelector('.tcf-audio-prev').addEventListener('click', playPreviousTcfEcritSujetAudio);
+  popup.querySelector('.tcf-audio-next').addEventListener('click', function(){ playNextTcfEcritSujetAudio(true); });
+  popup.querySelectorAll('.tcf-audio-speed-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      setTcfEcritAudioSpeed(Number(btn.getAttribute('data-speed')));
+    });
+  });
+  popup.querySelector('.tcf-audio-progress').addEventListener('input', function(event){
+    var audio = tcfEcritAudio.current;
+    if(!audio || !isFinite(audio.duration)) return;
+    audio.currentTime = Number(event.target.value);
+    updateTcfEcritAudioPopup();
+  });
+  tcfEcritAudio.popup = popup;
+  return popup;
+}
+
+function showTcfEcritAudioPopup(){
+  var popup = ensureTcfEcritAudioPopup();
+  popup.hidden = false;
+  updateTcfEcritAudioPopup();
+}
+
+function hideTcfEcritAudioPopup(){
+  if(tcfEcritAudio.popup) tcfEcritAudio.popup.hidden = true;
+}
+
+function updateTcfEcritAudioPopup(){
+  var popup = ensureTcfEcritAudioPopup();
+  var audio = tcfEcritAudio.current;
+  var sujet = tcfEcritAudio.currentSujet;
+  var duration = audio && isFinite(audio.duration) ? audio.duration : 0;
+  var currentTime = audio ? audio.currentTime : 0;
+  var isPlaying = audio && !audio.paused;
+  var hasPlaylist = tcfEcritAudio.playlist.length > 1;
+  popup.querySelector('.tcf-audio-title').textContent = sujet ? 'Sujet ' + sujet : 'Sujet audio';
+  popup.querySelector('.tcf-audio-now').textContent = hasPlaylist ? 'Play all - Sujet ' + (sujet || '-') + ' of ' + tcfEcritAudio.playlist.length : 'Single audio';
+  var progress = popup.querySelector('.tcf-audio-progress');
+  progress.max = duration || 100;
+  progress.value = duration ? currentTime : 0;
+  popup.querySelector('.tcf-audio-current-time').textContent = formatTcfEcritAudioTime(currentTime);
+  popup.querySelector('.tcf-audio-duration').textContent = formatTcfEcritAudioTime(duration);
+  popup.querySelector('.tcf-audio-play-pause').textContent = isPlaying ? 'Pause' : 'Play';
+  popup.querySelector('.tcf-audio-prev').disabled = !hasPlaylist || tcfEcritAudio.playlistIndex <= 1;
+  popup.querySelector('.tcf-audio-next').disabled = !hasPlaylist || tcfEcritAudio.playlistIndex >= tcfEcritAudio.playlist.length;
+  popup.querySelectorAll('.tcf-audio-speed-btn').forEach(function(btn){
+    var speed = Number(btn.getAttribute('data-speed'));
+    btn.classList.toggle('active', speed === tcfEcritAudio.speed);
+  });
+  var playlist = popup.querySelector('.tcf-audio-playlist');
+  var playlistItems = popup.querySelector('.tcf-audio-playlist-items');
+  playlist.hidden = !hasPlaylist;
+  if(hasPlaylist){
+    playlistItems.innerHTML = tcfEcritAudio.playlist.map(function(item, index){
+      var active = item === sujet ? ' active' : '';
+      return '<button class="tcf-audio-playlist-item'+active+'" type="button" data-sujet="'+item+'"><span>Sujet '+item+'</span><small>'+(index + 1)+' / '+tcfEcritAudio.playlist.length+'</small></button>';
+    }).join('');
+    playlistItems.querySelectorAll('.tcf-audio-playlist-item').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var item = Number(btn.getAttribute('data-sujet'));
+        tcfEcritAudio.playlistIndex = tcfEcritAudio.playlist.indexOf(item) + 1;
+        playTcfEcritAudioItem(item, true);
+      });
+    });
+  }
+}
+
+function updateTcfEcritAudioButtons(){
+  document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-sujet-play-btn').forEach(function(btn){
+    var sujet = Number(btn.getAttribute('data-sujet'));
+    var isActive = tcfEcritAudio.currentSujet === sujet && tcfEcritAudio.current && !tcfEcritAudio.current.paused;
+    btn.classList.toggle('is-playing', isActive);
+    btn.setAttribute('aria-label', (isActive ? 'Open' : 'Play') + ' Sujet ' + sujet + ' audio');
+    var label = btn.querySelector('strong');
+    if(label) label.textContent = isActive ? 'Playing' : 'Play';
+  });
+  document.querySelectorAll('.tcf-play-all-btn').forEach(function(btn){
+    btn.classList.toggle('is-playing', tcfEcritAudio.playingAll);
+    btn.setAttribute('aria-label', tcfEcritAudio.playingAll ? 'Open Ecrit 1 audio playlist' : 'Play all Ecrit 1 audio');
+    var label = btn.querySelector('strong');
+    if(label) label.textContent = tcfEcritAudio.playingAll ? 'Playing all' : 'Play all';
+  });
+  if(tcfEcritAudio.popup && !tcfEcritAudio.popup.hidden) updateTcfEcritAudioPopup();
+}
+
+function stopTcfEcritAudio(){
+  tcfEcritAudio.playingAll = false;
+  tcfEcritAudio.playlist = [];
+  tcfEcritAudio.playlistIndex = 0;
+  if(tcfEcritAudio.current){
+    tcfEcritAudio.current.pause();
+    tcfEcritAudio.current.currentTime = 0;
+  }
+  tcfEcritAudio.current = null;
+  tcfEcritAudio.currentSujet = null;
+  updateTcfEcritAudioButtons();
+}
+
+function attachTcfEcritAudioEvents(audio){
+  audio.addEventListener('loadedmetadata', function(){
+    if(audio === tcfEcritAudio.current) updateTcfEcritAudioButtons();
+  });
+  audio.addEventListener('timeupdate', function(){
+    if(audio === tcfEcritAudio.current) updateTcfEcritAudioButtons();
+  });
+  audio.addEventListener('play', function(){
+    if(audio === tcfEcritAudio.current) updateTcfEcritAudioButtons();
+  });
+  audio.addEventListener('pause', function(){
+    if(audio === tcfEcritAudio.current) updateTcfEcritAudioButtons();
+  });
+  audio.addEventListener('ended', function(){
+    if(audio !== tcfEcritAudio.current) return;
+    if(tcfEcritAudio.playingAll){
+      playNextTcfEcritSujetAudio(false);
+    } else {
+      updateTcfEcritAudioButtons();
+    }
+  });
+  audio.addEventListener('error', function(){
+    if(audio !== tcfEcritAudio.current) return;
+    if(tcfEcritAudio.playingAll){
+      playNextTcfEcritSujetAudio(false);
+    } else {
+      stopTcfEcritAudio();
+    }
+  });
+}
+
+function playTcfEcritAudioItem(sujetNumber, keepPlaylist){
+  var src = getTcfEcritSujetAudioPath(sujetNumber);
+  if(!src) return;
+  if(typeof stopTcfOralTask1Speech === 'function' && tcfOralSpeech && tcfOralSpeech.active){
+    stopTcfOralTask1Speech();
+  }
+  if(tcfEcritAudio.current){
+    tcfEcritAudio.current.pause();
+  }
+  if(!keepPlaylist){
+    tcfEcritAudio.playingAll = false;
+    tcfEcritAudio.playlist = [];
+    tcfEcritAudio.playlistIndex = 0;
+  }
+  var audio = new Audio(src);
+  audio.playbackRate = tcfEcritAudio.speed;
+  tcfEcritAudio.current = audio;
+  tcfEcritAudio.currentSujet = Number(sujetNumber);
+  attachTcfEcritAudioEvents(audio);
+  showTcfEcritAudioPopup();
+  audio.play().then(updateTcfEcritAudioButtons).catch(function(){
+    stopTcfEcritAudio();
+  });
+}
+
+function playTcfEcritSujetAudio(sujetNumber, event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  var number = Number(sujetNumber);
+  if(tcfEcritAudio.currentSujet === number && tcfEcritAudio.current && !tcfEcritAudio.current.paused){
+    showTcfEcritAudioPopup();
+    return;
+  }
+  playTcfEcritAudioItem(number, false);
+}
+
+function playNextTcfEcritSujetAudio(fromButton){
+  if(!tcfEcritAudio.playingAll) return;
+  if(tcfEcritAudio.playlistIndex >= tcfEcritAudio.playlist.length){
+    if(!fromButton) stopTcfEcritAudio();
+    return;
+  }
+  var sujet = tcfEcritAudio.playlist[tcfEcritAudio.playlistIndex];
+  tcfEcritAudio.playlistIndex += 1;
+  playTcfEcritAudioItem(sujet, true);
+}
+
+function playPreviousTcfEcritSujetAudio(){
+  if(!tcfEcritAudio.playingAll || tcfEcritAudio.playlistIndex <= 1) return;
+  tcfEcritAudio.playlistIndex -= 2;
+  if(tcfEcritAudio.playlistIndex < 0) tcfEcritAudio.playlistIndex = 0;
+  playNextTcfEcritSujetAudio(true);
+}
+
+function skipTcfEcritAudio(seconds){
+  var audio = tcfEcritAudio.current;
+  if(!audio) return;
+  var duration = isFinite(audio.duration) ? audio.duration : audio.currentTime + seconds;
+  audio.currentTime = Math.min(Math.max(audio.currentTime + seconds, 0), duration);
+  updateTcfEcritAudioButtons();
+}
+
+function setTcfEcritAudioSpeed(speed){
+  if([0.25, 0.5, 1, 1.5, 2].indexOf(speed) === -1) return;
+  tcfEcritAudio.speed = speed;
+  if(tcfEcritAudio.current){
+    tcfEcritAudio.current.playbackRate = speed;
+  }
+  updateTcfEcritAudioButtons();
+}
+
+function toggleTcfEcritAudioPlayPause(){
+  var audio = tcfEcritAudio.current;
+  if(!audio) return;
+  if(audio.paused){
+    audio.play().then(updateTcfEcritAudioButtons).catch(function(){});
+  } else {
+    audio.pause();
+  }
+  updateTcfEcritAudioButtons();
+}
+
+function playAllTcfEcritSujetAudio(event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if(tcfEcritAudio.playingAll){
+    showTcfEcritAudioPopup();
+    return;
+  }
+  tcfEcritAudio.playingAll = true;
+  tcfEcritAudio.playlist = [1,2,3,4,5,6,7,8,9,10];
+  tcfEcritAudio.playlistIndex = 0;
+  playNextTcfEcritSujetAudio(true);
+}
+
+function addTcfEcritAudioButtons(){
+  document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-sujet-card').forEach(function(card){
+    var num = card.querySelector('.q-num');
+    var header = card.querySelector('.q-header');
+    if(!num || !header || header.querySelector('.tcf-sujet-play-btn')) return;
+    var sujetNumber = Number(num.textContent.trim());
+    if(!getTcfEcritSujetAudioPath(sujetNumber)) return;
+    var button = document.createElement('button');
+    button.className = 'tcf-sujet-play-btn';
+    button.type = 'button';
+    button.setAttribute('data-sujet', String(sujetNumber));
+    button.setAttribute('aria-label', 'Play Sujet ' + sujetNumber + ' audio');
+    button.innerHTML = actionIcon('play') + '<strong>Play</strong>';
+    button.addEventListener('click', function(event){
+      playTcfEcritSujetAudio(sujetNumber, event);
+    });
+    button.addEventListener('touchend', function(event){
+      playTcfEcritSujetAudio(sujetNumber, event);
+    }, {passive:false});
+    var arrow = header.querySelector('.q-arrow');
+    if(arrow){
+      arrow.insertAdjacentElement('beforebegin', button);
+    } else {
+      header.appendChild(button);
+    }
+  });
+  updateTcfEcritAudioButtons();
+}
+
+addTcfOralSpeechButtons();
+addTcfEcritAudioButtons();
 
 function addTcfTranslations(){
   var ecritTranslations = [
