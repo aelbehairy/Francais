@@ -2266,6 +2266,7 @@ var tcfEcritAudio = {
   playlist: [],
   playlistIndex: 0,
   playingAll: false,
+  repeatCurrent: false,
   speed: 1,
   popup: null
 };
@@ -2274,6 +2275,37 @@ function getTcfEcritSujetAudioPath(sujetNumber){
   var number = Number(sujetNumber);
   if(number < 1 || number > 10) return '';
   return 'assets/Mp3/Sujet ' + number + ' (mp3cut.net).mp3';
+}
+
+function getTcfEcritSujetDetails(sujetNumber){
+  var card = Array.prototype.find.call(document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-sujet-card'), function(item){
+    var num = item.querySelector('.q-num');
+    return num && Number(num.textContent.trim()) === Number(sujetNumber);
+  });
+  if(!card) return null;
+  var label = card.querySelector('.q-label');
+  var question = card.querySelector('.q-text');
+  var answerLines = Array.prototype.map.call(card.querySelectorAll('.q-body .fr-line'), function(line){
+    return line.textContent.trim();
+  }).filter(Boolean);
+  return {
+    label: label ? label.textContent.trim() : '',
+    question: question ? question.textContent.trim() : '',
+    answerLines: answerLines
+  };
+}
+
+function renderTcfEcritSujetText(sujetNumber){
+  var details = getTcfEcritSujetDetails(sujetNumber);
+  if(!details) return '<div class="tcf-audio-read-text" hidden></div>';
+  var answer = details.answerLines.map(function(line){
+    return '<div class="tcf-audio-read-line">' + escapeHtml(line) + '</div>';
+  }).join('');
+  return '<div class="tcf-audio-read-text">' +
+    '<div class="tcf-audio-read-title">' + escapeHtml(details.label || ('Sujet ' + sujetNumber)) + '</div>' +
+    '<div class="tcf-audio-read-question">' + escapeHtml(details.question) + '</div>' +
+    '<div class="tcf-audio-read-answer">' + answer + '</div>' +
+  '</div>';
 }
 
 function formatTcfEcritAudioTime(value){
@@ -2298,23 +2330,24 @@ function ensureTcfEcritAudioPopup(){
       '<div class="tcf-audio-progress-row">' +
         '<span class="tcf-audio-current-time">0:00</span>' +
         '<input class="tcf-audio-progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Audio progress">' +
+        '<label class="tcf-audio-speed-select-label"><span>Speed</span><select class="tcf-audio-speed-select" aria-label="Playback speed">' +
+          '<option value="0.25">0.25x</option>' +
+          '<option value="0.5">0.5x</option>' +
+          '<option value="1" selected>1x</option>' +
+          '<option value="1.5">1.5x</option>' +
+          '<option value="2">2x</option>' +
+        '</select></label>' +
         '<span class="tcf-audio-duration">0:00</span>' +
       '</div>' +
       '<div class="tcf-audio-controls">' +
-        '<button class="tcf-audio-control tcf-audio-prev" type="button">Prev</button>' +
-        '<button class="tcf-audio-control tcf-audio-skip-back" type="button">-10s</button>' +
-        '<button class="tcf-audio-control tcf-audio-play-pause" type="button">Pause</button>' +
-        '<button class="tcf-audio-control tcf-audio-skip-forward" type="button">+10s</button>' +
-        '<button class="tcf-audio-control tcf-audio-next" type="button">Next</button>' +
+        '<button class="tcf-audio-control tcf-audio-prev" type="button" aria-label="Previous sujet" title="Previous"><span aria-hidden="true">‹</span></button>' +
+        '<button class="tcf-audio-control tcf-audio-skip-back" type="button" aria-label="Skip back 10 seconds" title="Back 10 seconds"><span aria-hidden="true">-10</span></button>' +
+        '<button class="tcf-audio-control tcf-audio-play-pause" type="button" aria-label="Pause" title="Pause"><span aria-hidden="true">❚❚</span></button>' +
+        '<button class="tcf-audio-control tcf-audio-skip-forward" type="button" aria-label="Skip forward 10 seconds" title="Forward 10 seconds"><span aria-hidden="true">+10</span></button>' +
+        '<button class="tcf-audio-control tcf-audio-next" type="button" aria-label="Next sujet" title="Next"><span aria-hidden="true">›</span></button>' +
+        '<button class="tcf-audio-control tcf-audio-repeat" type="button" aria-label="Repeat current sujet off" title="Repeat"><span aria-hidden="true">↻</span></button>' +
       '</div>' +
-      '<div class="tcf-audio-speed" aria-label="Playback speed">' +
-        '<span>Speed</span>' +
-        '<button class="tcf-audio-speed-btn" type="button" data-speed="0.25">0.25x</button>' +
-        '<button class="tcf-audio-speed-btn" type="button" data-speed="0.5">0.5x</button>' +
-        '<button class="tcf-audio-speed-btn active" type="button" data-speed="1">1x</button>' +
-        '<button class="tcf-audio-speed-btn" type="button" data-speed="1.5">1.5x</button>' +
-        '<button class="tcf-audio-speed-btn" type="button" data-speed="2">2x</button>' +
-      '</div>' +
+      '<div class="tcf-audio-read-mount"></div>' +
       '<div class="tcf-audio-playlist" hidden><div class="tcf-audio-playlist-title">Playlist</div><div class="tcf-audio-playlist-items"></div></div>' +
     '</div>';
   document.body.appendChild(popup);
@@ -2327,10 +2360,9 @@ function ensureTcfEcritAudioPopup(){
   popup.querySelector('.tcf-audio-skip-forward').addEventListener('click', function(){ skipTcfEcritAudio(10); });
   popup.querySelector('.tcf-audio-prev').addEventListener('click', playPreviousTcfEcritSujetAudio);
   popup.querySelector('.tcf-audio-next').addEventListener('click', function(){ playNextTcfEcritSujetAudio(true); });
-  popup.querySelectorAll('.tcf-audio-speed-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      setTcfEcritAudioSpeed(Number(btn.getAttribute('data-speed')));
-    });
+  popup.querySelector('.tcf-audio-repeat').addEventListener('click', toggleTcfEcritAudioRepeat);
+  popup.querySelector('.tcf-audio-speed-select').addEventListener('change', function(event){
+    setTcfEcritAudioSpeed(Number(event.target.value));
   });
   popup.querySelector('.tcf-audio-progress').addEventListener('input', function(event){
     var audio = tcfEcritAudio.current;
@@ -2367,13 +2399,18 @@ function updateTcfEcritAudioPopup(){
   progress.value = duration ? currentTime : 0;
   popup.querySelector('.tcf-audio-current-time').textContent = formatTcfEcritAudioTime(currentTime);
   popup.querySelector('.tcf-audio-duration').textContent = formatTcfEcritAudioTime(duration);
-  popup.querySelector('.tcf-audio-play-pause').textContent = isPlaying ? 'Pause' : 'Play';
+  var playPause = popup.querySelector('.tcf-audio-play-pause');
+  playPause.innerHTML = isPlaying ? '<span aria-hidden="true">❚❚</span>' : '<span aria-hidden="true">▶</span>';
+  playPause.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+  playPause.setAttribute('title', isPlaying ? 'Pause' : 'Play');
+  var repeat = popup.querySelector('.tcf-audio-repeat');
+  repeat.setAttribute('aria-label', tcfEcritAudio.repeatCurrent ? 'Repeat current sujet on' : 'Repeat current sujet off');
+  repeat.setAttribute('title', tcfEcritAudio.repeatCurrent ? 'Repeat on' : 'Repeat off');
+  popup.querySelector('.tcf-audio-repeat').classList.toggle('active', tcfEcritAudio.repeatCurrent);
   popup.querySelector('.tcf-audio-prev').disabled = !hasPlaylist || tcfEcritAudio.playlistIndex <= 1;
   popup.querySelector('.tcf-audio-next').disabled = !hasPlaylist || tcfEcritAudio.playlistIndex >= tcfEcritAudio.playlist.length;
-  popup.querySelectorAll('.tcf-audio-speed-btn').forEach(function(btn){
-    var speed = Number(btn.getAttribute('data-speed'));
-    btn.classList.toggle('active', speed === tcfEcritAudio.speed);
-  });
+  popup.querySelector('.tcf-audio-read-mount').innerHTML = sujet ? renderTcfEcritSujetText(sujet) : '';
+  popup.querySelector('.tcf-audio-speed-select').value = String(tcfEcritAudio.speed);
   var playlist = popup.querySelector('.tcf-audio-playlist');
   var playlistItems = popup.querySelector('.tcf-audio-playlist-items');
   playlist.hidden = !hasPlaylist;
@@ -2438,6 +2475,11 @@ function attachTcfEcritAudioEvents(audio){
   });
   audio.addEventListener('ended', function(){
     if(audio !== tcfEcritAudio.current) return;
+    if(tcfEcritAudio.repeatCurrent){
+      audio.currentTime = 0;
+      audio.play().then(updateTcfEcritAudioButtons).catch(function(){});
+      return;
+    }
     if(tcfEcritAudio.playingAll){
       playNextTcfEcritSujetAudio(false);
     } else {
@@ -2524,6 +2566,11 @@ function setTcfEcritAudioSpeed(speed){
   if(tcfEcritAudio.current){
     tcfEcritAudio.current.playbackRate = speed;
   }
+  updateTcfEcritAudioButtons();
+}
+
+function toggleTcfEcritAudioRepeat(){
+  tcfEcritAudio.repeatCurrent = !tcfEcritAudio.repeatCurrent;
   updateTcfEcritAudioButtons();
 }
 
