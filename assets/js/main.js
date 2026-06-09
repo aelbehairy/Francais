@@ -1472,7 +1472,13 @@ document.addEventListener('DOMContentLoaded', function(){
 var sidebar = document.getElementById('dashboard-sidebar');
 var sidebarToggle = document.getElementById('sidebar-toggle');
 var sidebarPin = document.getElementById('sidebar-pin');
-var sidebarSearch = document.getElementById('sidebar-search');
+var globalSearchOpen = document.getElementById('global-search-open');
+var globalSearchModal = document.getElementById('global-search-modal');
+var globalSearchClose = document.getElementById('global-search-close');
+var globalSearchInput = document.getElementById('global-search-input');
+var globalSearchResults = document.getElementById('global-search-results');
+var globalSearchFlashTimer = null;
+var globalSearchHighlightTimer = null;
 var isPinned = false;
 var mobileSidebarQuery = window.matchMedia('(max-width: 640px)');
 
@@ -1532,15 +1538,217 @@ if(sidebar && sidebarToggle && sidebarPin){
     if(!sidebar.contains(event.target)) closeSidebar();
   });
 
-  if(sidebarSearch){
-    sidebarSearch.addEventListener('input', function(){
-      var term = sidebarSearch.value.trim().toLowerCase();
-      sidebar.querySelectorAll('.sidebar-resources .sidebar-link').forEach(function(link){
-        var text = link.textContent.toLowerCase();
-        link.style.display = text.indexOf(term) > -1 ? '' : 'none';
-      });
-    });
+}
+
+function openGlobalSearch(){
+  if(!globalSearchModal || !globalSearchInput) return;
+  globalSearchModal.hidden = false;
+  globalSearchInput.focus();
+  globalSearchInput.select();
+}
+
+function closeGlobalSearch(){
+  if(!globalSearchModal) return;
+  globalSearchModal.hidden = true;
+}
+
+if(globalSearchOpen && globalSearchModal && globalSearchInput){
+  globalSearchOpen.addEventListener('click', function(){
+    openGlobalSearch();
+  });
+  if(globalSearchClose){
+    globalSearchClose.addEventListener('click', closeGlobalSearch);
   }
+  globalSearchModal.addEventListener('pointerdown', function(event){
+    if(event.target === globalSearchModal) closeGlobalSearch();
+  });
+  globalSearchInput.addEventListener('input', function(){
+    runGlobalSearch(globalSearchInput.value);
+  });
+  globalSearchInput.addEventListener('keydown', function(event){
+    if(event.key === 'Enter'){
+      var first = globalSearchResults && globalSearchResults.querySelector('.global-search-result');
+      if(first){
+        event.preventDefault();
+        first.click();
+      }
+    } else if(event.key === 'Escape'){
+      closeGlobalSearch();
+    }
+  });
+  document.addEventListener('keydown', function(event){
+    if(event.key === 'Escape' && globalSearchModal && !globalSearchModal.hidden){
+      closeGlobalSearch();
+    }
+  });
+}
+
+function normalizeSearchText(text){
+  return (text || '').toString().toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+function escapeHtml(text){
+  return (text || '').toString().replace(/[&<>"']/g, function(ch){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+  });
+}
+
+function getSearchTitle(node){
+  var card = node.closest('.card, .q-card, .sec') || node;
+  var title = card.querySelector('.card-label, .q-label, .sec-title');
+  if(title) return title.textContent.trim();
+  var section = node.closest('.sec');
+  if(section){
+    var sectionTitle = section.querySelector('.sec-title');
+    if(sectionTitle) return sectionTitle.textContent.trim();
+  }
+  return 'Résultat';
+}
+
+function getSearchScopeLabel(node){
+  var panel = node.closest('.panel');
+  var sec = node.closest('.sec');
+  var parts = [];
+  if(panel) parts.push(panel.id.replace('panel-', '').replace(/-/g, ' '));
+  if(sec){
+    var secTitle = sec.querySelector('.sec-title, .card-label');
+    if(secTitle) parts.push(secTitle.textContent.trim());
+  }
+  return parts.join(' · ');
+}
+
+function getSearchSnippet(text, term){
+  var clean = (text || '').replace(/\s+/g, ' ').trim();
+  var lower = clean.toLowerCase();
+  var index = lower.indexOf(term.toLowerCase());
+  if(index < 0) return escapeHtml(clean.slice(0, 150));
+  var start = Math.max(0, index - 55);
+  var end = Math.min(clean.length, index + term.length + 75);
+  var before = clean.slice(start, index);
+  var match = clean.slice(index, index + term.length);
+  var after = clean.slice(index + term.length, end);
+  return (start ? '...' : '') + escapeHtml(before) + '<mark>' + escapeHtml(match) + '</mark>' + escapeHtml(after) + (end < clean.length ? '...' : '');
+}
+
+function getPanelKeyFromElement(node){
+  var panel = node.closest('.panel');
+  return panel ? panel.id.replace('panel-', '') : null;
+}
+
+function getSectionKeyFromElement(node){
+  var sec = node.closest('.sec');
+  if(!sec || !sec.id) return null;
+  return sec.id.replace(/^(g-|t-|p-|tcf-|b1-|b2-|oral-|m-|lire-)/, '');
+}
+
+function activateSearchTarget(target){
+  if(!target) return;
+  var panelKey = getPanelKeyFromElement(target);
+  var sectionKey = getSectionKeyFromElement(target);
+  var topBtn = panelKey ? document.querySelector(".top-tab[onclick*=\"" + panelKey + "\"]") : null;
+
+  if(panelKey === 'phonetique'){
+    switchTop('phonetique', topBtn);
+    if(sectionKey) showPhon(sectionKey, document.querySelector("#pills-phonetique .pill[onclick*=\"'" + sectionKey + "'\"]"));
+  } else if(panelKey === 'tcf'){
+    switchTop('tcf', topBtn);
+    if(sectionKey) showTcf(sectionKey, document.querySelector("#pills-tcf .pill[onclick*=\"'" + sectionKey + "'\"]"));
+  } else if(panelKey === 'oral'){
+    switchTop('oral', topBtn);
+    if(sectionKey) showOral(sectionKey, document.querySelector("#pills-mariane .pill[onclick*=\"'" + sectionKey + "'\"]") || document.querySelector("#pills-oral .pill[onclick*=\"'" + sectionKey + "'\"]"));
+  } else if(panelKey === 'vocabulary'){
+    switchTop('vocabulary', topBtn);
+    var subview = target.closest('.vocab-subview');
+    if(subview && subview.id){
+      var vocabKey = subview.id.replace('vocab-sub-', '');
+      showVocabularySub(vocabKey, document.querySelector(".vocab-subtabs .pill[onclick*=\"'" + vocabKey + "'\"]"));
+    }
+  } else if(panelKey === 'grammaire'){
+    switchTop('grammaire', topBtn);
+    if(sectionKey) showSec(sectionKey, document.querySelector("#pills-grammaire .pill[onclick*=\"'" + sectionKey + "'\"]"), 'grammaire');
+  } else if(panelKey === 'temps' || panelKey === 'b1' || panelKey === 'b2'){
+    showGrammarChild(panelKey, topBtn);
+    if(sectionKey) showSec(sectionKey, document.querySelector("#pills-" + panelKey + " .pill[onclick*=\"'" + sectionKey + "'\"]"), panelKey);
+  } else if(panelKey){
+    switchTop(panelKey, topBtn);
+  }
+
+  var card = target.closest('.card, .q-card, .sec') || target;
+  setTimeout(function(){
+    var qCard = target.closest('.q-card');
+    if(qCard) qCard.classList.add('open');
+    card.scrollIntoView({behavior:'smooth', block:'center'});
+    if(globalSearchFlashTimer) clearTimeout(globalSearchFlashTimer);
+    if(globalSearchHighlightTimer) clearTimeout(globalSearchHighlightTimer);
+    document.querySelectorAll('.search-hit-flash').forEach(function(node){
+      node.classList.remove('search-hit-flash');
+    });
+    document.querySelectorAll('.search-hit-active').forEach(function(node){
+      node.classList.remove('search-hit-active');
+    });
+    void card.offsetWidth;
+    card.classList.add('search-hit-flash');
+    card.classList.add('search-hit-active');
+    globalSearchFlashTimer = setTimeout(function(){
+      card.classList.remove('search-hit-flash');
+      globalSearchFlashTimer = null;
+    }, 1400);
+    globalSearchHighlightTimer = setTimeout(function(){
+      card.classList.remove('search-hit-active');
+      globalSearchHighlightTimer = null;
+    }, 10000);
+  }, 80);
+}
+
+function getSearchableBlocks(){
+  return Array.prototype.slice.call(document.querySelectorAll('.sec .card, .sec .q-card, .sec table, .sec .note, .sec .fr-line, .sec .ex-row')).filter(function(node){
+    return !node.closest('.global-search-results') && node.textContent.trim().length > 2;
+  });
+}
+
+function runGlobalSearch(value){
+  if(!globalSearchResults) return;
+  var term = normalizeSearchText(value);
+  if(!term){
+    globalSearchResults.hidden = true;
+    globalSearchResults.innerHTML = '';
+    return;
+  }
+
+  var seen = {};
+  var results = [];
+  getSearchableBlocks().forEach(function(node){
+    var text = node.textContent.replace(/\s+/g, ' ').trim();
+    var haystack = normalizeSearchText(text);
+    if(haystack.indexOf(term) === -1) return;
+    var key = (node.closest('.card, .q-card, .sec') || node).outerHTML.slice(0, 120) + '|' + haystack.slice(0, 80);
+    if(seen[key]) return;
+    seen[key] = true;
+    results.push({
+      node: node,
+      title: getSearchTitle(node),
+      scope: getSearchScopeLabel(node),
+      snippet: getSearchSnippet(text, term)
+    });
+  });
+
+  globalSearchResults.hidden = false;
+  if(!results.length){
+    globalSearchResults.innerHTML = '<div class="global-search-empty">No exact text found</div>';
+    return;
+  }
+
+  globalSearchResults.innerHTML = results.slice(0, 30).map(function(result, index){
+    return '<button class="global-search-result" type="button" data-search-index="' + index + '"><strong>' + escapeHtml(result.title) + '</strong><span>' + escapeHtml(result.scope) + '</span><span>' + result.snippet + '</span></button>';
+  }).join('');
+
+  globalSearchResults.querySelectorAll('.global-search-result').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var index = Number(btn.getAttribute('data-search-index'));
+      activateSearchTarget(results[index] && results[index].node);
+      closeGlobalSearch();
+    });
+  });
 }
 
 // ── Scroll to nav ──
@@ -2729,6 +2937,598 @@ function addTcfTranslations(){
 }
 
 addTcfTranslations();
+
+var tcfEcritWordHelper = {
+  storageKey: 'tcfEcritHighlightedWords',
+  menu: null,
+  current: null,
+  highlights: [],
+  initialized: false,
+  lastTouchAt: 0,
+  voiceLoadTimer: null
+};
+
+var tcfEcritWordTranslations = {
+  'aide':'مساعدة',
+  'aider':'يساعد',
+  'ami':'صديق',
+  'amis':'أصدقاء',
+  'anniversaire':'عيد ميلاد',
+  'appartement':'شقة',
+  'apprendre':'يتعلم',
+  'arrive':'يصل',
+  'arrivé':'وصل',
+  'aujourd\'hui':'اليوم',
+  'avenir':'مستقبل',
+  'besoin':'حاجة',
+  'bien':'جيد',
+  'billets':'تذاكر',
+  'bonjour':'مرحبا',
+  'cadeaux':'هدايا',
+  'centre':'مركز',
+  'château':'قصر',
+  'cher':'عزيزي',
+  'chère':'عزيزتي',
+  'cinéma':'سينما',
+  'commencer':'يبدأ',
+  'comment':'كيف',
+  'confirmer':'يؤكد',
+  'connais':'أعرف',
+  'connaître':'يعرف',
+  'content':'سعيد',
+  'coûte':'يكلف',
+  'demander':'يطلب',
+  'déménager':'ينتقل من السكن',
+  'déménagé':'انتقل من السكن',
+  'décrire':'يصف',
+  'déplacements':'تنقلات',
+  'difficile':'صعب',
+  'dimanche':'الأحد',
+  'dire':'يقول',
+  'dis':'قل',
+  'donner':'يعطي',
+  'écrire':'يكتب',
+  'écris':'اكتب',
+  'email':'بريد إلكتروني',
+  'ensemble':'معا',
+  'envoyer':'يرسل',
+  'espère':'أتمنى',
+  'études':'دراسات',
+  'faire':'يفعل',
+  'famille':'عائلة',
+  'fête':'حفلة',
+  'français':'الفرنسية',
+  'gratuit':'مجاني',
+  'heure':'ساعة',
+  'informations':'معلومات',
+  'inscription':'تسجيل',
+  'inviter':'يدعو',
+  'invite':'يدعو',
+  'j\'aimerais':'أود',
+  'j\'attends':'أنتظر',
+  'j\'espère':'أتمنى',
+  'j\'invite':'أدعو',
+  'je':'أنا',
+  'lieu':'مكان',
+  'logement':'سكن',
+  'maison':'منزل',
+  'mariage':'زفاف',
+  'merci':'شكرا',
+  'message':'رسالة',
+  'métro':'مترو',
+  'mois':'شهر',
+  'moment':'لحظة / وقت',
+  'nature':'طبيعة',
+  'nécessaires':'ضرورية',
+  'nouvelle':'جديدة',
+  'organiser':'ينظم',
+  'parc':'حديقة',
+  'partir':'يغادر',
+  'participer':'يشارك',
+  'peux':'تستطيع',
+  'plaisir':'سرور',
+  'pourquoi':'لماذا',
+  'pratiquer':'يمارس',
+  'présence':'حضور',
+  'présenter':'يقدم',
+  'prix':'سعر',
+  'prochain':'القادم',
+  'projet':'مشروع',
+  'quartier':'حي',
+  'répondre':'يرد',
+  'réponse':'رد',
+  'renseignements':'معلومات',
+  'restaurant':'مطعم',
+  'salut':'مرحبا',
+  'samedi':'السبت',
+  'sport':'رياضة',
+  'sujet':'موضوع',
+  'temps':'وقت',
+  'transport':'نقل',
+  'transports':'وسائل النقل',
+  'travail':'عمل',
+  'trouver':'يجد',
+  'ville':'مدينة',
+  'vêtements':'ملابس',
+  'voir':'يرى',
+  'voiture':'سيارة',
+  'voulez':'تريدون',
+  'vous':'أنتم / حضرتك',
+  'week-end':'نهاية الأسبوع'
+};
+
+function normalizeTcfEcritWord(word){
+  return String(word || '')
+    .toLowerCase()
+    .replace(/[’]/g, "'")
+    .replace(/^[^a-zà-öø-ÿœæ']+|[^a-zà-öø-ÿœæ']+$/gi, '')
+    .trim();
+}
+
+function getTcfEcritWordPattern(){
+  return /[A-Za-zÀ-ÖØ-öø-ÿŒœÆæ]+(?:[’'][A-Za-zÀ-ÖØ-öø-ÿŒœÆæ]+)*(?:-[A-Za-zÀ-ÖØ-öø-ÿŒœÆæ]+)*/g;
+}
+
+function escapeTcfEcritRegExp(value){
+  return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function isTcfEcritLetter(char){
+  return !!char && char.toLowerCase() !== char.toUpperCase();
+}
+
+function isTcfEcritWordSurface(node){
+  if(!node || node.nodeType !== 1) return false;
+  if(node.closest('.tcf-word-menu, button, .pill, .sec-tool-btn, .ex-ar, .ar-text, .note[dir="rtl"]')) return false;
+  return !!node.closest('#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong, #tcf-ecrit textarea, #tcf-ecrit input[type="text"]');
+}
+
+function getTcfEcritHighlightWords(){
+  try{
+    var words = JSON.parse(localStorage.getItem(tcfEcritWordHelper.storageKey) || '[]');
+    return Array.isArray(words) ? words.filter(Boolean) : [];
+  } catch(err){
+    return [];
+  }
+}
+
+function saveTcfEcritHighlightWords(words){
+  var unique = [];
+  words.forEach(function(word){
+    var normalized = normalizeTcfEcritWord(word);
+    if(normalized && unique.indexOf(normalized) === -1) unique.push(normalized);
+  });
+  tcfEcritWordHelper.highlights = unique;
+  try{
+    localStorage.setItem(tcfEcritWordHelper.storageKey, JSON.stringify(unique));
+  } catch(err){
+    // Keep the in-memory highlights if browser storage is unavailable.
+  }
+}
+
+function unwrapTcfEcritWordHighlights(){
+  document.querySelectorAll('#tcf-ecrit .tcf-word-kept').forEach(function(node){
+    var parent = node.parentNode;
+    if(!parent) return;
+    parent.replaceChild(document.createTextNode(node.textContent), node);
+    parent.normalize();
+  });
+}
+
+function getTcfEcritWordRoots(){
+  return Array.prototype.slice.call(document.querySelectorAll(
+    '#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong'
+  )).filter(function(root){
+    return !root.closest('.tcf-word-menu, button, .pill, .sec-tool-btn, .ex-ar, .ar-text');
+  });
+}
+
+function wrapTcfEcritWordsInTextNode(textNode, words){
+  var text = textNode.nodeValue;
+  var lowerText = text.toLowerCase().replace(/[â€™]/g, "'");
+  var items = words.slice().sort(function(a, b){ return b.length - a.length; });
+  var matches = [];
+  items.forEach(function(item){
+    var normalized = normalizeTcfEcritWord(item);
+    if(!normalized) return;
+    var phrasePattern = new RegExp(escapeTcfEcritRegExp(normalized).replace(/\s+/g, '\\s+'), 'g');
+    var match;
+    while((match = phrasePattern.exec(lowerText))){
+      var start = match.index;
+      var end = start + match[0].length;
+      if(isTcfEcritLetter(lowerText.charAt(start - 1)) || isTcfEcritLetter(lowerText.charAt(end))) continue;
+      matches.push({start:start, end:end, normalized:normalized});
+    }
+  });
+  if(!matches.length) return;
+  matches.sort(function(a, b){
+    if(a.start !== b.start) return a.start - b.start;
+    return (b.end - b.start) - (a.end - a.start);
+  });
+  var selected = [];
+  matches.forEach(function(match){
+    var overlaps = selected.some(function(item){
+      return match.start < item.end && match.end > item.start;
+    });
+    if(!overlaps) selected.push(match);
+  });
+  selected.sort(function(a, b){ return a.start - b.start; });
+
+  var fragment = document.createDocumentFragment();
+  var lastIndex = 0;
+  selected.forEach(function(match){
+    if(match.start > lastIndex) fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.start)));
+    var span = document.createElement('span');
+    span.className = 'tcf-word-kept';
+    span.setAttribute('data-tcf-word', match.normalized);
+    span.textContent = text.slice(match.start, match.end);
+    fragment.appendChild(span);
+    lastIndex = match.end;
+  });
+  if(lastIndex < text.length) fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+  textNode.parentNode.replaceChild(fragment, textNode);
+}
+
+function renderTcfEcritWordHighlights(){
+  unwrapTcfEcritWordHighlights();
+  var words = tcfEcritWordHelper.highlights;
+  if(!words.length) return;
+  getTcfEcritWordRoots().forEach(function(root){
+    var textNodes = [];
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node){
+        if(!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if(node.parentElement && node.parentElement.closest('.tcf-word-kept, button, .pill, .sec-tool-btn')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    while(walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach(function(node){ wrapTcfEcritWordsInTextNode(node, words); });
+  });
+}
+
+function getTcfEcritWordFromText(text, offset){
+  var pattern = getTcfEcritWordPattern();
+  var match;
+  while((match = pattern.exec(text))){
+    var start = match.index;
+    var end = start + match[0].length;
+    if(offset >= start && offset <= end){
+      return {word:match[0], start:start, end:end};
+    }
+  }
+  return null;
+}
+
+function getTcfEcritSelectionInfo(){
+  var selection = window.getSelection && window.getSelection();
+  if(!selection || selection.isCollapsed || !selection.rangeCount) return null;
+  var text = selection.toString().replace(/\s+/g, ' ').trim();
+  var normalized = normalizeTcfEcritWord(text);
+  if(!normalized || normalized.length < 2) return null;
+  var range = selection.getRangeAt(0);
+  var common = range.commonAncestorContainer.nodeType === 1 ? range.commonAncestorContainer : range.commonAncestorContainer.parentElement;
+  var startElement = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentElement;
+  var endElement = range.endContainer.nodeType === 1 ? range.endContainer : range.endContainer.parentElement;
+  if(!common || !common.closest('#tcf-ecrit') || (!isTcfEcritWordSurface(common) && !isTcfEcritWordSurface(startElement) && !isTcfEcritWordSurface(endElement))) return null;
+  var rect = range.getBoundingClientRect();
+  if(!rect || (!rect.width && !rect.height)) return null;
+  return {
+    word: text,
+    normalized: normalized,
+    rect: rect
+  };
+}
+
+function getTcfEcritWordInfoFromPoint(event){
+  var selected = getTcfEcritSelectionInfo();
+  if(selected) return selected;
+
+  var highlighted = event.target.closest && event.target.closest('.tcf-word-kept');
+  if(highlighted){
+    return {
+      word: highlighted.textContent,
+      normalized: highlighted.getAttribute('data-tcf-word') || normalizeTcfEcritWord(highlighted.textContent),
+      rect: highlighted.getBoundingClientRect()
+    };
+  }
+
+  var formField = event.target.closest && event.target.closest('#tcf-ecrit textarea, #tcf-ecrit input[type="text"]');
+  if(formField){
+    var value = formField.value || '';
+    if(formField.selectionStart !== formField.selectionEnd){
+      var selectedText = value.slice(formField.selectionStart, formField.selectionEnd).replace(/\s+/g, ' ').trim();
+      var selectedNormalized = normalizeTcfEcritWord(selectedText);
+      if(selectedNormalized){
+        return {
+          word: selectedText,
+          normalized: selectedNormalized,
+          rect: formField.getBoundingClientRect()
+        };
+      }
+    }
+    var caret = formField.selectionStart || 0;
+    var formWord = getTcfEcritWordFromText(value, caret);
+    if(!formWord) return null;
+    return {
+      word: formWord.word,
+      normalized: normalizeTcfEcritWord(formWord.word),
+      rect: formField.getBoundingClientRect()
+    };
+  }
+
+  var range = null;
+  if(document.caretPositionFromPoint){
+    var pos = document.caretPositionFromPoint(event.clientX, event.clientY);
+    if(pos){
+      range = document.createRange();
+      range.setStart(pos.offsetNode, pos.offset);
+      range.collapse(true);
+    }
+  } else if(document.caretRangeFromPoint){
+    range = document.caretRangeFromPoint(event.clientX, event.clientY);
+  }
+  if(!range || !range.startContainer || range.startContainer.nodeType !== 3) return null;
+  if(!isTcfEcritWordSurface(range.startContainer.parentElement)) return null;
+  var info = getTcfEcritWordFromText(range.startContainer.nodeValue, range.startOffset);
+  if(!info) return null;
+  var wordRange = document.createRange();
+  wordRange.setStart(range.startContainer, info.start);
+  wordRange.setEnd(range.startContainer, info.end);
+  var rect = wordRange.getBoundingClientRect();
+  wordRange.detach();
+  return {
+    word: info.word,
+    normalized: normalizeTcfEcritWord(info.word),
+    rect: rect
+  };
+}
+
+function translateTcfEcritWord(word){
+  var normalized = normalizeTcfEcritWord(word);
+  return tcfEcritWordTranslations[normalized] || 'ترجمة غير متوفرة لهذه الكلمة.';
+}
+
+function getTcfEcritFrenchVoice(){
+  if(!('speechSynthesis' in window) || !window.speechSynthesis.getVoices) return null;
+  var voices = window.speechSynthesis.getVoices() || [];
+  return voices.find(function(voice){
+    return String(voice.lang || '').toLowerCase() === 'fr-fr';
+  }) || voices.find(function(voice){
+    return String(voice.lang || '').toLowerCase().indexOf('fr') === 0;
+  }) || voices.find(function(voice){
+    return String(voice.name || '').toLowerCase().indexOf('french') !== -1 ||
+      String(voice.name || '').toLowerCase().indexOf('français') !== -1;
+  }) || null;
+}
+
+function speakTcfEcritWordWithVoice(word){
+  if(!word || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
+  window.speechSynthesis.cancel();
+  var utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = 'fr-FR';
+  var frenchVoice = getTcfEcritFrenchVoice();
+  if(frenchVoice) utterance.voice = frenchVoice;
+  utterance.rate = 0.85;
+  window.speechSynthesis.speak(utterance);
+}
+
+function speakTcfEcritWord(word){
+  if(!word || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
+  if(getTcfEcritFrenchVoice()){
+    speakTcfEcritWordWithVoice(word);
+    return;
+  }
+  if(tcfEcritWordHelper.voiceLoadTimer) clearTimeout(tcfEcritWordHelper.voiceLoadTimer);
+  window.speechSynthesis.onvoiceschanged = function(){
+    window.speechSynthesis.onvoiceschanged = null;
+    if(tcfEcritWordHelper.voiceLoadTimer) clearTimeout(tcfEcritWordHelper.voiceLoadTimer);
+    tcfEcritWordHelper.voiceLoadTimer = null;
+    speakTcfEcritWordWithVoice(word);
+  };
+  tcfEcritWordHelper.voiceLoadTimer = setTimeout(function(){
+    window.speechSynthesis.onvoiceschanged = null;
+    tcfEcritWordHelper.voiceLoadTimer = null;
+    speakTcfEcritWordWithVoice(word);
+  }, 450);
+  window.speechSynthesis.getVoices();
+}
+
+function keepTcfEcritWordHighlighted(word){
+  var normalized = normalizeTcfEcritWord(word);
+  if(!normalized) return;
+  var words = tcfEcritWordHelper.highlights.slice();
+  if(words.indexOf(normalized) === -1) words.push(normalized);
+  saveTcfEcritHighlightWords(words);
+  renderTcfEcritWordHighlights();
+}
+
+function removeTcfEcritWordHighlight(word){
+  var normalized = normalizeTcfEcritWord(word);
+  saveTcfEcritHighlightWords(tcfEcritWordHelper.highlights.filter(function(item){
+    return item !== normalized;
+  }));
+  renderTcfEcritWordHighlights();
+}
+
+function renderTcfEcritRememberedWords(menu){
+  var panel = menu.querySelector('.tcf-word-saved');
+  var list = menu.querySelector('.tcf-word-saved-list');
+  if(!panel || !list) return;
+  if(!tcfEcritWordHelper.highlights.length){
+    panel.hidden = true;
+    list.innerHTML = '';
+    return;
+  }
+  panel.hidden = false;
+  list.innerHTML = tcfEcritWordHelper.highlights.map(function(word){
+    return '<span class="tcf-word-chip" data-word="' + escapeHtml(word) + '">' +
+      '<button class="tcf-word-chip-label" type="button" data-word="' + escapeHtml(word) + '">' + escapeHtml(word) + '</button>' +
+      '<button class="tcf-word-chip-speak" type="button" data-word="' + escapeHtml(word) + '" aria-label="Prononcer ' + escapeHtml(word) + '">🔊</button>' +
+      '<button class="tcf-word-chip-remove" type="button" data-word="' + escapeHtml(word) + '" aria-label="Supprimer ' + escapeHtml(word) + '">×</button>' +
+    '</span>';
+  }).join('');
+}
+
+function ensureTcfEcritWordMenu(){
+  if(tcfEcritWordHelper.menu) return tcfEcritWordHelper.menu;
+  var menu = document.createElement('div');
+  menu.className = 'tcf-word-menu';
+  menu.hidden = true;
+  menu.innerHTML =
+    '<div class="tcf-word-menu-title"></div>' +
+    '<div class="tcf-word-menu-actions">' +
+      '<button class="tcf-word-keep" type="button">Garder surligné</button>' +
+      '<button class="tcf-word-speak" type="button" aria-label="Prononcer en français" title="Prononcer en français">🔊</button>' +
+      '<button class="tcf-word-translate" type="button">Traduction</button>' +
+      '<button class="tcf-word-remove" type="button">Supprimer</button>' +
+    '</div>' +
+    '<div class="tcf-word-translation" dir="rtl" hidden></div>' +
+    '<div class="tcf-word-saved" hidden>' +
+      '<div class="tcf-word-saved-title">Mots retenus</div>' +
+      '<div class="tcf-word-saved-list"></div>' +
+    '</div>';
+  document.body.appendChild(menu);
+  menu.addEventListener('click', function(event){
+    event.stopPropagation();
+    var current = tcfEcritWordHelper.current;
+    var chipSpeak = event.target.closest('.tcf-word-chip-speak');
+    var chipRemove = event.target.closest('.tcf-word-chip-remove');
+    var chipLabel = event.target.closest('.tcf-word-chip-label');
+    if(chipSpeak){
+      speakTcfEcritWord(chipSpeak.getAttribute('data-word'));
+      return;
+    }
+    if(chipRemove){
+      removeTcfEcritWordHighlight(chipRemove.getAttribute('data-word'));
+      renderTcfEcritRememberedWords(menu);
+      if(current) showTcfEcritWordMenu(current);
+      return;
+    }
+    if(chipLabel){
+      var word = chipLabel.getAttribute('data-word');
+      tcfEcritWordHelper.current = {
+        word: word,
+        normalized: normalizeTcfEcritWord(word),
+        rect: chipLabel.getBoundingClientRect()
+      };
+      menu.querySelector('.tcf-word-menu-title').textContent = word;
+      menu.querySelector('.tcf-word-keep').disabled = true;
+      menu.querySelector('.tcf-word-remove').hidden = false;
+      var chipTranslation = menu.querySelector('.tcf-word-translation');
+      chipTranslation.textContent = translateTcfEcritWord(word);
+      chipTranslation.hidden = false;
+      return;
+    }
+    if(!current) return;
+    if(event.target.closest('.tcf-word-keep')){
+      keepTcfEcritWordHighlighted(current.normalized);
+      showTcfEcritWordMenu(current);
+    } else if(event.target.closest('.tcf-word-speak')){
+      speakTcfEcritWord(current.word);
+    } else if(event.target.closest('.tcf-word-translate')){
+      var translation = menu.querySelector('.tcf-word-translation');
+      translation.textContent = translateTcfEcritWord(current.normalized);
+      translation.hidden = false;
+    } else if(event.target.closest('.tcf-word-remove')){
+      removeTcfEcritWordHighlight(current.normalized);
+      showTcfEcritWordMenu(current);
+    }
+  });
+  tcfEcritWordHelper.menu = menu;
+  return menu;
+}
+
+function positionTcfEcritWordMenu(menu, rect){
+  var gap = 8;
+  var width = menu.offsetWidth || 260;
+  var left = rect.left + (rect.width / 2) - (width / 2);
+  var top = rect.bottom + gap;
+  left = Math.max(10, Math.min(left, window.innerWidth - width - 10));
+  if(top + menu.offsetHeight > window.innerHeight - 10){
+    top = Math.max(10, rect.top - menu.offsetHeight - gap);
+  }
+  menu.style.left = left + 'px';
+  menu.style.top = top + window.scrollY + 'px';
+}
+
+function showTcfEcritWordMenu(info){
+  if(!info || !info.normalized) return;
+  tcfEcritWordHelper.current = info;
+  var menu = ensureTcfEcritWordMenu();
+  var isKept = tcfEcritWordHelper.highlights.indexOf(info.normalized) !== -1;
+  menu.querySelector('.tcf-word-menu-title').textContent = info.word;
+  menu.querySelector('.tcf-word-keep').disabled = isKept;
+  menu.querySelector('.tcf-word-remove').hidden = !isKept;
+  menu.querySelector('.tcf-word-translation').hidden = true;
+  renderTcfEcritRememberedWords(menu);
+  menu.hidden = false;
+  positionTcfEcritWordMenu(menu, info.rect);
+}
+
+function hideTcfEcritWordMenu(){
+  if(tcfEcritWordHelper.menu) tcfEcritWordHelper.menu.hidden = true;
+  tcfEcritWordHelper.current = null;
+}
+
+function handleTcfEcritWordPointer(event){
+  if(!isTcfEcritWordSurface(event.target)) return false;
+  var info = getTcfEcritWordInfoFromPoint(event);
+  if(!info || !info.normalized) return false;
+  event.preventDefault();
+  event.stopPropagation();
+  showTcfEcritWordMenu(info);
+  return true;
+}
+
+function initTcfEcritWordHelper(){
+  if(tcfEcritWordHelper.initialized) return;
+  var root = document.getElementById('tcf-ecrit');
+  if(!root) return;
+  tcfEcritWordHelper.initialized = true;
+  tcfEcritWordHelper.highlights = getTcfEcritHighlightWords();
+  renderTcfEcritWordHighlights();
+  root.addEventListener('touchend', function(event){
+    var touch = event.changedTouches && event.changedTouches[0];
+    if(!touch) return;
+    var touchEvent = {
+      target: event.target,
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      preventDefault: function(){ event.preventDefault(); },
+      stopPropagation: function(){ event.stopPropagation(); }
+    };
+    if(handleTcfEcritWordPointer(touchEvent)){
+      tcfEcritWordHelper.lastTouchAt = Date.now();
+    }
+  }, {passive:false, capture:true});
+  root.addEventListener('click', function(event){
+    if(Date.now() - tcfEcritWordHelper.lastTouchAt < 500) return;
+    handleTcfEcritWordPointer(event);
+  });
+  root.addEventListener('mouseup', function(){
+    setTimeout(function(){
+      var info = getTcfEcritSelectionInfo();
+      if(info) showTcfEcritWordMenu(info);
+    }, 0);
+  });
+  root.addEventListener('keyup', function(){
+    var info = getTcfEcritSelectionInfo();
+    if(info) showTcfEcritWordMenu(info);
+  });
+  document.addEventListener('click', function(event){
+    if(tcfEcritWordHelper.menu && !tcfEcritWordHelper.menu.hidden && !event.target.closest('.tcf-word-menu')){
+      hideTcfEcritWordMenu();
+    }
+  });
+  document.addEventListener('keydown', function(event){
+    if(event.key === 'Escape') hideTcfEcritWordMenu();
+  });
+  window.addEventListener('resize', hideTcfEcritWordMenu);
+  window.addEventListener('scroll', hideTcfEcritWordMenu, true);
+}
+
+initTcfEcritWordHelper();
 
 function getTcfReviewMarks(){
   try{

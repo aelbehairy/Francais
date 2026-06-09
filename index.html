@@ -57,6 +57,28 @@
     <button class="top-tab" onclick="switchTop('tcf',this)">
       <span class="ti">📝</span> TCF
     </button>
+    <button id="global-search-open" class="top-tab top-search-btn" type="button" aria-label="Search all content">
+      <span class="ti" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5 21 21"></path></svg>
+      </span>
+    </button>
+  </div>
+</div>
+
+<div id="global-search-modal" class="global-search-modal" hidden>
+  <div class="global-search-panel" role="dialog" aria-modal="true" aria-labelledby="global-search-title">
+    <div class="global-search-head">
+      <div>
+        <div id="global-search-title" class="global-search-title">Search all content</div>
+        <div class="global-search-subtitle">Type exact text or any word, then click a result.</div>
+      </div>
+      <button id="global-search-close" class="global-search-close" type="button" aria-label="Close search">×</button>
+    </div>
+    <label class="global-search-box" aria-label="Search all content">
+      <span>⌕</span>
+      <input id="global-search-input" type="search" placeholder="Search text in all lessons...">
+    </label>
+    <div id="global-search-results" class="global-search-results" hidden></div>
   </div>
 </div>
 
@@ -6900,10 +6922,6 @@
       <span>Entraînement TCF</span>
     </div>
   </div>
-  <label class="sidebar-search" aria-label="Rechercher">
-    <span>⌕</span>
-    <input id="sidebar-search" type="search" placeholder="Rechercher">
-  </label>
   <nav class="sidebar-section" aria-label="Sections">
     <span class="sidebar-caption">Apprendre</span>
     <button class="sidebar-link active" type="button" data-sidebar-target="temps" onclick="showGrammarChild('temps',this)">
