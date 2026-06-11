@@ -454,6 +454,40 @@ body {
 .b1-answer strong {
   color: #14532d;
 }
+.grammar-speech-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin: -2px 0 8px;
+  direction: ltr;
+}
+.grammar-speech-btn.is-playing {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: var(--white);
+}
+.grammar-speech-btn.is-playing:hover,
+.grammar-speech-btn.is-playing:active {
+  background: #b91c1c;
+  border-color: #b91c1c;
+  color: var(--white);
+}
+.grammar-speech-speed {
+  min-height: 30px;
+  padding: 5px 28px 5px 10px;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 9px;
+  background: #f8fbff;
+  color: #047857;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: var(--shadow-sm);
+}
+.grammar-speech-speed[hidden] {
+  display: none;
+}
 
 .lire-fieldset {
   margin-top: 16px;

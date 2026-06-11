@@ -1249,7 +1249,8 @@ function actionIcon(type){
     expand: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M21 3l-7 7"/><path d="M9 21H3v-6"/><path d="M3 21l7-7"/></svg></span>',
     export: '<span class="btn-icon pdf-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M8 14h1.8a1.4 1.4 0 0 0 0-2.8H8v5.6"/><path d="M12.8 11.2v5.6h1.1a2.8 2.8 0 0 0 0-5.6z"/><path d="M17.6 16.8v-5.6H21"/><path d="M17.6 14H20"/></svg></span>',
     print: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg></span>',
-    play: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>'
+    play: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>',
+    stop: '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7h10v10H7z"/></svg></span>'
   };
   return icons[type] || '';
 }
@@ -2837,8 +2838,152 @@ function addTcfEcritAudioButtons(){
   updateTcfEcritAudioButtons();
 }
 
+var grammarSpeech = {
+  activeButton: null,
+  activeTarget: null,
+  utterance: null,
+  speed: 0.9
+};
+
+function getGrammarSpeechText(target){
+  if(!target) return '';
+  var clone = target.cloneNode(true);
+  clone.querySelectorAll('button, .grammar-speech-toolbar, .b1-lesson-ar, .ar-text, .ex-ar, [dir="rtl"]').forEach(function(node){
+    node.remove();
+  });
+  return clone.textContent.replace(/\s+/g, ' ').trim();
+}
+
+function updateGrammarSpeechButtons(){
+  document.querySelectorAll('.grammar-speech-btn').forEach(function(button){
+    var isActive = button === grammarSpeech.activeButton;
+    button.classList.toggle('is-playing', isActive);
+    button.setAttribute('aria-label', isActive ? 'Stop reading this text' : 'Play this text');
+    button.setAttribute('title', isActive ? 'Stop' : 'Play');
+    button.innerHTML = actionIcon(isActive ? 'stop' : 'play') + '<strong>' + (isActive ? 'Stop' : 'Play') + '</strong>';
+  });
+  document.querySelectorAll('.grammar-speech-speed').forEach(function(select){
+    var isActive = select.closest('.grammar-speech-toolbar') && select.closest('.grammar-speech-toolbar').querySelector('.grammar-speech-btn') === grammarSpeech.activeButton;
+    select.hidden = !isActive;
+    select.value = String(grammarSpeech.speed);
+  });
+}
+
+function stopGrammarSpeech(){
+  grammarSpeech.utterance = null;
+  grammarSpeech.activeButton = null;
+  grammarSpeech.activeTarget = null;
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  updateGrammarSpeechButtons();
+}
+
+function speakGrammarText(target, button, event, keepActive){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if(!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)){
+    window.alert('Speech reading is not supported in this browser.');
+    return;
+  }
+  if(grammarSpeech.activeButton === button && !keepActive){
+    stopGrammarSpeech();
+    return;
+  }
+  if(typeof stopTcfEcritAudio === 'function') stopTcfEcritAudio();
+  if(typeof stopTcfOralTask1Speech === 'function' && tcfOralSpeech && tcfOralSpeech.active) stopTcfOralTask1Speech();
+  var text = getGrammarSpeechText(target);
+  if(!text) return;
+  window.speechSynthesis.cancel();
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'fr-FR';
+  utterance.rate = grammarSpeech.speed;
+  utterance.pitch = 1;
+  var frenchVoice = typeof getTcfEcritFrenchVoice === 'function' ? getTcfEcritFrenchVoice() : null;
+  if(frenchVoice) utterance.voice = frenchVoice;
+  utterance.onend = function(){
+    if(grammarSpeech.utterance === utterance) stopGrammarSpeech();
+  };
+  utterance.onerror = function(){
+    if(grammarSpeech.utterance === utterance) stopGrammarSpeech();
+  };
+  grammarSpeech.utterance = utterance;
+  grammarSpeech.activeButton = button;
+  grammarSpeech.activeTarget = target;
+  updateGrammarSpeechButtons();
+  window.speechSynthesis.speak(utterance);
+}
+
+function setGrammarSpeechSpeed(speed, target, button, event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  var value = Number(speed);
+  if([0.6, 0.75, 0.9, 1, 1.25, 1.5].indexOf(value) === -1) return;
+  grammarSpeech.speed = value;
+  updateGrammarSpeechButtons();
+  if(grammarSpeech.activeButton === button && grammarSpeech.activeTarget === target){
+    speakGrammarText(target, button, null, true);
+  }
+}
+
+function addGrammarSpeechButtons(){
+  document.querySelectorAll('#panel-b1 .b1-lesson-text, #panel-b1 .fr-text, #panel-b2 .b1-lesson-text, #panel-b2 .fr-text').forEach(function(textBlock, index){
+    if(textBlock.previousElementSibling && textBlock.previousElementSibling.classList.contains('grammar-speech-toolbar')) return;
+    if(!getGrammarSpeechText(textBlock)) return;
+    var toolbar = document.createElement('div');
+    toolbar.className = 'grammar-speech-toolbar';
+    var button = document.createElement('button');
+    button.className = 'tcf-sujet-play-btn grammar-speech-btn';
+    button.type = 'button';
+    button.setAttribute('data-grammar-speech-index', String(index));
+    button.setAttribute('aria-label', 'Play this text');
+    button.setAttribute('title', 'Play');
+    button.innerHTML = actionIcon('play') + '<strong>Play</strong>';
+    button.addEventListener('click', function(event){
+      speakGrammarText(textBlock, button, event);
+    });
+    button.addEventListener('touchend', function(event){
+      speakGrammarText(textBlock, button, event);
+    }, {passive:false});
+    var speedSelect = document.createElement('select');
+    speedSelect.className = 'grammar-speech-speed';
+    speedSelect.hidden = true;
+    speedSelect.setAttribute('aria-label', 'Speech speed');
+    speedSelect.innerHTML =
+      '<option value="0.6">0.6x</option>' +
+      '<option value="0.75">0.75x</option>' +
+      '<option value="0.9">0.9x</option>' +
+      '<option value="1">1x</option>' +
+      '<option value="1.25">1.25x</option>' +
+      '<option value="1.5">1.5x</option>';
+    speedSelect.value = String(grammarSpeech.speed);
+    speedSelect.addEventListener('click', function(event){
+      event.stopPropagation();
+    });
+    speedSelect.addEventListener('change', function(event){
+      setGrammarSpeechSpeed(event.target.value, textBlock, button, event);
+    });
+    toolbar.appendChild(button);
+    toolbar.appendChild(speedSelect);
+    textBlock.insertAdjacentElement('beforebegin', toolbar);
+  });
+  updateGrammarSpeechButtons();
+}
+
 addTcfOralSpeechButtons();
 addTcfEcritAudioButtons();
+addGrammarSpeechButtons();
+
+window.addEventListener('pagehide', function(){
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  if(typeof stopTcfEcritAudio === 'function') stopTcfEcritAudio();
+});
+window.addEventListener('beforeunload', function(){
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  if(tcfEcritAudio && tcfEcritAudio.current) tcfEcritAudio.current.pause();
+});
 
 function addTcfTranslations(){
   var ecritTranslations = [
@@ -3077,10 +3222,27 @@ function isTcfEcritLetter(char){
   return !!char && char.toLowerCase() !== char.toUpperCase();
 }
 
+function getTcfEcritWordScope(node){
+  if(!node) return null;
+  var element = node.nodeType === 1 ? node : node.parentElement;
+  return element && element.closest('#tcf-ecrit, #panel-b1, #panel-b2');
+}
+
+function isTcfEcritWordExcludedSurface(node){
+  if(!node) return true;
+  var element = node.nodeType === 1 ? node : node.parentElement;
+  if(!element) return true;
+  return !!element.closest(
+    '.tcf-word-menu, button, .pill, .sec-tool-btn, .ex-ar, .ar-text, .b1-lesson-ar, .sec-ar, [dir="rtl"], .note[dir="rtl"]'
+  );
+}
+
 function isTcfEcritWordSurface(node){
   if(!node || node.nodeType !== 1) return false;
-  if(node.closest('.tcf-word-menu, button, .pill, .sec-tool-btn, .ex-ar, .ar-text, .note[dir="rtl"]')) return false;
-  return !!node.closest('#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong, #tcf-ecrit textarea, #tcf-ecrit input[type="text"]');
+  if(isTcfEcritWordExcludedSurface(node)) return false;
+  return !!node.closest(
+    '#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong, #tcf-ecrit textarea, #tcf-ecrit input[type="text"], #panel-b1 .sec, #panel-b2 .sec'
+  );
 }
 
 function getTcfEcritHighlightWords(){
@@ -3107,7 +3269,7 @@ function saveTcfEcritHighlightWords(words){
 }
 
 function unwrapTcfEcritWordHighlights(){
-  document.querySelectorAll('#tcf-ecrit .tcf-word-kept').forEach(function(node){
+  document.querySelectorAll('#tcf-ecrit .tcf-word-kept, #panel-b1 .tcf-word-kept, #panel-b2 .tcf-word-kept').forEach(function(node){
     var parent = node.parentNode;
     if(!parent) return;
     parent.replaceChild(document.createTextNode(node.textContent), node);
@@ -3117,9 +3279,9 @@ function unwrapTcfEcritWordHighlights(){
 
 function getTcfEcritWordRoots(){
   return Array.prototype.slice.call(document.querySelectorAll(
-    '#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong'
+    '#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong, #panel-b1 .sec, #panel-b2 .sec'
   )).filter(function(root){
-    return !root.closest('.tcf-word-menu, button, .pill, .sec-tool-btn, .ex-ar, .ar-text');
+    return !isTcfEcritWordExcludedSurface(root);
   });
 }
 
@@ -3178,7 +3340,7 @@ function renderTcfEcritWordHighlights(){
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode: function(node){
         if(!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-        if(node.parentElement && node.parentElement.closest('.tcf-word-kept, button, .pill, .sec-tool-btn')) return NodeFilter.FILTER_REJECT;
+        if(node.parentElement && (node.parentElement.closest('.tcf-word-kept') || isTcfEcritWordExcludedSurface(node.parentElement))) return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
       }
     });
@@ -3210,7 +3372,7 @@ function getTcfEcritSelectionInfo(){
   var common = range.commonAncestorContainer.nodeType === 1 ? range.commonAncestorContainer : range.commonAncestorContainer.parentElement;
   var startElement = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentElement;
   var endElement = range.endContainer.nodeType === 1 ? range.endContainer : range.endContainer.parentElement;
-  if(!common || !common.closest('#tcf-ecrit') || (!isTcfEcritWordSurface(common) && !isTcfEcritWordSurface(startElement) && !isTcfEcritWordSurface(endElement))) return null;
+  if(!common || !getTcfEcritWordScope(common) || (!isTcfEcritWordSurface(common) && !isTcfEcritWordSurface(startElement) && !isTcfEcritWordSurface(endElement))) return null;
   var rect = range.getBoundingClientRect();
   if(!rect || (!rect.width && !rect.height)) return null;
   return {
@@ -3483,38 +3645,40 @@ function handleTcfEcritWordPointer(event){
 
 function initTcfEcritWordHelper(){
   if(tcfEcritWordHelper.initialized) return;
-  var root = document.getElementById('tcf-ecrit');
-  if(!root) return;
+  var roots = Array.prototype.slice.call(document.querySelectorAll('#tcf-ecrit, #panel-b1, #panel-b2'));
+  if(!roots.length) return;
   tcfEcritWordHelper.initialized = true;
   tcfEcritWordHelper.highlights = getTcfEcritHighlightWords();
   renderTcfEcritWordHighlights();
-  root.addEventListener('touchend', function(event){
-    var touch = event.changedTouches && event.changedTouches[0];
-    if(!touch) return;
-    var touchEvent = {
-      target: event.target,
-      clientX: touch.clientX,
-      clientY: touch.clientY,
-      preventDefault: function(){ event.preventDefault(); },
-      stopPropagation: function(){ event.stopPropagation(); }
-    };
-    if(handleTcfEcritWordPointer(touchEvent)){
-      tcfEcritWordHelper.lastTouchAt = Date.now();
-    }
-  }, {passive:false, capture:true});
-  root.addEventListener('click', function(event){
-    if(Date.now() - tcfEcritWordHelper.lastTouchAt < 500) return;
-    handleTcfEcritWordPointer(event);
-  });
-  root.addEventListener('mouseup', function(){
-    setTimeout(function(){
+  roots.forEach(function(root){
+    root.addEventListener('touchend', function(event){
+      var touch = event.changedTouches && event.changedTouches[0];
+      if(!touch) return;
+      var touchEvent = {
+        target: event.target,
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        preventDefault: function(){ event.preventDefault(); },
+        stopPropagation: function(){ event.stopPropagation(); }
+      };
+      if(handleTcfEcritWordPointer(touchEvent)){
+        tcfEcritWordHelper.lastTouchAt = Date.now();
+      }
+    }, {passive:false, capture:true});
+    root.addEventListener('click', function(event){
+      if(Date.now() - tcfEcritWordHelper.lastTouchAt < 500) return;
+      handleTcfEcritWordPointer(event);
+    });
+    root.addEventListener('mouseup', function(){
+      setTimeout(function(){
+        var info = getTcfEcritSelectionInfo();
+        if(info) showTcfEcritWordMenu(info);
+      }, 0);
+    });
+    root.addEventListener('keyup', function(){
       var info = getTcfEcritSelectionInfo();
       if(info) showTcfEcritWordMenu(info);
-    }, 0);
-  });
-  root.addEventListener('keyup', function(){
-    var info = getTcfEcritSelectionInfo();
-    if(info) showTcfEcritWordMenu(info);
+    });
   });
   document.addEventListener('click', function(event){
     if(tcfEcritWordHelper.menu && !tcfEcritWordHelper.menu.hidden && !event.target.closest('.tcf-word-menu')){
