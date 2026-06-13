@@ -2108,8 +2108,19 @@
           <button class="pill" type="button" onclick="showBookPreview('assets/books/en-route-pour-le-fle-a2-b1.pdf','En route pour le FLE A2-B1',this)"><span class="pi">📗</span>En route pour le FLE A2-B1</button>
           <button class="pill" type="button" onclick="showBookPreview('assets/books/grammaire-du-delf-frenchawy.pdf','Grammaire du DELF',this)"><span class="pi">📙</span>Grammaire du DELF</button>
           <button class="pill" type="button" onclick="showBookPreview('assets/books/Communication_progressive_du_francais_niveau_debutant.pdf','Communication progressive du français - Niveau débutant',this)"><span class="pi">📕</span>Communication progressive du français - Niveau débutant</button>
+          <button class="pill book-pill-audio" type="button" onclick="showBookPreview('assets/books/communication-progressive-du-francais-niveau-debutant_compress.pdf','Communication progressive du français - Niveau débutant (avec voix)',this,true)"><span class="pi">🔊</span>Communication progressive <span class="book-audio-badge">Voix incluses</span></button>
         </div>
         <span class="card-label" id="book-preview-title">En route pour le FLE A1-A2</span>
+        <div id="book-audio-panel" class="book-audio-panel" hidden>
+          <div class="book-audio-row">
+            <span class="book-audio-icon">🔊</span>
+            <div class="book-audio-info">
+              <strong class="book-audio-heading">Ce livre contient des voix audio intégrées</strong>
+              <span class="book-audio-desc">Les dialogues et exercices de ce livre sont accompagnés de pistes audio. Le navigateur ne peut pas les lire directement — téléchargez le PDF et ouvrez-le dans <strong>Adobe Acrobat Reader</strong> ou <strong>Preview (Mac)</strong> pour entendre les voix.</span>
+            </div>
+            <a id="book-audio-download" class="book-audio-dl" href="assets/books/communication-progressive-du-francais-niveau-debutant_compress.pdf" download="Communication_progressive_avec_voix.pdf">⬇ Télécharger &amp; écouter</a>
+          </div>
+        </div>
         <object id="book-preview-frame" data="assets/books/en-route-pour-le-fle-a1-a2.pdf" type="application/pdf" style="width:100%;height:760px;border:1.5px solid #e8eaf0;border-radius:14px;background:white">
           <div class="note">إذا لم يظهر ملف PDF في المتصفح، افتحه من هنا: <a id="book-preview-fallback-inline" href="assets/books/en-route-pour-le-fle-a1-a2.pdf">En route pour le FLE A1-A2.pdf</a></div>
         </object>

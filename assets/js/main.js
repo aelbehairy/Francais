@@ -61,11 +61,13 @@ function renderLireLinks(){
   });
 }
 
-function showBookPreview(path, title, btn){
+function showBookPreview(path, title, btn, hasAudio){
   var frame = document.getElementById('book-preview-frame');
   var titleEl = document.getElementById('book-preview-title');
   var link = document.getElementById('book-preview-link');
   var inlineLink = document.getElementById('book-preview-fallback-inline');
+  var audioPanel = document.getElementById('book-audio-panel');
+  var audioDownload = document.getElementById('book-audio-download');
   document.querySelectorAll('#book-preview-tabs .pill').forEach(function(pill){
     pill.classList.remove('active');
   });
@@ -77,6 +79,8 @@ function showBookPreview(path, title, btn){
     inlineLink.href = path;
     inlineLink.textContent = title + '.pdf';
   }
+  if(audioPanel) audioPanel.hidden = !hasAudio;
+  if(audioDownload && hasAudio) audioDownload.href = path;
 }
 
 function showDissertation(id, btn){

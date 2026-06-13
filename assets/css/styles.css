@@ -4219,6 +4219,101 @@ body.learning-content-hidden .panel .main {
   margin: 20px 0;
 }
 
+/* ═══════════════ BOOK AUDIO PANEL ═══════════════ */
+.book-audio-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  background: #dcfce7;
+  color: #166534;
+  border: 1.5px solid #86efac;
+  border-radius: 999px;
+  padding: 1px 7px;
+  margin-left: 4px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.book-pill-audio {
+  border-color: #86efac !important;
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+}
+.book-pill-audio.active {
+  background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+  border-color: #16a34a !important;
+  color: #fff !important;
+}
+.book-pill-audio.active .book-audio-badge {
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+  border-color: rgba(255,255,255,0.4);
+}
+.book-audio-panel {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 1.5px solid #86efac;
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+}
+.book-audio-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.book-audio-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.book-audio-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+.book-audio-heading {
+  font-size: 14px;
+  font-weight: 800;
+  color: #14532d;
+}
+.book-audio-desc {
+  font-size: 12.5px;
+  color: #166534;
+  line-height: 1.6;
+}
+.book-audio-dl {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  background: #16a34a;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+  align-self: center;
+}
+.book-audio-dl:hover {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+@media (max-width: 640px) {
+  .book-audio-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .book-audio-dl {
+    align-self: flex-start;
+  }
+}
+
 #o-ferial .ferial-lieux-card {
   counter-reset: ferial-lieu;
 }
