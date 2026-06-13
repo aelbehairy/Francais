@@ -3848,6 +3848,20 @@ function getTcfEcritHighlightWords(){
   }
 }
 
+function loadTcfEcritHighlightsFromServer(){
+  if(window.location.protocol === 'file:') return Promise.resolve(null);
+  return fetch('/api/highlights').then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+}
+
+function saveTcfEcritHighlightsToServer(entries){
+  if(window.location.protocol === 'file:') return;
+  fetch('/api/highlights', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(entries)
+  }).catch(function(){});
+}
+
 function saveTcfEcritHighlightWords(entries){
   var seen = {};
   var unique = (entries || []).filter(function(e){
@@ -3858,9 +3872,8 @@ function saveTcfEcritHighlightWords(entries){
     return true;
   });
   tcfEcritWordHelper.highlights = unique;
-  try{
-    localStorage.setItem(tcfEcritWordHelper.storageKey, JSON.stringify(unique));
-  } catch(err){}
+  try{ localStorage.setItem(tcfEcritWordHelper.storageKey, JSON.stringify(unique)); } catch(err){}
+  saveTcfEcritHighlightsToServer(unique);
 }
 
 function unwrapTcfEcritWordHighlights(){
@@ -4328,6 +4341,13 @@ function initTcfEcritWordHelper(){
   tcfEcritWordHelper.initialized = true;
   tcfEcritWordHelper.highlights = getTcfEcritHighlightWords();
   renderTcfEcritWordHighlights();
+  loadTcfEcritHighlightsFromServer().then(function(serverEntries){
+    if(!Array.isArray(serverEntries) || !serverEntries.length) return;
+    var valid = serverEntries.filter(function(e){ return e && e.normalized && e.containerId; });
+    if(!valid.length) return;
+    saveTcfEcritHighlightWords(valid);
+    renderTcfEcritWordHighlights();
+  });
   roots.forEach(function(root){
     root.addEventListener('touchend', function(event){
       var touch = event.changedTouches && event.changedTouches[0];
