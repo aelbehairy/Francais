@@ -3822,27 +3822,45 @@ function isTcfEcritWordSurface(node){
   );
 }
 
+function getTcfEcritHighlightContainer(node){
+  var el = node && (node.nodeType === 1 ? node : node.parentElement);
+  if(!el) return null;
+  return el.closest('#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong, #panel-b1 .sec, #panel-b2 .sec') || null;
+}
+
+function ensureTcfEcritContainerId(el){
+  if(!el) return null;
+  var id = el.getAttribute('data-highlight-container-id');
+  if(!id){
+    id = 'hc-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    el.setAttribute('data-highlight-container-id', id);
+  }
+  return id;
+}
+
 function getTcfEcritHighlightWords(){
   try{
-    var words = JSON.parse(localStorage.getItem(tcfEcritWordHelper.storageKey) || '[]');
-    return Array.isArray(words) ? words.filter(Boolean) : [];
+    var raw = JSON.parse(localStorage.getItem(tcfEcritWordHelper.storageKey) || '[]');
+    if(!Array.isArray(raw)) return [];
+    return raw.filter(Boolean).filter(function(item){ return typeof item === 'object' && item.normalized && item.containerId; });
   } catch(err){
     return [];
   }
 }
 
-function saveTcfEcritHighlightWords(words){
-  var unique = [];
-  words.forEach(function(word){
-    var normalized = normalizeTcfEcritWord(word);
-    if(normalized && unique.indexOf(normalized) === -1) unique.push(normalized);
+function saveTcfEcritHighlightWords(entries){
+  var seen = {};
+  var unique = (entries || []).filter(function(e){
+    if(!e || !e.normalized || !e.containerId) return false;
+    var key = e.normalized + '|' + e.containerId;
+    if(seen[key]) return false;
+    seen[key] = true;
+    return true;
   });
   tcfEcritWordHelper.highlights = unique;
   try{
     localStorage.setItem(tcfEcritWordHelper.storageKey, JSON.stringify(unique));
-  } catch(err){
-    // Keep the in-memory highlights if browser storage is unavailable.
-  }
+  } catch(err){}
 }
 
 function unwrapTcfEcritWordHighlights(){
@@ -3862,7 +3880,7 @@ function getTcfEcritWordRoots(){
   });
 }
 
-function wrapTcfEcritWordsInTextNode(textNode, words){
+function wrapTcfEcritWordsInTextNode(textNode, words, entriesMap){
   var text = textNode.nodeValue;
   var lowerText = text.toLowerCase().replace(/[â€™]/g, "'");
   var items = words.slice().sort(function(a, b){ return b.length - a.length; });
@@ -3900,6 +3918,7 @@ function wrapTcfEcritWordsInTextNode(textNode, words){
     var span = document.createElement('span');
     span.className = 'tcf-word-kept';
     span.setAttribute('data-tcf-word', match.normalized);
+    if(entriesMap && entriesMap[match.normalized]) span.setAttribute('data-tcf-highlight-id', entriesMap[match.normalized]);
     span.textContent = text.slice(match.start, match.end);
     fragment.appendChild(span);
     lastIndex = match.end;
@@ -3910,11 +3929,23 @@ function wrapTcfEcritWordsInTextNode(textNode, words){
 
 function renderTcfEcritWordHighlights(){
   unwrapTcfEcritWordHighlights();
-  var words = tcfEcritWordHelper.highlights;
-  if(!words.length) return;
-  getTcfEcritWordRoots().forEach(function(root){
+  var entries = tcfEcritWordHelper.highlights;
+  if(!entries.length) return;
+  var byContainer = {};
+  entries.forEach(function(e){
+    if(!e.containerId) return;
+    if(!byContainer[e.containerId]) byContainer[e.containerId] = [];
+    byContainer[e.containerId].push(e);
+  });
+  Object.keys(byContainer).forEach(function(containerId){
+    var container = document.querySelector('[data-highlight-container-id="' + containerId + '"]');
+    if(!container) return;
+    var group = byContainer[containerId];
+    var words = group.map(function(e){ return e.normalized; });
+    var entriesMap = {};
+    group.forEach(function(e){ entriesMap[e.normalized] = e.id; });
     var textNodes = [];
-    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
       acceptNode: function(node){
         if(!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
         if(node.parentElement && (node.parentElement.closest('.tcf-word-kept') || isTcfEcritWordExcludedSurface(node.parentElement))) return NodeFilter.FILTER_REJECT;
@@ -3922,7 +3953,7 @@ function renderTcfEcritWordHighlights(){
       }
     });
     while(walker.nextNode()) textNodes.push(walker.currentNode);
-    textNodes.forEach(function(node){ wrapTcfEcritWordsInTextNode(node, words); });
+    textNodes.forEach(function(node){ wrapTcfEcritWordsInTextNode(node, words, entriesMap); });
   });
 }
 
@@ -3952,10 +3983,12 @@ function getTcfEcritSelectionInfo(){
   if(!common || !getTcfEcritWordScope(common) || (!isTcfEcritWordSurface(common) && !isTcfEcritWordSurface(startElement) && !isTcfEcritWordSurface(endElement))) return null;
   var rect = range.getBoundingClientRect();
   if(!rect || (!rect.width && !rect.height)) return null;
+  var selContainer = getTcfEcritHighlightContainer(range.startContainer);
   return {
     word: text,
     normalized: normalized,
-    rect: rect
+    rect: rect,
+    containerId: selContainer ? ensureTcfEcritContainerId(selContainer) : null
   };
 }
 
@@ -3965,10 +3998,13 @@ function getTcfEcritWordInfoFromPoint(event){
 
   var highlighted = event.target.closest && event.target.closest('.tcf-word-kept');
   if(highlighted){
+    var hContainer = highlighted.closest('[data-highlight-container-id]');
     return {
       word: highlighted.textContent,
       normalized: highlighted.getAttribute('data-tcf-word') || normalizeTcfEcritWord(highlighted.textContent),
-      rect: highlighted.getBoundingClientRect()
+      rect: highlighted.getBoundingClientRect(),
+      highlightId: highlighted.getAttribute('data-tcf-highlight-id') || null,
+      containerId: hContainer ? hContainer.getAttribute('data-highlight-container-id') : null
     };
   }
 
@@ -4016,10 +4052,12 @@ function getTcfEcritWordInfoFromPoint(event){
   wordRange.setEnd(range.startContainer, info.end);
   var rect = wordRange.getBoundingClientRect();
   wordRange.detach();
+  var caretContainer = getTcfEcritHighlightContainer(range.startContainer);
   return {
     word: info.word,
     normalized: normalizeTcfEcritWord(info.word),
-    rect: rect
+    rect: rect,
+    containerId: caretContainer ? ensureTcfEcritContainerId(caretContainer) : null
   };
 }
 
@@ -4126,19 +4164,25 @@ function speakTcfEcritWord(word){
   window.speechSynthesis.getVoices();
 }
 
-function keepTcfEcritWordHighlighted(word){
-  var normalized = normalizeTcfEcritWord(word);
+function keepTcfEcritWordHighlighted(info){
+  var normalized = typeof info === 'string' ? normalizeTcfEcritWord(info) : (info && info.normalized);
   if(!normalized) return;
-  var words = tcfEcritWordHelper.highlights.slice();
-  if(words.indexOf(normalized) === -1) words.push(normalized);
-  saveTcfEcritHighlightWords(words);
+  var containerId = typeof info === 'object' ? (info.containerId || null) : null;
+  if(!containerId) return;
+  var id = 'hl-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  var entry = {id: id, normalized: normalized, text: typeof info === 'object' ? (info.word || normalized) : normalized, containerId: containerId};
+  var entries = tcfEcritWordHelper.highlights.filter(function(e){
+    return !(e.normalized === normalized && e.containerId === containerId);
+  });
+  entries.push(entry);
+  saveTcfEcritHighlightWords(entries);
   renderTcfEcritWordHighlights();
+  return id;
 }
 
-function removeTcfEcritWordHighlight(word){
-  var normalized = normalizeTcfEcritWord(word);
-  saveTcfEcritHighlightWords(tcfEcritWordHelper.highlights.filter(function(item){
-    return item !== normalized;
+function removeTcfEcritWordHighlight(idOrWord){
+  saveTcfEcritHighlightWords(tcfEcritWordHelper.highlights.filter(function(e){
+    return e.id !== idOrWord && e.normalized !== normalizeTcfEcritWord(idOrWord);
   }));
   renderTcfEcritWordHighlights();
 }
@@ -4153,11 +4197,13 @@ function renderTcfEcritRememberedWords(menu){
     return;
   }
   panel.hidden = false;
-  list.innerHTML = tcfEcritWordHelper.highlights.map(function(word){
-    return '<span class="tcf-word-chip" data-word="' + escapeHtml(word) + '">' +
-      '<button class="tcf-word-chip-label" type="button" data-word="' + escapeHtml(word) + '">' + escapeHtml(word) + '</button>' +
-      '<button class="tcf-word-chip-speak" type="button" data-word="' + escapeHtml(word) + '" aria-label="Prononcer ' + escapeHtml(word) + '">🔊</button>' +
-      '<button class="tcf-word-chip-remove" type="button" data-word="' + escapeHtml(word) + '" aria-label="Supprimer ' + escapeHtml(word) + '">×</button>' +
+  list.innerHTML = tcfEcritWordHelper.highlights.map(function(entry){
+    var word = escapeHtml(entry.text || entry.normalized);
+    var id = escapeHtml(entry.id);
+    return '<span class="tcf-word-chip" data-highlight-id="' + id + '">' +
+      '<button class="tcf-word-chip-label" type="button" data-word="' + word + '">' + word + '</button>' +
+      '<button class="tcf-word-chip-speak" type="button" data-word="' + word + '" aria-label="Prononcer ' + word + '">🔊</button>' +
+      '<button class="tcf-word-chip-remove" type="button" data-highlight-id="' + id + '" aria-label="Supprimer ' + word + '">×</button>' +
     '</span>';
   }).join('');
 }
@@ -4192,7 +4238,7 @@ function ensureTcfEcritWordMenu(){
       return;
     }
     if(chipRemove){
-      removeTcfEcritWordHighlight(chipRemove.getAttribute('data-word'));
+      removeTcfEcritWordHighlight(chipRemove.getAttribute('data-highlight-id') || chipRemove.getAttribute('data-word'));
       renderTcfEcritRememberedWords(menu);
       if(current) showTcfEcritWordMenu(current);
       return;
@@ -4213,7 +4259,7 @@ function ensureTcfEcritWordMenu(){
     }
     if(!current) return;
     if(event.target.closest('.tcf-word-keep')){
-      keepTcfEcritWordHighlighted(current.normalized);
+      keepTcfEcritWordHighlighted(current);
       showTcfEcritWordMenu(current);
     } else if(event.target.closest('.tcf-word-speak')){
       speakTcfEcritWord(current.word);
@@ -4221,7 +4267,7 @@ function ensureTcfEcritWordMenu(){
       var translation = menu.querySelector('.tcf-word-translation');
       requestTcfEcritTranslation(translation, current.word);
     } else if(event.target.closest('.tcf-word-remove')){
-      removeTcfEcritWordHighlight(current.normalized);
+      removeTcfEcritWordHighlight(current.highlightId || current.normalized);
       showTcfEcritWordMenu(current);
     }
   });
@@ -4246,7 +4292,11 @@ function showTcfEcritWordMenu(info){
   if(!info || !info.normalized) return;
   tcfEcritWordHelper.current = info;
   var menu = ensureTcfEcritWordMenu();
-  var isKept = tcfEcritWordHelper.highlights.indexOf(info.normalized) !== -1;
+  var existingEntry = tcfEcritWordHelper.highlights.filter(function(e){
+    return e.normalized === info.normalized && (!info.containerId || e.containerId === info.containerId);
+  })[0] || null;
+  if(existingEntry && !info.highlightId) info.highlightId = existingEntry.id;
+  var isKept = !!existingEntry;
   menu.querySelector('.tcf-word-menu-title').textContent = info.word;
   menu.querySelector('.tcf-word-keep').disabled = isKept;
   menu.querySelector('.tcf-word-remove').hidden = !isKept;
