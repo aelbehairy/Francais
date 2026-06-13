@@ -1430,7 +1430,7 @@ var learningExplorer = {
 var learningMainCards = [
   {key:'grammaire', icon:'📚', title:'Grammaire', desc:'Rôles, livres, temps et niveaux B1/B2'},
   {key:'books', icon:'📘', title:'Books', desc:'PDF et ressources de grammaire'},
-  {key:'oral', icon:'🎤', title:'Oral Mariane', desc:'Questions, devoirs et entraînement oral'},
+  {key:'oral', icon:'🎤', title:'Oral', desc:'Questions, devoirs et entraînement oral'},
   {key:'phonetique', icon:'🔊', title:'Phonétique', desc:'Accents, sons, liaison et prononciation'},
   {key:'lire', icon:'📖', title:'Lire', desc:'Textes faciles et liens de lecture'},
   {key:'vocabulary', icon:'🗂️', title:'Vocabulary', desc:'Mots A1, verbes et dissertations'},
@@ -1443,7 +1443,8 @@ var learningDescriptions = {
   temps:'Présent, passé, futur et modes',
   b1:'Leçons de niveau B1',
   b2:'Leçons de niveau B2',
-  devoirs:'Devoirs et réponses préparées',
+  devoirs:'Devoirs Mariane et réponses préparées',
+  ferial:'Oral Ferial',
   mariane:'Questions orales Mariane et Linda',
   ecrit:'Production écrite et modèles',
   oral:'Expression orale TCF',
@@ -1533,12 +1534,16 @@ function getCardsForMain(mainKey){
   if(mainKey === 'books') return getBookCards();
   if(mainKey === 'oral') {
     return [
-      {key:'devoirs', icon:'📝', title:'Devoirs', desc:learningDescriptions.devoirs, action:function(){
+      {key:'devoirs', icon:'📝', title:'Devoirs Mariane', desc:learningDescriptions.devoirs, action:function(){
         var btn = document.querySelector('#pills-oral .pill[onclick*="devoirs"]');
         if(btn) btn.click();
       }},
       {key:'mariane', icon:'🎤', title:'Oral Mariane et Linda', desc:learningDescriptions.mariane, action:function(){
         var btn = document.querySelector('#pills-oral .pill[onclick*="showMariane"]');
+        if(btn) btn.click();
+      }},
+      {key:'ferial', icon:'🎙', title:'Ferial', desc:learningDescriptions.ferial, action:function(){
+        var btn = document.querySelector('#pills-oral .pill[onclick*="ferial"]');
         if(btn) btn.click();
       }}
     ];
@@ -1558,6 +1563,23 @@ function getCardsForMain(mainKey){
   return [];
 }
 
+function getFerialLessonCards(){
+  return Array.prototype.slice.call(document.querySelectorAll('#o-ferial .ferial-lesson-tabs .pill')).map(function(btn){
+    var id = btn.getAttribute('data-ferial-lesson');
+    var num = String(id || '').replace('lecon', '');
+    var strong = btn.querySelector('strong');
+    var title = strong ? strong.textContent.trim() : ('Leçon ' + num);
+    return {
+      key: id,
+      icon: num,
+      title: title,
+      desc: 'Ouvrir cette leçon',
+      action: function(){ showFerialLesson(id, btn); },
+      source: btn
+    };
+  });
+}
+
 function getLessonCards(mainKey, groupKey){
   if(mainKey === 'grammaire'){
     if(groupKey === 'roles') {
@@ -1572,6 +1594,7 @@ function getLessonCards(mainKey, groupKey){
     if(groupKey === 'b2') return buttonCards('#pills-b2 .pill');
   }
   if(mainKey === 'oral' && groupKey === 'mariane') return buttonCards('#pills-mariane .pill');
+  if(mainKey === 'oral' && groupKey === 'ferial') return getFerialLessonCards();
   if(mainKey === 'tcf' && groupKey === 'ecrit') {
     return buttonCards('#tcf-ecrit .nested-child-tabs .pill');
   }
@@ -1597,8 +1620,8 @@ function inferLearningState(panel, section){
     state.lesson = section && section !== 'books' ? section : null;
   } else if(panel === 'oral'){
     state.main = 'oral';
-    state.group = section === 'devoirs' ? 'devoirs' : 'mariane';
-    state.lesson = section && section !== 'devoirs' ? section : null;
+    state.group = section === 'devoirs' || section === 'ferial' ? section : 'mariane';
+    state.lesson = section && section !== 'devoirs' && section !== 'ferial' ? section : null;
   } else if(panel === 'phonetique'){
     state.main = 'phonetique';
     state.group = section || null;
@@ -1633,6 +1656,7 @@ function setLearningContentVisible(isVisible){
 function updateParentCardRoute(mainKey, groupKey){
   if(mainKey === 'grammaire' && (groupKey === 'temps' || groupKey === 'b1' || groupKey === 'b2')) updateRoute(groupKey, null);
   else if(mainKey === 'grammaire') updateRoute('grammaire', null);
+  else if(mainKey === 'oral' && groupKey === 'ferial') updateRoute('oral', 'ferial');
   else if(mainKey === 'oral') updateRoute('oral', null);
   else if(mainKey === 'tcf') updateRoute('tcf', null);
 }
@@ -1649,6 +1673,7 @@ function updateLessonCardRoute(mainKey, groupKey, key){
 function routeHasFinalContent(panel, section){
   if(!section) return false;
   if(panel === 'tcf' && section === 'ecrit') return false;
+  if(panel === 'oral' && section === 'ferial') return false;
   return true;
 }
 
@@ -1657,6 +1682,8 @@ function updateRouteForLearningState(){
     writeRoute(null, null);
   } else if(learningExplorer.main === 'grammaire' && (learningExplorer.group === 'temps' || learningExplorer.group === 'b1' || learningExplorer.group === 'b2')){
     writeRoute(learningExplorer.group, null);
+  } else if(learningExplorer.main === 'oral' && learningExplorer.group === 'ferial'){
+    writeRoute('oral', 'ferial');
   } else {
     writeRoute(learningExplorer.main, null);
   }
@@ -2331,10 +2358,10 @@ function showOral(id, btn){
   var oralPanel = document.getElementById('panel-oral');
   if(oralPanel) oralPanel.classList.add('active');
   var marianeQuestionNav = document.getElementById('mariane-question-nav');
-  if(marianeQuestionNav) marianeQuestionNav.hidden = id === 'devoirs';
+  if(marianeQuestionNav) marianeQuestionNav.hidden = id === 'devoirs' || id === 'ferial';
   document.querySelectorAll('#pills-oral .pill').forEach(function(b){ b.classList.remove('active'); });
   var isTopOralPill = btn && btn.closest && btn.closest('#pills-oral');
-  var marianeTab = document.querySelector('#pills-oral .pill');
+  var marianeTab = document.querySelector('#pills-oral .pill[onclick*="showMariane"]');
   if(isTopOralPill) btn.classList.add('active');
   else if(marianeTab) marianeTab.classList.add('active');
   var sec = document.getElementById('o-'+id);
@@ -2362,6 +2389,26 @@ function showMariane(btn){
   if(firstSec) firstSec.classList.add('visible');
   updateRoute('oral', 'all-questions');
   scrollToNav('panel-oral');
+}
+
+function showFerialLesson(id, btn){
+  var selectedPanel = null;
+  document.querySelectorAll('#o-ferial .ferial-lesson-panel').forEach(function(panel){
+    var active = panel.id === 'ferial-' + id;
+    panel.hidden = !active;
+    panel.classList.toggle('active', active);
+    if(active) selectedPanel = panel;
+  });
+  document.querySelectorAll('#o-ferial .ferial-lesson-tabs .pill').forEach(function(pill){
+    var active = pill === btn || pill.getAttribute('data-ferial-lesson') === id;
+    pill.classList.toggle('active', active);
+    pill.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  if(selectedPanel){
+    setTimeout(function(){
+      selectedPanel.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 20);
+  }
 }
 
 // ── Phonétique section switch ──
@@ -3329,6 +3376,7 @@ var grammarSpeech = {
 
 function getGrammarSpeechText(target){
   if(!target) return '';
+  if(target.dataset && target.dataset.speechText) return target.dataset.speechText;
   var clone = target.cloneNode(true);
   clone.querySelectorAll('button, .grammar-speech-toolbar, .b1-lesson-ar, .ar-text, .ex-ar, [dir="rtl"]').forEach(function(node){
     node.remove();
@@ -3454,9 +3502,57 @@ function addGrammarSpeechButtons(){
   updateGrammarSpeechButtons();
 }
 
+function initFerialSpeechLines(){
+  document.querySelectorAll('#o-ferial .fr-text').forEach(function(block){
+    var speechLines = [];
+    Array.prototype.slice.call(block.querySelectorAll(':scope > .fr-line')).forEach(function(line, index){
+      if(line.dataset.ferialSpeechReady === 'true') return;
+      var text = line.textContent.replace(/\s+/g, ' ').trim();
+      if(!text) return;
+      speechLines.push(text);
+      line.dataset.speechText = text;
+      line.dataset.ferialSpeechReady = 'true';
+      line.classList.add('ferial-speech-line');
+
+      var role = document.createElement('span');
+      role.className = 'ferial-line-role';
+      role.textContent = index % 2 === 0 ? 'Q:' : 'A:';
+
+      var content = document.createElement('span');
+      content.className = 'ferial-line-text';
+      content.textContent = text;
+
+      line.textContent = '';
+      line.appendChild(role);
+      line.appendChild(content);
+    });
+    if(speechLines.length) block.dataset.speechText = speechLines.join('. ');
+    if(!block.previousElementSibling || !block.previousElementSibling.classList.contains('ferial-speech-toolbar')){
+      var toolbar = document.createElement('div');
+      toolbar.className = 'grammar-speech-toolbar ferial-speech-toolbar';
+      var button = document.createElement('button');
+      button.className = 'tcf-sujet-play-btn grammar-speech-btn ferial-conversation-play';
+      button.type = 'button';
+      button.setAttribute('aria-label', 'Play conversation');
+      button.setAttribute('title', 'Play');
+      button.innerHTML = actionIcon('play') + '<strong>Play conversation</strong>';
+      button.addEventListener('click', function(event){
+        speakGrammarText(block, button, event);
+      });
+      button.addEventListener('touchend', function(event){
+        speakGrammarText(block, button, event);
+      }, {passive:false});
+      toolbar.appendChild(button);
+      block.insertAdjacentElement('beforebegin', toolbar);
+    }
+  });
+  updateGrammarSpeechButtons();
+}
+
 addTcfOralSpeechButtons();
 addTcfEcritAudioButtons();
 addGrammarSpeechButtons();
+initFerialSpeechLines();
 
 window.addEventListener('pagehide', function(){
   if(window.speechSynthesis) window.speechSynthesis.cancel();

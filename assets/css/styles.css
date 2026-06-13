@@ -4219,6 +4219,121 @@ body.learning-content-hidden .panel .main {
   margin: 20px 0;
 }
 
+#o-ferial .ferial-lieux-card {
+  counter-reset: ferial-lieu;
+}
+#o-ferial .ferial-lesson-tabs {
+  display: none;
+}
+#o-ferial .ferial-lesson-tabs .pill {
+  width: 100%;
+  min-height: 138px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 24px 18px;
+  border-radius: 16px;
+  border: 1.5px solid #dfe7f2;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08), 0 16px 34px rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+  font-size: 16px;
+  text-align: left;
+}
+#o-ferial .ferial-lesson-tabs .pill .pi {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #eaf1ff;
+  color: #2563eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fira Code", monospace;
+  font-size: 20px;
+  font-weight: 900;
+  margin: 0 0 2px;
+}
+#o-ferial .ferial-lesson-tabs .pill strong {
+  display: block;
+  color: #0f172a;
+  font-size: 21px;
+  line-height: 1.15;
+  font-weight: 900;
+}
+#o-ferial .ferial-lesson-tabs .pill small {
+  display: block;
+  color: #6b7280;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+#o-ferial .ferial-open-label {
+  display: block;
+  color: #c93a2f;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 900;
+  margin-top: auto;
+}
+#o-ferial .ferial-lesson-tabs .pill.active,
+#o-ferial .ferial-lesson-tabs .pill:hover {
+  border-color: #c7d7eb;
+  background: #fff;
+  color: #0f172a;
+  box-shadow: 0 3px 9px rgba(15, 23, 42, 0.11), 0 20px 42px rgba(37, 99, 235, 0.10);
+  transform: translateY(-1px);
+}
+#o-ferial .ferial-lesson-panels {
+  display: block;
+}
+#o-ferial .ferial-lesson-panel[hidden] {
+  display: none;
+}
+#o-ferial .ferial-lieux-card h3 {
+  counter-increment: ferial-lieu;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#o-ferial .ferial-lieux-card h3::before {
+  content: counter(ferial-lieu, decimal-leading-zero);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #1d4ed8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fira Code", monospace;
+  font-size: 13px;
+  font-weight: 900;
+  flex: 0 0 36px;
+}
+
+#o-ferial .ferial-speech-line {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+#o-ferial .ferial-line-role {
+  color: #dc2626;
+  font-family: "Fira Code", monospace;
+  font-size: 13px;
+  font-weight: 900;
+}
+#o-ferial .ferial-line-text {
+  min-width: 0;
+}
+@media (max-width: 640px) {
+  #o-ferial .ferial-speech-line {
+    grid-template-columns: auto 1fr;
+  }
+}
+
 .devoirs-timeline {
   display: block;
 }

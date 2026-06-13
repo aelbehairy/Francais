@@ -46,7 +46,7 @@
       <span class="ti">📘</span> Books
     </button>
     <button class="top-tab" onclick="showMainCardsFor('oral',this)">
-      <span class="ti">🎤</span> Oral Mariane
+      <span class="ti">🎤</span> Oral
     </button>
     <button class="top-tab" onclick="showMainCardsFor('phonetique',this)">
       <span class="ti">🔊</span> Phonétique
@@ -2107,6 +2107,7 @@
           <button class="pill active" type="button" onclick="showBookPreview('assets/books/en-route-pour-le-fle-a1-a2.pdf','En route pour le FLE A1-A2',this)"><span class="pi">📘</span>En route pour le FLE A1-A2</button>
           <button class="pill" type="button" onclick="showBookPreview('assets/books/en-route-pour-le-fle-a2-b1.pdf','En route pour le FLE A2-B1',this)"><span class="pi">📗</span>En route pour le FLE A2-B1</button>
           <button class="pill" type="button" onclick="showBookPreview('assets/books/grammaire-du-delf-frenchawy.pdf','Grammaire du DELF',this)"><span class="pi">📙</span>Grammaire du DELF</button>
+          <button class="pill" type="button" onclick="showBookPreview('assets/books/Communication_progressive_du_francais_niveau_debutant.pdf','Communication progressive du français - Niveau débutant',this)"><span class="pi">📕</span>Communication progressive du français - Niveau débutant</button>
         </div>
         <span class="card-label" id="book-preview-title">En route pour le FLE A1-A2</span>
         <object id="book-preview-frame" data="assets/books/en-route-pour-le-fle-a1-a2.pdf" type="application/pdf" style="width:100%;height:760px;border:1.5px solid #e8eaf0;border-radius:14px;background:white">
@@ -3547,7 +3548,8 @@
     <div class="nav-pills first-child-tabs" id="pills-oral">
       <button class="pill" onclick="switchTop('books',document.querySelector('.top-tab[onclick*=books]'))"><span class="pi">📚</span>Books</button>
       <button class="pill" onclick="showMariane(this)"><span class="pi">🎤</span>Oral (Mariane et Linda)</button>
-      <button class="pill active" onclick="showOral('devoirs',this)"><span class="pi">📝</span>Devoirs</button>
+      <button class="pill active" onclick="showOral('devoirs',this)"><span class="pi">📝</span>Devoirs Mariane</button>
+      <button class="pill" onclick="showOral('ferial',this)"><span class="pi">🎙</span>Ferial</button>
     </div>
   </nav>
   <main class="main">
@@ -4042,6 +4044,206 @@
         <span class="usage-tag tag-oral">DEVOIRS</span>
       </div>
       <div id="marianne-devoirs" class="devoirs-timeline" aria-live="polite"></div>
+    </section>
+    <section class="sec" id="o-ferial">
+      <div class="nav-pills nested-child-tabs ferial-lesson-tabs">
+        <button class="pill active" type="button" data-ferial-lesson="lecon1" aria-selected="true" onclick="showFerialLesson('lecon1',this)">
+          <span class="pi">1</span>
+          <strong>Leçon 1</strong>
+          <small>Ouvrir cette leçon</small>
+          <span class="ferial-open-label">Ouvrir →</span>
+        </button>
+        <button class="pill" type="button" data-ferial-lesson="lecon2" aria-selected="false" onclick="showFerialLesson('lecon2',this)">
+          <span class="pi">2</span>
+          <strong>Leçon 2</strong>
+          <small>Ouvrir cette leçon</small>
+          <span class="ferial-open-label">Ouvrir →</span>
+        </button>
+        <button class="pill" type="button" data-ferial-lesson="lecon3" aria-selected="false" onclick="showFerialLesson('lecon3',this)">
+          <span class="pi">3</span>
+          <strong>Leçon 3</strong>
+          <small>Ouvrir cette leçon</small>
+          <span class="ferial-open-label">Ouvrir →</span>
+        </button>
+        <button class="pill" type="button" data-ferial-lesson="lecon4" aria-selected="false" onclick="showFerialLesson('lecon4',this)">
+          <span class="pi">4</span>
+          <strong>Leçon 4</strong>
+          <small>Ouvrir cette leçon</small>
+          <span class="ferial-open-label">Ouvrir →</span>
+        </button>
+      </div>
+      <div class="ferial-lesson-panels">
+        <div class="card ferial-lieux-card ferial-lesson-panel active" id="ferial-lecon1">
+          <span class="card-label">Leçon 1</span>
+          <div class="note" style="direction:rtl;text-align:right">دروس TCF A1/A2: مكان المحادثة، المتحدثون، مفردات مهمة، أسئلة فهم، إجابات بالنفي، وحوار جديد بنفس الفكرة.</div>
+
+          <h3>À la bibliothèque <small>في المكتبة</small></h3>
+          <div class="note"><strong>المتحدثون:</strong> Étudiant (طالب) · Bibliothécaire (أمين المكتبة)</div>
+          <div class="fr-text">
+            <div class="fr-line">Bonjour, vous cherchez quelque chose en particulier ?</div>
+            <div class="fr-line">Oui, un livre de grammaire française.</div>
+            <div class="fr-line">Nous avons plusieurs titres, dont Grammaire Progressive du Français.</div>
+            <div class="fr-line">Ah, parfait. Est-ce que je peux l'emprunter ?</div>
+            <div class="fr-line">Oui, avec votre carte étudiante.</div>
+            <div class="fr-line">La voici. Pour combien de temps ?</div>
+            <div class="fr-line">Quinze jours.</div>
+            <div class="fr-line">Super, merci beaucoup !</div>
+          </div>
+          <table class="tbl">
+            <tr><th>Français</th><th>العربية</th></tr>
+            <tr><td>chercher</td><td>يبحث</td></tr>
+            <tr><td>un livre</td><td>كتاب</td></tr>
+            <tr><td>la grammaire</td><td>القواعد</td></tr>
+            <tr><td>emprunter</td><td>يستعير</td></tr>
+            <tr><td>la carte étudiante</td><td>بطاقة الطالب</td></tr>
+            <tr><td>plusieurs titres</td><td>عدة عناوين</td></tr>
+            <tr><td>quinze jours</td><td>خمسة عشر يوماً</td></tr>
+            <tr><td>la bibliothèque</td><td>المكتبة</td></tr>
+          </table>
+          <div class="grid-2" style="margin-top:14px">
+            <div class="note"><strong>Questions:</strong><br>Où se passe la conversation ? → À la bibliothèque.<br>Que cherche l'étudiant ? → Un livre de grammaire française.<br>Peut-il emprunter le livre ? → Oui.<br>Pour combien de temps ? → Quinze jours.</div>
+            <div class="note"><strong>Réponses négatives:</strong><br>Le livre est-il disponible ? → Non, il est déjà emprunté.<br>Peut-il emprunter le livre sans carte ? → Non, il faut une carte étudiante.</div>
+          </div>
+          <div class="fr-text">
+            <span class="card-label">Dialogue nouveau</span>
+            <div class="fr-line">Bonjour, je cherche un dictionnaire français-arabe.</div>
+            <div class="fr-line">Oui, nous en avons plusieurs.</div>
+            <div class="fr-line">Lequel me conseillez-vous ?</div>
+            <div class="fr-line">Celui-ci est très populaire.</div>
+            <div class="fr-line">Puis-je le réserver ?</div>
+            <div class="fr-line">Oui, bien sûr.</div>
+            <div class="fr-line">Merci beaucoup.</div>
+            <div class="fr-line">Avec plaisir.</div>
+          </div>
+
+          <h3>À l'hôpital <small>في المستشفى</small></h3>
+          <div class="note"><strong>المتحدثون:</strong> Visiteur (زائر) · Réceptionniste (موظف الاستقبال)</div>
+          <div class="fr-text">
+            <div class="fr-line">Bonjour, je viens voir mon frère, il s'appelle Ahmed Benali.</div>
+            <div class="fr-line">Oui, il est dans la chambre 312, au troisième étage.</div>
+            <div class="fr-line">Est-ce que les visites sont autorisées maintenant ?</div>
+            <div class="fr-line">Oui, jusqu'à 18 heures.</div>
+            <div class="fr-line">Parfait. Merci. Il va mieux ?</div>
+            <div class="fr-line">Oui, son état s'améliore chaque jour.</div>
+            <div class="fr-line">C'est rassurant, je suis soulagée.</div>
+            <div class="fr-line">Bon courage à lui et à vous aussi.</div>
+          </div>
+          <table class="tbl">
+            <tr><th>Français</th><th>العربية</th></tr>
+            <tr><td>l'hôpital</td><td>المستشفى</td></tr>
+            <tr><td>la chambre</td><td>الغرفة</td></tr>
+            <tr><td>le troisième étage</td><td>الطابق الثالث</td></tr>
+            <tr><td>les visites</td><td>الزيارات</td></tr>
+            <tr><td>autorisées</td><td>مسموح بها</td></tr>
+            <tr><td>l'état</td><td>الحالة الصحية</td></tr>
+            <tr><td>s'améliorer</td><td>يتحسن</td></tr>
+            <tr><td>rassurant</td><td>مطمئن</td></tr>
+          </table>
+          <div class="grid-2" style="margin-top:14px">
+            <div class="note"><strong>Questions:</strong><br>Où est Ahmed ? → Dans la chambre 312.<br>Les visites sont-elles autorisées ? → Oui.<br>Jusqu'à quelle heure ? → Jusqu'à 18 heures.<br>Comment va Ahmed ? → Il va mieux.</div>
+            <div class="note"><strong>Réponses négatives:</strong><br>Est-ce qu'il va mieux ? → Non, pas encore.<br>Puis-je entrer maintenant ? → Non, vous êtes en avance.<br>Puis-je parler au médecin ? → Non, il est occupé.</div>
+          </div>
+          <div class="fr-text">
+            <span class="card-label">Dialogue nouveau</span>
+            <div class="fr-line">Bonjour, je viens voir ma mère.</div>
+            <div class="fr-line">Quel est son nom ?</div>
+            <div class="fr-line">Fatima Ali.</div>
+            <div class="fr-line">Elle est dans la chambre 215.</div>
+            <div class="fr-line">Puis-je lui rendre visite maintenant ?</div>
+            <div class="fr-line">Non, les visites commencent à 14 heures.</div>
+            <div class="fr-line">D'accord. Je vais attendre.</div>
+            <div class="fr-line">Merci de votre compréhension.</div>
+          </div>
+
+          <h3>Dans le train <small>في القطار</small></h3>
+          <div class="note"><strong>المتحدثون:</strong> Voyageur 1 · Voyageur 2</div>
+          <div class="fr-text">
+            <div class="fr-line">Excusez-moi, cette place est libre ?</div>
+            <div class="fr-line">Oui, bien sûr, installez-vous.</div>
+            <div class="fr-line">Merci ! Vous allez jusqu'à Marseille ?</div>
+            <div class="fr-line">Oui, je rends visite à ma famille.</div>
+            <div class="fr-line">Moi aussi ! Vous y allez souvent ?</div>
+            <div class="fr-line">Pas trop, seulement pendant les vacances.</div>
+            <div class="fr-line">C'est une belle ville, j'adore le Vieux-Port.</div>
+            <div class="fr-line">Moi aussi, surtout le soir avec les lumières.</div>
+          </div>
+          <table class="tbl">
+            <tr><th>Français</th><th>العربية</th></tr>
+            <tr><td>une place</td><td>مقعد</td></tr>
+            <tr><td>libre</td><td>شاغر</td></tr>
+            <tr><td>rendre visite</td><td>يزور</td></tr>
+            <tr><td>la famille</td><td>العائلة</td></tr>
+            <tr><td>souvent</td><td>كثيراً</td></tr>
+            <tr><td>les vacances</td><td>العطلات</td></tr>
+            <tr><td>le Vieux-Port</td><td>الميناء القديم</td></tr>
+            <tr><td>les lumières</td><td>الأضواء</td></tr>
+          </table>
+          <div class="grid-2" style="margin-top:14px">
+            <div class="note"><strong>Questions:</strong><br>Où se déroule la conversation ? → Dans un train.<br>Où vont-ils ? → À Marseille.<br>Pourquoi ? → Pour voir leur famille.<br>Vont-ils souvent à Marseille ? → Non.</div>
+            <div class="note"><strong>Réponses négatives:</strong><br>Cette place est-elle libre ? → Non, elle est occupée.<br>Vous allez à Marseille ? → Non, je vais à Lyon.<br>Vous y allez souvent ? → Non, presque jamais.</div>
+          </div>
+          <div class="fr-text">
+            <span class="card-label">Dialogue nouveau</span>
+            <div class="fr-line">Excusez-moi, ce siège est libre ?</div>
+            <div class="fr-line">Oui, asseyez-vous.</div>
+            <div class="fr-line">Vous voyagez pour le travail ?</div>
+            <div class="fr-line">Non, je pars en vacances.</div>
+            <div class="fr-line">Vous allez où ?</div>
+            <div class="fr-line">Je vais à Nice.</div>
+            <div class="fr-line">Bonne route !</div>
+            <div class="fr-line">Merci beaucoup.</div>
+          </div>
+
+          <h3>Au marché <small>في السوق</small></h3>
+          <div class="note"><strong>المتحدثون:</strong> Cliente · Marchand</div>
+          <div class="fr-text">
+            <div class="fr-line">Bonjour, vos légumes sont vraiment beaux aujourd'hui.</div>
+            <div class="fr-line">Merci, madame, ils viennent directement de ma ferme.</div>
+            <div class="fr-line">Je vais prendre un kilo de tomates et un kilo de carottes.</div>
+            <div class="fr-line">Voilà, ça fait cinq euros.</div>
+            <div class="fr-line">Est-ce que je peux payer par carte ?</div>
+            <div class="fr-line">Oui, pas de problème.</div>
+            <div class="fr-line">Merci, je reviendrai sûrement la semaine prochaine.</div>
+            <div class="fr-line">Avec plaisir, bonne journée à vous !</div>
+          </div>
+          <table class="tbl">
+            <tr><th>Français</th><th>العربية</th></tr>
+            <tr><td>les légumes</td><td>الخضروات</td></tr>
+            <tr><td>la ferme</td><td>المزرعة</td></tr>
+            <tr><td>les tomates</td><td>الطماطم</td></tr>
+            <tr><td>les carottes</td><td>الجزر</td></tr>
+            <tr><td>payer par carte</td><td>الدفع بالبطاقة</td></tr>
+            <tr><td>la semaine prochaine</td><td>الأسبوع القادم</td></tr>
+          </table>
+          <div class="grid-2" style="margin-top:14px">
+            <div class="note"><strong>Questions:</strong><br>Où se passe la conversation ? → Au marché.<br>Que veut acheter la cliente ? → Des tomates et des carottes.<br>Combien doit-elle payer ? → Cinq euros.<br>Peut-elle payer par carte ? → Oui.</div>
+            <div class="note"><strong>Réponses négatives:</strong><br>Puis-je payer par carte ? → Non, seulement en espèces.<br>Avez-vous des tomates ? → Non, elles sont épuisées.</div>
+          </div>
+          <div class="fr-text">
+            <span class="card-label">Dialogue nouveau</span>
+            <div class="fr-line">Bonjour, vos fruits sont très beaux aujourd'hui.</div>
+            <div class="fr-line">Merci, ils viennent de mon verger.</div>
+            <div class="fr-line">Je vais prendre un kilo de pommes et un kilo d'oranges.</div>
+            <div class="fr-line">Très bien, ça fait six euros.</div>
+            <div class="fr-line">Puis-je payer par carte ?</div>
+            <div class="fr-line">Non, désolé, uniquement en espèces.</div>
+            <div class="fr-line">D'accord, merci.</div>
+            <div class="fr-line">Je vous en prie.</div>
+          </div>
+        </div>
+        <div class="card ferial-lesson-panel" id="ferial-lecon2" hidden>
+          <span class="card-label">Leçon 2</span>
+          <div class="note">Ajoutez ici le contenu de la leçon 2.</div>
+        </div>
+        <div class="card ferial-lesson-panel" id="ferial-lecon3" hidden>
+          <span class="card-label">Leçon 3</span>
+          <div class="note">Ajoutez ici le contenu de la leçon 3.</div>
+        </div>
+        <div class="card ferial-lesson-panel" id="ferial-lecon4" hidden>
+          <span class="card-label">Leçon 4</span>
+          <div class="note">Ajoutez ici le contenu de la leçon 4.</div>
+        </div>
+      </div>
     </section>
   </main>
 </div><!-- end panel-oral -->
@@ -6947,7 +7149,7 @@
       <span class="sidebar-icon">📘</span><span class="sidebar-text">Books</span>
     </button>
     <button class="sidebar-link" type="button" data-sidebar-target="oral" onclick="showMainCardsFor('oral',document.querySelector('.top-tab[onclick*=oral]'))">
-      <span class="sidebar-icon">🎤</span><span class="sidebar-text">Oral Mariane</span>
+      <span class="sidebar-icon">🎤</span><span class="sidebar-text">Oral</span>
     </button>
     <button class="sidebar-link" type="button" data-sidebar-target="phonetique" onclick="showMainCardsFor('phonetique',document.querySelector('.top-tab[onclick*=phonetique]'))">
       <span class="sidebar-icon">🔊</span><span class="sidebar-text">Phonétique</span>
@@ -6981,6 +7183,9 @@
     </a>
     <a href="https://www.youtube.com/watch?v=a47ckXKZjxI" target="_blank" rel="noopener" class="sidebar-link">
       <span class="sidebar-icon">▶️</span><span class="sidebar-text">TCF YouTube</span>
+    </a>
+    <a href="https://www.youtube.com/playlist?list=PLc_2878LTvUN6jFcoe-Lg0-8zKK0brCZF" target="_blank" rel="noopener" class="sidebar-link">
+      <span class="sidebar-icon">▶️</span><span class="sidebar-text">TCF YouTube Playlist</span>
     </a>
     <a href="https://www.podcastfrancaisfacile.com/apprendre-le-francais/liste-des-textes-fle" target="_blank" rel="noopener" class="sidebar-link">
       <span class="sidebar-icon">🎧</span><span class="sidebar-text">Podcast Facile</span>
