@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&amp;family=Fira+Code:wght@400;500&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
-<body>
+<body class="learning-content-hidden">
 
 <!-- HERO -->
 <div class="hero-wrap">
@@ -39,22 +39,25 @@
 
   <!-- TOP TABS -->
   <div class="top-tabs">
-    <button class="top-tab active" onclick="showGrammarChild('temps',this)">
+    <button class="top-tab active" onclick="showMainCardsFor('grammaire',this)">
       <span class="ti">📚</span> Grammaire
     </button>
-    <button class="top-tab" onclick="switchTop('oral',this)">
+    <button class="top-tab" onclick="showMainCardsFor('books',this)">
+      <span class="ti">📘</span> Books
+    </button>
+    <button class="top-tab" onclick="showMainCardsFor('oral',this)">
       <span class="ti">🎤</span> Oral Mariane
     </button>
-    <button class="top-tab" onclick="switchTop('phonetique',this)">
+    <button class="top-tab" onclick="showMainCardsFor('phonetique',this)">
       <span class="ti">🔊</span> Phonétique
     </button>
-    <button class="top-tab" onclick="switchTop('lire',this)">
+    <button class="top-tab" onclick="showMainCardsFor('lire',this)">
       <span class="ti">📖</span> Lire
     </button>
-    <button class="top-tab" onclick="switchTop('vocabulary',this)">
+    <button class="top-tab" onclick="showMainCardsFor('vocabulary',this)">
       <span class="ti">🗂️</span> Vocabulary
     </button>
-    <button class="top-tab" onclick="switchTop('tcf',this)">
+    <button class="top-tab" onclick="showMainCardsFor('tcf',this)">
       <span class="ti">📝</span> TCF
     </button>
     <button id="global-search-open" class="top-tab top-search-btn" type="button" aria-label="Search all content">
@@ -82,18 +85,25 @@
   </div>
 </div>
 
+<!-- CARD NAVIGATION EXPLORER -->
+<section id="learning-explorer" class="learning-explorer" aria-label="Navigation des leçons">
+  <div class="learning-path-head">
+    <nav id="learning-breadcrumb" class="learning-breadcrumb" aria-label="Fil d'Ariane"></nav>
+    <button id="learning-back" class="learning-back" type="button" hidden>← Back</button>
+  </div>
+  <div id="learning-card-grid" class="learning-card-grid"></div>
+</section>
+
 <!-- ════ GRAMMAIRE PANEL ════ -->
 <div id="panel-grammaire" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs grammar-mode-tabs">
-      <button class="pill" data-grammar-mode="books" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
       <button class="pill active" data-grammar-mode="roles" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
       <button class="pill" data-grammar-mode="temps" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
       <button class="pill" data-grammar-mode="b1" onclick="showGrammarChild('b1',this)">B1</button>
       <button class="pill" data-grammar-mode="b2" onclick="showGrammarChild('b2',this)">B2</button>
     </div>
     <div class="nav-pills nested-child-tabs" id="pills-grammaire">
-      <button class="pill" onclick="showSec('books',this,'grammaire')"><span class="pi">📚</span>Books</button>
       <button class="pill active" onclick="showSec('pronoms',this,'grammaire')"><span class="pi">👤</span>Pronoms</button>
       <button class="pill" onclick="showSec('verbes',this,'grammaire')"><span class="pi">🔤</span>Verbes</button>
       <button class="pill" onclick="showSec('articles',this,'grammaire')"><span class="pi">📌</span>Articles</button>
@@ -2115,7 +2125,6 @@
 <div id="panel-temps" class="panel active">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs grammar-mode-tabs">
-      <button class="pill" data-grammar-mode="books" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
       <button class="pill" data-grammar-mode="roles" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
       <button class="pill active" data-grammar-mode="temps" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
       <button class="pill" data-grammar-mode="b1" onclick="showGrammarChild('b1',this)">B1</button>
@@ -2965,7 +2974,6 @@
 <div id="panel-b1" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs grammar-mode-tabs">
-      <button class="pill" data-grammar-mode="books" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
       <button class="pill" data-grammar-mode="roles" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
       <button class="pill" data-grammar-mode="temps" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
       <button class="pill active" data-grammar-mode="b1" onclick="showGrammarChild('b1',this)">B1</button>
@@ -3489,7 +3497,6 @@
 <div id="panel-b2" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs grammar-mode-tabs">
-      <button class="pill" data-grammar-mode="books" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));showSec('books',document.querySelector('#pills-grammaire .pill[onclick*=books]'),'grammaire')"><span class="pi">📘</span>Books</button>
       <button class="pill" data-grammar-mode="roles" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))"><span class="pi">📚</span>Autres rôles</button>
       <button class="pill" data-grammar-mode="temps" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
       <button class="pill" data-grammar-mode="b1" onclick="showGrammarChild('b1',this)">B1</button>
@@ -3538,7 +3545,7 @@
 <div id="panel-oral" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs" id="pills-oral">
-      <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));setTimeout(()=>document.querySelector('#pills-grammaire .pill[onclick*=books]')?.click(),60)"><span class="pi">📚</span>Books</button>
+      <button class="pill" onclick="switchTop('books',document.querySelector('.top-tab[onclick*=books]'))"><span class="pi">📚</span>Books</button>
       <button class="pill" onclick="showMariane(this)"><span class="pi">🎤</span>Oral (Mariane et Linda)</button>
       <button class="pill active" onclick="showOral('devoirs',this)"><span class="pi">📝</span>Devoirs</button>
     </div>
@@ -4043,7 +4050,7 @@
 <div id="panel-phonetique" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs" id="pills-phonetique">
-      <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));setTimeout(()=>document.querySelector('#pills-grammaire .pill[onclick*=books]')?.click(),60)"><span class="pi">📚</span>Books</button>
+      <button class="pill" onclick="switchTop('books',document.querySelector('.top-tab[onclick*=books]'))"><span class="pi">📚</span>Books</button>
       <button class="pill active" onclick="showPhon('accents',this)"><span class="pi">✍️</span>Accents (é è ê ë ç)</button>
       <button class="pill" onclick="showPhon('e-rule',this)"><span class="pi">🔥</span>قاعدة حرف E</button>
       <button class="pill" onclick="showPhon('combinees',this)"><span class="pi">🔗</span>Voyelles Combinées</button>
@@ -5732,7 +5739,7 @@
 <div id="panel-tcf" class="panel">
   <nav class="nav-wrap">
     <div class="nav-pills first-child-tabs" id="pills-tcf">
-      <button class="pill" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'));setTimeout(()=>document.querySelector('#pills-grammaire .pill[onclick*=books]')?.click(),60)"><span class="pi">📚</span>Books</button>
+      <button class="pill" onclick="switchTop('books',document.querySelector('.top-tab[onclick*=books]'))"><span class="pi">📚</span>Books</button>
       <button class="pill active" onclick="showTcf('ecrit',this)"><span class="pi">✍️</span>Écrit</button>
       <button class="pill" onclick="showTcf('oral',this)"><span class="pi">🎤</span>Oral</button>
       <button class="pill" onclick="showTcf('vocabulary',this)"><span class="pi">📚</span>Vocabulary</button>
@@ -6924,31 +6931,34 @@
   </div>
   <nav class="sidebar-section" aria-label="Sections">
     <span class="sidebar-caption">Apprendre</span>
-    <button class="sidebar-link active" type="button" data-sidebar-target="temps" onclick="showGrammarChild('temps',this)">
+    <button class="sidebar-link active" type="button" data-sidebar-target="temps" onclick="showGrammarGroupCardsFor('temps',this)">
       <span class="sidebar-icon">⏱️</span><span class="sidebar-text">Temps</span>
     </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="b1" onclick="showGrammarChild('b1',this)">
+    <button class="sidebar-link" type="button" data-sidebar-target="b1" onclick="showGrammarGroupCardsFor('b1',this)">
       <span class="sidebar-text">B1</span>
     </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="b2" onclick="showGrammarChild('b2',this)">
+    <button class="sidebar-link" type="button" data-sidebar-target="b2" onclick="showGrammarGroupCardsFor('b2',this)">
       <span class="sidebar-text">B2</span>
     </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="grammaire" onclick="switchTop('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))">
+    <button class="sidebar-link" type="button" data-sidebar-target="grammaire" onclick="showMainCardsFor('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))">
       <span class="sidebar-icon">📚</span><span class="sidebar-text">Grammaire</span>
     </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="oral" onclick="switchTop('oral',document.querySelector('.top-tab[onclick*=oral]'))">
+    <button class="sidebar-link" type="button" data-sidebar-target="books" onclick="showMainCardsFor('books',document.querySelector('.top-tab[onclick*=books]'))">
+      <span class="sidebar-icon">📘</span><span class="sidebar-text">Books</span>
+    </button>
+    <button class="sidebar-link" type="button" data-sidebar-target="oral" onclick="showMainCardsFor('oral',document.querySelector('.top-tab[onclick*=oral]'))">
       <span class="sidebar-icon">🎤</span><span class="sidebar-text">Oral Mariane</span>
     </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="phonetique" onclick="switchTop('phonetique',document.querySelector('.top-tab[onclick*=phonetique]'))">
+    <button class="sidebar-link" type="button" data-sidebar-target="phonetique" onclick="showMainCardsFor('phonetique',document.querySelector('.top-tab[onclick*=phonetique]'))">
       <span class="sidebar-icon">🔊</span><span class="sidebar-text">Phonétique</span>
     </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="lire" onclick="switchTop('lire',document.querySelector('.top-tab[onclick*=lire]'))">
+    <button class="sidebar-link" type="button" data-sidebar-target="lire" onclick="showMainCardsFor('lire',document.querySelector('.top-tab[onclick*=lire]'))">
       <span class="sidebar-icon">📖</span><span class="sidebar-text">Lire</span>
     </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="vocabulary" onclick="switchTop('vocabulary',document.querySelector('.top-tab[onclick*=vocabulary]'))">
+    <button class="sidebar-link" type="button" data-sidebar-target="vocabulary" onclick="showMainCardsFor('vocabulary',document.querySelector('.top-tab[onclick*=vocabulary]'))">
       <span class="sidebar-icon">🗂️</span><span class="sidebar-text">Vocabulary</span>
     </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="tcf" onclick="switchTop('tcf',document.querySelector('.top-tab[onclick*=tcf]'))">
+    <button class="sidebar-link" type="button" data-sidebar-target="tcf" onclick="showMainCardsFor('tcf',document.querySelector('.top-tab[onclick*=tcf]'))">
       <span class="sidebar-icon">📝</span><span class="sidebar-text">TCF</span>
     </button>
   </nav>
@@ -6990,6 +7000,7 @@
   </div>
 </aside>
 
+<script src="./assets/js/TranslationService.js" defer></script>
 <script src="./assets/js/vocabulary.js" defer></script>
 <script src="./assets/js/main.js" defer></script>
 </body>

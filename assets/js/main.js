@@ -1390,7 +1390,7 @@ function shareDevoirWhatsApp(index, event, mode){
 }
 
 // ── iPad / iOS: ensure buttons respond to touch ──
-function updateRoute(panel, section){
+function writeRoute(panel, section){
   if(!window.history || !window.URLSearchParams) return;
   var url = new URL(window.location.href);
   if(panel) url.searchParams.set('panel', panel);
@@ -1399,6 +1399,11 @@ function updateRoute(panel, section){
   else url.searchParams.delete('section');
   var query = url.searchParams.toString();
   window.history.replaceState({}, '', url.pathname + (query ? '?' + query : '') + url.hash);
+}
+
+function updateRoute(panel, section){
+  writeRoute(panel, section);
+  syncLearningExplorer(panel, section);
 }
 
 function getRoute(){
@@ -1410,30 +1415,457 @@ function getRoute(){
   };
 }
 
+// ── Card navigation explorer: reuses the existing tab/pill actions as card actions. ──
+var learningExplorer = {
+  root:null,
+  grid:null,
+  breadcrumb:null,
+  back:null,
+  main:null,
+  group:null,
+  lesson:null,
+  contentVisible:false
+};
+
+var learningMainCards = [
+  {key:'grammaire', icon:'📚', title:'Grammaire', desc:'Rôles, livres, temps et niveaux B1/B2'},
+  {key:'books', icon:'📘', title:'Books', desc:'PDF et ressources de grammaire'},
+  {key:'oral', icon:'🎤', title:'Oral Mariane', desc:'Questions, devoirs et entraînement oral'},
+  {key:'phonetique', icon:'🔊', title:'Phonétique', desc:'Accents, sons, liaison et prononciation'},
+  {key:'lire', icon:'📖', title:'Lire', desc:'Textes faciles et liens de lecture'},
+  {key:'vocabulary', icon:'🗂️', title:'Vocabulary', desc:'Mots A1, verbes et dissertations'},
+  {key:'tcf', icon:'📝', title:'TCF', desc:'Écrit, oral et vocabulaire TCF'}
+];
+
+var learningDescriptions = {
+  books:'Livres PDF et ressources de grammaire',
+  roles:'Pronoms, articles, structure et règles utiles',
+  temps:'Présent, passé, futur et modes',
+  b1:'Leçons de niveau B1',
+  b2:'Leçons de niveau B2',
+  devoirs:'Devoirs et réponses préparées',
+  mariane:'Questions orales Mariane et Linda',
+  ecrit:'Production écrite et modèles',
+  oral:'Expression orale TCF',
+  vocabulary:'Vocabulaire thématique'
+};
+
+function cleanCardText(text){
+  return String(text || '').replace(/\s+/g, ' ').trim();
+}
+
+function getButtonParts(btn){
+  var icon = btn && btn.querySelector('.pi, .ti') ? btn.querySelector('.pi, .ti').textContent.trim() : '•';
+  var clone = btn ? btn.cloneNode(true) : null;
+  if(clone) clone.querySelectorAll('.pi, .ti').forEach(function(node){ node.remove(); });
+  return {
+    icon: icon || '•',
+    title: cleanCardText(clone ? clone.textContent : ''),
+    onclick: btn ? btn.getAttribute('onclick') || '' : ''
+  };
+}
+
+function keyFromOnclick(onclick){
+  var match = String(onclick || '').match(/'([^']+)'/);
+  return match ? match[1] : '';
+}
+
+function buttonCards(selector, options){
+  options = options || {};
+  return Array.prototype.slice.call(document.querySelectorAll(selector)).filter(function(btn){
+    var onclick = btn.getAttribute('onclick') || '';
+    return !options.exclude || !options.exclude(btn, onclick);
+  }).map(function(btn){
+    var parts = getButtonParts(btn);
+    var key = options.key ? options.key(btn, parts.onclick) : keyFromOnclick(parts.onclick);
+    return {
+      key:key,
+      icon:parts.icon,
+      title:parts.title,
+      desc:options.desc ? options.desc(key, parts.title) : (learningDescriptions[key] || 'Ouvrir cette leçon'),
+      action:function(){ btn.click(); },
+      source:btn
+    };
+  });
+}
+
+function bookKeyFromTitle(title){
+  return cleanCardText(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'library';
+}
+
+function getBookCards(){
+  return buttonCards('#book-preview-tabs .pill', {
+    key:function(btn){
+      return bookKeyFromTitle(getButtonParts(btn).title);
+    },
+    desc:function(){
+      return 'Ouvrir ce PDF dans la bibliothèque';
+    }
+  }).map(function(card){
+    var sourceAction = card.action;
+    card.action = function(){
+      showBooks(card.key, document.querySelector('.top-tab[onclick*="books"]'));
+      sourceAction();
+    };
+    return card;
+  });
+}
+
+function getGrammarCategories(){
+  return [
+    {key:'roles', icon:'📚', title:'Autres rôles', desc:learningDescriptions.roles, action:function(){
+      switchTop('grammaire', document.querySelector('.top-tab'));
+    }},
+    {key:'temps', icon:'⏱', title:'Temps', desc:learningDescriptions.temps, action:function(){
+      showGrammarChild('temps', document.querySelector('.grammar-mode-tabs .pill[data-grammar-mode="temps"]'));
+    }},
+    {key:'b1', icon:'B1', title:'B1', desc:learningDescriptions.b1, action:function(){
+      showGrammarChild('b1', document.querySelector('.grammar-mode-tabs .pill[data-grammar-mode="b1"]'));
+    }},
+    {key:'b2', icon:'B2', title:'B2', desc:learningDescriptions.b2, action:function(){
+      showGrammarChild('b2', document.querySelector('.grammar-mode-tabs .pill[data-grammar-mode="b2"]'));
+    }}
+  ];
+}
+
+function getCardsForMain(mainKey){
+  if(mainKey === 'grammaire') return getGrammarCategories();
+  if(mainKey === 'books') return getBookCards();
+  if(mainKey === 'oral') {
+    return [
+      {key:'devoirs', icon:'📝', title:'Devoirs', desc:learningDescriptions.devoirs, action:function(){
+        var btn = document.querySelector('#pills-oral .pill[onclick*="devoirs"]');
+        if(btn) btn.click();
+      }},
+      {key:'mariane', icon:'🎤', title:'Oral Mariane et Linda', desc:learningDescriptions.mariane, action:function(){
+        var btn = document.querySelector('#pills-oral .pill[onclick*="showMariane"]');
+        if(btn) btn.click();
+      }}
+    ];
+  }
+  if(mainKey === 'phonetique') return buttonCards('#pills-phonetique .pill', {
+    exclude:function(btn, onclick){ return onclick.indexOf('books') !== -1; }
+  });
+  if(mainKey === 'lire') {
+    return [{key:'textes', icon:'📖', title:'Textes faciles', desc:'Liens de lecture et écoute', action:function(){
+      switchTop('lire', document.querySelector('.top-tab[onclick*="lire"]'));
+    }}];
+  }
+  if(mainKey === 'vocabulary') return buttonCards('.vocab-subtabs .pill');
+  if(mainKey === 'tcf') return buttonCards('#pills-tcf .pill', {
+    exclude:function(btn, onclick){ return onclick.indexOf('books') !== -1; }
+  });
+  return [];
+}
+
+function getLessonCards(mainKey, groupKey){
+  if(mainKey === 'grammaire'){
+    if(groupKey === 'roles') {
+      return buttonCards('#pills-grammaire .pill', {
+        exclude:function(btn, onclick){
+          return onclick.indexOf('showGrammarChild') !== -1 || onclick.indexOf('books') !== -1;
+        }
+      });
+    }
+    if(groupKey === 'temps') return buttonCards('#pills-temps .pill');
+    if(groupKey === 'b1') return buttonCards('#pills-b1 .pill');
+    if(groupKey === 'b2') return buttonCards('#pills-b2 .pill');
+  }
+  if(mainKey === 'oral' && groupKey === 'mariane') return buttonCards('#pills-mariane .pill');
+  if(mainKey === 'tcf' && groupKey === 'ecrit') {
+    return buttonCards('#tcf-ecrit .nested-child-tabs .pill');
+  }
+  return [];
+}
+
+function findLearningMain(key){
+  return learningMainCards.filter(function(item){ return item.key === key; })[0] || null;
+}
+
+function inferLearningState(panel, section){
+  var state = {main:null, group:null, lesson:null};
+  if(panel === 'books'){
+    state.main = 'books';
+    state.group = section || null;
+  } else if(panel === 'temps' || panel === 'b1' || panel === 'b2'){
+    state.main = 'grammaire';
+    state.group = panel;
+    state.lesson = section || null;
+  } else if(panel === 'grammaire'){
+    state.main = 'grammaire';
+    state.group = 'roles';
+    state.lesson = section && section !== 'books' ? section : null;
+  } else if(panel === 'oral'){
+    state.main = 'oral';
+    state.group = section === 'devoirs' ? 'devoirs' : 'mariane';
+    state.lesson = section && section !== 'devoirs' ? section : null;
+  } else if(panel === 'phonetique'){
+    state.main = 'phonetique';
+    state.group = section || null;
+  } else if(panel === 'vocabulary'){
+    state.main = 'vocabulary';
+  } else if(panel === 'tcf'){
+    state.main = 'tcf';
+    if(section && document.getElementById('tcf-ecrit-' + section)){
+      state.group = 'ecrit';
+      state.lesson = section;
+    } else {
+      state.group = section || 'ecrit';
+    }
+  } else if(panel === 'lire'){
+    state.main = 'lire';
+  }
+  return state;
+}
+
+function setLearningState(state){
+  learningExplorer.main = state.main || null;
+  learningExplorer.group = state.group || null;
+  learningExplorer.lesson = state.lesson || null;
+}
+
+// Parent-card navigation hides the lesson area; final-card navigation reveals it.
+function setLearningContentVisible(isVisible){
+  learningExplorer.contentVisible = !!isVisible;
+  if(document.body) document.body.classList.toggle('learning-content-hidden', !learningExplorer.contentVisible);
+}
+
+function updateParentCardRoute(mainKey, groupKey){
+  if(mainKey === 'grammaire' && (groupKey === 'temps' || groupKey === 'b1' || groupKey === 'b2')) updateRoute(groupKey, null);
+  else if(mainKey === 'grammaire') updateRoute('grammaire', null);
+  else if(mainKey === 'oral') updateRoute('oral', null);
+  else if(mainKey === 'tcf') updateRoute('tcf', null);
+}
+
+function updateFinalCardRoute(mainKey, key){
+  if(mainKey === 'vocabulary') updateRoute('vocabulary', key);
+  else if(mainKey === 'lire') updateRoute('lire', key);
+}
+
+function updateLessonCardRoute(mainKey, groupKey, key){
+  if(mainKey === 'tcf' && groupKey === 'ecrit') updateRoute('tcf', key);
+}
+
+function routeHasFinalContent(panel, section){
+  if(!section) return false;
+  if(panel === 'tcf' && section === 'ecrit') return false;
+  return true;
+}
+
+function updateRouteForLearningState(){
+  if(!learningExplorer.main){
+    writeRoute(null, null);
+  } else if(learningExplorer.main === 'grammaire' && (learningExplorer.group === 'temps' || learningExplorer.group === 'b1' || learningExplorer.group === 'b2')){
+    writeRoute(learningExplorer.group, null);
+  } else {
+    writeRoute(learningExplorer.main, null);
+  }
+}
+
+function renderLearningBreadcrumb(){
+  if(!learningExplorer.breadcrumb) return;
+  var main = findLearningMain(learningExplorer.main);
+  var groupTitle = learningExplorer.group;
+  var lessonTitle = learningExplorer.lesson;
+  getCardsForMain(learningExplorer.main).forEach(function(card){
+    if(card.key === learningExplorer.group) groupTitle = card.title;
+  });
+  getLessonCards(learningExplorer.main, learningExplorer.group).forEach(function(card){
+    if(card.key === learningExplorer.lesson) lessonTitle = card.title;
+  });
+  var crumbs = [{label:'Home', action:function(){ setLearningState({}); setLearningContentVisible(false); updateRouteForLearningState(); renderLearningExplorer(); }}];
+  if(main) crumbs.push({label:main.title, action:function(){ setLearningState({main:main.key}); setLearningContentVisible(false); updateRouteForLearningState(); renderLearningExplorer(); }});
+  if(groupTitle) crumbs.push({label:groupTitle, action:function(){ setLearningState({main:learningExplorer.main, group:learningExplorer.group}); setLearningContentVisible(false); updateRouteForLearningState(); renderLearningExplorer(); }});
+  if(lessonTitle && lessonTitle !== groupTitle) crumbs.push({label:lessonTitle});
+  learningExplorer.breadcrumb.innerHTML = crumbs.map(function(crumb, index){
+    var current = index === crumbs.length - 1;
+    var label = escapeHtml(crumb.label);
+    return (index ? '<span class="crumb-sep">&gt;</span>' : '') +
+      (current ? '<span class="crumb-current">' + label + '</span>' : '<button type="button" data-crumb="' + index + '">' + label + '</button>');
+  }).join('');
+  learningExplorer.breadcrumb._crumbActions = crumbs.map(function(crumb){ return crumb.action || null; });
+}
+
+function renderLearningCards(cards, level){
+  if(!learningExplorer.grid) return;
+  learningExplorer.grid.innerHTML = cards.map(function(card){
+    var active = (level === 'main' && card.key === learningExplorer.main) ||
+      (level === 'group' && card.key === learningExplorer.group) ||
+      (level === 'lesson' && card.key === learningExplorer.lesson);
+    var sizeClass = level === 'lesson' ? ' is-lesson' : (level === 'group' ? ' is-medium' : '');
+    return '<button class="learning-card' + sizeClass + (active ? ' active' : '') + '" type="button" data-learning-key="' + escapeHtml(card.key) + '">' +
+      '<span class="learning-card-icon">' + escapeHtml(card.icon || '•') + '</span>' +
+      '<span class="learning-card-title">' + escapeHtml(card.title) + '</span>' +
+      '<span class="learning-card-desc">' + escapeHtml(card.desc || '') + '</span>' +
+      '<span class="learning-card-meta">Ouvrir →</span>' +
+    '</button>';
+  }).join('');
+  learningExplorer.grid.querySelectorAll('.learning-card').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var key = btn.getAttribute('data-learning-key');
+      var card = cards.filter(function(item){ return item.key === key; })[0];
+      if(!card) return;
+      if(level === 'main'){
+        setLearningState({main:key});
+        setLearningContentVisible(false);
+        card.action();
+        setLearningState({main:key});
+      } else if(level === 'group'){
+        var childCards = getLessonCards(learningExplorer.main, key);
+        var isFinalCard = !childCards.length;
+        setLearningState({main:learningExplorer.main, group:key});
+        setLearningContentVisible(isFinalCard);
+        card.action();
+        if(isFinalCard) updateFinalCardRoute(learningExplorer.main, key);
+        else updateParentCardRoute(learningExplorer.main, key);
+        setLearningState({main:learningExplorer.main, group:key});
+        setLearningContentVisible(isFinalCard);
+      } else {
+        learningExplorer.lesson = key;
+        setLearningContentVisible(true);
+        card.action();
+        updateLessonCardRoute(learningExplorer.main, learningExplorer.group, key);
+      }
+      renderLearningExplorer();
+    });
+  });
+}
+
+function renderLearningExplorer(){
+  if(!learningExplorer.root) return;
+  renderLearningBreadcrumb();
+  if(learningExplorer.back){
+    learningExplorer.back.hidden = !learningExplorer.main;
+  }
+  if(!learningExplorer.main){
+    renderLearningCards(learningMainCards.map(function(card){
+      return Object.assign({}, card, {action:function(){
+        if(card.key === 'grammaire') switchTop('grammaire', document.querySelector('.top-tab'));
+        else switchTop(card.key, document.querySelector('.top-tab[onclick*="' + card.key + '"]'));
+      }});
+    }), 'main');
+    return;
+  }
+  var lessonCards = getLessonCards(learningExplorer.main, learningExplorer.group);
+  if(learningExplorer.group && lessonCards.length){
+    renderLearningCards(lessonCards, 'lesson');
+    return;
+  }
+  renderLearningCards(getCardsForMain(learningExplorer.main), 'group');
+}
+
+function syncLearningExplorer(panel, section){
+  if(!learningExplorer.root) return;
+  setLearningState(inferLearningState(panel, section));
+  setLearningContentVisible(routeHasFinalContent(panel, section));
+  renderLearningExplorer();
+}
+
+function initLearningExplorer(){
+  learningExplorer.root = document.getElementById('learning-explorer');
+  learningExplorer.grid = document.getElementById('learning-card-grid');
+  learningExplorer.breadcrumb = document.getElementById('learning-breadcrumb');
+  learningExplorer.back = document.getElementById('learning-back');
+  document.querySelectorAll('.panel > .nav-wrap').forEach(function(nav){
+    nav.classList.add('card-nav-replaced');
+  });
+  if(learningExplorer.breadcrumb){
+    learningExplorer.breadcrumb.addEventListener('click', function(event){
+      var btn = event.target.closest ? event.target.closest('[data-crumb]') : null;
+      if(!btn || !learningExplorer.breadcrumb.contains(btn)) return;
+      var index = Number(btn.getAttribute('data-crumb'));
+      var action = learningExplorer.breadcrumb._crumbActions && learningExplorer.breadcrumb._crumbActions[index];
+      if(action) action();
+    });
+  }
+  if(learningExplorer.back){
+    learningExplorer.back.addEventListener('click', function(){
+      if(learningExplorer.lesson){
+        learningExplorer.lesson = null;
+      } else if(learningExplorer.group){
+        learningExplorer.group = null;
+      } else {
+        learningExplorer.main = null;
+      }
+      setLearningContentVisible(false);
+      updateRouteForLearningState();
+      renderLearningExplorer();
+    });
+  }
+  var route = getRoute();
+  if(route.panel) syncLearningExplorer(route.panel, route.section);
+  else {
+    setLearningState({});
+    setLearningContentVisible(false);
+    renderLearningExplorer();
+  }
+}
+
 function restoreRoute(){
   var route = getRoute();
   if(!route.panel) return;
+  if(route.panel === 'grammaire' && route.section === 'books'){
+    showBooks('library', document.querySelector('.top-tab[onclick*="books"]'));
+    setLearningContentVisible(true);
+    return;
+  }
+  if(route.panel === 'books'){
+    var bookBtn = document.querySelector('.top-tab[onclick*="books"]');
+    showBooks(route.section || null, bookBtn);
+    if(route.section){
+      getBookCards().forEach(function(card){
+        if(card.key === route.section && card.source) card.source.click();
+      });
+      setLearningContentVisible(true);
+    } else {
+      setLearningContentVisible(false);
+    }
+    return;
+  }
   var topBtn = document.querySelector(".top-tab[onclick*=\"" + route.panel + "\"]");
   if(!document.getElementById('panel-' + route.panel)) return;
 
   if(route.panel === 'temps'){
     showGrammarChild('temps', topBtn);
     if(route.section) showSec(route.section, document.querySelector("#pills-temps .pill[onclick*=\"'" + route.section + "'\"]"), 'temps');
+    else {
+      updateRoute('temps', null);
+      setLearningState({main:'grammaire', group:'temps'});
+      setLearningContentVisible(false);
+      renderLearningExplorer();
+    }
   } else if(route.panel === 'b1' || route.panel === 'b2'){
     showGrammarChild(route.panel, topBtn);
     if(route.section) showSec(route.section, document.querySelector("#pills-" + route.panel + " .pill[onclick*=\"'" + route.section + "'\"]"), route.panel);
+    else {
+      updateRoute(route.panel, null);
+      setLearningState({main:'grammaire', group:route.panel});
+      setLearningContentVisible(false);
+      renderLearningExplorer();
+    }
   } else if(route.panel === 'grammaire'){
     switchTop('grammaire', topBtn);
     if(route.section) showSec(route.section, document.querySelector("#pills-grammaire .pill[onclick*=\"'" + route.section + "'\"]"), 'grammaire');
   } else if(route.panel === 'oral'){
     switchTop('oral', topBtn);
     if(route.section) showOral(route.section, document.querySelector("#pills-mariane .pill[onclick*=\"'" + route.section + "'\"]") || document.querySelector("#pills-oral .pill[onclick*=\"'" + route.section + "'\"]"));
+    else {
+      updateRoute('oral', null);
+      setLearningState({main:'oral'});
+      setLearningContentVisible(false);
+      renderLearningExplorer();
+    }
   } else if(route.panel === 'phonetique'){
     switchTop('phonetique', topBtn);
     if(route.section) showPhon(route.section, document.querySelector("#pills-phonetique .pill[onclick*=\"'" + route.section + "'\"]"));
   } else if(route.panel === 'tcf'){
     switchTop('tcf', topBtn);
-    if(route.section) showTcf(route.section, document.querySelector("#pills-tcf .pill[onclick*=\"'" + route.section + "'\"]"));
+    if(route.section && document.getElementById('tcf-ecrit-' + route.section)){
+      showTcf('ecrit', document.querySelector("#pills-tcf .pill[onclick*=\"'ecrit'\"]"));
+      showTcfEcritSub(route.section, document.querySelector("#tcf-ecrit .nested-child-tabs .pill[onclick*=\"'" + route.section + "'\"]"));
+      updateRoute('tcf', route.section);
+      setLearningContentVisible(true);
+    } else if(route.section) showTcf(route.section, document.querySelector("#pills-tcf .pill[onclick*=\"'" + route.section + "'\"]"));
   } else {
     switchTop(route.panel, topBtn);
   }
@@ -1466,6 +1898,7 @@ document.addEventListener('DOMContentLoaded', function(){
   renderLireLinks();
   initIrregTables();
   initInlineIrregSections();
+  initLearningExplorer();
   restoreRoute();
 });
 
@@ -1755,7 +2188,12 @@ function runGlobalSearch(value){
 // ── Scroll to nav ──
 function scrollToNav(panelId){
   var nav = document.querySelector('#'+panelId+' .nav-wrap');
-  if(nav){ window.scrollTo({top: nav.offsetTop - 10, behavior:'smooth'}); }
+  var explorer = document.getElementById('learning-explorer');
+  if(nav && !nav.classList.contains('card-nav-replaced')){
+    window.scrollTo({top: nav.offsetTop - 10, behavior:'smooth'});
+  } else if(explorer){
+    window.scrollTo({top: explorer.offsetTop - 10, behavior:'smooth'});
+  }
 }
 
 // ── Activate first section in a panel ──
@@ -1784,13 +2222,50 @@ function activateFirstSec(panelId, prefix){
 // ── Top Tab switch ──
 function setGrammarModeActive(mode){
   document.querySelectorAll('.grammar-mode-tabs .pill').forEach(function(b){ b.classList.remove('active'); });
-  var match = mode === 'books' ? 'books' : (mode === 'temps' || mode === 'b1' || mode === 'b2' ? mode : 'roles');
+  var match = mode === 'temps' || mode === 'b1' || mode === 'b2' ? mode : 'roles';
   document.querySelectorAll('.grammar-mode-tabs .pill[data-grammar-mode="'+match+'"]').forEach(function(b){ b.classList.add('active'); });
+}
+
+// Books still reuses the original #g-books content, but it has its own public route.
+function showBooks(section, btn){
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.top-tab').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('#panel-grammaire .sec').forEach(function(s){ s.classList.remove('visible'); });
+  document.querySelectorAll('#pills-grammaire .pill').forEach(function(b){ b.classList.remove('active'); });
+  var panel = document.getElementById('panel-grammaire');
+  var books = document.getElementById('g-books');
+  var topBtn = btn || document.querySelector('.top-tab[onclick*="books"]');
+  if(panel) panel.classList.add('active');
+  if(books) books.classList.add('visible');
+  if(topBtn) topBtn.classList.add('active');
+  setGrammarModeActive('roles');
+  setSidebarActive('books');
+  updateRoute('books', section || null);
+  setTimeout(function(){ scrollToNav('panel-grammaire'); }, 50);
+}
+
+function showMainCardsFor(tab, btn){
+  switchTop(tab, btn);
+  setLearningState({main:tab});
+  setLearningContentVisible(false);
+  renderLearningExplorer();
+}
+
+function showGrammarGroupCardsFor(group, btn){
+  showGrammarChild(group, btn);
+  updateParentCardRoute('grammaire', group);
+  setLearningState({main:'grammaire', group:group});
+  setLearningContentVisible(false);
+  renderLearningExplorer();
 }
 
 function switchTop(tab, btn){
   document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
   document.querySelectorAll('.top-tab').forEach(function(b){ b.classList.remove('active'); });
+  if(tab === 'books'){
+    showBooks(null, btn);
+    return;
+  }
   var panel = document.getElementById('panel-'+tab);
   if(panel){ panel.classList.add('active'); }
   if(btn) btn.classList.add('active');
@@ -1832,6 +2307,11 @@ function showGrammarChild(panelName, btn){
 
 // ── Grammaire / Temps section switch ──
 function showSec(id, btn, panel){
+  if(panel === 'grammaire' && id === 'books'){
+    showBooks('library', document.querySelector('.top-tab[onclick*="books"]'));
+    setLearningContentVisible(true);
+    return;
+  }
   var pre = panel === 'grammaire' ? 'g-' : (panel === 'temps' ? 't-' : panel + '-');
   document.querySelectorAll('#panel-'+panel+' .sec').forEach(function(s){ s.classList.remove('visible'); });
   document.querySelectorAll('#pills-'+panel+' .pill').forEach(function(b){ b.classList.remove('active'); });
@@ -2115,6 +2595,7 @@ function speakNextTcfOralTask1(){
   utterance.lang = 'fr-FR';
   utterance.rate = 0.92;
   utterance.pitch = 1;
+  var _v1 = getTcfEcritFrenchVoice(); if(_v1) utterance.voice = _v1;
   utterance.onend = speakNextTcfOralTask1;
   utterance.onerror = speakNextTcfOralTask1;
   tcfOralSpeech.current = utterance;
@@ -2356,6 +2837,7 @@ function speakTcfOralAtIndex(index, restart, offset){
   utterance.lang = 'fr-FR';
   utterance.rate = tcfOralSpeech.speed;
   utterance.pitch = 1;
+  var _v2 = getTcfEcritFrenchVoice(); if(_v2) utterance.voice = _v2;
   utterance.onboundary = function(event){
     if(token !== tcfOralSpeech.token) return;
     if(typeof event.charIndex === 'number'){
@@ -3111,6 +3593,7 @@ var tcfEcritWordTranslations = {
   'bonjour':'مرحبا',
   'cadeaux':'هدايا',
   'centre':'مركز',
+  'chambon':'شامبون',
   'château':'قصر',
   'cher':'عزيزي',
   'chère':'عزيزتي',
@@ -3125,6 +3608,7 @@ var tcfEcritWordTranslations = {
   'demander':'يطلب',
   'déménager':'ينتقل من السكن',
   'déménagé':'انتقل من السكن',
+  'de':'من / لـ',
   'décrire':'يصف',
   'déplacements':'تنقلات',
   'difficile':'صعب',
@@ -3138,9 +3622,15 @@ var tcfEcritWordTranslations = {
   'ensemble':'معا',
   'envoyer':'يرسل',
   'espère':'أتمنى',
+  'est':'هو / يكون',
   'études':'دراسات',
+  'explore':'نستكشف',
   'faire':'يفعل',
   'famille':'عائلة',
+  'fais':'افعل / أعطني',
+  'fais-moi':'أخبرني / أعطني إشارة',
+  'fais-moi signe':'أخبرني / أعطني إشارة',
+  "fais-moi signe si tu veux qu'on explore la ville ensemble":"أخبرني إذا أردت أن نستكشف المدينة معًا",
   'fête':'حفلة',
   'français':'الفرنسية',
   'gratuit':'مجاني',
@@ -3154,7 +3644,11 @@ var tcfEcritWordTranslations = {
   'j\'espère':'أتمنى',
   'j\'invite':'أدعو',
   'je':'أنا',
+  'la':'الـ',
+  'le':'الـ',
+  'les':'الـ / جمع',
   'lieu':'مكان',
+  'location':'تأجير',
   'logement':'سكن',
   'maison':'منزل',
   'mariage':'زفاف',
@@ -3186,6 +3680,8 @@ var tcfEcritWordTranslations = {
   'restaurant':'مطعم',
   'salut':'مرحبا',
   'samedi':'السبت',
+  'si':'إذا',
+  'signe':'إشارة',
   'sport':'رياضة',
   'sujet':'موضوع',
   'temps':'وقت',
@@ -3193,25 +3689,106 @@ var tcfEcritWordTranslations = {
   'transports':'وسائل النقل',
   'travail':'عمل',
   'trouver':'يجد',
+  'unité':'الوحدة / مفرد',
   'ville':'مدينة',
   'vêtements':'ملابس',
   'voir':'يرى',
+  'veux':'تريد',
   'voiture':'سيارة',
   'voulez':'تريدون',
   'vous':'أنتم / حضرتك',
   'week-end':'نهاية الأسبوع'
 };
 
+var tcfEcritPhraseTranslations = {
+  'tu as plusieurs options':'لديك عدة خيارات',
+  'pour tes déplacements':'من أجل تنقلاتك',
+  'bienvenue dans la ville':'أهلاً بك في المدينة',
+  'les moyens de transports':'وسائل النقل',
+  'des abonnements mensuels':'اشتراكات شهرية',
+  'à environ 70 €':'بحوالي 70 يورو',
+  'tu peux acheter':'يمكنك شراء',
+  "des tickets à l'unité":'تذاكر مفردة',
+  'en carnet':'في دفتر تذاكر',
+  'les transports fonctionnent':'وسائل النقل تعمل',
+  'de 5 h à minuit':'من الساعة الخامسة إلى منتصف الليل',
+  'certaines lignes de bus':'بعض خطوط الحافلات',
+  'circulent la nuit':'تعمل ليلاً',
+  'si tu préfères le vélo':'إذا كنت تفضل الدراجة',
+  'un service de location':'خدمة تأجير',
+  'fais-moi signe':'أخبرني / راسلني',
+  'explore la ville ensemble':'نستكشف المدينة معًا',
+  'tu as plusieurs options : le métro, les bus et les tramways':'لديك عدة خيارات: المترو، الحافلات والترامواي',
+  'il existe des abonnements mensuels à environ 70 €':'توجد اشتراكات شهرية بحوالي 70 يورو',
+  'mais si tu ne te déplaces pas souvent':'ولكن إذا كنت لا تتنقل كثيرًا',
+  "tu peux acheter des tickets à l'unité ou en carnet":'يمكنك شراء تذاكر مفردة أو دفتر تذاكر',
+  'les transports fonctionnent de 5 h à minuit':'تعمل وسائل النقل من الخامسة صباحًا حتى منتصف الليل',
+  'certaines lignes de bus circulent la nuit':'بعض خطوط الحافلات تعمل ليلًا',
+  'il y a aussi un service de location':'توجد أيضًا خدمة تأجير',
+  "fais-moi signe si tu veux qu'on explore la ville ensemble":"أخبرني إذا أردت أن نستكشف المدينة معًا"
+};
+var tcfTranslationService = window.TranslationService ? new window.TranslationService({
+  translationMap:function(){
+    return tcfEcritPhraseTranslations;
+  }
+}) : null;
+
 function normalizeTcfEcritWord(word){
   return String(word || '')
     .toLowerCase()
     .replace(/[’]/g, "'")
+    .replace(/[‐‑‒–—―]/g, '-')
     .replace(/^[^a-zà-öø-ÿœæ']+|[^a-zà-öø-ÿœæ']+$/gi, '')
     .trim();
 }
 
+function normalizeTcfEcritPhrase(text){
+  return String(text || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[’]/g, "'")
+    .replace(/[‐‑‒–—―]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/\s*([:;.!؟?،,])\s*/g, '$1 ')
+    .replace(/^[\s"'“”«»()[\].,!؟?،;:]+|[\s"'“”«»()[\].,!؟?،;:]+$/g, '')
+    .trim();
+}
+
+function renderTcfEcritTranslation(target, translation){
+  if(!target) return;
+  if(translation && translation.type === 'list'){
+    target.innerHTML =
+      '<div class="tcf-word-translation-title">الترجمة العربية</div>' +
+      '<ul class="tcf-word-translation-list">' +
+        translation.lines.map(function(line){
+          return '<li>' + escapeHtml(line) + '</li>';
+        }).join('') +
+      '</ul>';
+  } else if(translation && translation.type === 'single'){
+    target.innerHTML =
+      '<div class="tcf-word-translation-title">الترجمة العربية</div>' +
+      '<div class="tcf-word-translation-single">' + escapeHtml(translation.text) + '</div>';
+  } else {
+    target.textContent = String(translation || '');
+  }
+  target.hidden = false;
+}
+
+function renderTcfEcritTranslationLoading(target){
+  if(!target) return;
+  target.textContent = '⏳ جاري الترجمة...';
+  target.hidden = false;
+}
+
+function requestTcfEcritTranslation(target, selectedText){
+  renderTcfEcritTranslationLoading(target);
+  translateSelectedTextAsync(selectedText).then(function(translation){
+    renderTcfEcritTranslation(target, translation);
+  });
+}
+
 function getTcfEcritWordPattern(){
-  return /[A-Za-zÀ-ÖØ-öø-ÿŒœÆæ]+(?:[’'][A-Za-zÀ-ÖØ-öø-ÿŒœÆæ]+)*(?:-[A-Za-zÀ-ÖØ-öø-ÿŒœÆæ]+)*/g;
+  return /[A-Za-zÀ-ÖØ-öø-ÿŒœÆæ]+(?:[’'][A-Za-zÀ-ÖØ-öø-ÿŒœÆæ]+)*(?:[-‐‑‒–—―][A-Za-zÀ-ÖØ-öø-ÿŒœÆæ]+)*/g;
 }
 
 function escapeTcfEcritRegExp(value){
@@ -3446,22 +4023,75 @@ function getTcfEcritWordInfoFromPoint(event){
   };
 }
 
+function translateSelectedText(selectedText){
+  selectedText = String(selectedText || '').trim();
+  var normalized = normalizeTcfEcritPhrase(selectedText);
+  var normalizedMap = {};
+  Object.keys(tcfEcritPhraseTranslations).forEach(function(key){
+    normalizedMap[normalizeTcfEcritPhrase(key)] = tcfEcritPhraseTranslations[key];
+  });
+  if(normalizedMap[normalized]) return {type:'single', text:normalizedMap[normalized]};
+
+  var matchedKeys = Object.keys(normalizedMap).filter(function(key){
+    return normalized.indexOf(key) !== -1;
+  }).sort(function(a, b){
+    return b.length - a.length;
+  }).filter(function(key, index, keys){
+    return !keys.slice(0, index).some(function(longerKey){
+      return longerKey.indexOf(key) !== -1;
+    });
+  }).sort(function(a, b){
+    return normalized.indexOf(a) - normalized.indexOf(b);
+  });
+  var seenTranslations = {};
+  var matches = matchedKeys.map(function(key){
+    return normalizedMap[key];
+  }).filter(function(translation){
+    if(seenTranslations[translation]) return false;
+    seenTranslations[translation] = true;
+    return true;
+  });
+  if(matches.length) return {type:'list', lines:matches};
+
+  if(/\s/.test(normalized)) return 'الترجمة غير متوفرة لهذه الجملة حاليًا';
+
+  var normalizedWord = normalizeTcfEcritWord(selectedText);
+  var wordTranslation = tcfEcritWordTranslations[normalizedWord];
+  if(wordTranslation) return {type:'single', text:wordTranslation};
+  return 'الترجمة غير متوفرة لهذه الكلمة حاليًا';
+}
+
 function translateTcfEcritWord(word){
-  var normalized = normalizeTcfEcritWord(word);
-  return tcfEcritWordTranslations[normalized] || 'ترجمة غير متوفرة لهذه الكلمة.';
+  return translateSelectedText(word);
+}
+
+function translateSelectedTextAsync(selectedText){
+  selectedText = String(selectedText || '').trim();
+  var localTranslation = translateSelectedText(selectedText);
+  if(localTranslation && typeof localTranslation !== 'string') return Promise.resolve(localTranslation);
+  if(!tcfTranslationService) return Promise.resolve('تعذر الاتصال بخدمة الترجمة');
+  return tcfTranslationService.translate(selectedText).then(function(translated){
+    return {type:'single', text:translated};
+  }).catch(function(error){
+    console.error('Translation popup failed for selected text:', selectedText, error);
+    return 'تعذر الاتصال بخدمة الترجمة';
+  });
 }
 
 function getTcfEcritFrenchVoice(){
   if(!('speechSynthesis' in window) || !window.speechSynthesis.getVoices) return null;
   var voices = window.speechSynthesis.getVoices() || [];
-  return voices.find(function(voice){
-    return String(voice.lang || '').toLowerCase() === 'fr-fr';
-  }) || voices.find(function(voice){
-    return String(voice.lang || '').toLowerCase().indexOf('fr') === 0;
-  }) || voices.find(function(voice){
-    return String(voice.name || '').toLowerCase().indexOf('french') !== -1 ||
-      String(voice.name || '').toLowerCase().indexOf('français') !== -1;
-  }) || null;
+  var femaleNames = ['lea','léa','amelie','amélie','virginie','hortense','julie','claire','alice','marie','camille','elsa','audrey','florence','sophie'];
+  var maleNames = ['thomas','pierre','nicolas','paul','jean','luca'];
+  function isFemale(v){ var n = String(v.name || '').toLowerCase(); return femaleNames.some(function(f){ return n.indexOf(f) !== -1; }); }
+  function isMale(v){ var n = String(v.name || '').toLowerCase(); return maleNames.some(function(m){ return n.indexOf(m) !== -1; }); }
+  var frFR = voices.filter(function(v){ return String(v.lang || '').toLowerCase() === 'fr-fr'; });
+  var frAny = voices.filter(function(v){ return String(v.lang || '').toLowerCase().indexOf('fr') === 0; });
+  var frNamed = voices.filter(function(v){ var n = String(v.name || '').toLowerCase(); return n.indexOf('french') !== -1 || n.indexOf('français') !== -1; });
+  return frFR.find(isFemale) || frAny.find(isFemale) || frNamed.find(isFemale) ||
+    frFR.find(function(v){ return !isMale(v); }) || frFR[0] ||
+    frAny.find(function(v){ return !isMale(v); }) || frAny[0] ||
+    frNamed[0] || null;
 }
 
 function speakTcfEcritWordWithVoice(word){
@@ -3578,8 +4208,7 @@ function ensureTcfEcritWordMenu(){
       menu.querySelector('.tcf-word-keep').disabled = true;
       menu.querySelector('.tcf-word-remove').hidden = false;
       var chipTranslation = menu.querySelector('.tcf-word-translation');
-      chipTranslation.textContent = translateTcfEcritWord(word);
-      chipTranslation.hidden = false;
+      requestTcfEcritTranslation(chipTranslation, word);
       return;
     }
     if(!current) return;
@@ -3590,8 +4219,7 @@ function ensureTcfEcritWordMenu(){
       speakTcfEcritWord(current.word);
     } else if(event.target.closest('.tcf-word-translate')){
       var translation = menu.querySelector('.tcf-word-translation');
-      translation.textContent = translateTcfEcritWord(current.normalized);
-      translation.hidden = false;
+      requestTcfEcritTranslation(translation, current.word);
     } else if(event.target.closest('.tcf-word-remove')){
       removeTcfEcritWordHighlight(current.normalized);
       showTcfEcritWordMenu(current);
