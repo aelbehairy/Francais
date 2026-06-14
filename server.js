@@ -46,9 +46,12 @@ function highlightsHandler(req, res){
       var list;
       try{ list = JSON.parse(body); } catch(e){ sendJson(res, 400, {error:'Invalid JSON'}); return; }
       if(!Array.isArray(list)){ sendJson(res, 400, {error:'Expected array'}); return; }
-      fs.writeFile(highlightsFile, JSON.stringify(list, null, 2) + '\n', 'utf8', function(err){
-        if(err){ sendJson(res, 500, {error:'Write failed'}); return; }
-        sendJson(res, 200, {ok: true});
+      fs.mkdir(path.dirname(highlightsFile), {recursive: true}, function(mkdirErr){
+        if(mkdirErr){ sendJson(res, 500, {error:'Write failed'}); return; }
+        fs.writeFile(highlightsFile, JSON.stringify(list, null, 2) + '\n', 'utf8', function(err){
+          if(err){ sendJson(res, 500, {error:'Write failed'}); return; }
+          sendJson(res, 200, {ok: true});
+        });
       });
     }).catch(function(){ sendJson(res, 500, {error:'Read error'}); });
     return;

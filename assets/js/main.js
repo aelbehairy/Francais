@@ -3960,6 +3960,16 @@ function getTcfEcritTextOffset(container, targetNode, targetOffset){
   return -1;
 }
 
+function getTcfEcritWordOffsets(container, textNode, wordInfo){
+  if(!container || !textNode || !wordInfo) return null;
+  var baseOffset = getTcfEcritTextOffset(container, textNode, 0);
+  if(baseOffset < 0) return null;
+  return {
+    startOffset: baseOffset + wordInfo.start,
+    endOffset: baseOffset + wordInfo.end
+  };
+}
+
 function applyHighlightAtOffset(container, startOff, endOff, highlightId, normalized){
   if(startOff < 0 || endOff <= startOff) return;
   var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
@@ -4015,7 +4025,11 @@ function saveTcfEcritHighlightsToServer(entries){
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(entries)
-  }).catch(function(){});
+  }).then(function(response){
+    if(!response.ok) console.error('Saving highlights failed:', response.status);
+  }).catch(function(error){
+    console.error('Saving highlights failed:', error);
+  });
 }
 
 function saveTcfEcritHighlightWords(entries){
@@ -4220,11 +4234,14 @@ function getTcfEcritWordInfoFromPoint(event){
   var rect = wordRange.getBoundingClientRect();
   wordRange.detach();
   var caretContainer = getTcfEcritHighlightContainer(range.startContainer);
+  var offsets = caretContainer ? getTcfEcritWordOffsets(caretContainer, range.startContainer, info) : null;
   return {
     word: info.word,
     normalized: normalizeTcfEcritWord(info.word),
     rect: rect,
-    containerId: caretContainer ? ensureTcfEcritContainerId(caretContainer) : null
+    containerId: caretContainer ? ensureTcfEcritContainerId(caretContainer) : null,
+    startOffset: offsets ? offsets.startOffset : undefined,
+    endOffset: offsets ? offsets.endOffset : undefined
   };
 }
 
@@ -4336,6 +4353,7 @@ function keepTcfEcritWordHighlighted(info){
   if(!normalized) return;
   var containerId = typeof info === 'object' ? (info.containerId || null) : null;
   if(!containerId) return;
+  if(typeof info.startOffset !== 'number' || typeof info.endOffset !== 'number' || info.endOffset <= info.startOffset) return;
   var id = 'hl-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   var entry = {id: id, normalized: normalized, text: typeof info === 'object' ? (info.word || normalized) : normalized, containerId: containerId, startOffset: typeof info === 'object' ? info.startOffset : undefined, endOffset: typeof info === 'object' ? info.endOffset : undefined};
   var entries = tcfEcritWordHelper.highlights.filter(function(e){
