@@ -125,6 +125,18 @@ function highlightsHandler(req, res){
   sendJson(res, 405, {error:'Method not allowed'});
 }
 
+function supabaseConfigHandler(req, res){
+  if(req.method !== 'GET'){
+    res.setHeader('Allow', 'GET');
+    sendJson(res, 405, {error:'Method not allowed'});
+    return;
+  }
+  sendJson(res, 200, {
+    SUPABASE_URL: process.env.SUPABASE_URL || '',
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || ''
+  });
+}
+
 function serveStatic(req, res){
   let requestPath = decodeURIComponent((req.url || '/').split('?')[0]);
   if(requestPath === '/') requestPath = '/index.html';
@@ -157,6 +169,10 @@ const server = http.createServer((req, res) => {
     highlightsHandler(req, res);
     return;
   }
+  if(urlPath === '/api/supabase-config'){
+    supabaseConfigHandler(req, res);
+    return;
+  }
   serveStatic(req, res);
 });
 
@@ -164,6 +180,7 @@ server.listen(port, host, () => {
   console.log('French site running on ' + host + ':' + port);
   console.log('Translation endpoint ready at /api/translate');
   console.log('Highlights endpoint ready at /api/highlights');
+  console.log('Supabase browser config endpoint ready at /api/supabase-config');
   console.log('Highlights storage: ' + (dbPool ? 'PostgreSQL' : 'data/highlights.json'));
   checkDatabaseConnection();
 });

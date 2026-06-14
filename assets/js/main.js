@@ -4015,35 +4015,121 @@ function getTcfEcritHighlightWords(){
 }
 
 function loadTcfEcritHighlightsFromServer(){
-  if(window.location.protocol === 'file:') return Promise.resolve(null);
-  return fetch('/api/highlights').then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+  if(!window.loadHighlights) return Promise.resolve(null);
+  return window.loadHighlights({page: window.HighlightStore && window.HighlightStore.currentPage ? window.HighlightStore.currentPage() : window.location.pathname}).then(function(rows){
+    if(!Array.isArray(rows)) return [];
+    return rows.filter(function(row){
+      return row && (row.item_type === 'word' || row.item_type === 'phrase') && row.section && row.item_text;
+    }).map(function(row){
+      return makeTcfEcritEntryFromSavedHighlight(row);
+    }).filter(Boolean);
+  });
 }
 
-function saveTcfEcritHighlightsToServer(entries){
-  if(window.location.protocol === 'file:') return;
-  fetch('/api/highlights', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(entries)
-  }).then(function(response){
-    if(!response.ok) console.error('Saving highlights failed:', response.status);
-  }).catch(function(error){
-    console.error('Saving highlights failed:', error);
-  });
+function getTcfEcritHighlightPage(){
+  return window.HighlightStore && window.HighlightStore.currentPage ? window.HighlightStore.currentPage() : (window.location.pathname || '/index.html');
+}
+
+function getTcfEcritTranslationText(text){
+  var translation = translateSelectedText(text);
+  if(translation && translation.type === 'single') return translation.text;
+  if(translation && translation.type === 'list') return translation.lines.join('\n');
+  return typeof translation === 'string' ? translation : null;
+}
+
+function makeSavedHighlightFromTcfEcritEntry(entry){
+  return {
+    page: getTcfEcritHighlightPage(),
+    section: getTcfEcritHighlightSectionKey(entry),
+    item_text: entry.text || entry.normalized,
+    item_type: /\s/.test(entry.text || entry.normalized || '') ? 'phrase' : 'word',
+    arabic_translation: getTcfEcritTranslationText(entry.text || entry.normalized),
+    french_text: entry.text || entry.normalized
+  };
+}
+
+function getTcfEcritHighlightSectionKey(entry){
+  if(!entry) return 'default';
+  var containerId = entry.containerId || 'default';
+  if(typeof entry.startOffset === 'number' && typeof entry.endOffset === 'number'){
+    return containerId + '::' + entry.startOffset + '-' + entry.endOffset;
+  }
+  return containerId;
+}
+
+function parseTcfEcritHighlightSectionKey(section){
+  var value = String(section || '');
+  var match = value.match(/^(.*)::(\d+)-(\d+)$/);
+  if(!match) return {containerId:value, startOffset:null, endOffset:null};
+  return {
+    containerId: match[1],
+    startOffset: Number(match[2]),
+    endOffset: Number(match[3])
+  };
+}
+
+function getTcfEcritEntryKey(entry){
+  if(!entry) return '';
+  return [
+    entry.normalized || normalizeTcfEcritWord(entry.text),
+    entry.containerId || '',
+    typeof entry.startOffset === 'number' ? entry.startOffset : '',
+    typeof entry.endOffset === 'number' ? entry.endOffset : ''
+  ].join('|');
+}
+
+function isSameTcfEcritOccurrence(a, b){
+  return !!a && !!b && getTcfEcritEntryKey(a) === getTcfEcritEntryKey(b);
+}
+
+function findTextOffsetsInContainer(container, text){
+  if(!container || !text) return null;
+  var haystack = container.textContent || '';
+  var index = haystack.toLowerCase().indexOf(String(text).toLowerCase());
+  if(index < 0) return null;
+  return {startOffset:index, endOffset:index + String(text).length};
+}
+
+function makeTcfEcritEntryFromSavedHighlight(row){
+  var parsedSection = parseTcfEcritHighlightSectionKey(row.section);
+  var container = document.querySelector('[data-highlight-container-id="' + parsedSection.containerId + '"]');
+  if(!container) return null;
+  var offsets = typeof parsedSection.startOffset === 'number' && typeof parsedSection.endOffset === 'number'
+    ? {startOffset:parsedSection.startOffset, endOffset:parsedSection.endOffset}
+    : findTextOffsetsInContainer(container, row.french_text || row.item_text);
+  if(!offsets) return null;
+  var text = row.french_text || row.item_text;
+  return {
+    id: row.id || ('hl-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7)),
+    normalized: normalizeTcfEcritWord(text),
+    text: text,
+    containerId: parsedSection.containerId,
+    startOffset: offsets.startOffset,
+    endOffset: offsets.endOffset
+  };
+}
+
+function saveTcfEcritHighlightToSupabase(entry){
+  if(!window.saveHighlight || !entry) return;
+  window.saveHighlight(makeSavedHighlightFromTcfEcritEntry(entry));
+}
+
+function removeTcfEcritHighlightFromSupabase(entry){
+  if(!window.removeHighlight || !entry) return;
+  window.removeHighlight(makeSavedHighlightFromTcfEcritEntry(entry));
 }
 
 function saveTcfEcritHighlightWords(entries){
   var seen = {};
   var unique = (entries || []).filter(function(e){
     if(!e || !e.normalized || !e.containerId) return false;
-    var key = e.normalized + '|' + e.containerId;
+    var key = getTcfEcritEntryKey(e);
     if(seen[key]) return false;
     seen[key] = true;
     return true;
   });
   tcfEcritWordHelper.highlights = unique;
   try{ localStorage.setItem(tcfEcritWordHelper.storageKey, JSON.stringify(unique)); } catch(err){}
-  saveTcfEcritHighlightsToServer(unique);
 }
 
 function unwrapTcfEcritWordHighlights(){
@@ -4357,18 +4443,26 @@ function keepTcfEcritWordHighlighted(info){
   var id = 'hl-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   var entry = {id: id, normalized: normalized, text: typeof info === 'object' ? (info.word || normalized) : normalized, containerId: containerId, startOffset: typeof info === 'object' ? info.startOffset : undefined, endOffset: typeof info === 'object' ? info.endOffset : undefined};
   var entries = tcfEcritWordHelper.highlights.filter(function(e){
-    return !(e.normalized === normalized && e.containerId === containerId);
+    return !isSameTcfEcritOccurrence(e, entry);
   });
   entries.push(entry);
   saveTcfEcritHighlightWords(entries);
+  saveTcfEcritHighlightToSupabase(entry);
   renderTcfEcritWordHighlights();
   return id;
 }
 
 function removeTcfEcritWordHighlight(idOrWord){
+  var normalized = normalizeTcfEcritWord(idOrWord);
+  var idText = String(idOrWord || '');
+  var looksLikeHighlightId = idText.indexOf('hl-') === 0 || /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idText);
+  var removed = tcfEcritWordHelper.highlights.filter(function(e){
+    return e.id === idOrWord || (!looksLikeHighlightId && e.normalized === normalized);
+  });
   saveTcfEcritHighlightWords(tcfEcritWordHelper.highlights.filter(function(e){
-    return e.id !== idOrWord && e.normalized !== normalizeTcfEcritWord(idOrWord);
+    return !removed.some(function(item){ return item.id === e.id; });
   }));
+  removed.forEach(removeTcfEcritHighlightFromSupabase);
   renderTcfEcritWordHighlights();
 }
 
@@ -4478,7 +4572,13 @@ function showTcfEcritWordMenu(info){
   tcfEcritWordHelper.current = info;
   var menu = ensureTcfEcritWordMenu();
   var existingEntry = tcfEcritWordHelper.highlights.filter(function(e){
-    return e.normalized === info.normalized && (!info.containerId || e.containerId === info.containerId);
+    if(info.highlightId && e.id === info.highlightId) return true;
+    if(e.normalized !== info.normalized) return false;
+    if(info.containerId && e.containerId !== info.containerId) return false;
+    if(typeof info.startOffset === 'number' && typeof info.endOffset === 'number'){
+      return e.startOffset === info.startOffset && e.endOffset === info.endOffset;
+    }
+    return !info.containerId || e.containerId === info.containerId;
   })[0] || null;
   if(existingEntry && !info.highlightId) info.highlightId = existingEntry.id;
   var isKept = !!existingEntry;
@@ -4585,6 +4685,46 @@ function saveTcfReviewMarks(marks){
   }
 }
 
+function makeTcfReviewHighlight(row){
+  return {
+    page: window.HighlightStore && window.HighlightStore.currentPage ? window.HighlightStore.currentPage() : (window.location.pathname || '/index.html'),
+    section: row.closest('.tcf-ecrit-sub, #tcf-oral, #tcf-vocabulary, #tcf-invitation') && row.closest('.tcf-ecrit-sub, #tcf-oral, #tcf-vocabulary, #tcf-invitation').id || 'tcf',
+    item_text: getTcfReviewKey(row),
+    item_type: 'sentence',
+    french_text: row.querySelector('.ex-fr') ? row.querySelector('.ex-fr').textContent.trim() : row.textContent.trim(),
+    arabic_translation: row.querySelector('.ex-ar') ? row.querySelector('.ex-ar').textContent.trim() : null
+  };
+}
+
+function syncTcfReviewMark(row, checked){
+  if(!window.saveHighlight || !window.removeHighlight) return;
+  var record = makeTcfReviewHighlight(row);
+  if(checked) window.saveHighlight(record);
+  else window.removeHighlight(record);
+}
+
+function loadTcfReviewMarksFromSupabase(){
+  if(!window.loadHighlights) return;
+  window.loadHighlights({
+    page: window.HighlightStore && window.HighlightStore.currentPage ? window.HighlightStore.currentPage() : (window.location.pathname || '/index.html'),
+    item_type: 'sentence'
+  }).then(function(rows){
+    if(!Array.isArray(rows) || !rows.length) return;
+    var marks = getTcfReviewMarks();
+    rows.forEach(function(row){
+      if(row && row.item_text) marks[row.item_text] = true;
+    });
+    saveTcfReviewMarks(marks);
+    document.querySelectorAll('#panel-tcf .ex-row').forEach(function(exRow){
+      var checkbox = exRow.querySelector('.tcf-review-check input');
+      if(!checkbox) return;
+      var checked = !!marks[getTcfReviewKey(exRow)];
+      checkbox.checked = checked;
+      exRow.classList.toggle('needs-review', checked);
+    });
+  });
+}
+
 function getTcfReviewKey(row){
   var section = row.closest('.tcf-ecrit-sub, #tcf-oral, #tcf-vocabulary, #tcf-invitation');
   var scope = section && section.id ? section.id : 'tcf';
@@ -4631,8 +4771,10 @@ function addTcfReviewCheckboxes(){
         delete marks[key];
       }
       saveTcfReviewMarks(marks);
+      syncTcfReviewMark(row, checkbox.checked);
     });
   });
+  loadTcfReviewMarksFromSupabase();
 }
 
 addTcfReviewCheckboxes();

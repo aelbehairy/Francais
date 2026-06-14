@@ -323,9 +323,51 @@ function getVocabularyReviewKey(gridId, groupTitle, row){
   return [gridId, groupTitle].concat(row).join('::');
 }
 
+function makeVocabularyReviewHighlight(gridId, groupTitle, row){
+  return {
+    page: window.HighlightStore && window.HighlightStore.currentPage ? window.HighlightStore.currentPage() : (window.location.pathname || '/index.html'),
+    section: 'vocabulary::' + gridId + '::' + groupTitle,
+    item_text: getVocabularyReviewKey(gridId, groupTitle, row),
+    item_type: row && row.length > 1 ? 'card' : 'word',
+    french_text: row && row[0] ? row[0] : '',
+    arabic_translation: row && row[2] ? row[2] : null
+  };
+}
+
+function syncVocabularyReviewMark(gridId, groupTitle, row, checked){
+  if(!window.saveHighlight || !window.removeHighlight) return;
+  var record = makeVocabularyReviewHighlight(gridId, groupTitle, row);
+  if(checked) window.saveHighlight(record);
+  else window.removeHighlight(record);
+}
+
+function loadVocabularyReviewMarksFromSupabase(){
+  if(!window.loadHighlights) return;
+  window.loadHighlights({
+    page: window.HighlightStore && window.HighlightStore.currentPage ? window.HighlightStore.currentPage() : (window.location.pathname || '/index.html')
+  }).then(function(rows){
+    if(!Array.isArray(rows) || !rows.length) return;
+    var marks = getVocabularyReviewMarks();
+    rows.forEach(function(row){
+      if(row && row.item_text && row.section && row.section.indexOf('vocabulary::') === 0){
+        marks[row.item_text] = true;
+      }
+    });
+    saveVocabularyReviewMarks(marks);
+    document.querySelectorAll('#panel-vocabulary tr').forEach(function(tr){
+      var checkbox = tr.querySelector('.vocab-review-tools input[type="checkbox"]');
+      var key = tr.getAttribute('data-vocabulary-review-key');
+      if(!checkbox || !key) return;
+      checkbox.checked = !!marks[key];
+      tr.classList.toggle('needs-review', checkbox.checked);
+    });
+  });
+}
+
 function makeVocabularyReviewTools(gridId, groupTitle, row, tr){
   var marks = getVocabularyReviewMarks();
   var key = getVocabularyReviewKey(gridId, groupTitle, row);
+  tr.setAttribute('data-vocabulary-review-key', key);
   var wrap = document.createElement('div');
   wrap.className = 'vocab-review-tools';
 
@@ -361,6 +403,7 @@ function makeVocabularyReviewTools(gridId, groupTitle, row, tr){
       delete latestMarks[key];
     }
     saveVocabularyReviewMarks(latestMarks);
+    syncVocabularyReviewMark(gridId, groupTitle, row, checkbox.checked);
   });
 
   return wrap;
@@ -449,6 +492,7 @@ function renderVocabulary(){
   renderVocabularyGroups('vocabGrid', vocabularyGroups);
   renderVocabularyGroups('vocabNewGrid', newVocabularyGroups);
   renderVocabularyGroups('vocabVerbGrid', verbVocabularyGroups);
+  loadVocabularyReviewMarksFromSupabase();
 }
 
 document.addEventListener('DOMContentLoaded', renderVocabulary);
