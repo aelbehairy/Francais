@@ -8,6 +8,7 @@ const translateHandler = require('./api/translate');
 
 const root = __dirname;
 const port = Number(process.env.PORT || 4173);
+const host = process.env.HOST || '0.0.0.0';
 const highlightsFile = path.join(root, 'data', 'highlights.json');
 const databaseUrl = process.env.DATABASE_URL;
 const dbPool = databaseUrl ? new Pool({
@@ -51,6 +52,19 @@ async function ensureHighlightsTable(){
     ')'
   );
   highlightsTableReady = true;
+}
+
+async function checkDatabaseConnection(){
+  if(!dbPool){
+    console.log('Database not configured; using data/highlights.json');
+    return;
+  }
+  try{
+    await dbPool.query('SELECT 1');
+    console.log('Database connected successfully');
+  } catch(error){
+    console.error('Database connection failed:', error);
+  }
 }
 
 async function readHighlights(){
@@ -146,9 +160,10 @@ const server = http.createServer((req, res) => {
   serveStatic(req, res);
 });
 
-server.listen(port, '127.0.0.1', () => {
-  console.log('French site running at http://127.0.0.1:' + port);
-  console.log('Translation endpoint ready at http://127.0.0.1:' + port + '/api/translate');
-  console.log('Highlights endpoint ready at http://127.0.0.1:' + port + '/api/highlights');
+server.listen(port, host, () => {
+  console.log('French site running on ' + host + ':' + port);
+  console.log('Translation endpoint ready at /api/translate');
+  console.log('Highlights endpoint ready at /api/highlights');
   console.log('Highlights storage: ' + (dbPool ? 'PostgreSQL' : 'data/highlights.json'));
+  checkDatabaseConnection();
 });
