@@ -3,11 +3,18 @@ console.log("=== SERVER.JS STARTED ===");
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const {Pool} = require('pg');
 const translateHandler = require('./api/translate');
 
 const root = __dirname;
 const port = Number(process.env.PORT || 4173);
 const highlightsFile = path.join(root, 'data', 'highlights.json');
+const databaseUrl = process.env.DATABASE_URL;
+const dbPool = databaseUrl ? new Pool({
+  connectionString: databaseUrl,
+  ssl: {rejectUnauthorized: false}
+}) : null;
+let highlightsTableReady = false;
 
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -34,13 +41,56 @@ async function readBody(req){
   return Buffer.concat(chunks).toString('utf8');
 }
 
-function highlightsHandler(req, res){
-  if(req.method === 'GET'){
+async function ensureHighlightsTable(){
+  if(!dbPool || highlightsTableReady) return;
+  await dbPool.query(
+    'CREATE TABLE IF NOT EXISTS app_highlights (' +
+    'id text PRIMARY KEY, ' +
+    'payload jsonb NOT NULL, ' +
+    'updated_at timestamptz NOT NULL DEFAULT now()' +
+    ')'
+  );
+  highlightsTableReady = true;
+}
+
+async function readHighlights(){
+  if(dbPool){
+    await ensureHighlightsTable();
+    var result = await dbPool.query('SELECT payload FROM app_highlights WHERE id = $1', ['default']);
+    var payload = result.rows[0] && result.rows[0].payload;
+    return Array.isArray(payload) ? payload : [];
+  }
+  return new Promise(function(resolve){
     fs.readFile(highlightsFile, 'utf8', function(err, data){
       var list = [];
       if(!err){ try{ list = JSON.parse(data); } catch(e){} }
-      sendJson(res, 200, Array.isArray(list) ? list : []);
+      resolve(Array.isArray(list) ? list : []);
     });
+  });
+}
+
+async function writeHighlights(list){
+  if(dbPool){
+    await ensureHighlightsTable();
+    await dbPool.query(
+      'INSERT INTO app_highlights (id, payload, updated_at) VALUES ($1, $2::jsonb, now()) ' +
+      'ON CONFLICT (id) DO UPDATE SET payload = EXCLUDED.payload, updated_at = now()',
+      ['default', JSON.stringify(list)]
+    );
+    return;
+  }
+  await fs.promises.mkdir(path.dirname(highlightsFile), {recursive: true});
+  await fs.promises.writeFile(highlightsFile, JSON.stringify(list, null, 2) + '\n', 'utf8');
+}
+
+function highlightsHandler(req, res){
+  if(req.method === 'GET'){
+    readHighlights()
+      .then(function(list){ sendJson(res, 200, list); })
+      .catch(function(error){
+        console.error('Highlights read failed:', error);
+        sendJson(res, 500, {error:'Read failed'});
+      });
     return;
   }
   if(req.method === 'POST'){
@@ -48,13 +98,12 @@ function highlightsHandler(req, res){
       var list;
       try{ list = JSON.parse(body); } catch(e){ sendJson(res, 400, {error:'Invalid JSON'}); return; }
       if(!Array.isArray(list)){ sendJson(res, 400, {error:'Expected array'}); return; }
-      fs.mkdir(path.dirname(highlightsFile), {recursive: true}, function(mkdirErr){
-        if(mkdirErr){ sendJson(res, 500, {error:'Write failed'}); return; }
-        fs.writeFile(highlightsFile, JSON.stringify(list, null, 2) + '\n', 'utf8', function(err){
-          if(err){ sendJson(res, 500, {error:'Write failed'}); return; }
-          sendJson(res, 200, {ok: true});
+      writeHighlights(list)
+        .then(function(){ sendJson(res, 200, {ok: true}); })
+        .catch(function(error){
+          console.error('Highlights write failed:', error);
+          sendJson(res, 500, {error:'Write failed'});
         });
-      });
     }).catch(function(){ sendJson(res, 500, {error:'Read error'}); });
     return;
   }
@@ -101,4 +150,5 @@ server.listen(port, '127.0.0.1', () => {
   console.log('French site running at http://127.0.0.1:' + port);
   console.log('Translation endpoint ready at http://127.0.0.1:' + port + '/api/translate');
   console.log('Highlights endpoint ready at http://127.0.0.1:' + port + '/api/highlights');
+  console.log('Highlights storage: ' + (dbPool ? 'PostgreSQL' : 'data/highlights.json'));
 });
