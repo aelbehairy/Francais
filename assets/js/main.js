@@ -1455,6 +1455,9 @@ var learningDescriptions = {
   vocabulary:'Vocabulaire thématique'
 };
 
+learningMainCards.push({key:'dictionary', icon:'Dict', title:'Dictionary', desc:'Saved highlighted words and statements'});
+learningDescriptions.dictionary = 'Saved highlighted words and statements';
+
 function cleanCardText(text){
   return String(text || '').replace(/\s+/g, ' ').trim();
 }
@@ -1631,6 +1634,8 @@ function inferLearningState(panel, section){
     state.group = section || null;
   } else if(panel === 'vocabulary'){
     state.main = 'vocabulary';
+  } else if(panel === 'dictionary'){
+    state.main = 'dictionary';
   } else if(panel === 'tcf'){
     state.main = 'tcf';
     if(section && document.getElementById('tcf-ecrit-' + section)){
@@ -1675,6 +1680,7 @@ function updateLessonCardRoute(mainKey, groupKey, key){
 }
 
 function routeHasFinalContent(panel, section){
+  if(panel === 'dictionary') return true;
   if(!section) return false;
   if(panel === 'tcf' && section === 'ecrit') return false;
   if(panel === 'oral' && section === 'ferial') return false;
@@ -1741,6 +1747,10 @@ function renderLearningCards(cards, level){
         setLearningContentVisible(false);
         card.action();
         setLearningState({main:key});
+        if(key === 'dictionary'){
+          setLearningContentVisible(true);
+          loadDictionaryPageItems();
+        }
       } else if(level === 'group'){
         var childCards = getLessonCards(learningExplorer.main, key);
         var isFinalCard = !childCards.length;
@@ -1832,8 +1842,531 @@ function initLearningExplorer(){
   }
 }
 
+var dictionaryPage = {
+  items: [],
+  initialized: false
+};
+
+function getDictionarySearchTerm(){
+  var input = document.getElementById('dictionary-search');
+  return input ? input.value.trim().toLowerCase() : '';
+}
+
+function getDictionaryTypeFilter(){
+  var select = document.getElementById('dictionary-type-filter');
+  return select ? select.value : 'all';
+}
+
+function formatDictionaryDate(value){
+  if(!value) return '';
+  var date = new Date(value);
+  if(isNaN(date.getTime())) return '';
+  return date.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'2-digit'});
+}
+
+function dictionaryMatchesSearch(item, term){
+  if(!term) return true;
+  return [
+    item.item_text,
+    item.arabic_translation,
+    item.english_translation,
+    item.item_type,
+    item.source_page,
+    item.source_section
+  ].join(' ').toLowerCase().indexOf(term) !== -1;
+}
+
+function filteredDictionaryItems(){
+  var term = getDictionarySearchTerm();
+  var type = getDictionaryTypeFilter();
+  return dictionaryPage.items.filter(function(item){
+    if(type !== 'all' && item.item_type !== type) return false;
+    return dictionaryMatchesSearch(item, term);
+  });
+}
+
+function renderDictionaryPage(){
+  var list = document.getElementById('dictionary-list');
+  var status = document.getElementById('dictionary-status');
+  if(!list || !status) return;
+  var items = filteredDictionaryItems();
+  status.textContent = items.length ? (items.length + ' saved item' + (items.length === 1 ? '' : 's')) : 'No saved dictionary items yet.';
+  list.innerHTML = items.map(function(item){
+    var id = escapeHtml(item.id || '');
+    var text = escapeHtml(item.item_text || '');
+    var ar = escapeHtml(item.arabic_translation || '—');
+    var en = escapeHtml(item.english_translation || '—');
+    var type = escapeHtml(item.item_type || 'word');
+    var source = escapeHtml([item.source_page || '', item.source_section || ''].filter(Boolean).join(' · ') || '—');
+    var date = escapeHtml(formatDictionaryDate(item.created_at || item.updated_at));
+    return '<article class="dictionary-item" data-dictionary-id="' + id + '">' +
+      '<div><div class="dictionary-item-title">' + text + '</div><div class="dictionary-item-meta">' + date + '</div></div>' +
+      '<div class="dictionary-item-translation"><strong>Arabic</strong>' + ar + '</div>' +
+      '<div class="dictionary-item-translation"><strong>English</strong>' + en + '</div>' +
+      '<div><span class="dictionary-type">' + type + '</span></div>' +
+      '<div class="dictionary-item-source"><strong>Source</strong>' + source + '</div>' +
+      '<div class="dictionary-actions">' +
+        '<button class="dictionary-speak" type="button" data-dictionary-speak="' + id + '" aria-label="Pronounce ' + text + '">🔊</button>' +
+        '<button class="dictionary-delete" type="button" data-dictionary-delete="' + id + '">Delete</button>' +
+      '</div>' +
+    '</article>';
+  }).join('');
+}
+
+function loadDictionaryPageItems(){
+  var status = document.getElementById('dictionary-status');
+  if(status) status.textContent = 'Loading saved items...';
+  if(!window.loadDictionaryItems){
+    dictionaryPage.items = [];
+    renderDictionaryPage();
+    return;
+  }
+  window.loadDictionaryItems().then(function(items){
+    dictionaryPage.items = Array.isArray(items) ? items : [];
+    renderDictionaryPage();
+  });
+}
+
+function speakDictionaryText(text){
+  if(!text || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
+  window.speechSynthesis.cancel();
+  var utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'fr-FR';
+  utterance.rate = 0.88;
+  window.speechSynthesis.speak(utterance);
+}
+
+function deleteDictionaryPageItem(id){
+  var item = dictionaryPage.items.filter(function(row){ return String(row.id) === String(id); })[0];
+  if(!item) return;
+  dictionaryPage.items = dictionaryPage.items.filter(function(row){ return String(row.id) !== String(id); });
+  renderDictionaryPage();
+  if(window.deleteDictionaryItem) window.deleteDictionaryItem(item);
+}
+
+function initDictionaryPage(){
+  if(dictionaryPage.initialized) return;
+  dictionaryPage.initialized = true;
+  var search = document.getElementById('dictionary-search');
+  var filter = document.getElementById('dictionary-type-filter');
+  var refresh = document.getElementById('dictionary-refresh');
+  var list = document.getElementById('dictionary-list');
+  if(search) search.addEventListener('input', renderDictionaryPage);
+  if(filter) filter.addEventListener('change', renderDictionaryPage);
+  if(refresh) refresh.addEventListener('click', loadDictionaryPageItems);
+  if(list){
+    list.addEventListener('click', function(event){
+      var speak = event.target.closest && event.target.closest('[data-dictionary-speak]');
+      var del = event.target.closest && event.target.closest('[data-dictionary-delete]');
+      if(speak){
+        var speakItem = dictionaryPage.items.filter(function(row){ return String(row.id) === String(speak.getAttribute('data-dictionary-speak')); })[0];
+        if(speakItem) speakDictionaryText(speakItem.item_text);
+      }
+      if(del) deleteDictionaryPageItem(del.getAttribute('data-dictionary-delete'));
+    });
+  }
+}
+
+function dictionaryTranslateText(text, target){
+  text = String(text || '').trim();
+  target = target === 'en' ? 'en' : 'ar';
+  if(!text) return Promise.resolve('');
+  var override = getDictionaryTranslationOverride(text, target);
+  if(override) return Promise.resolve(override);
+  if(target === 'ar' && typeof translateSelectedTextAsync === 'function'){
+    return translateSelectedTextAsync(text).then(extractDictionaryArabicTranslation);
+  }
+  if(window.location.protocol === 'file:'){
+    return Promise.reject(new Error('Dictionary translation API is unavailable from file://'));
+  }
+  return fetch('/api/translate', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({text:text, target:target})
+  }).then(function(response){
+    if(!response.ok) throw new Error('Translation failed: ' + response.status);
+    return response.json();
+  }).then(function(data){
+    return String(data && data.translatedText || '').trim();
+  });
+}
+
+function normalizeDictionaryOverrideKey(text){
+  return String(text || '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .replace(/\s*([:;.!?؟،,])\s*/g, '$1 ')
+    .trim();
+}
+
+var dictionaryTranslationOverrides = {
+  ar: {}
+};
+
+dictionaryTranslationOverrides.ar[normalizeDictionaryOverrideKey('Sujet 1 : Votre ami Mehdi vient de déménager dans votre ville et cherche des renseignements sur les moyens de transports. Écrivez un message en lui donnant les informations nécessaires.')] =
+  'الموضوع 1: صديقك مهدي انتقل حديثًا إلى مدينتك ويبحث عن معلومات حول وسائل النقل. اكتب رسالة تعطيه فيها المعلومات الضرورية.';
+
+function getDictionaryTranslationOverride(text, target){
+  var map = dictionaryTranslationOverrides[target] || {};
+  return map[normalizeDictionaryOverrideKey(text)] || '';
+}
+
+function itemNeedsDictionarySave(item){
+  return !!(item && !item._dictionarySaving && (item._dictionaryArabicChanged || item._dictionaryEnglishChanged));
+}
+
+function saveTranslatedDictionaryItem(item){
+  if(!window.saveDictionaryItem || !itemNeedsDictionarySave(item)) return;
+  item._dictionarySaving = true;
+  window.saveDictionaryItem(item).then(function(){
+    item._dictionaryArabicChanged = false;
+    item._dictionaryEnglishChanged = false;
+    item._dictionarySaving = false;
+  }).catch(function(error){
+    item._dictionarySaving = false;
+    console.warn('Dictionary translation save failed:', error);
+  });
+}
+
+function ensureDictionaryItemTranslations(){
+  dictionaryPage.items.forEach(function(item){
+    var cleanText = cleanDictionaryItemText(item.item_text);
+    if(!String(item.arabic_translation || '').trim() && !item._dictionaryArabicLoading){
+      item._dictionaryArabicLoading = true;
+      dictionaryTranslateText(cleanText, 'ar').then(function(translated){
+        item._dictionaryArabicLoading = false;
+        item.arabic_translation = translated || 'Translation unavailable';
+        item._dictionaryArabicChanged = true;
+        renderDictionaryPage();
+        saveTranslatedDictionaryItem(item);
+      }).catch(function(error){
+        console.warn('Dictionary Arabic translation failed:', error);
+        item._dictionaryArabicLoading = false;
+        item.arabic_translation = 'Translation unavailable';
+        item._dictionaryArabicChanged = true;
+        renderDictionaryPage();
+        saveTranslatedDictionaryItem(item);
+      });
+    }
+    if(!String(item.english_translation || '').trim() && !item._dictionaryEnglishLoading){
+      item._dictionaryEnglishLoading = true;
+      dictionaryTranslateText(cleanText, 'en').then(function(translated){
+        item._dictionaryEnglishLoading = false;
+        item.english_translation = translated || 'Translation unavailable';
+        item._dictionaryEnglishChanged = true;
+        renderDictionaryPage();
+        saveTranslatedDictionaryItem(item);
+      }).catch(function(error){
+        console.warn('Dictionary English translation failed:', error);
+        item._dictionaryEnglishLoading = false;
+        item.english_translation = 'Translation unavailable';
+        item._dictionaryEnglishChanged = true;
+        renderDictionaryPage();
+        saveTranslatedDictionaryItem(item);
+      });
+    }
+  });
+}
+
+function renderDictionaryPage(){
+  var list = document.getElementById('dictionary-list');
+  var status = document.getElementById('dictionary-status');
+  if(!list || !status) return;
+  var items = filteredDictionaryItems();
+  status.textContent = items.length ? (items.length + ' saved item' + (items.length === 1 ? '' : 's')) : 'No saved dictionary items yet.';
+  list.innerHTML = items.map(function(item){
+    var id = escapeHtml(item.id || '');
+    var cleanText = cleanDictionaryItemText(item.item_text);
+    var text = escapeHtml(cleanText);
+    var ar = String(item.arabic_translation || '').trim();
+    var en = String(item.english_translation || '').trim();
+    var date = escapeHtml(formatDictionaryDate(item.created_at || item.updated_at));
+    var arHtml = item._dictionaryArabicLoading
+      ? '<div class="dictionary-en dictionary-loading" dir="rtl">Translating...</div>'
+      : '<div class="dictionary-en" dir="rtl">' + escapeHtml(ar || 'Translation unavailable') + '</div>';
+    var enHtml = item._dictionaryEnglishLoading
+      ? '<div class="dictionary-en dictionary-loading">Translating...</div>'
+      : (en ? '<div class="dictionary-en">' + escapeHtml(en) + '</div>' : '');
+    return '<article class="dictionary-item" data-dictionary-id="' + id + '">' +
+      '<div class="dictionary-copy">' +
+        '<div class="dictionary-item-title">' + text + '</div>' +
+        arHtml +
+        enHtml +
+        '<div class="dictionary-item-meta">' + date + '</div>' +
+      '</div>' +
+      '<div class="dictionary-actions">' +
+        '<button class="dictionary-icon-btn dictionary-speak" type="button" data-dictionary-speak="' + id + '" aria-label="Play pronunciation" title="Play pronunciation">▶</button>' +
+        '<button class="dictionary-icon-btn dictionary-delete" type="button" data-dictionary-delete="' + id + '" aria-label="Delete item" title="Delete item">🗑</button>' +
+      '</div>' +
+    '</article>';
+  }).join('');
+}
+
+function loadDictionaryPageItems(){
+  var status = document.getElementById('dictionary-status');
+  if(status) status.textContent = 'Loading saved items...';
+  if(!window.loadDictionaryItems){
+    dictionaryPage.items = [];
+    renderDictionaryPage();
+    return;
+  }
+  window.loadDictionaryItems().then(function(items){
+    dictionaryPage.items = Array.isArray(items) ? items : [];
+    ensureDictionaryItemTranslations();
+    renderDictionaryPage();
+  });
+}
+
+function cleanDictionaryItemText(text){
+  return String(text || '').replace(/^.*::\s*/, '').trim();
+}
+
+function dictionaryMatchesSearch(item, term){
+  if(!term) return true;
+  return [
+    cleanDictionaryItemText(item.item_text),
+    item.arabic_translation,
+    item.english_translation
+  ].join(' ').toLowerCase().indexOf(term) !== -1;
+}
+
+function renderDictionaryPage(){
+  var list = document.getElementById('dictionary-list');
+  var status = document.getElementById('dictionary-status');
+  if(!list || !status) return;
+  var items = filteredDictionaryItems();
+  status.textContent = items.length ? (items.length + ' saved item' + (items.length === 1 ? '' : 's')) : 'No saved dictionary items yet.';
+  list.innerHTML = items.map(function(item){
+    var id = escapeHtml(item.id || '');
+    var cleanText = cleanDictionaryItemText(item.item_text);
+    var text = escapeHtml(cleanText);
+    var ar = String(item.arabic_translation || '').trim();
+    var en = String(item.english_translation || '').trim();
+    var date = escapeHtml(formatDictionaryDate(item.created_at || item.updated_at));
+    return '<article class="dictionary-item" data-dictionary-id="' + id + '">' +
+      '<div class="dictionary-copy">' +
+        '<div class="dictionary-item-title">' + text + '</div>' +
+        (ar ? '<div class="dictionary-en" dir="rtl">' + escapeHtml(ar) + '</div>' : '<button class="dictionary-translate" type="button" data-dictionary-translate="' + id + '">Add translation</button>') +
+        (en ? '<div class="dictionary-en">' + escapeHtml(en) + '</div>' : '') +
+        '<div class="dictionary-item-meta">' + date + '</div>' +
+      '</div>' +
+      '<div class="dictionary-actions">' +
+        '<button class="dictionary-speak" type="button" data-dictionary-speak="' + id + '" aria-label="Pronounce ' + text + '">Speaker</button>' +
+        '<button class="dictionary-delete" type="button" data-dictionary-delete="' + id + '">Delete</button>' +
+      '</div>' +
+    '</article>';
+  }).join('');
+}
+
+function extractDictionaryArabicTranslation(result){
+  if(!result) return '';
+  if(result.type === 'single') return String(result.text || '').trim();
+  if(result.type === 'list') return (result.lines || []).join('\n').trim();
+  return String(result || '').trim();
+}
+
+function addDictionaryArabicTranslation(id){
+  var item = dictionaryPage.items.filter(function(row){ return String(row.id) === String(id); })[0];
+  if(!item) return;
+  var cleanText = cleanDictionaryItemText(item.item_text);
+  var selector = '[data-dictionary-translate="' + String(id).replace(/"/g, '\\"') + '"]';
+  var button = document.querySelector(selector);
+  if(button) button.textContent = 'Translating...';
+  var translatePromise = typeof translateSelectedTextAsync === 'function'
+    ? translateSelectedTextAsync(cleanText)
+    : Promise.resolve('');
+  translatePromise.then(function(result){
+    var translated = extractDictionaryArabicTranslation(result);
+    if(!translated) translated = 'Translation unavailable';
+    item.arabic_translation = translated;
+    renderDictionaryPage();
+    if(window.saveDictionaryItem) window.saveDictionaryItem(item);
+  }).catch(function(error){
+    console.warn('Dictionary translation failed:', error);
+    if(button) button.textContent = 'Add translation';
+  });
+}
+
+function initDictionaryPage(){
+  if(dictionaryPage.initialized) return;
+  dictionaryPage.initialized = true;
+  var search = document.getElementById('dictionary-search');
+  var filter = document.getElementById('dictionary-type-filter');
+  var refresh = document.getElementById('dictionary-refresh');
+  var list = document.getElementById('dictionary-list');
+  if(search) search.addEventListener('input', renderDictionaryPage);
+  if(filter) filter.addEventListener('change', renderDictionaryPage);
+  if(refresh) refresh.addEventListener('click', loadDictionaryPageItems);
+  if(list){
+    list.addEventListener('click', function(event){
+      var speak = event.target.closest && event.target.closest('[data-dictionary-speak]');
+      var del = event.target.closest && event.target.closest('[data-dictionary-delete]');
+      var translate = event.target.closest && event.target.closest('[data-dictionary-translate]');
+      if(speak){
+        var speakItem = dictionaryPage.items.filter(function(row){ return String(row.id) === String(speak.getAttribute('data-dictionary-speak')); })[0];
+        if(speakItem) speakDictionaryText(cleanDictionaryItemText(speakItem.item_text));
+      }
+      if(translate) addDictionaryArabicTranslation(translate.getAttribute('data-dictionary-translate'));
+      if(del) deleteDictionaryPageItem(del.getAttribute('data-dictionary-delete'));
+    });
+  }
+}
+
+function getFrenchTextOnly(text) {
+  if (!text) return "";
+
+  let cleaned = text.replace(/^.*?::/, "").trim();
+
+  if (cleaned.includes("|")) {
+    cleaned = cleaned.split("|")[0].trim();
+  }
+
+  cleaned = cleaned.replace(/^Sujet\s+\d+\s*:\s*/i, "").trim();
+
+  return cleaned;
+}
+
+function hasArabicText(text){
+  return /[\u0600-\u06FF]/.test(String(text || ''));
+}
+
+function normalizeDictionaryTranslationText(text){
+  return String(text || '').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function cleanDictionaryItemText(text){
+  return getFrenchTextOnly(String(text || ''));
+}
+
+function dictionaryMatchesSearch(item, term){
+  if(!term) return true;
+  return [
+    getFrenchTextOnly(item.item_text),
+    item.arabic_translation,
+    item.english_translation
+  ].join(' ').toLowerCase().indexOf(term) !== -1;
+}
+
+function ensureDictionaryItemTranslations(){
+  dictionaryPage.items.forEach(function(item){
+    var frenchText = getFrenchTextOnly(item.item_text);
+    var currentArabic = String(item.arabic_translation || '').trim();
+    var arabicOverride = getDictionaryTranslationOverride(frenchText, 'ar');
+    var shouldRefreshArabic = !currentArabic || (arabicOverride && normalizeDictionaryTranslationText(currentArabic) !== normalizeDictionaryTranslationText(arabicOverride));
+    if(shouldRefreshArabic && !item._dictionaryArabicLoading){
+      item._dictionaryArabicLoading = true;
+      dictionaryTranslateText(frenchText, 'ar').then(function(translated){
+        item._dictionaryArabicLoading = false;
+        item.arabic_translation = translated || 'Translation unavailable';
+        item._dictionaryArabicChanged = true;
+        setDictionaryArabicLineText(item.id, item.arabic_translation);
+        renderDictionaryPage();
+        saveTranslatedDictionaryItem(item);
+      }).catch(function(error){
+        console.warn('Dictionary Arabic translation failed:', error);
+        item._dictionaryArabicLoading = false;
+        item.arabic_translation = 'Translation unavailable';
+        item._dictionaryArabicChanged = true;
+        setDictionaryArabicLineText(item.id, item.arabic_translation);
+        renderDictionaryPage();
+        saveTranslatedDictionaryItem(item);
+      });
+    }
+    if(!String(item.english_translation || '').trim() && !item._dictionaryEnglishLoading){
+      item._dictionaryEnglishLoading = true;
+      dictionaryTranslateText(frenchText, 'en').then(function(translated){
+        item._dictionaryEnglishLoading = false;
+        item.english_translation = translated || '';
+        item._dictionaryEnglishChanged = !!translated;
+        renderDictionaryPage();
+        saveTranslatedDictionaryItem(item);
+      }).catch(function(error){
+        console.warn('Dictionary English translation failed:', error);
+        item._dictionaryEnglishLoading = false;
+        item.english_translation = '';
+        renderDictionaryPage();
+      });
+    }
+  });
+}
+
+function setDictionaryArabicLineText(id, text){
+  var node = document.querySelector('[data-dictionary-translation="' + String(id).replace(/"/g, '\\"') + '"]');
+  if(node) node.textContent = text || 'Translation unavailable';
+}
+
+function renderDictionaryPage(){
+  var list = document.getElementById('dictionary-list');
+  var status = document.getElementById('dictionary-status');
+  if(!list || !status) return;
+  var items = filteredDictionaryItems();
+  status.textContent = items.length ? (items.length + ' saved item' + (items.length === 1 ? '' : 's')) : 'No saved dictionary items yet.';
+  list.innerHTML = items.map(function(item){
+    var id = escapeHtml(item.id || '');
+    var frenchText = getFrenchTextOnly(item.item_text);
+    var text = escapeHtml(frenchText);
+    var ar = String(item.arabic_translation || '').trim();
+    var en = String(item.english_translation || '').trim();
+    var showEnglish = en && normalizeDictionaryTranslationText(en) !== normalizeDictionaryTranslationText(ar) && !hasArabicText(en);
+    var date = escapeHtml(formatDictionaryDate(item.created_at || item.updated_at));
+    var arHtml = item._dictionaryArabicLoading
+      ? '<div class="dictionary-en dictionary-loading" dir="rtl" data-dictionary-translation="' + id + '">Translating...</div>'
+      : '<div class="dictionary-en" dir="rtl" data-dictionary-translation="' + id + '">' + escapeHtml(ar || 'Translation unavailable') + '</div>';
+    var enHtml = item._dictionaryEnglishLoading
+      ? '<div class="dictionary-en dictionary-loading">Translating...</div>'
+      : (showEnglish ? '<div class="dictionary-en dictionary-en-secondary">' + escapeHtml(en) + '</div>' : '');
+    return '<article class="dictionary-item" data-dictionary-id="' + id + '">' +
+      '<div class="dictionary-copy">' +
+        '<div class="dictionary-item-title">' + text + '</div>' +
+        arHtml +
+        enHtml +
+        '<div class="dictionary-item-meta">' + date + '</div>' +
+      '</div>' +
+      '<div class="dictionary-actions">' +
+        '<button class="tcf-sujet-play-btn dictionary-play-btn" type="button" data-dictionary-speak="' + id + '" aria-label="Play dictionary audio">' +
+          '<span class="btn-icon" aria-hidden="true">' +
+            '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>' +
+          '</span>' +
+          '<strong>Play</strong>' +
+        '</button>' +
+        '<button class="dictionary-delete dictionary-delete-icon" type="button" data-dictionary-delete="' + id + '" aria-label="Delete dictionary item">' +
+          '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+            '<path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v11h6V9h2v11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9z"></path>' +
+          '</svg>' +
+        '</button>' +
+      '</div>' +
+    '</article>';
+  }).join('');
+}
+
+function initDictionaryPage(){
+  if(dictionaryPage.initialized) return;
+  dictionaryPage.initialized = true;
+  var search = document.getElementById('dictionary-search');
+  var filter = document.getElementById('dictionary-type-filter');
+  var refresh = document.getElementById('dictionary-refresh');
+  var list = document.getElementById('dictionary-list');
+  if(search) search.addEventListener('input', renderDictionaryPage);
+  if(filter) filter.addEventListener('change', renderDictionaryPage);
+  if(refresh) refresh.addEventListener('click', loadDictionaryPageItems);
+  if(list){
+    list.addEventListener('click', function(event){
+      var speak = event.target.closest && event.target.closest('[data-dictionary-speak]');
+      var del = event.target.closest && event.target.closest('[data-dictionary-delete]');
+      if(speak){
+        var speakItem = dictionaryPage.items.filter(function(row){ return String(row.id) === String(speak.getAttribute('data-dictionary-speak')); })[0];
+        if(speakItem) speakDictionaryText(getFrenchTextOnly(speakItem.item_text));
+      }
+      if(del) deleteDictionaryPageItem(del.getAttribute('data-dictionary-delete'));
+    });
+  }
+}
+
 function restoreRoute(){
   var route = getRoute();
+  if(!route.panel && window.location.pathname && /\/dictionary\/?$/.test(window.location.pathname)){
+    route = {panel:'dictionary', section:null};
+  }
   if(!route.panel) return;
   if(route.panel === 'grammaire' && route.section === 'books'){
     showBooks('library', document.querySelector('.top-tab[onclick*="books"]'));
@@ -1897,6 +2430,12 @@ function restoreRoute(){
       updateRoute('tcf', route.section);
       setLearningContentVisible(true);
     } else if(route.section) showTcf(route.section, document.querySelector("#pills-tcf .pill[onclick*=\"'" + route.section + "'\"]"));
+  } else if(route.panel === 'dictionary'){
+    switchTop('dictionary', topBtn);
+    setLearningState({main:'dictionary'});
+    setLearningContentVisible(true);
+    loadDictionaryPageItems();
+    renderLearningExplorer();
   } else {
     switchTop(route.panel, topBtn);
   }
@@ -1930,6 +2469,7 @@ document.addEventListener('DOMContentLoaded', function(){
   initIrregTables();
   initInlineIrregSections();
   initLearningExplorer();
+  initDictionaryPage();
   restoreRoute();
 });
 
@@ -2277,6 +2817,13 @@ function showBooks(section, btn){
 
 function showMainCardsFor(tab, btn){
   switchTop(tab, btn);
+  if(tab === 'dictionary'){
+    setLearningState({main:'dictionary'});
+    setLearningContentVisible(true);
+    loadDictionaryPageItems();
+    renderLearningExplorer();
+    return;
+  }
   setLearningState({main:tab});
   setLearningContentVisible(false);
   renderLearningExplorer();
@@ -4044,6 +4591,7 @@ function makeSavedHighlightFromTcfEcritEntry(entry){
     item_text: entry.text || entry.normalized,
     item_type: /\s/.test(entry.text || entry.normalized || '') ? 'phrase' : 'word',
     arabic_translation: getTcfEcritTranslationText(entry.text || entry.normalized),
+    english_translation: entry.english_translation || null,
     french_text: entry.text || entry.normalized
   };
 }
@@ -4690,7 +5238,7 @@ function makeTcfReviewHighlight(row){
     page: window.HighlightStore && window.HighlightStore.currentPage ? window.HighlightStore.currentPage() : (window.location.pathname || '/index.html'),
     section: row.closest('.tcf-ecrit-sub, #tcf-oral, #tcf-vocabulary, #tcf-invitation') && row.closest('.tcf-ecrit-sub, #tcf-oral, #tcf-vocabulary, #tcf-invitation').id || 'tcf',
     item_text: getTcfReviewKey(row),
-    item_type: 'sentence',
+    item_type: 'statement',
     french_text: row.querySelector('.ex-fr') ? row.querySelector('.ex-fr').textContent.trim() : row.textContent.trim(),
     arabic_translation: row.querySelector('.ex-ar') ? row.querySelector('.ex-ar').textContent.trim() : null
   };
@@ -4707,7 +5255,7 @@ function loadTcfReviewMarksFromSupabase(){
   if(!window.loadHighlights) return;
   window.loadHighlights({
     page: window.HighlightStore && window.HighlightStore.currentPage ? window.HighlightStore.currentPage() : (window.location.pathname || '/index.html'),
-    item_type: 'sentence'
+    item_type: 'statement'
   }).then(function(rows){
     if(!Array.isArray(rows) || !rows.length) return;
     var marks = getTcfReviewMarks();

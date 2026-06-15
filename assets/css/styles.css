@@ -2302,6 +2302,218 @@ body.learning-content-hidden .panel .main {
 #panel-vocabulary tr.needs-review .tcf-review-marker {
   display: inline-flex;
 }
+
+/* Dictionary */
+.dictionary-main {
+  max-width: 1180px;
+}
+.dictionary-sec {
+  gap: 18px;
+}
+.dictionary-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(150px, 210px) auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+.dictionary-search,
+.dictionary-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1.5px solid #dbe3ef;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text-light);
+  font-weight: 700;
+}
+.dictionary-search input,
+.dictionary-filter select {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text-dark);
+  font: inherit;
+}
+.dictionary-filter select {
+  cursor: pointer;
+}
+.dictionary-refresh,
+.dictionary-delete,
+.dictionary-speak {
+  min-height: 38px;
+  border-radius: 8px;
+  border: 1.5px solid #dbe3ef;
+  background: #fff;
+  color: var(--blue);
+  font-weight: 800;
+  padding: 8px 12px;
+}
+.dictionary-icon-btn {
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 999px;
+  font-size: 17px;
+  line-height: 1;
+}
+.dictionary-speak.dictionary-icon-btn {
+  background: var(--blue-light);
+  border-color: #bfdbfe;
+}
+.dictionary-delete.dictionary-icon-btn {
+  background: #fff;
+}
+.dictionary-refresh:hover,
+.dictionary-speak:hover {
+  background: var(--blue-light);
+  border-color: #bfdbfe;
+}
+.dictionary-delete {
+  color: #dc2626;
+}
+.dictionary-delete:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+.dictionary-status {
+  color: var(--text-light);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.dictionary-list {
+  display: grid;
+  gap: 10px;
+}
+.dictionary-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 18px;
+  background: #fff;
+  border: 1.5px solid #e5eaf3;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.dictionary-copy {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: 8px;
+}
+.dictionary-item-title {
+  font-weight: 900;
+  color: var(--text-dark);
+  line-height: 1.45;
+  font-size: 18px;
+}
+.dictionary-en {
+  color: #0f766e;
+  font-family: "Tajawal", "Inter", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+.dictionary-en-secondary {
+  color: var(--text-mid);
+  font-family: "Inter", "Tajawal", sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.dictionary-loading {
+  color: var(--text-light);
+  font-style: italic;
+}
+.dictionary-item-meta {
+  color: var(--text-light);
+  font-size: 13px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.dictionary-type,
+.dictionary-item-source {
+  display: none !important;
+}
+.dictionary-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  min-width: 150px;
+  align-items: center;
+}
+.dictionary-play-btn {
+  min-height: 40px;
+  padding: 8px 13px;
+  gap: 8px;
+}
+.dictionary-play-btn .btn-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.dictionary-play-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+.dictionary-delete-icon {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 8px;
+  border: 1.5px solid #fecaca;
+  background: #fff;
+  color: #dc2626;
+}
+.dictionary-delete-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+.dictionary-delete-icon:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+.dictionary-translate {
+  width: fit-content;
+  min-height: 34px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  border: 1.5px dashed #93c5fd;
+  background: #eff6ff;
+  color: var(--blue);
+  font-weight: 800;
+}
+@media (max-width: 900px) {
+  .dictionary-item {
+    flex-direction: column;
+  }
+  .dictionary-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .dictionary-actions {
+    justify-content: flex-start;
+    min-width: 0;
+  }
+}
 .vocab-review-cell {
   width: 64px;
   min-width: 64px;

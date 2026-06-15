@@ -6,8 +6,13 @@ async function readJson(req){
   return raw ? JSON.parse(raw) : {};
 }
 
-async function translateWithMyMemory(text){
-  var url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=fr|ar';
+function normalizeTarget(target){
+  target = String(target || 'ar').toLowerCase();
+  return target === 'en' ? 'en' : 'ar';
+}
+
+async function translateWithMyMemory(text, target){
+  var url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=fr|' + normalizeTarget(target);
   var response = await fetch(url);
   if(!response.ok) throw new Error('MyMemory failed: ' + response.status);
   var data = await response.json();
@@ -17,13 +22,13 @@ async function translateWithMyMemory(text){
   throw new Error('MyMemory returned no translation: ' + JSON.stringify(data));
 }
 
-async function translateWithAzure(text){
+async function translateWithAzure(text, target){
   var endpoint = process.env.AZURE_TRANSLATOR_ENDPOINT || 'https://api.cognitive.microsofttranslator.com';
   var key = process.env.AZURE_TRANSLATOR_KEY;
   var region = process.env.AZURE_TRANSLATOR_REGION;
   if(!key || !region) throw new Error('Missing Azure Translator environment variables');
 
-  var response = await fetch(endpoint.replace(/\/$/, '') + '/translate?api-version=3.0&from=fr&to=ar', {
+  var response = await fetch(endpoint.replace(/\/$/, '') + '/translate?api-version=3.0&from=fr&to=' + normalizeTarget(target), {
     method: 'POST',
     headers: {
       'Content-Type':'application/json',
@@ -37,12 +42,12 @@ async function translateWithAzure(text){
   return data && data[0] && data[0].translations && data[0].translations[0] && data[0].translations[0].text;
 }
 
-async function translateWithLibre(text){
+async function translateWithLibre(text, target){
   var endpoint = process.env.LIBRE_TRANSLATE_ENDPOINT || 'https://libretranslate.com/translate';
   var payload = {
     q:text,
     source:'fr',
-    target:'ar',
+    target:normalizeTarget(target),
     format:'text'
   };
   if(process.env.LIBRE_TRANSLATE_API_KEY) payload.api_key = process.env.LIBRE_TRANSLATE_API_KEY;
@@ -68,6 +73,7 @@ module.exports = async function handler(req, res){
   try{
     var body = await readJson(req);
     var text = String(body.text || '').trim();
+    var target = normalizeTarget(body.target);
     if(!text){
       res.statusCode = 400;
       res.end(JSON.stringify({error:'Missing text'}));
@@ -77,11 +83,11 @@ module.exports = async function handler(req, res){
     var provider = process.env.TRANSLATION_PROVIDER || (process.env.AZURE_TRANSLATOR_KEY ? 'azure' : 'mymemory');
     var translatedText;
     if(provider === 'azure'){
-      translatedText = await translateWithAzure(text);
+      translatedText = await translateWithAzure(text, target);
     } else if(provider === 'libre'){
-      translatedText = await translateWithLibre(text);
+      translatedText = await translateWithLibre(text, target);
     } else {
-      translatedText = await translateWithMyMemory(text);
+      translatedText = await translateWithMyMemory(text, target);
     }
     if(!translatedText) throw new Error('Empty translation response');
 

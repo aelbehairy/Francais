@@ -140,6 +140,7 @@ function supabaseConfigHandler(req, res){
 function serveStatic(req, res){
   let requestPath = decodeURIComponent((req.url || '/').split('?')[0]);
   if(requestPath === '/') requestPath = '/index.html';
+  if(requestPath === '/dictionary' || requestPath === '/dictionary/') requestPath = '/index.html';
 
   const filePath = path.normalize(path.join(root, requestPath));
   if(!filePath.startsWith(root)){

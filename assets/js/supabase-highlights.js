@@ -1,5 +1,6 @@
 (function(){
   var fallbackKey = 'supabaseHighlightFallback';
+  var dictionaryFallbackKey = 'supabaseDictionaryFallback';
   var warnedMissingConfig = false;
   var configPromise = null;
 
@@ -25,6 +26,26 @@
     };
   }
 
+  function cleanDictionaryRecord(record){
+    record = record || {};
+    return {
+      user_id: record.user_id || 'default_user',
+      source_page: record.source_page || record.page || currentPage(),
+      source_section: record.source_section || record.section || 'default',
+      item_text: String(record.item_text || record.text || record.french_text || '').trim(),
+      item_type: normalizeDictionaryType(record.item_type || record.type || 'word'),
+      arabic_translation: record.arabic_translation || null,
+      english_translation: record.english_translation || null,
+      notes: record.notes || null
+    };
+  }
+
+  function normalizeDictionaryType(type){
+    type = String(type || 'word').toLowerCase();
+    if(['word', 'phrase', 'sentence', 'statement', 'card'].indexOf(type) !== -1) return type;
+    return 'word';
+  }
+
   function fallbackList(){
     try{
       var list = JSON.parse(localStorage.getItem(fallbackKey) || '[]');
@@ -32,6 +53,19 @@
     } catch(error){
       return [];
     }
+  }
+
+  function dictionaryFallbackList(){
+    try{
+      var list = JSON.parse(localStorage.getItem(dictionaryFallbackKey) || '[]');
+      return Array.isArray(list) ? list : [];
+    } catch(error){
+      return [];
+    }
+  }
+
+  function writeDictionaryFallback(list){
+    try{ localStorage.setItem(dictionaryFallbackKey, JSON.stringify(list || [])); } catch(error){}
   }
 
   function writeFallback(list){
@@ -61,6 +95,33 @@
       if(filters.item_type && item.item_type !== filters.item_type) return false;
       return true;
     });
+  }
+
+  function dictionaryFallbackSave(record){
+    var now = new Date().toISOString();
+    var next = dictionaryFallbackList().filter(function(item){
+      return !(item.user_id === record.user_id && item.source_page === record.source_page && item.source_section === record.source_section && item.item_text === record.item_text);
+    });
+    next.push(Object.assign({}, record, {id: record.id || 'local-' + Date.now().toString(36), created_at: record.created_at || now, updated_at: now}));
+    writeDictionaryFallback(next);
+    return next[next.length - 1];
+  }
+
+  function dictionaryFallbackLoad(filters){
+    filters = filters || {};
+    return dictionaryFallbackList().filter(function(item){
+      if(filters.item_type && item.item_type !== filters.item_type) return false;
+      if(filters.source_page && item.source_page !== filters.source_page) return false;
+      if(filters.source_section && item.source_section !== filters.source_section) return false;
+      return true;
+    });
+  }
+
+  function dictionaryFallbackRemove(record){
+    writeDictionaryFallback(dictionaryFallbackList().filter(function(item){
+      if(record.id && item.id === record.id) return false;
+      return !(item.user_id === record.user_id && item.source_page === record.source_page && item.source_section === record.source_section && item.item_text === record.item_text);
+    }));
   }
 
   function getConfig(){
@@ -124,6 +185,16 @@
   function saveHighlight(record){
     var cleaned = cleanRecord(record);
     if(!cleaned.item_text || !cleaned.item_type) return Promise.resolve(null);
+    saveDictionaryItem({
+      user_id: cleaned.user_id || 'default_user',
+      source_page: cleaned.page,
+      source_section: cleaned.section,
+      item_text: cleaned.item_text,
+      item_type: cleaned.item_type,
+      arabic_translation: cleaned.arabic_translation,
+      english_translation: record && record.english_translation,
+      notes: record && record.notes
+    });
     return request('user_highlights?on_conflict=page,section,item_text', {
       method: 'POST',
       headers: {Prefer: 'resolution=merge-duplicates,return=representation'},
@@ -154,6 +225,12 @@
 
   function removeHighlight(record){
     var cleaned = cleanRecord(record);
+    deleteDictionaryItem({
+      user_id: cleaned.user_id || 'default_user',
+      source_page: cleaned.page,
+      source_section: cleaned.section,
+      item_text: cleaned.item_text
+    });
     fallbackRemove(cleaned);
     return request(
       'user_highlights?page=eq.' + encode(cleaned.page) +
@@ -166,13 +243,68 @@
     });
   }
 
+  function saveDictionaryItem(record){
+    var cleaned = cleanDictionaryRecord(record);
+    if(!cleaned.item_text || !cleaned.item_type) return Promise.resolve(null);
+    return request('dictionary_items?on_conflict=user_id,source_page,source_section,item_text', {
+      method: 'POST',
+      headers: {Prefer: 'resolution=merge-duplicates,return=representation'},
+      body: JSON.stringify(cleaned)
+    }).then(function(result){
+      return result && result[0] ? result[0] : dictionaryFallbackSave(cleaned);
+    }).catch(function(error){
+      console.warn('Supabase dictionary save failed; using localStorage fallback.', error);
+      return dictionaryFallbackSave(cleaned);
+    });
+  }
+
+  function loadDictionaryItems(filters){
+    filters = filters || {};
+    var query = 'dictionary_items?select=*&order=created_at.desc';
+    if(filters.item_type && filters.item_type !== 'all') query += '&item_type=eq.' + encode(filters.item_type);
+    if(filters.source_page) query += '&source_page=eq.' + encode(filters.source_page);
+    if(filters.source_section) query += '&source_section=eq.' + encode(filters.source_section);
+    return request(query).then(function(result){
+      if(Array.isArray(result)) return result;
+      return dictionaryFallbackLoad(filters);
+    }).catch(function(error){
+      console.warn('Supabase dictionary load failed; using localStorage fallback.', error);
+      return dictionaryFallbackLoad(filters);
+    });
+  }
+
+  function deleteDictionaryItem(record){
+    record = record || {};
+    var cleaned = cleanDictionaryRecord(record);
+    dictionaryFallbackRemove(Object.assign({}, cleaned, {id: record.id || null}));
+    var query;
+    if(record.id){
+      query = 'dictionary_items?id=eq.' + encode(record.id);
+    } else {
+      query = 'dictionary_items?user_id=eq.' + encode(cleaned.user_id) +
+        '&source_page=eq.' + encode(cleaned.source_page) +
+        '&source_section=eq.' + encode(cleaned.source_section) +
+        '&item_text=eq.' + encode(cleaned.item_text);
+    }
+    return request(query, {method: 'DELETE', headers: {Prefer: 'return=minimal'}}).catch(function(error){
+      console.warn('Supabase dictionary delete failed; local UI was already updated.', error);
+      return null;
+    });
+  }
+
   window.HighlightStore = {
     currentPage: currentPage,
     saveHighlight: saveHighlight,
     loadHighlights: loadHighlights,
-    removeHighlight: removeHighlight
+    removeHighlight: removeHighlight,
+    saveDictionaryItem: saveDictionaryItem,
+    loadDictionaryItems: loadDictionaryItems,
+    deleteDictionaryItem: deleteDictionaryItem
   };
   window.saveHighlight = saveHighlight;
   window.loadHighlights = loadHighlights;
   window.removeHighlight = removeHighlight;
+  window.saveDictionaryItem = saveDictionaryItem;
+  window.loadDictionaryItems = loadDictionaryItems;
+  window.deleteDictionaryItem = deleteDictionaryItem;
 })();

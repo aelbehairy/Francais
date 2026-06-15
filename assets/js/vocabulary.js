@@ -330,7 +330,8 @@ function makeVocabularyReviewHighlight(gridId, groupTitle, row){
     item_text: getVocabularyReviewKey(gridId, groupTitle, row),
     item_type: row && row.length > 1 ? 'card' : 'word',
     french_text: row && row[0] ? row[0] : '',
-    arabic_translation: row && row[2] ? row[2] : null
+    arabic_translation: row && row[2] ? row[2] : null,
+    english_translation: row && row[1] ? row[1] : null
   };
 }
 
