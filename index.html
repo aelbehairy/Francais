@@ -5991,8 +5991,9 @@
           <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M21 3l-7 7"/><path d="M9 21H3v-6"/><path d="M3 21l7-7"/></svg></span><strong>Expand</strong>
         </button>
       </div>
-      <div class="card tcf-consignes-card">
+      <div class="card tcf-consignes-card tcf-consignes-collapsed">
         <span class="card-label">Consignes — Copy of Exercice.pdf</span>
+        <span class="q-arrow tcf-consignes-arrow" role="button" tabindex="0" aria-label="Show consignes" aria-expanded="false" onclick="toggleTcfConsignesCard(this)">▾</span>
         <div class="grid-2 tcf-consignes-grid">
           <div class="tcf-category-title tcf-cat-info"><span>🚌 🤝</span> Catégorie 1 — Demander / donner des informations + demander de l'aide</div>
           <div class="ex-row"><span class="ex-fr">Sujet 1 : Votre ami Mehdi vient de déménager dans votre ville et cherche des renseignements sur les moyens de transports. Écrivez un message en lui donnant les informations nécessaires.</span></div>
@@ -6016,7 +6017,7 @@
       <div class="card">
         <span class="card-label">Exemples de réponses</span>
         <div class="tcf-category-title tcf-cat-info"><span>🚌 🤝</span> Catégorie 1 — Demander / donner des informations + demander de l'aide</div>
-        <div class="q-card tcf-sujet-card tcf-cat-info open"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">1</span><div><div class="q-label">Transport</div><div class="q-text">Votre ami Mehdi vient de déménager dans votre ville et cherche des renseignements sur les moyens de transports. Écrivez un message en lui donnant les informations nécessaires.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Mehdi,</div><div class="fr-line">Bienvenue dans la ville ! Pour tes déplacements, tu as plusieurs options : le métro, les bus et les tramways. Il existe des abonnements mensuels à environ 70 €, mais si tu ne te déplaces pas souvent, tu peux acheter des tickets à l'unité ou en carnet. Les transports fonctionnent de 5 h à minuit, et certaines lignes de bus circulent la nuit. Si tu préfères le vélo, il y a aussi un service de location. Fais-moi signe si tu veux qu'on explore la ville ensemble !</div><div class="fr-line">À bientôt !</div></div></div></div>
+        <div class="q-card tcf-sujet-card tcf-cat-info"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">1</span><div><div class="q-label">Transport</div><div class="q-text">Votre ami Mehdi vient de déménager dans votre ville et cherche des renseignements sur les moyens de transports. Écrivez un message en lui donnant les informations nécessaires.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Mehdi,</div><div class="fr-line">Bienvenue dans la ville ! Pour tes déplacements, tu as plusieurs options : le métro, les bus et les tramways. Il existe des abonnements mensuels à environ 70 €, mais si tu ne te déplaces pas souvent, tu peux acheter des tickets à l'unité ou en carnet. Les transports fonctionnent de 5 h à minuit, et certaines lignes de bus circulent la nuit. Si tu préfères le vélo, il y a aussi un service de location. Fais-moi signe si tu veux qu'on explore la ville ensemble !</div><div class="fr-line">À bientôt !</div></div></div></div>
         <div class="q-card tcf-sujet-card tcf-cat-info"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">2</span><div><div class="q-label">Lieu</div><div class="q-text">Vous avez invité votre ami Cédric à votre mariage au Château de Chambon et il vous a répondu qu'il ne connaît pas ce château. Décrivez à votre ami le lieu, la localisation et les transports.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Salut Cédric,</div><div class="fr-line">Je suis ravi que tu viennes à mon mariage ! Le Château de Chambon est un lieu magnifique, situé à environ 30 km de la ville, en pleine nature. Tu peux y aller en voiture ou en train jusqu'à la gare la plus proche, puis prendre un taxi. Le château date du XVIIe siècle et offre une vue splendide. Je suis sûr que tu vas adorer ! Dis-moi si tu as besoin d'aide pour l'organisation du trajet.</div><div class="fr-line">À très vite !</div></div></div></div>
         <div class="q-card tcf-sujet-card tcf-cat-info"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">3</span><div><div class="q-label">Déménagement</div><div class="q-text">Vous allez bientôt déménager. Écrivez un message à votre ami(e) pour demander son aide en fournissant les informations : date, lieu, transports.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Coucou,</div><div class="fr-line">J'espère que tu vas bien ! Je voulais te demander un coup de main pour mon déménagement. Je quitte mon appartement le 15 du mois prochain et j'aurais besoin d'aide pour transporter mes affaires. J'ai loué un camion et tout sera prêt dès 9 h du matin. Il y aura aussi quelques amis, et bien sûr, je prévois de quoi manger et boire pour nous motiver ! Fais-moi signe si tu es disponible.</div><div class="fr-line">Merci d'avance !</div></div></div></div>
         <div class="tcf-category-title tcf-cat-anniv"><span>🎂 ❤️</span> Catégorie 2 — Anniversaire et week-end</div>
@@ -6822,6 +6823,38 @@
       </div>
       <div class="card tcf-invitation-card">
         <div class="tcf-doc">
+          <div class="tcf-invitation-flow" aria-label="Structure d'un message d'invitation">
+            <div class="tcf-flow-row green">
+              <div class="tcf-flow-icon">💌</div>
+              <div class="tcf-flow-step"><span>1</span><strong>Introduction</strong></div>
+              <div class="tcf-flow-quote">« Chers amis,... »</div>
+              <div class="tcf-flow-note">Annonce de l'événement et date</div>
+            </div>
+            <div class="tcf-flow-row blue">
+              <div class="tcf-flow-icon">📅</div>
+              <div class="tcf-flow-step"><span>2</span><strong>Détails pratiques</strong></div>
+              <div class="tcf-flow-quote">« Samedi 10 août... salle Émeraude... »</div>
+              <div class="tcf-flow-note">Lieu, heure, activités</div>
+            </div>
+            <div class="tcf-flow-row orange">
+              <div class="tcf-flow-icon">❤️</div>
+              <div class="tcf-flow-step"><span>3</span><strong>Moment attendu</strong></div>
+              <div class="tcf-flow-quote">« Votre présence rendra ce moment... »</div>
+              <div class="tcf-flow-note">Émotion, lien avec les invités</div>
+            </div>
+            <div class="tcf-flow-row red">
+              <div class="tcf-flow-icon">🤝</div>
+              <div class="tcf-flow-step"><span>4</span><strong>Invitation chaleureuse</strong></div>
+              <div class="tcf-flow-quote">« Venez partager notre bonheur... »</div>
+              <div class="tcf-flow-note">Ton amical, invitation claire</div>
+            </div>
+            <div class="tcf-flow-row purple">
+              <div class="tcf-flow-icon">✅</div>
+              <div class="tcf-flow-step"><span>5</span><strong>Conclusion</strong></div>
+              <div class="tcf-flow-quote">« Merci de confirmer... À très bientôt ! »</div>
+              <div class="tcf-flow-note">Demande de réponse + message positif de fin</div>
+            </div>
+          </div>
           <table class="tcf-analysis-table">
             <tr><td><span class="tcf-sq green"></span><strong>Introduction</strong></td><td>« Chers amis, ... »</td><td>Annonce de l'événement et date</td></tr>
             <tr><td><span class="tcf-sq blue"></span><strong>Détails pratiques</strong></td><td>« Samedi 10 août... salle Émeraude... »</td><td>Lieu, heure, activités</td></tr>

@@ -1285,9 +1285,16 @@ function makePrintCheckedAction(handler, label){
 }
 
 function makeTcfEcritPlayAllAction(){
-  return '<button class="sec-tool-btn tcf-audio-btn tcf-play-all-btn" type="button" onclick="playAllTcfEcritSujetAudio(event)" aria-label="Play all Ecrit 1 audio">' +
+  return '<button class="sec-tool-btn tcf-audio-btn tcf-play-all-btn" type="button" onclick="playAllTcfEcritSujetAudio(event)" aria-label="Play all Ecrit 1 questions audio">' +
     actionIcon('play') +
-    '<strong>Play all</strong>' +
+    '<strong>Play all questions</strong>' +
+  '</button>';
+}
+
+function makeTcfEcritPlayAllAnswersAction(){
+  return '<button class="sec-tool-btn tcf-audio-btn tcf-play-all-answers-btn" type="button" onclick="playAllTcfEcritAnswerSpeech(event)" aria-label="Play all Ecrit 1 answers">' +
+    actionIcon('play') +
+    '<strong>Play all answers</strong>' +
   '</button>';
 }
 
@@ -1334,7 +1341,7 @@ function initSecHeaderControls(){
     var hasQCards = !!document.querySelector(selector);
     var extraTopActions = '';
     if(sec.id === 'tcf-oral') extraTopActions += makeTcfOralReadAction();
-    if(sec.id === 'tcf-ecrit-ecrit1') extraTopActions += makeTcfEcritPlayAllAction();
+    if(sec.id === 'tcf-ecrit-ecrit1') extraTopActions += makeTcfEcritPlayAllAction() + makeTcfEcritPlayAllAnswersAction();
     if(!sec.querySelector(':scope > .sec-export-top-left')){
       header.insertAdjacentHTML('beforebegin', '<div class="sec-export-top-left">'+extraTopActions+getPrintCheckedAction(sec)+makeExportAction(exportSelector, exportTitle)+'</div>');
     } else {
@@ -1342,8 +1349,15 @@ function initSecHeaderControls(){
       if(exportTopLeft && sec.id === 'tcf-oral' && !exportTopLeft.querySelector('.tcf-oral-read-btn')){
         exportTopLeft.insertAdjacentHTML('afterbegin', makeTcfOralReadAction());
       }
-      if(exportTopLeft && sec.id === 'tcf-ecrit-ecrit1' && !exportTopLeft.querySelector('.tcf-play-all-btn')){
-        exportTopLeft.insertAdjacentHTML('afterbegin', extraTopActions);
+      if(exportTopLeft && sec.id === 'tcf-ecrit-ecrit1'){
+        if(!exportTopLeft.querySelector('.tcf-play-all-btn')){
+          exportTopLeft.insertAdjacentHTML('afterbegin', makeTcfEcritPlayAllAction());
+        }
+        if(!exportTopLeft.querySelector('.tcf-play-all-answers-btn')){
+          var questionButton = exportTopLeft.querySelector('.tcf-play-all-btn');
+          if(questionButton) questionButton.insertAdjacentHTML('afterend', makeTcfEcritPlayAllAnswersAction());
+          else exportTopLeft.insertAdjacentHTML('afterbegin', makeTcfEcritPlayAllAnswersAction());
+        }
       }
       if(exportTopLeft && !exportTopLeft.querySelector('.print-checked-btn')){
         exportTopLeft.insertAdjacentHTML('beforeend', getPrintCheckedAction(sec));
@@ -2999,6 +3013,26 @@ function toggleQ(hdr){
   hdr.closest('.q-card').classList.toggle('open');
 }
 
+function toggleTcfConsignesCard(control){
+  var card = control && control.closest('.tcf-consignes-card');
+  if(!card) return;
+  var isCollapsed = card.classList.toggle('tcf-consignes-collapsed');
+  control.setAttribute('aria-expanded', String(!isCollapsed));
+  control.setAttribute('aria-label', isCollapsed ? 'Show consignes' : 'Hide consignes');
+}
+
+function initTcfConsignesCardToggle(){
+  document.querySelectorAll('.tcf-consignes-arrow').forEach(function(arrow){
+    if(arrow.dataset.toggleReady === 'true') return;
+    arrow.dataset.toggleReady = 'true';
+    arrow.addEventListener('keydown', function(event){
+      if(event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      toggleTcfConsignesCard(arrow);
+    });
+  });
+}
+
 function toggleEngagingAnswer(btn){
   var answer = btn.nextElementSibling;
   if(!answer) return;
@@ -3135,6 +3169,103 @@ function addTcfResponseWordCounts(){
 }
 
 addTcfResponseWordCounts();
+
+function addTcfEcritAnswerSpeechButtons(){
+  document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-sujet-card').forEach(function(card){
+    var response = card.querySelector('.fr-text.has-word-count, .tcf-invitation-model');
+    var badge = response && response.querySelector('.tcf-response-word-count');
+    var num = card.querySelector('.q-num');
+    if(!response || !badge || !num || response.querySelector('.tcf-answer-play-btn')) return;
+    var sujetNumber = Number(num.textContent.trim());
+    if(!sujetNumber) return;
+    response.classList.add('has-answer-speech');
+    var answerButton = document.createElement('button');
+    answerButton.className = 'tcf-sujet-play-btn tcf-answer-play-btn';
+    answerButton.type = 'button';
+    answerButton.setAttribute('data-answer-sujet', String(sujetNumber));
+    answerButton.setAttribute('aria-label', 'Play Sujet ' + sujetNumber + ' answer');
+    answerButton.innerHTML = actionIcon('play') + '<strong>Play answer</strong>';
+    answerButton.addEventListener('click', function(event){
+      playTcfEcritAnswerSpeech(sujetNumber, event);
+    });
+    answerButton.addEventListener('touchend', function(event){
+      playTcfEcritAnswerSpeech(sujetNumber, event);
+    }, {passive:false});
+    badge.insertAdjacentElement('afterend', answerButton);
+  });
+}
+
+addTcfEcritAnswerSpeechButtons();
+
+var tcfEcritAnswerSpeech = {
+  activeButton: null,
+  utterance: null
+};
+
+function getTcfEcritAnswerText(sujetNumber){
+  var card = Array.prototype.find.call(document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-sujet-card'), function(item){
+    var num = item.querySelector('.q-num');
+    return num && Number(num.textContent.trim()) === Number(sujetNumber);
+  });
+  if(!card) return '';
+  var response = card.querySelector('.tcf-invitation-model, .fr-text.has-word-count');
+  if(!response) return '';
+  var lines = response.querySelectorAll('.fr-line').length ?
+    response.querySelectorAll('.fr-line') :
+    response.querySelectorAll(':scope > p');
+  return Array.prototype.map.call(lines, function(line){
+    return line.textContent.replace(/\s+/g, ' ').trim();
+  }).filter(Boolean).join(' ');
+}
+
+function updateTcfEcritAnswerSpeechButtons(){
+  document.querySelectorAll('.tcf-answer-play-btn').forEach(function(button){
+    var isActive = button === tcfEcritAnswerSpeech.activeButton;
+    button.classList.toggle('is-playing', isActive);
+    button.setAttribute('aria-label', (isActive ? 'Stop' : 'Play') + ' Sujet ' + button.getAttribute('data-answer-sujet') + ' answer');
+    button.innerHTML = actionIcon(isActive ? 'stop' : 'play') + '<strong>' + (isActive ? 'Stop answer' : 'Play answer') + '</strong>';
+  });
+}
+
+function stopTcfEcritAnswerSpeech(){
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+  }
+  tcfEcritAnswerSpeech.activeButton = null;
+  tcfEcritAnswerSpeech.utterance = null;
+  updateTcfEcritAnswerSpeechButtons();
+}
+
+function playTcfEcritAnswerSpeech(sujetNumber, event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if(!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)){
+    window.alert('Speech reading is not supported in this browser.');
+    return;
+  }
+  var button = document.querySelector('.tcf-answer-play-btn[data-answer-sujet="' + sujetNumber + '"]');
+  if(button && button === tcfEcritAnswerSpeech.activeButton){
+    stopTcfEcritAnswerSpeech();
+    return;
+  }
+  var answerText = getTcfEcritAnswerText(sujetNumber);
+  if(!answerText) return;
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  var utterance = new SpeechSynthesisUtterance(answerText);
+  utterance.lang = 'fr-FR';
+  utterance.rate = 0.75;
+  utterance.pitch = 1.08;
+  var frenchVoice = getTcfEcritFrenchVoice();
+  if(frenchVoice) utterance.voice = frenchVoice;
+  utterance.onend = stopTcfEcritAnswerSpeech;
+  utterance.onerror = stopTcfEcritAnswerSpeech;
+  tcfEcritAnswerSpeech.activeButton = button;
+  tcfEcritAnswerSpeech.utterance = utterance;
+  updateTcfEcritAnswerSpeechButtons();
+  window.speechSynthesis.speak(utterance);
+}
 
 var tcfOralSpeech = {
   active: false,
@@ -3551,12 +3682,25 @@ function addTcfOralSpeechButtons(){
 
 var tcfEcritAudio = {
   current: null,
+  currentSpeech: null,
   currentSujet: null,
   playlist: [],
   playlistIndex: 0,
   playingAll: false,
+  playingAllAnswers: false,
   repeatCurrent: false,
   speed: 1,
+  mode: 'audio',
+  speechPaused: false,
+  speechStartedAt: 0,
+  speechElapsed: 0,
+  speechDuration: 0,
+  speechOffset: 0,
+  speechFullText: '',
+  speechFullDuration: 0,
+  speechTimer: null,
+  speechToken: 0,
+  voiceURI: '',
   popup: null
 };
 
@@ -3574,17 +3718,30 @@ function getTcfEcritSujetDetails(sujetNumber){
   if(!card) return null;
   var label = card.querySelector('.q-label');
   var question = card.querySelector('.q-text');
-  var answerLines = Array.prototype.map.call(card.querySelectorAll('.q-body .fr-line'), function(line){
-    return line.textContent.trim();
-  }).filter(Boolean);
   return {
     label: label ? label.textContent.trim() : '',
     question: question ? question.textContent.trim() : '',
-    answerLines: answerLines
+    answerLines: getTcfEcritAnswerLines(sujetNumber)
   };
 }
 
-function renderTcfEcritSujetText(sujetNumber){
+function getTcfEcritAnswerLines(sujetNumber){
+  var card = Array.prototype.find.call(document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-sujet-card'), function(item){
+    var num = item.querySelector('.q-num');
+    return num && Number(num.textContent.trim()) === Number(sujetNumber);
+  });
+  if(!card) return [];
+  var response = card.querySelector('.tcf-invitation-model, .fr-text.has-word-count, .q-body');
+  if(!response) return [];
+  var lineNodes = response.querySelectorAll('.fr-line').length ?
+    response.querySelectorAll('.fr-line') :
+    response.querySelectorAll('.tcf-invitation-model > p, :scope > p');
+  return Array.prototype.map.call(lineNodes, function(line){
+    return line.textContent.replace(/\s+/g, ' ').trim();
+  }).filter(Boolean);
+}
+
+function renderTcfEcritSujetText(sujetNumber, answerOnly){
   var details = getTcfEcritSujetDetails(sujetNumber);
   if(!details) return '<div class="tcf-audio-read-text" hidden></div>';
   var answer = details.answerLines.map(function(line){
@@ -3592,7 +3749,7 @@ function renderTcfEcritSujetText(sujetNumber){
   }).join('');
   return '<div class="tcf-audio-read-text">' +
     '<div class="tcf-audio-read-title">' + escapeHtml(details.label || ('Sujet ' + sujetNumber)) + '</div>' +
-    '<div class="tcf-audio-read-question">' + escapeHtml(details.question) + '</div>' +
+    (answerOnly ? '' : '<div class="tcf-audio-read-question">' + escapeHtml(details.question) + '</div>') +
     '<div class="tcf-audio-read-answer">' + answer + '</div>' +
   '</div>';
 }
@@ -3622,10 +3779,12 @@ function ensureTcfEcritAudioPopup(){
         '<label class="tcf-audio-speed-select-label"><span>Speed</span><select class="tcf-audio-speed-select" aria-label="Playback speed">' +
           '<option value="0.25">0.25x</option>' +
           '<option value="0.5">0.5x</option>' +
+          '<option value="0.75">0.75x</option>' +
           '<option value="1" selected>1x</option>' +
           '<option value="1.5">1.5x</option>' +
           '<option value="2">2x</option>' +
         '</select></label>' +
+        '<label class="tcf-audio-voice-select-label" hidden><span>Voice</span><select class="tcf-audio-voice-select" aria-label="Speech voice"></select></label>' +
         '<span class="tcf-audio-duration">0:00</span>' +
       '</div>' +
       '<div class="tcf-audio-controls">' +
@@ -3653,7 +3812,24 @@ function ensureTcfEcritAudioPopup(){
   popup.querySelector('.tcf-audio-speed-select').addEventListener('change', function(event){
     setTcfEcritAudioSpeed(Number(event.target.value));
   });
+  popup.querySelector('.tcf-audio-voice-select').addEventListener('change', function(event){
+    tcfEcritAudio.voiceURI = event.target.value;
+    if(tcfEcritAudio.playingAllAnswers && tcfEcritAudio.currentSujet){
+      playTcfEcritAnswerSpeechItem(tcfEcritAudio.currentSujet, true);
+    }
+  });
+  if(window.speechSynthesis && window.speechSynthesis.addEventListener){
+    window.speechSynthesis.addEventListener('voiceschanged', function(){
+      if(tcfEcritAudio.popup && !tcfEcritAudio.popup.hidden){
+        updateTcfEcritVoiceSelect(tcfEcritAudio.popup);
+      }
+    });
+  }
   popup.querySelector('.tcf-audio-progress').addEventListener('input', function(event){
+    if(tcfEcritAudio.mode === 'answers'){
+      seekTcfEcritAnswerSpeech(Number(event.target.value));
+      return;
+    }
     var audio = tcfEcritAudio.current;
     if(!audio || !isFinite(audio.duration)) return;
     audio.currentTime = Number(event.target.value);
@@ -3670,22 +3846,28 @@ function showTcfEcritAudioPopup(){
 }
 
 function hideTcfEcritAudioPopup(){
+  if(tcfEcritAudio.mode === 'answers' || tcfEcritAudio.current){
+    stopTcfEcritAudio();
+  }
   if(tcfEcritAudio.popup) tcfEcritAudio.popup.hidden = true;
 }
 
 function updateTcfEcritAudioPopup(){
   var popup = ensureTcfEcritAudioPopup();
+  var isAnswerMode = tcfEcritAudio.mode === 'answers';
   var audio = tcfEcritAudio.current;
   var sujet = tcfEcritAudio.currentSujet;
-  var duration = audio && isFinite(audio.duration) ? audio.duration : 0;
-  var currentTime = audio ? audio.currentTime : 0;
-  var isPlaying = audio && !audio.paused;
+  var duration = isAnswerMode ? (tcfEcritAudio.speechFullDuration || tcfEcritAudio.speechDuration) : (audio && isFinite(audio.duration) ? audio.duration : 0);
+  var currentTime = isAnswerMode ? getTcfEcritAnswerSpeechElapsed() : (audio ? audio.currentTime : 0);
+  var isPlaying = isAnswerMode ? !!tcfEcritAudio.currentSpeech && !tcfEcritAudio.speechPaused : (audio && !audio.paused);
   var hasPlaylist = tcfEcritAudio.playlist.length > 1;
-  popup.querySelector('.tcf-audio-title').textContent = sujet ? 'Sujet ' + sujet : 'Sujet audio';
-  popup.querySelector('.tcf-audio-now').textContent = hasPlaylist ? 'Play all - Sujet ' + (sujet || '-') + ' of ' + tcfEcritAudio.playlist.length : 'Single audio';
+  popup.classList.toggle('tcf-answer-speech-mode', isAnswerMode);
+  popup.querySelector('.tcf-audio-title').textContent = sujet ? 'Sujet ' + sujet : (isAnswerMode ? 'Answers' : 'Sujet audio');
+  popup.querySelector('.tcf-audio-now').textContent = hasPlaylist ? (isAnswerMode ? 'Play all answers - Sujet ' : 'Play all questions - Sujet ') + (sujet || '-') + ' of ' + tcfEcritAudio.playlist.length : (isAnswerMode ? 'Single answer' : 'Single audio');
   var progress = popup.querySelector('.tcf-audio-progress');
   progress.max = duration || 100;
-  progress.value = duration ? currentTime : 0;
+  progress.value = duration ? Math.min(currentTime, duration) : 0;
+  progress.disabled = false;
   popup.querySelector('.tcf-audio-current-time').textContent = formatTcfEcritAudioTime(currentTime);
   popup.querySelector('.tcf-audio-duration').textContent = formatTcfEcritAudioTime(duration);
   var playPause = popup.querySelector('.tcf-audio-play-pause');
@@ -3698,8 +3880,11 @@ function updateTcfEcritAudioPopup(){
   popup.querySelector('.tcf-audio-repeat').classList.toggle('active', tcfEcritAudio.repeatCurrent);
   popup.querySelector('.tcf-audio-prev').disabled = !hasPlaylist || tcfEcritAudio.playlistIndex <= 1;
   popup.querySelector('.tcf-audio-next').disabled = !hasPlaylist || tcfEcritAudio.playlistIndex >= tcfEcritAudio.playlist.length;
-  popup.querySelector('.tcf-audio-read-mount').innerHTML = sujet ? renderTcfEcritSujetText(sujet) : '';
+  popup.querySelector('.tcf-audio-skip-back').disabled = isAnswerMode;
+  popup.querySelector('.tcf-audio-skip-forward').disabled = isAnswerMode;
+  popup.querySelector('.tcf-audio-read-mount').innerHTML = sujet ? renderTcfEcritSujetText(sujet, isAnswerMode) : '';
   popup.querySelector('.tcf-audio-speed-select').value = String(tcfEcritAudio.speed);
+  updateTcfEcritVoiceSelect(popup);
   var playlist = popup.querySelector('.tcf-audio-playlist');
   var playlistItems = popup.querySelector('.tcf-audio-playlist-items');
   playlist.hidden = !hasPlaylist;
@@ -3712,40 +3897,203 @@ function updateTcfEcritAudioPopup(){
       btn.addEventListener('click', function(){
         var item = Number(btn.getAttribute('data-sujet'));
         tcfEcritAudio.playlistIndex = tcfEcritAudio.playlist.indexOf(item) + 1;
-        playTcfEcritAudioItem(item, true);
+        if(tcfEcritAudio.mode === 'answers'){
+          playTcfEcritAnswerSpeechItem(item, true);
+        } else {
+          playTcfEcritAudioItem(item, true);
+        }
       });
     });
   }
 }
 
 function updateTcfEcritAudioButtons(){
-  document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-sujet-play-btn').forEach(function(btn){
+  document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-sujet-play-btn[data-sujet]').forEach(function(btn){
     var sujet = Number(btn.getAttribute('data-sujet'));
     var isActive = tcfEcritAudio.currentSujet === sujet && tcfEcritAudio.current && !tcfEcritAudio.current.paused;
     btn.classList.toggle('is-playing', isActive);
-    btn.setAttribute('aria-label', (isActive ? 'Open' : 'Play') + ' Sujet ' + sujet + ' audio');
+    btn.setAttribute('aria-label', (isActive ? 'Open' : 'Play') + ' Sujet ' + sujet + ' question audio');
     var label = btn.querySelector('strong');
-    if(label) label.textContent = isActive ? 'Playing' : 'Play';
+    if(label) label.textContent = isActive ? 'Playing' : 'Play question';
   });
   document.querySelectorAll('.tcf-play-all-btn').forEach(function(btn){
-    btn.classList.toggle('is-playing', tcfEcritAudio.playingAll);
-    btn.setAttribute('aria-label', tcfEcritAudio.playingAll ? 'Open Ecrit 1 audio playlist' : 'Play all Ecrit 1 audio');
+    var isQuestionPlaylist = tcfEcritAudio.playingAll && tcfEcritAudio.mode === 'audio';
+    btn.classList.toggle('is-playing', isQuestionPlaylist);
+    btn.setAttribute('aria-label', isQuestionPlaylist ? 'Open Ecrit 1 question audio playlist' : 'Play all Ecrit 1 questions audio');
     var label = btn.querySelector('strong');
-    if(label) label.textContent = tcfEcritAudio.playingAll ? 'Playing all' : 'Play all';
+    if(label) label.textContent = isQuestionPlaylist ? 'Playing questions' : 'Play all questions';
+  });
+  document.querySelectorAll('.tcf-play-all-answers-btn').forEach(function(btn){
+    var isAnswerPlaylist = tcfEcritAudio.playingAllAnswers && tcfEcritAudio.mode === 'answers';
+    btn.classList.toggle('is-playing', isAnswerPlaylist);
+    btn.setAttribute('aria-label', isAnswerPlaylist ? 'Open Ecrit 1 answer speech playlist' : 'Play all Ecrit 1 answers');
+    var label = btn.querySelector('strong');
+    if(label) label.textContent = isAnswerPlaylist ? 'Playing answers' : 'Play all answers';
   });
   if(tcfEcritAudio.popup && !tcfEcritAudio.popup.hidden) updateTcfEcritAudioPopup();
 }
 
 function stopTcfEcritAudio(){
   tcfEcritAudio.playingAll = false;
+  tcfEcritAudio.playingAllAnswers = false;
   tcfEcritAudio.playlist = [];
   tcfEcritAudio.playlistIndex = 0;
   if(tcfEcritAudio.current){
     tcfEcritAudio.current.pause();
     tcfEcritAudio.current.currentTime = 0;
   }
+  stopTcfEcritAnswerSpeechTimer();
+  tcfEcritAudio.speechToken += 1;
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+  }
   tcfEcritAudio.current = null;
+  tcfEcritAudio.currentSpeech = null;
   tcfEcritAudio.currentSujet = null;
+  tcfEcritAudio.speechPaused = false;
+  tcfEcritAudio.speechElapsed = 0;
+  tcfEcritAudio.speechDuration = 0;
+  tcfEcritAudio.speechOffset = 0;
+  tcfEcritAudio.speechFullText = '';
+  tcfEcritAudio.speechFullDuration = 0;
+  tcfEcritAudio.mode = 'audio';
+  updateTcfEcritAudioButtons();
+}
+
+function getTcfEcritSpeechVoices(){
+  if(!('speechSynthesis' in window) || !window.speechSynthesis.getVoices) return [];
+  return (window.speechSynthesis.getVoices() || []).filter(function(voice){
+    var lang = String(voice.lang || '').toLowerCase();
+    var name = String(voice.name || '').toLowerCase();
+    return lang.indexOf('fr') === 0 || name.indexOf('french') !== -1 || name.indexOf('francais') !== -1 || name.indexOf('français') !== -1;
+  });
+}
+
+function getTcfEcritSelectedSpeechVoice(){
+  var voices = getTcfEcritSpeechVoices();
+  if(tcfEcritAudio.voiceURI){
+    var selected = voices.find(function(voice){ return voice.voiceURI === tcfEcritAudio.voiceURI; });
+    if(selected) return selected;
+  }
+  var female = getTcfEcritFrenchVoice();
+  if(female){
+    tcfEcritAudio.voiceURI = female.voiceURI;
+    return female;
+  }
+  if(voices[0]) tcfEcritAudio.voiceURI = voices[0].voiceURI;
+  return voices[0] || null;
+}
+
+function updateTcfEcritVoiceSelect(popup){
+  var label = popup.querySelector('.tcf-audio-voice-select-label');
+  var select = popup.querySelector('.tcf-audio-voice-select');
+  if(!label || !select) return;
+  var isAnswerMode = tcfEcritAudio.mode === 'answers';
+  label.hidden = !isAnswerMode;
+  if(!isAnswerMode) return;
+  var voices = getTcfEcritSpeechVoices();
+  var selectedVoice = getTcfEcritSelectedSpeechVoice();
+  var signature = voices.map(function(voice){ return voice.voiceURI; }).join('|') || 'default';
+  if(select.dataset.voiceSignature !== signature){
+    select.innerHTML = voices.length ? voices.map(function(voice){
+      return '<option value="' + escapeHtml(voice.voiceURI) + '">' + escapeHtml(voice.name + (voice.lang ? ' - ' + voice.lang : '')) + '</option>';
+    }).join('') : '<option value="">Browser default voice</option>';
+    select.dataset.voiceSignature = signature;
+  }
+  select.value = selectedVoice ? selectedVoice.voiceURI : '';
+}
+
+function getTcfEcritAnswerSpeechElapsed(){
+  if(tcfEcritAudio.mode !== 'answers') return 0;
+  var base = tcfEcritAudio.speechOffset || 0;
+  if(tcfEcritAudio.speechPaused) return base + tcfEcritAudio.speechElapsed;
+  if(!tcfEcritAudio.currentSpeech) return base + (tcfEcritAudio.speechElapsed || 0);
+  return base + tcfEcritAudio.speechElapsed + ((Date.now() - tcfEcritAudio.speechStartedAt) / 1000);
+}
+
+function stopTcfEcritAnswerSpeechTimer(){
+  if(tcfEcritAudio.speechTimer){
+    clearInterval(tcfEcritAudio.speechTimer);
+    tcfEcritAudio.speechTimer = null;
+  }
+}
+
+function startTcfEcritAnswerSpeechTimer(){
+  stopTcfEcritAnswerSpeechTimer();
+  tcfEcritAudio.speechTimer = setInterval(function(){
+    if(tcfEcritAudio.mode === 'answers' && tcfEcritAudio.popup && !tcfEcritAudio.popup.hidden){
+      updateTcfEcritAudioPopup();
+    }
+  }, 250);
+}
+
+function estimateTcfEcritSpeechDuration(text){
+  var words = (text.match(/[A-Za-zÀ-ÖØ-öø-ÿ]+(?:['’-][A-Za-zÀ-ÖØ-öø-ÿ]+)*/g) || []).length;
+  var wordsPerSecond = 2.35 * Math.max(tcfEcritAudio.speed || 1, 0.25);
+  return Math.max(6, Math.ceil(words / wordsPerSecond));
+}
+
+function getTcfEcritSpeechTextFromTime(text, targetTime, fullDuration){
+  var source = String(text || '').replace(/\s+/g, ' ').trim();
+  if(!source) return '';
+  if(!fullDuration || targetTime <= 0) return source;
+  var words = source.split(' ');
+  var ratio = Math.min(Math.max(targetTime / fullDuration, 0), 0.98);
+  var startIndex = Math.min(Math.floor(words.length * ratio), Math.max(words.length - 1, 0));
+  return words.slice(startIndex).join(' ');
+}
+
+function seekTcfEcritAnswerSpeech(targetTime){
+  if(tcfEcritAudio.mode !== 'answers' || !tcfEcritAudio.currentSujet) return;
+  if(!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
+  var fullText = tcfEcritAudio.speechFullText || getTcfEcritAnswerLines(tcfEcritAudio.currentSujet).join(' ');
+  var fullDuration = tcfEcritAudio.speechFullDuration || estimateTcfEcritSpeechDuration(fullText);
+  var nextOffset = Math.min(Math.max(Number(targetTime) || 0, 0), fullDuration);
+  var textFromOffset = getTcfEcritSpeechTextFromTime(fullText, nextOffset, fullDuration);
+  if(!textFromOffset) return;
+  var token = tcfEcritAudio.speechToken + 1;
+  tcfEcritAudio.speechToken = token;
+  window.speechSynthesis.cancel();
+  stopTcfEcritAnswerSpeechTimer();
+  var utterance = new SpeechSynthesisUtterance(textFromOffset);
+  utterance.lang = 'fr-FR';
+  utterance.rate = tcfEcritAudio.speed;
+  utterance.pitch = 1.08;
+  var voice = getTcfEcritSelectedSpeechVoice();
+  if(voice) utterance.voice = voice;
+  utterance.onend = function(){
+    if(token !== tcfEcritAudio.speechToken) return;
+    stopTcfEcritAnswerSpeechTimer();
+    tcfEcritAudio.currentSpeech = null;
+    tcfEcritAudio.speechPaused = false;
+    tcfEcritAudio.speechElapsed = 0;
+    tcfEcritAudio.speechOffset = 0;
+    if(tcfEcritAudio.repeatCurrent){
+      playTcfEcritAnswerSpeechItem(tcfEcritAudio.currentSujet, true);
+      return;
+    }
+    if(tcfEcritAudio.playingAllAnswers){
+      playNextTcfEcritSujetAudio(false);
+    } else {
+      updateTcfEcritAudioButtons();
+    }
+  };
+  utterance.onerror = function(){
+    if(token !== tcfEcritAudio.speechToken) return;
+    stopTcfEcritAnswerSpeechTimer();
+    tcfEcritAudio.currentSpeech = null;
+    updateTcfEcritAudioButtons();
+  };
+  tcfEcritAudio.currentSpeech = utterance;
+  tcfEcritAudio.speechPaused = false;
+  tcfEcritAudio.speechElapsed = 0;
+  tcfEcritAudio.speechOffset = nextOffset;
+  tcfEcritAudio.speechStartedAt = Date.now();
+  tcfEcritAudio.speechDuration = Math.max(1, fullDuration - nextOffset);
+  tcfEcritAudio.speechFullText = fullText;
+  tcfEcritAudio.speechFullDuration = fullDuration;
+  startTcfEcritAnswerSpeechTimer();
+  window.speechSynthesis.speak(utterance);
   updateTcfEcritAudioButtons();
 }
 
@@ -3791,14 +4139,20 @@ function playTcfEcritAudioItem(sujetNumber, keepPlaylist){
   if(typeof stopTcfOralTask1Speech === 'function' && tcfOralSpeech && tcfOralSpeech.active){
     stopTcfOralTask1Speech();
   }
+  stopTcfEcritAnswerSpeechTimer();
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
   if(tcfEcritAudio.current){
     tcfEcritAudio.current.pause();
   }
   if(!keepPlaylist){
     tcfEcritAudio.playingAll = false;
+    tcfEcritAudio.playingAllAnswers = false;
     tcfEcritAudio.playlist = [];
     tcfEcritAudio.playlistIndex = 0;
   }
+  tcfEcritAudio.mode = 'audio';
+  tcfEcritAudio.currentSpeech = null;
+  tcfEcritAudio.speechPaused = false;
   var audio = new Audio(src);
   audio.playbackRate = tcfEcritAudio.speed;
   tcfEcritAudio.current = audio;
@@ -3808,6 +4162,79 @@ function playTcfEcritAudioItem(sujetNumber, keepPlaylist){
   audio.play().then(updateTcfEcritAudioButtons).catch(function(){
     stopTcfEcritAudio();
   });
+}
+
+function playTcfEcritAnswerSpeechItem(sujetNumber, keepPlaylist){
+  if(!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)){
+    window.alert('Speech reading is not supported in this browser.');
+    return;
+  }
+  if(typeof stopTcfOralTask1Speech === 'function' && tcfOralSpeech && tcfOralSpeech.active){
+    stopTcfOralTask1Speech();
+  }
+  if(tcfEcritAudio.current){
+    tcfEcritAudio.current.pause();
+    tcfEcritAudio.current = null;
+  }
+  if(!keepPlaylist){
+    tcfEcritAudio.playingAll = false;
+    tcfEcritAudio.playingAllAnswers = false;
+    tcfEcritAudio.playlist = [];
+    tcfEcritAudio.playlistIndex = 0;
+  }
+  var lines = getTcfEcritAnswerLines(sujetNumber);
+  var answerText = lines.join(' ');
+  if(!answerText) return;
+  var token = tcfEcritAudio.speechToken + 1;
+  tcfEcritAudio.speechToken = token;
+  window.speechSynthesis.cancel();
+  stopTcfEcritAnswerSpeechTimer();
+  var utterance = new SpeechSynthesisUtterance(answerText);
+  utterance.lang = 'fr-FR';
+  utterance.rate = tcfEcritAudio.speed;
+  utterance.pitch = 1.08;
+  var voice = getTcfEcritSelectedSpeechVoice();
+  if(voice) utterance.voice = voice;
+  utterance.onend = function(){
+    if(token !== tcfEcritAudio.speechToken) return;
+    stopTcfEcritAnswerSpeechTimer();
+    tcfEcritAudio.currentSpeech = null;
+    tcfEcritAudio.speechPaused = false;
+    tcfEcritAudio.speechElapsed = 0;
+    if(tcfEcritAudio.repeatCurrent){
+      playTcfEcritAnswerSpeechItem(sujetNumber, true);
+      return;
+    }
+    if(tcfEcritAudio.playingAllAnswers){
+      playNextTcfEcritSujetAudio(false);
+    } else {
+      updateTcfEcritAudioButtons();
+    }
+  };
+  utterance.onerror = function(){
+    if(token !== tcfEcritAudio.speechToken) return;
+    stopTcfEcritAnswerSpeechTimer();
+    tcfEcritAudio.currentSpeech = null;
+    if(tcfEcritAudio.playingAllAnswers){
+      playNextTcfEcritSujetAudio(false);
+    } else {
+      updateTcfEcritAudioButtons();
+    }
+  };
+  tcfEcritAudio.mode = 'answers';
+  tcfEcritAudio.currentSpeech = utterance;
+  tcfEcritAudio.currentSujet = Number(sujetNumber);
+  tcfEcritAudio.speechPaused = false;
+  tcfEcritAudio.speechElapsed = 0;
+  tcfEcritAudio.speechOffset = 0;
+  tcfEcritAudio.speechStartedAt = Date.now();
+  tcfEcritAudio.speechDuration = estimateTcfEcritSpeechDuration(answerText);
+  tcfEcritAudio.speechFullText = answerText;
+  tcfEcritAudio.speechFullDuration = tcfEcritAudio.speechDuration;
+  showTcfEcritAudioPopup();
+  startTcfEcritAnswerSpeechTimer();
+  window.speechSynthesis.speak(utterance);
+  updateTcfEcritAudioButtons();
 }
 
 function playTcfEcritSujetAudio(sujetNumber, event){
@@ -3824,24 +4251,29 @@ function playTcfEcritSujetAudio(sujetNumber, event){
 }
 
 function playNextTcfEcritSujetAudio(fromButton){
-  if(!tcfEcritAudio.playingAll) return;
+  if(!tcfEcritAudio.playingAll && !tcfEcritAudio.playingAllAnswers) return;
   if(tcfEcritAudio.playlistIndex >= tcfEcritAudio.playlist.length){
     if(!fromButton) stopTcfEcritAudio();
     return;
   }
   var sujet = tcfEcritAudio.playlist[tcfEcritAudio.playlistIndex];
   tcfEcritAudio.playlistIndex += 1;
-  playTcfEcritAudioItem(sujet, true);
+  if(tcfEcritAudio.mode === 'answers' || tcfEcritAudio.playingAllAnswers){
+    playTcfEcritAnswerSpeechItem(sujet, true);
+  } else {
+    playTcfEcritAudioItem(sujet, true);
+  }
 }
 
 function playPreviousTcfEcritSujetAudio(){
-  if(!tcfEcritAudio.playingAll || tcfEcritAudio.playlistIndex <= 1) return;
+  if((!tcfEcritAudio.playingAll && !tcfEcritAudio.playingAllAnswers) || tcfEcritAudio.playlistIndex <= 1) return;
   tcfEcritAudio.playlistIndex -= 2;
   if(tcfEcritAudio.playlistIndex < 0) tcfEcritAudio.playlistIndex = 0;
   playNextTcfEcritSujetAudio(true);
 }
 
 function skipTcfEcritAudio(seconds){
+  if(tcfEcritAudio.mode === 'answers') return;
   var audio = tcfEcritAudio.current;
   if(!audio) return;
   var duration = isFinite(audio.duration) ? audio.duration : audio.currentTime + seconds;
@@ -3850,10 +4282,14 @@ function skipTcfEcritAudio(seconds){
 }
 
 function setTcfEcritAudioSpeed(speed){
-  if([0.25, 0.5, 1, 1.5, 2].indexOf(speed) === -1) return;
+  if([0.25, 0.5, 0.75, 1, 1.5, 2].indexOf(speed) === -1) return;
   tcfEcritAudio.speed = speed;
   if(tcfEcritAudio.current){
     tcfEcritAudio.current.playbackRate = speed;
+  }
+  if(tcfEcritAudio.mode === 'answers' && tcfEcritAudio.currentSujet && tcfEcritAudio.currentSpeech){
+    playTcfEcritAnswerSpeechItem(tcfEcritAudio.currentSujet, true);
+    return;
   }
   updateTcfEcritAudioButtons();
 }
@@ -3864,6 +4300,22 @@ function toggleTcfEcritAudioRepeat(){
 }
 
 function toggleTcfEcritAudioPlayPause(){
+  if(tcfEcritAudio.mode === 'answers'){
+    if(!window.speechSynthesis || !tcfEcritAudio.currentSpeech) return;
+    if(tcfEcritAudio.speechPaused){
+      tcfEcritAudio.speechStartedAt = Date.now();
+      tcfEcritAudio.speechPaused = false;
+      window.speechSynthesis.resume();
+      startTcfEcritAnswerSpeechTimer();
+    } else {
+      tcfEcritAudio.speechElapsed = Math.max(0, getTcfEcritAnswerSpeechElapsed() - (tcfEcritAudio.speechOffset || 0));
+      tcfEcritAudio.speechPaused = true;
+      window.speechSynthesis.pause();
+      stopTcfEcritAnswerSpeechTimer();
+    }
+    updateTcfEcritAudioButtons();
+    return;
+  }
   var audio = tcfEcritAudio.current;
   if(!audio) return;
   if(audio.paused){
@@ -3884,6 +4336,26 @@ function playAllTcfEcritSujetAudio(event){
     return;
   }
   tcfEcritAudio.playingAll = true;
+  tcfEcritAudio.playingAllAnswers = false;
+  tcfEcritAudio.mode = 'audio';
+  tcfEcritAudio.playlist = [1,2,3,4,5,6,7,8,9,10];
+  tcfEcritAudio.playlistIndex = 0;
+  playNextTcfEcritSujetAudio(true);
+}
+
+function playAllTcfEcritAnswerSpeech(event){
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  if(tcfEcritAudio.playingAllAnswers && tcfEcritAudio.mode === 'answers'){
+    showTcfEcritAudioPopup();
+    return;
+  }
+  tcfEcritAudio.playingAll = false;
+  tcfEcritAudio.playingAllAnswers = true;
+  tcfEcritAudio.mode = 'answers';
+  tcfEcritAudio.speed = 0.75;
   tcfEcritAudio.playlist = [1,2,3,4,5,6,7,8,9,10];
   tcfEcritAudio.playlistIndex = 0;
   playNextTcfEcritSujetAudio(true);
@@ -3900,8 +4372,8 @@ function addTcfEcritAudioButtons(){
     button.className = 'tcf-sujet-play-btn';
     button.type = 'button';
     button.setAttribute('data-sujet', String(sujetNumber));
-    button.setAttribute('aria-label', 'Play Sujet ' + sujetNumber + ' audio');
-    button.innerHTML = actionIcon('play') + '<strong>Play</strong>';
+    button.setAttribute('aria-label', 'Play Sujet ' + sujetNumber + ' question audio');
+    button.innerHTML = actionIcon('play') + '<strong>Play question</strong>';
     button.addEventListener('click', function(event){
       playTcfEcritSujetAudio(sujetNumber, event);
     });
@@ -3916,6 +4388,12 @@ function addTcfEcritAudioButtons(){
     }
   });
   updateTcfEcritAudioButtons();
+}
+
+function collapseTcfConsignesQuestionsByDefault(){
+  document.querySelectorAll('#tcf-ecrit-ecrit1 .tcf-consignes-card + .card .q-card').forEach(function(card){
+    card.classList.remove('open');
+  });
 }
 
 var grammarSpeech = {
@@ -4102,16 +4580,38 @@ function initFerialSpeechLines(){
 
 addTcfOralSpeechButtons();
 addTcfEcritAudioButtons();
+collapseTcfConsignesQuestionsByDefault();
+initTcfConsignesCardToggle();
 addGrammarSpeechButtons();
 initFerialSpeechLines();
 
-window.addEventListener('pagehide', function(){
+function stopAllPageVoices(){
   if(window.speechSynthesis) window.speechSynthesis.cancel();
-  if(typeof stopTcfEcritAudio === 'function') stopTcfEcritAudio();
+  if(typeof stopTcfEcritAudio === 'function'){
+    stopTcfEcritAudio();
+  }
+  if(typeof stopTcfOralTask1Speech === 'function' && tcfOralSpeech && tcfOralSpeech.active){
+    stopTcfOralTask1Speech();
+  }
+  if(typeof stopGrammarSpeech === 'function'){
+    stopGrammarSpeech();
+  }
+  document.querySelectorAll('audio').forEach(function(audio){
+    audio.pause();
+    audio.currentTime = 0;
+  });
+}
+
+stopAllPageVoices();
+
+window.addEventListener('DOMContentLoaded', stopAllPageVoices);
+window.addEventListener('load', stopAllPageVoices);
+window.addEventListener('pageshow', stopAllPageVoices);
+window.addEventListener('pagehide', function(){
+  stopAllPageVoices();
 });
 window.addEventListener('beforeunload', function(){
-  if(window.speechSynthesis) window.speechSynthesis.cancel();
-  if(tcfEcritAudio && tcfEcritAudio.current) tcfEcritAudio.current.pause();
+  stopAllPageVoices();
 });
 
 function addTcfTranslations(){
