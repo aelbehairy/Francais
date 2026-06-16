@@ -3052,8 +3052,7 @@ function playTcfTacheVideo(src, title, btn){
   if(btn) btn.classList.add('active');
   if(label) label.textContent = title || 'Video';
   if(player && src){
-    if(player.getAttribute('src') !== src) player.setAttribute('src', src);
-    player.play().catch(function(){});
+    player.setAttribute('src', src);
   }
 }
 
