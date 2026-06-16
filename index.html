@@ -122,7 +122,10 @@
       <button class="pill" onclick="showSec('negation',this,'grammaire')"><span class="pi">🚫</span>Négation</button>
       <button class="pill" onclick="showSec('questions',this,'grammaire')"><span class="pi">❓</span>Questions</button>
       <button class="pill" onclick="showSec('dont',this,'grammaire')"><span class="pi">🔁</span>Dont</button>
+      <button class="pill" onclick="showSec('indefinis',this,'grammaire')"><span class="pi">♾️</span>Indéfinis</button>
+      <button class="pill" onclick="showSec('relatifs-composes',this,'grammaire')"><span class="pi">🧷</span>Relatifs composés</button>
       <button class="pill" onclick="showGrammarChild('temps',this)"><span class="pi">⏱</span>Temps</button>
+      <button class="pill" onclick="showGrammarChild('temps',document.querySelector('.grammar-mode-tabs .pill[data-grammar-mode=&quot;temps&quot;]'));showSec('partpresent',document.querySelector('#pills-temps .pill[onclick*=&quot;partpresent&quot;]'),'temps')"><span class="pi">✍️</span>Participe présent</button>
       <button class="pill" onclick="showGrammarChild('b1',this)">B1</button>
       <button class="pill" onclick="showGrammarChild('b2',this)">B2</button>
     </div>
@@ -2095,6 +2098,72 @@
       </div>
     </section>
 
+    <!-- PRONOMS INDÉFINIS -->
+    <section class="sec" id="g-indefinis">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:#f5f3ff">♾️</div>
+          <div class="sec-title">Pronoms <em>indéfinis</em></div>
+          <div class="sec-ar">الضمائر غير المحددة</div>
+        </div>
+        <span class="usage-tag tag-now">B1</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Idée générale — الفكرة العامة</span>
+        <div class="note" style="direction:rtl;text-align:right">نستخدمها عندما نتكلم عن أشخاص أو أشياء بدون تحديد دقيق: بعضهم، آخرون، كل واحد، لا أحد.</div>
+        <table class="tbl">
+          <tr><th>Pronom</th><th>المعنى</th><th>Exemple</th></tr>
+          <tr><td>certains / certaines</td><td>بعضهم / بعضهن</td><td>Certains réussissent facilement.</td></tr>
+          <tr><td>d'autres</td><td>آخرون</td><td>D'autres rencontrent des difficultés.</td></tr>
+          <tr><td>plusieurs</td><td>عدة أشخاص / كثيرون</td><td>Plusieurs suivent des cours de français.</td></tr>
+          <tr><td>quelques-uns / quelques-unes</td><td>بعضهم / بعضهن</td><td>Quelques-uns ont besoin d'aide.</td></tr>
+          <tr><td>chacun / chacune</td><td>كل واحد / كل واحدة</td><td>Chacun doit s'adapter rapidement.</td></tr>
+          <tr><td>personne</td><td>لا أحد</td><td>Personne ne trouve cela facile.</td></tr>
+          <tr><td>tout le monde</td><td>كل الناس</td><td>Tout le monde veut une vie meilleure.</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <span class="card-label">Modèle B1 — من الدرس</span>
+        <div class="formula">Certains réussissent, tandis que d'autres rencontrent des difficultés.</div>
+        <div class="note" style="direction:rtl;text-align:right">بعضهم ينجحون، بينما آخرون يواجهون صعوبات.</div>
+      </div>
+    </section>
+
+    <!-- PRONOMS RELATIFS COMPOSÉS -->
+    <section class="sec" id="g-relatifs-composes">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:#ecfeff">🧷</div>
+          <div class="sec-title">Relatifs <em>composés</em></div>
+          <div class="sec-ar">ضمائر الوصل المركبة</div>
+        </div>
+        <span class="usage-tag tag-now">B1</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Formes principales</span>
+        <table class="tbl">
+          <tr><th>Préposition</th><th>Masculin</th><th>Féminin</th><th>Pluriel</th></tr>
+          <tr><td>à + lequel</td><td>auquel</td><td>à laquelle</td><td>auxquels / auxquelles</td></tr>
+          <tr><td>de + lequel</td><td>duquel</td><td>de laquelle</td><td>desquels / desquelles</td></tr>
+          <tr><td>préposition + lequel</td><td>avec lequel</td><td>avec laquelle</td><td>avec lesquels / avec lesquelles</td></tr>
+        </table>
+        <div class="note" style="direction:rtl;text-align:right">تأتي بعد حرف جر مثل: à, avec, dans, pour, parmi. تختار الشكل حسب الاسم قبله: مذكر، مؤنث، مفرد أو جمع.</div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">Exemples B1</span>
+          <div class="ex-row"><span class="ex-fr">Une action écologique à laquelle j'ai participé.</span><span class="ex-ar">نشاط بيئي شاركت فيه.</span></div>
+          <div class="ex-row"><span class="ex-fr">Des outils grâce auxquels tu peux progresser.</span><span class="ex-ar">أدوات بفضلها يمكنك التقدم.</span></div>
+          <div class="ex-row"><span class="ex-fr">Un espace dans lequel on peut apprendre.</span><span class="ex-ar">مساحة يمكن أن نتعلم فيها.</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">Parmi lesquels / lesquelles</span>
+          <div class="formula">Il existe des lois strictes, parmi lesquelles la taxation du plastique.</div>
+          <div class="note" style="direction:rtl;text-align:right"><strong>parmi lesquelles</strong> = من بينها، وتستخدم هنا لأن <strong>lois</strong> مؤنث جمع.</div>
+        </div>
+      </div>
+    </section>
+
     <!-- BOOKS -->
     <section class="sec" id="g-books">
       <div class="sec-header">
@@ -2158,6 +2227,7 @@
       <button class="pill" onclick="showSec('subj',this,'temps')"><span class="pi">🎭</span>Subjonctif</button>
       <button class="pill" onclick="showSec('imp',this,'temps')"><span class="pi">📢</span>Impératif</button>
       <button class="pill" onclick="showSec('part',this,'temps')"><span class="pi">✅</span>Participe Passé</button>
+      <button class="pill" onclick="showSec('partpresent',this,'temps')"><span class="pi">✍️</span>Participe présent</button>
       <button class="pill" onclick="showSec('irreguliers',this,'temps')"><span class="pi">⚙️</span>Irréguliers</button>
       <button class="pill" onclick="showSec('regles',this,'temps')"><span class="pi">⭐</span>Règles</button>
     </div>
@@ -2936,6 +3006,134 @@
       </div>
     </section>
 
+    <!-- PARTICIPE PRÉSENT / GÉRONDIF -->
+    <section class="sec" id="t-partpresent">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#f0fdf4">✍️</div><div class="sec-title">Participe <em>présent</em></div><div class="sec-ar">اسم الفاعل / gérondif</div></div>
+        <span class="usage-tag tag-now">B1</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Le participe présent - الفعل المنتهي بـ -ant</span>
+        <div class="note" style="direction:rtl;text-align:right">
+          هو شكل من الفعل ينتهي غالبا بـ <strong>-ant</strong>، ويترجم حسب السياق: وهو يفعل، أثناء فعله، لأنه يفعل، الذي يفعل، أو بفعل كذا.
+        </div>
+        <div class="grid-2">
+          <div class="ex-row"><span class="ex-fr">utilisant</span><span class="ex-ar">مستخدما / وهو يستخدم</span></div>
+          <div class="ex-row"><span class="ex-fr">réduisant</span><span class="ex-ar">مخفضا / وهو يقلل</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">1) Formation</span>
+        <div class="formula">nous au présent - ons + ant</div>
+        <table class="tbl">
+          <tr><th>Verbe</th><th>Nous au présent</th><th>Participe présent</th></tr>
+          <tr><td>parler</td><td>nous parlons</td><td>parlant</td></tr>
+          <tr><td>travailler</td><td>nous travaillons</td><td>travaillant</td></tr>
+          <tr><td>finir</td><td>nous finissons</td><td>finissant</td></tr>
+          <tr><td>choisir</td><td>nous choisissons</td><td>choisissant</td></tr>
+          <tr><td>faire</td><td>nous faisons</td><td>faisant</td></tr>
+          <tr><td>prendre</td><td>nous prenons</td><td>prenant</td></tr>
+          <tr><td>venir</td><td>nous venons</td><td>venant</td></tr>
+        </table>
+        <div class="ex-row"><span class="ex-fr">Les citoyens utilisent les transports en commun.</span><span class="ex-ar">المواطنون يستخدمون المواصلات العامة.</span></div>
+        <div class="ex-row"><span class="ex-fr">Les citoyens, utilisant les transports en commun, réduisent la pollution.</span><span class="ex-ar">المواطنون، باستخدامهم المواصلات العامة، يقللون التلوث.</span></div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">2) Exceptions importantes</span>
+        <table class="tbl">
+          <tr><th>Verbe</th><th>Participe présent</th><th>Exemple</th></tr>
+          <tr><td>être</td><td>étant</td><td>Étant malade, je reste à la maison.</td></tr>
+          <tr><td>avoir</td><td>ayant</td><td>Ayant beaucoup de travail, il ne sort pas.</td></tr>
+          <tr><td>savoir</td><td>sachant</td><td>Sachant la vérité, elle a décidé de parler.</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <span class="card-label">3) Pourquoi l'utiliser ?</span>
+        <div class="grid-2">
+          <div class="note"><strong>Cause</strong><br>Étant fatigué, je dors tôt.<br><span class="b1-lesson-ar" dir="rtl">لأنني متعب، أنام مبكرا.</span></div>
+          <div class="note"><strong>Action accompagnée</strong><br>Il marche en parlant au téléphone.<br><span class="b1-lesson-ar" dir="rtl">يمشي وهو يتكلم في الهاتف.</span></div>
+          <div class="note"><strong>Réduire deux phrases</strong><br>Les étudiants, suivant des cours, améliorent leur niveau.<br><span class="b1-lesson-ar" dir="rtl">الطلاب، بمتابعتهم للدروس، يحسنون مستواهم.</span></div>
+          <div class="note"><strong>Décrire un nom</strong><br>Les personnes vivant au Canada doivent s'adapter.<br><span class="b1-lesson-ar" dir="rtl">الأشخاص الذين يعيشون في كندا يجب أن يتأقلموا.</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">4) Participe présent vs gérondif</span>
+        <div class="grid-2">
+          <div>
+            <div class="formula">participe présent</div>
+            <div class="ex-row"><span class="ex-fr">Utilisant Internet, les jeunes apprennent plus vite.</span><span class="ex-ar">باستخدامهم الإنترنت، يتعلم الشباب أسرع.</span></div>
+          </div>
+          <div>
+            <div class="formula">en + participe présent</div>
+            <div class="ex-row"><span class="ex-fr">En utilisant Internet, les jeunes apprennent plus vite.</span><span class="ex-ar">باستخدام الإنترنت، يتعلم الشباب أسرع.</span></div>
+          </div>
+        </div>
+        <div class="note" style="direction:rtl;text-align:right">في الامتحان، <strong>en + participe présent</strong> أسهل وأوضح غالبا.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">5) Exemples - environnement</span>
+          <div class="ex-row"><span class="ex-fr">Certains citoyens adoptent un mode de vie durable, utilisant les transports en commun et réduisant leurs déchets.</span><span class="ex-ar">بعض المواطنين يتبنون أسلوب حياة مستداما، مستخدمين وسائل النقل العامة ومقللين نفاياتهم.</span></div>
+          <div class="note">utilisant = utiliser · réduisant = réduire</div>
+        </div>
+        <div class="card">
+          <span class="card-label">6) Exemples - immigration et travail</span>
+          <div class="ex-row"><span class="ex-fr">Les immigrants suivant des cours de français améliorent leurs chances de trouver un emploi.</span><span class="ex-ar">المهاجرون الذين يتابعون دروس الفرنسية يحسنون فرصهم في إيجاد عمل.</span></div>
+          <div class="ex-row"><span class="ex-fr">Ayant des diplômes étrangers, certains immigrants doivent les faire reconnaître.</span><span class="ex-ar">بما أن بعض المهاجرين لديهم شهادات أجنبية، يجب عليهم معادلتها.</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">7) Il ne change presque jamais</span>
+        <div class="note" style="direction:rtl;text-align:right">غالبا لا نضيف <strong>e</strong> أو <strong>s</strong> أو <strong>es</strong>. الكلمة تبقى ثابتة.</div>
+        <div class="verb-cloud"><span class="vp">un homme travaillant</span><span class="vp">une femme travaillant</span><span class="vp">des personnes travaillant</span></div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">8) Adjectif verbal ou participe présent ?</span>
+        <table class="tbl">
+          <tr><th>Participe présent</th><th>Adjectif verbal</th></tr>
+          <tr><td>Des personnes travaillant la nuit</td><td>Des personnes fatigantes</td></tr>
+          <tr><td>fatiguant</td><td>fatigant / fatigante</td></tr>
+          <tr><td>intéressant</td><td>intéressant / intéressante</td></tr>
+          <tr><td>convainquant</td><td>convaincant / convaincante</td></tr>
+        </table>
+        <div class="note" style="direction:rtl;text-align:right">في مستوى B1، ركز أولا على <strong>الفعل + ant</strong> واستخدامه في الجملة.</div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">9) Méthode facile</span>
+        <div class="ex-row"><span class="ex-fr">Les jeunes utilisent la technologie. Ils gagnent du temps.</span><span class="ex-ar">الشباب يستخدمون التكنولوجيا. هم يوفرون الوقت.</span></div>
+        <div class="ex-row"><span class="ex-fr">Les jeunes, utilisant la technologie, gagnent du temps.</span><span class="ex-ar">الشباب، باستخدامهم التكنولوجيا، يوفرون الوقت.</span></div>
+        <div class="ex-row"><span class="ex-fr">En utilisant la technologie, les jeunes gagnent du temps.</span><span class="ex-ar">باستخدام التكنولوجيا، يوفر الشباب الوقت.</span></div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">10) Phrases prêtes pour le TCF / B1</span>
+        <div class="grid-2">
+          <div class="ex-row"><span class="ex-fr">En apprenant le français, je peux améliorer mon avenir professionnel.</span><span class="ex-ar">بتعلم الفرنسية، أستطيع تحسين مستقبلي المهني.</span></div>
+          <div class="ex-row"><span class="ex-fr">En utilisant la technologie, les étudiants gagnent du temps.</span><span class="ex-ar">باستخدام التكنولوجيا، يوفر الطلاب الوقت.</span></div>
+          <div class="ex-row"><span class="ex-fr">En travaillant régulièrement, on peut réussir.</span><span class="ex-ar">بالعمل بانتظام، يمكننا النجاح.</span></div>
+          <div class="ex-row"><span class="ex-fr">Les personnes vivant dans une grande ville utilisent souvent les transports en commun.</span><span class="ex-ar">الأشخاص الذين يعيشون في مدينة كبيرة يستخدمون غالبا المواصلات العامة.</span></div>
+          <div class="ex-row"><span class="ex-fr">Étant donné que la situation est difficile, il faut trouver des solutions.</span><span class="ex-ar">بما أن الوضع صعب، يجب إيجاد حلول.</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:4px solid var(--green);background:linear-gradient(135deg,#f0fdf4,#dcfce7)">
+        <span class="card-label">الخلاصة</span>
+        <div class="formula">participe présent = nous - ons + ant</div>
+        <div class="note" style="direction:rtl;text-align:right">
+          يستخدم لاختصار جملتين، التعبير عن السبب، وصف الاسم، أو التعبير عن فعل يحدث مع فعل آخر. أشهر شكل سهل في الكتابة هو: <strong>En + participe présent</strong>.
+        </div>
+        <div class="ex-row"><span class="ex-fr">En étudiant chaque jour, je progresse rapidement.</span><span class="ex-ar">بالمذاكرة كل يوم، أتقدم بسرعة.</span></div>
+      </div>
+    </section>
+
     <!-- IRRÉGULIERS -->
     <section class="sec" id="t-irreguliers">
       <div class="sec-header">
@@ -3062,58 +3260,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">3) القواعد الموجودة في النص</span>
-        <h3>Cause - السبب</h3>
-        <div class="note b1-lesson-ar">نستخدمها لشرح السبب.</div>
-        <table class="tbl">
-          <tr><th>أداة</th><th>معناها</th><th>مثال</th></tr>
-          <tr><td>parce que</td><td>لأن</td><td>Ils immigrent parce qu'ils veulent une vie meilleure.</td></tr>
-          <tr><td>puisque</td><td>بما أن</td><td>Puisque le Canada accueille des immigrants, il faut s'adapter.</td></tr>
-        </table>
-        <div class="note b1-lesson-ar"><strong>parce que</strong> = سبب عادي. <strong>puisque</strong> = سبب معروف أو واضح.</div>
-
-        <h3>Conséquence - النتيجة</h3>
-        <div class="note b1-lesson-ar">نستخدمها لشرح النتيجة.</div>
-        <table class="tbl">
-          <tr><th>أداة</th><th>معناها</th><th>مثال</th></tr>
-          <tr><td>En conséquence</td><td>ونتيجة لذلك</td><td>En conséquence, ils suivent des cours de français.</td></tr>
-        </table>
-
-        <h3>Subjonctif - صيغة الشك / الضرورة / الأهمية</h3>
-        <table class="tbl">
-          <tr><th>Expression</th><th>المعنى</th></tr>
-          <tr><td>Il est nécessaire que</td><td>من الضروري أن</td></tr>
-          <tr><td>Il faut que</td><td>يجب أن</td></tr>
-          <tr><td>Je doute que</td><td>أشك أن</td></tr>
-          <tr><td>Il est important que</td><td>من المهم أن</td></tr>
-          <tr><td>Il est rare que</td><td>من النادر أن</td></tr>
-        </table>
-        <div class="note"><strong>Il faut que les immigrants suivent des cours.</strong></div>
-        <div class="note b1-lesson-ar">يجب أن يتابع المهاجرون دروسا.</div>
-
-        <h3>Dont</h3>
-        <div class="note b1-lesson-ar"><strong>dont</strong> معناها غالبا: الذي / التي / الذين + عنه / منها / به. تستخدم بدل: <strong>de + شيء</strong>.</div>
-        <div class="note"><strong>Les difficultés dont il faut parler.</strong></div>
-        <div class="note b1-lesson-ar">الصعوبات التي يجب الحديث عنها. لأن الفعل هو <strong>parler de</strong> = يتحدث عن.</div>
-
-        <h3>Pronoms indéfinis - الضمائر غير المحددة</h3>
-        <table class="tbl">
-          <tr><th>Français</th><th>المعنى</th></tr>
-          <tr><td>certains</td><td>بعضهم</td></tr>
-          <tr><td>d'autres</td><td>آخرون</td></tr>
-          <tr><td>plusieurs</td><td>عدة أشخاص / كثيرون</td></tr>
-          <tr><td>quelques-uns</td><td>بعضهم</td></tr>
-          <tr><td>tous</td><td>الجميع</td></tr>
-          <tr><td>chacun</td><td>كل واحد</td></tr>
-          <tr><td>personne</td><td>لا أحد</td></tr>
-          <tr><td>tout le monde</td><td>كل الناس</td></tr>
-        </table>
-        <div class="note"><strong>Certains réussissent, tandis que d'autres rencontrent des difficultés.</strong></div>
-        <div class="note b1-lesson-ar">بعضهم ينجحون، بينما آخرون يواجهون صعوبات.</div>
-      </div>
-
-      <div class="card">
-        <span class="card-label">4) الأسئلة والإجابات</span>
+        <span class="card-label">3) الأسئلة والإجابات</span>
         <h3>Exercice 1 - Subjonctif</h3>
         <div class="note"><strong>Complétez les phrases.</strong></div>
         <div class="note b1-lesson-ar">أكمل الجمل.</div>
@@ -3184,7 +3331,7 @@
         </div>
       </div>
       <div class="card">
-        <span class="card-label">5) Compréhension du texte - فهم النص</span>
+        <span class="card-label">4) Compréhension du texte - فهم النص</span>
         <h3>A. Compréhension globale - الفهم العام</h3>
         <div class="note"><strong>Pourquoi les gens immigrent-ils au Canada ?</strong><p class="b1-lesson-ar">لماذا يهاجر الناس إلى كندا؟</p></div>
         <div class="b1-answer"><p><strong>Les gens immigrent au Canada pour trouver un meilleur travail, une meilleure qualité de vie et offrir un bon avenir à leurs enfants.</strong></p><p class="b1-lesson-ar">يهاجر الناس إلى كندا للعثور على عمل أفضل وحياة أفضل وتوفير مستقبل جيد لأطفالهم.</p></div>
@@ -3214,7 +3361,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">6) Activités d'expression orale - أنشطة التعبير الشفهي</span>
+        <span class="card-label">5) Activités d'expression orale - أنشطة التعبير الشفهي</span>
         <h3>Activité 1 : Discussion guidée</h3>
         <div class="note"><strong>Est-ce que immigrer est facile ? Pourquoi ?</strong></div>
         <div class="grid-2">
@@ -3235,7 +3382,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">7) Expression écrite - TCF Canada</span>
+        <span class="card-label">6) Expression écrite - TCF Canada</span>
         <div class="note b1-lesson-ar">هذا الجزء مهم جدا في TCF.</div>
         <table class="tbl">
           <tr><th>Partie</th><th>Formule</th><th>عربي</th></tr>
@@ -3250,7 +3397,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">8) Outils linguistiques - أدوات TCF</span>
+        <span class="card-label">7) Outils linguistiques - أدوات TCF</span>
         <div class="grid-2">
           <div><h3>Connecteurs</h3><table class="tbl"><tr><th>Français</th><th>عربي</th></tr><tr><td>D'abord</td><td>أولا</td></tr><tr><td>Ensuite</td><td>ثم</td></tr><tr><td>Mais</td><td>لكن</td></tr><tr><td>Parce que</td><td>لأن</td></tr><tr><td>Donc</td><td>لذلك</td></tr><tr><td>En plus</td><td>بالإضافة إلى ذلك</td></tr></table></div>
           <div><h3>Exprimer ses sentiments</h3><table class="tbl"><tr><th>Français</th><th>عربي</th></tr><tr><td>Je suis content</td><td>أنا سعيد</td></tr><tr><td>Je suis stressé</td><td>أنا متوتر</td></tr><tr><td>Je suis fatigué</td><td>أنا متعب</td></tr><tr><td>Je suis surpris</td><td>أنا مندهش</td></tr></table></div>
@@ -3262,7 +3409,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">9) Vocabulaire clé - مفردات أساسية</span>
+        <span class="card-label">8) Vocabulaire clé - مفردات أساسية</span>
         <div class="grid-3">
           <div><h3>Vie quotidienne</h3><table class="tbl"><tr><th>Français</th><th>عربي</th></tr><tr><td>logement</td><td>سكن</td></tr><tr><td>travail</td><td>عمل</td></tr><tr><td>transport</td><td>مواصلات</td></tr><tr><td>école</td><td>مدرسة</td></tr><tr><td>ville</td><td>مدينة</td></tr></table></div>
           <div><h3>Difficultés</h3><table class="tbl"><tr><th>Français</th><th>عربي</th></tr><tr><td>barrière de langue</td><td>حاجز اللغة</td></tr><tr><td>stress</td><td>توتر</td></tr><tr><td>adaptation</td><td>تأقلم</td></tr><tr><td>isolement</td><td>عزلة</td></tr></table></div>
@@ -3271,7 +3418,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">10 ) Devoir</span>
+        <span class="card-label">9) Devoir</span>
         <div class="formula b1-lesson-text" style="font-size:16px;text-align:left;direction:ltr">
           <p>Salut Ahmed,</p>
           <p>Je suis arrivé au Canada il y a une semaine. D'abord, je suis très content d'être ici parce que le pays est calme et bien organisé. Ensuite, j'ai visité plusieurs endroits et j'ai rencontré de nouvelles personnes. Cependant, j'ai quelques difficultés. J'ai du mal à comprendre certains accents et il est parfois difficile de trouver un logement. En plus, le coût de la vie est élevé. Malgré cela, je suis motivé et j'ai commencé un cours de français pour améliorer mon niveau. J'espère trouver un bon emploi bientôt.</p>
@@ -3281,7 +3428,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">11) Textes modèles - opinion et dialogue</span>
+        <span class="card-label">10) Textes modèles - opinion et dialogue</span>
         <div class="note b1-lesson-ar">هذه نماذج إضافية غير مكررة لاستعمالها مباشرة في <strong>Expression Orale TCF Canada</strong> حول موضوع الهجرة.</div>
 
         <h3>Texte 1 : Étudiant A - positif</h3>
@@ -3339,15 +3486,7 @@
       </div>
       <div class="card">
         <span class="card-label">Cours 2 - L'environnement et la responsabilité collective</span>
-        <div class="note">TCF Canada · Niveau B1-B2 · Connecteurs logiques · Participe présent · Pronoms relatifs composés</div>
-        <div class="grid-3">
-          <div class="formula">bien que + subjonctif</div>
-          <div class="formula">pour que + subjonctif</div>
-          <div class="formula">participe présent</div>
-          <div class="formula">dont</div>
-          <div class="formula">parmi lesquelles</div>
-          <div class="formula">expression écrite TCF</div>
-        </div>
+        <div class="note">TCF Canada · Niveau B1-B2 · L'environnement et la responsabilité collective</div>
       </div>
 
       <div class="card">
@@ -3367,19 +3506,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">2) Structures grammaticales</span>
-        <div class="grid-2">
-          <div class="ex-row"><div class="ex-fr">Cause : <b>notamment parce que</b></div><div class="ex-ar" dir="rtl">السبب: خاصة لأن</div></div>
-          <div class="ex-row"><div class="ex-fr">Opposition : <b>bien que + subjonctif</b></div><div class="ex-ar" dir="rtl">المعارضة: رغم أن + صيغة الشرط</div></div>
-          <div class="ex-row"><div class="ex-fr">But : <b>pour que + subjonctif</b></div><div class="ex-ar" dir="rtl">الهدف: لكي + صيغة الشرط</div></div>
-          <div class="ex-row"><div class="ex-fr">Participe présent : <b>utilisant, réduisant, agissant</b></div><div class="ex-ar" dir="rtl">اسم الفاعل في الفرنسية</div></div>
-          <div class="ex-row"><div class="ex-fr">Pronom relatif : <b>dont</b></div><div class="ex-ar" dir="rtl">ضمير وصل: الذي / التي منه</div></div>
-          <div class="ex-row"><div class="ex-fr">Pronom composé : <b>parmi lesquelles</b></div><div class="ex-ar" dir="rtl">ضمير وصل مركب: من بينها</div></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="card-label">3) Compréhension du texte</span>
+        <span class="card-label">2) Compréhension du texte</span>
         <div class="q-card open">
           <div class="q-header" onclick="toggleQ(this)"><span class="q-num">01</span><span class="q-label">Quel est le problème principal évoqué dans le texte ?</span></div>
           <div class="q-body">
@@ -3411,7 +3538,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">4) Exercices de grammaire</span>
+        <span class="card-label">3) Exercices de grammaire</span>
         <div class="q-card open">
           <div class="q-header" onclick="toggleQ(this)"><span class="q-num">A</span><span class="q-label">Complétez avec le bon connecteur</span></div>
           <div class="q-body">
@@ -3440,7 +3567,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">5) Expression orale</span>
+        <span class="card-label">4) Expression orale</span>
         <div class="grid-2">
           <div class="note"><b>Question 1 :</b> Que faites-vous personnellement pour protéger l'environnement ?</div>
           <div class="note"><b>Question 2 :</b> Pensez-vous que les gouvernements doivent imposer des lois strictes ? Pourquoi ?</div>
@@ -3450,7 +3577,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">6) Expression écrite - TCF Canada</span>
+        <span class="card-label">5) Expression écrite - TCF Canada</span>
         <div class="note"><b>Consigne :</b> Tu as assisté à un événement écologique. Sur ton blog, tu écris un article pour raconter ta journée et expliquer ce qui était bénéfique pour toi.</div>
         <div class="ar-text" dir="rtl">لقد حضرت فعالية بيئية. على مدوّنتك، تكتب مقالاً لتحكي عن يومك وتشرح ما كان مفيداً لك.</div>
         <div class="grid-2">
@@ -3477,7 +3604,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">7) Outils linguistiques</span>
+        <span class="card-label">6) Outils linguistiques</span>
         <table class="tbl">
           <thead><tr><th>Fonction</th><th>Expressions utiles</th><th>العربية</th></tr></thead>
           <tbody>
@@ -3489,7 +3616,6 @@
             <tr><td>Connecteurs</td><td>bien que, pour que, puisque, cependant, en conséquence</td><td dir="rtl">رغم أن، لكي، بما أن، غير أن، نتيجة لذلك</td></tr>
           </tbody>
         </table>
-        <div class="note"><b>Formation du participe présent :</b> radical de <i>nous</i> + <b>-ant</b> : utiliser → utilisant, réduire → réduisant, agir → agissant, recycler → recyclant.</div>
       </div>
     </section>
     <section class="sec" id="b1-lecon3">

@@ -4949,7 +4949,7 @@ function isTcfEcritLetter(char){
 function getTcfEcritWordScope(node){
   if(!node) return null;
   var element = node.nodeType === 1 ? node : node.parentElement;
-  return element && element.closest('#tcf-ecrit, #panel-b1, #panel-b2');
+  return element && element.closest('.main');
 }
 
 function isTcfEcritWordExcludedSurface(node){
@@ -4957,19 +4957,29 @@ function isTcfEcritWordExcludedSurface(node){
   var element = node.nodeType === 1 ? node : node.parentElement;
   if(!element) return true;
   return !!element.closest(
-    '.tcf-word-menu, button, .pill, .sec-tool-btn, .ex-ar, .ar-text, .b1-lesson-ar, .sec-ar, [dir="rtl"], .note[dir="rtl"]'
+    '.tcf-word-menu, button, input, textarea, select, label, .pill, .sec-tool-btn, .top-tabs, .global-search-modal, .global-search-panel, .ex-ar, .ar-text, .b1-lesson-ar, .sec-ar, [dir="rtl"], .note[dir="rtl"]'
   );
 }
 
 function isTcfEcritWordSurface(node){
   if(!node || node.nodeType !== 1) return false;
   if(isTcfEcritWordExcludedSurface(node)) return false;
-  return !!node.closest(
-    '#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong, #tcf-ecrit textarea, #tcf-ecrit input[type="text"], #panel-b1 .sec, #panel-b2 .sec'
-  );
+  return !!node.closest('.main');
 }
 
-var TCFECRIT_CONTAINER_SEL = '#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong, #panel-b1 .sec, #panel-b2 .sec';
+var TCFECRIT_CONTAINER_SEL = [
+  '.main .fr-line',
+  '.main .ex-fr',
+  '.main .q-text',
+  '.main .formula',
+  '.main .tcf-category-title',
+  '.main .detail-copy strong',
+  '.main .article-fr',
+  '.main .phrase-bank',
+  '.main .mini-table',
+  '.main .q-card',
+  '.main .card'
+].join(', ');
 
 function getTcfEcritHighlightContainer(node){
   var el = node && (node.nodeType === 1 ? node : node.parentElement);
@@ -4997,7 +5007,12 @@ function initAllTcfEcritContainerIds(){
 }
 
 function getTcfEcritTextOffset(container, targetNode, targetOffset){
-  var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+  var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(node){
+      if(node.parentElement && (node.parentElement.closest('.tcf-word-kept') || isTcfEcritWordExcludedSurface(node.parentElement))) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
   var accumulated = 0;
   while(walker.nextNode()){
     var node = walker.currentNode;
@@ -5181,7 +5196,7 @@ function saveTcfEcritHighlightWords(entries){
 }
 
 function unwrapTcfEcritWordHighlights(){
-  document.querySelectorAll('#tcf-ecrit .tcf-word-kept, #panel-b1 .tcf-word-kept, #panel-b2 .tcf-word-kept').forEach(function(node){
+  document.querySelectorAll('.main .tcf-word-kept').forEach(function(node){
     var parent = node.parentNode;
     if(!parent) return;
     parent.replaceChild(document.createTextNode(node.textContent), node);
@@ -5190,9 +5205,7 @@ function unwrapTcfEcritWordHighlights(){
 }
 
 function getTcfEcritWordRoots(){
-  return Array.prototype.slice.call(document.querySelectorAll(
-    '#tcf-ecrit .fr-line, #tcf-ecrit .q-text, #tcf-ecrit .ex-fr, #tcf-ecrit .formula, #tcf-ecrit .tcf-category-title, #tcf-ecrit .detail-copy strong, #panel-b1 .sec, #panel-b2 .sec'
-  )).filter(function(root){
+  return Array.prototype.slice.call(document.querySelectorAll(TCFECRIT_CONTAINER_SEL)).filter(function(root){
     return !isTcfEcritWordExcludedSurface(root);
   });
 }
@@ -5497,6 +5510,10 @@ function keepTcfEcritWordHighlighted(info){
   saveTcfEcritHighlightWords(entries);
   saveTcfEcritHighlightToSupabase(entry);
   renderTcfEcritWordHighlights();
+  if(window.getSelection){
+    var selection = window.getSelection();
+    if(selection && selection.removeAllRanges) selection.removeAllRanges();
+  }
   return id;
 }
 
@@ -5586,7 +5603,8 @@ function ensureTcfEcritWordMenu(){
     }
     if(!current) return;
     if(event.target.closest('.tcf-word-keep')){
-      keepTcfEcritWordHighlighted(current);
+      var keptId = keepTcfEcritWordHighlighted(current);
+      if(keptId) current.highlightId = keptId;
       showTcfEcritWordMenu(current);
     } else if(event.target.closest('.tcf-word-speak')){
       speakTcfEcritWord(current.word);
@@ -5656,7 +5674,7 @@ function handleTcfEcritWordPointer(event){
 
 function initTcfEcritWordHelper(){
   if(tcfEcritWordHelper.initialized) return;
-  var roots = Array.prototype.slice.call(document.querySelectorAll('#tcf-ecrit, #panel-b1, #panel-b2'));
+  var roots = Array.prototype.slice.call(document.querySelectorAll('.main'));
   if(!roots.length) return;
   tcfEcritWordHelper.initialized = true;
   initAllTcfEcritContainerIds();
