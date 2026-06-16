@@ -6090,24 +6090,24 @@
   </nav>
   <main class="main">
     <section class="sec visible" id="tcf-ecrit">
-      <div class="card mariane-nav-card visible-anim">
-        <span class="card-label">Sous-onglets</span>
-        <div class="nav-pills nested-child-tabs" style="justify-content:flex-start;margin-top:10px">
-          <button class="pill active" type="button" onclick="showTcfEcritSub('ecrit1',this)"><span class="pi">1</span>Écrit 1</button>
-          <button class="pill" type="button" onclick="showTcfEcritSub('expliquer',this)"><span class="pi">💡</span>Expliquer</button>
-          <button class="pill" type="button" onclick="showTcfEcritSub('comparer',this)"><span class="pi">⚖️</span>Comparer</button>
-          <button class="pill" type="button" onclick="showTcfEcritSub('structure',this)"><span class="pi">🏗</span>Structure</button>
-          <button class="pill" type="button" onclick="showTcfEcritSub('invitation',this)"><span class="pi">💌</span>Invitation</button>
-        </div>
-      </div>
       <div class="tcf-ecrit-sub visible" id="tcf-ecrit-ecrit1">
       <div class="sec-header">
         <div>
           <div class="sec-icon" style="background:var(--blue-light)">✍️</div>
-          <div class="sec-title">TCF <em>Écrit</em></div>
+          <div class="sec-title">TCF Écrit <em>Tache 1</em></div>
           <div class="sec-ar">Tâche 1 écrit — sujets et exemples</div>
         </div>
         <span class="usage-tag tag-now">TCF</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Tache 1 — outils</span>
+        <div class="learning-card-grid tcf-tache1-tabs" style="margin-top:10px">
+          <button class="learning-card is-lesson" type="button" data-learning-key="expliquer" onclick="showTcfEcritSub('expliquer',this)"><span class="learning-card-icon">💡</span><span class="learning-card-title">Expliquer</span><span class="learning-card-desc">Ouvrir cette leçon</span><span class="learning-card-meta">Ouvrir →</span></button>
+          <button class="learning-card is-lesson" type="button" data-learning-key="comparer" onclick="showTcfEcritSub('comparer',this)"><span class="learning-card-icon">⚖️</span><span class="learning-card-title">Comparer</span><span class="learning-card-desc">Ouvrir cette leçon</span><span class="learning-card-meta">Ouvrir →</span></button>
+          <button class="learning-card is-lesson" type="button" data-learning-key="structure" onclick="showTcfEcritSub('structure',this)"><span class="learning-card-icon">🏗</span><span class="learning-card-title">Structure</span><span class="learning-card-desc">Ouvrir cette leçon</span><span class="learning-card-meta">Ouvrir →</span></button>
+          <button class="learning-card is-lesson" type="button" data-learning-key="invitation" onclick="showTcfEcritSub('invitation',this)"><span class="learning-card-icon">💌</span><span class="learning-card-title">Invitation</span><span class="learning-card-desc">Ouvrir cette leçon</span><span class="learning-card-meta">Ouvrir →</span></button>
+          <button class="learning-card is-lesson" type="button" data-learning-key="videos" onclick="showTcfEcritSub('videos',this)"><span class="learning-card-icon">▶</span><span class="learning-card-title">Videos</span><span class="learning-card-desc">Lire les vidéos</span><span class="learning-card-meta">Ouvrir →</span></button>
+        </div>
       </div>
       <div class="sec-header-actions tcf-ecrit-actions">
         <button class="sec-tool-btn" type="button" onclick="setQCardsOpen('#tcf-ecrit .q-card', false, event)" aria-label="Collapse">
@@ -6160,6 +6160,59 @@
         <div class="tcf-category-title tcf-cat-linda"><span>🌍</span> Groupe Linda Écrit — Changement de pays ou de ville</div>
         <div class="q-card tcf-sujet-card tcf-cat-linda"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">11</span><div><div class="q-label">Linda Écrit</div><div class="q-text">Comme Karim, tu as changé de pays ou de ville. Écris un texte de 80 à 100 mots pour raconter ton arrivée, les difficultés du début, ta vie aujourd'hui et tes projets d'avenir.</div><div class="tcf-sujet-translation">مثل كريم، غيّرت بلدك أو مدينتك. اكتب نصًا من 80 إلى 100 كلمة لتحكي عن وصولك، والصعوبات في البداية، وحياتك اليوم، ومشاريعك في المستقبل.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="note" style="margin-bottom:12px"><strong>Consigne :</strong> Comme Karim, tu as changé de pays ou de ville. Écris un texte de 80 à 100 mots pour raconter : quand tu es arrivé(e), ce qui était difficile au début, ta vie aujourd'hui, ce que tu aimerais faire dans l'avenir.</div><div class="note" style="direction:rtl;text-align:right;margin-bottom:12px"><strong>الترجمة :</strong> مثل كريم، غيّرت بلدك أو مدينتك. اكتب نصًا من 80 إلى 100 كلمة لتحكي: متى وصلت، ما الذي كان صعبًا في البداية، كيف هي حياتك اليوم، وما الذي ترغب في فعله في المستقبل.</div><div class="note" style="margin-bottom:14px"><strong>Points travaillés :</strong> passé composé / imparfait (au début, maintenant) · vocabulaire : vie quotidienne, études, travail · expression des projets : je voudrais, j'aimerais.</div><div class="note" style="direction:rtl;text-align:right;margin-bottom:14px"><strong>النقاط المتدرب عليها :</strong> الماضي المركب / الماضي الناقص (في البداية، الآن) · مفردات الحياة اليومية والدراسة والعمل · التعبير عن المشاريع: أودّ، أرغب.</div><div class="fr-text"><div class="fr-line">Je suis arrivé à Paris il y a trois ans pour poursuivre mes études et commencer une nouvelle carrière. Au début, la vie était difficile parce que je ne connaissais personne et il était compliqué de m'adapter au rythme rapide de la ville. Je cherchais aussi un logement et un travail, ce qui était stressant. Maintenant, je travaille dans une entreprise informatique et je continue mes études. Ma vie est plus stable et agréable. À l'avenir, j'aimerais obtenir un diplôme supérieur, créer ma propre entreprise et obtenir la nationalité française afin d'offrir un avenir stable et meilleur à ma famille.</div></div><div class="note" style="direction:rtl;text-align:right;margin-top:14px">وصلت إلى باريس منذ ثلاث سنوات لمتابعة دراستي وبدء مسار مهني جديد. في البداية، كانت الحياة صعبة لأنني لم أكن أعرف أحدًا، وكان من المعقد أن أتأقلم مع إيقاع المدينة السريع. كنت أبحث أيضًا عن سكن وعمل، وهذا كان مُجهدًا. الآن، أعمل في شركة معلوماتية وأواصل دراستي. أصبحت حياتي أكثر استقرارًا وراحة. في المستقبل، أود الحصول على شهادة عليا، وإنشاء شركتي الخاصة، والحصول على الجنسية الفرنسية من أجل توفير مستقبل مستقر وأفضل لعائلتي.</div></div></div>
       </div>
+      </div>
+
+      <div class="tcf-ecrit-sub" id="tcf-ecrit-videos">
+        <div class="sec-header">
+          <div>
+            <div class="sec-icon" style="background:var(--purple-light)">▶</div>
+            <div class="sec-title">Tache 1 <em>Videos</em></div>
+            <div class="sec-ar">فيديوهات تدريبية — Tache 1</div>
+          </div>
+          <span class="usage-tag" style="background:#f5f3ff;color:#6d28d9;border:1.5px solid #c4b5fd">VIDEOS</span>
+        </div>
+        <div class="card">
+          <span class="card-label">Videos</span>
+          <div class="learning-card-grid tcf-video-list" style="margin-top:10px">
+            <button class="learning-card is-lesson active" type="button" data-video-src="assets/Videos/Copy%20of%201.mp4" onclick="playTcfTacheVideo('assets/Videos/Copy%20of%201.mp4','Copy of 1',this)"><span class="learning-card-icon">1</span><span class="learning-card-title">Copy of 1</span><span class="learning-card-desc">Lire cette vidéo</span><span class="learning-card-meta">Lire →</span></button>
+            <button class="learning-card is-lesson" type="button" data-video-src="assets/Videos/Copy%20of%202.mp4" onclick="playTcfTacheVideo('assets/Videos/Copy%20of%202.mp4','Copy of 2',this)"><span class="learning-card-icon">2</span><span class="learning-card-title">Copy of 2</span><span class="learning-card-desc">Lire cette vidéo</span><span class="learning-card-meta">Lire →</span></button>
+            <button class="learning-card is-lesson" type="button" data-video-src="assets/Videos/Copy%20of%203.mp4" onclick="playTcfTacheVideo('assets/Videos/Copy%20of%203.mp4','Copy of 3',this)"><span class="learning-card-icon">3</span><span class="learning-card-title">Copy of 3</span><span class="learning-card-desc">Lire cette vidéo</span><span class="learning-card-meta">Lire →</span></button>
+          </div>
+        </div>
+        <div class="card">
+          <span class="card-label" id="tcf-video-title">Copy of 1</span>
+          <video id="tcf-tache-video-player" controls playsinline preload="metadata" style="width:100%;max-height:70vh;border-radius:8px;background:#020617" src="assets/Videos/Copy%20of%201.mp4"></video>
+        </div>
+      </div>
+
+      <div class="tcf-ecrit-sub" id="tcf-ecrit-tache2">
+        <div class="sec-header">
+          <div>
+            <div class="sec-icon" style="background:var(--blue-light)">2</div>
+            <div class="sec-title">TCF Écrit <em>Tache 2</em></div>
+            <div class="sec-ar">Tâche 2 écrit — à compléter</div>
+          </div>
+          <span class="usage-tag tag-now">TCF</span>
+        </div>
+        <div class="card">
+          <span class="card-label">Contenu</span>
+          <div class="note">Ajoutez ici les modèles, sujets et exemples de la Tache 2.</div>
+        </div>
+      </div>
+
+      <div class="tcf-ecrit-sub" id="tcf-ecrit-tache3">
+        <div class="sec-header">
+          <div>
+            <div class="sec-icon" style="background:var(--green-light)">3</div>
+            <div class="sec-title">TCF Écrit <em>Tache 3</em></div>
+            <div class="sec-ar">Tâche 3 écrit — à compléter</div>
+          </div>
+          <span class="usage-tag tag-fut">TCF</span>
+        </div>
+        <div class="card">
+          <span class="card-label">Contenu</span>
+          <div class="note">Ajoutez ici les modèles, sujets et exemples de la Tache 3.</div>
+        </div>
       </div>
 
       <div class="tcf-ecrit-sub tcf-expliquer" id="tcf-ecrit-expliquer">

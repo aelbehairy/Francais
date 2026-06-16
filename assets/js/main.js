@@ -1601,6 +1601,32 @@ function getFerialLessonCards(){
   });
 }
 
+function getTcfEcritTaskCards(){
+  return [
+    {
+      key:'ecrit1',
+      icon:'1',
+      title:'Tache 1',
+      desc:'Ouvrir cette leçon',
+      action:function(){ showTcfEcritSub('ecrit1'); }
+    },
+    {
+      key:'tache2',
+      icon:'2',
+      title:'Tache 2',
+      desc:'Ouvrir cette leçon',
+      action:function(){ showTcfEcritSub('tache2'); }
+    },
+    {
+      key:'tache3',
+      icon:'3',
+      title:'Tache 3',
+      desc:'Ouvrir cette leçon',
+      action:function(){ showTcfEcritSub('tache3'); }
+    }
+  ];
+}
+
 function getLessonCards(mainKey, groupKey){
   if(mainKey === 'grammaire'){
     if(groupKey === 'roles') {
@@ -1617,7 +1643,7 @@ function getLessonCards(mainKey, groupKey){
   if(mainKey === 'oral' && groupKey === 'mariane') return buttonCards('#pills-mariane .pill');
   if(mainKey === 'oral' && groupKey === 'ferial') return getFerialLessonCards();
   if(mainKey === 'tcf' && groupKey === 'ecrit') {
-    return buttonCards('#tcf-ecrit .nested-child-tabs .pill');
+    return getTcfEcritTaskCards();
   }
   return [];
 }
@@ -2440,7 +2466,7 @@ function restoreRoute(){
     switchTop('tcf', topBtn);
     if(route.section && document.getElementById('tcf-ecrit-' + route.section)){
       showTcf('ecrit', document.querySelector("#pills-tcf .pill[onclick*=\"'ecrit'\"]"));
-      showTcfEcritSub(route.section, document.querySelector("#tcf-ecrit .nested-child-tabs .pill[onclick*=\"'" + route.section + "'\"]"));
+      showTcfEcritSub(route.section, document.querySelector('#learning-card-grid .learning-card[data-learning-key="' + route.section + '"]') || document.querySelector('#tcf-ecrit .tcf-tache1-tabs .learning-card[data-learning-key="' + route.section + '"]'));
       updateRoute('tcf', route.section);
       setLearningContentVisible(true);
     } else if(route.section) showTcf(route.section, document.querySelector("#pills-tcf .pill[onclick*=\"'" + route.section + "'\"]"));
@@ -2999,13 +3025,36 @@ function showTcf(id, btn){
 
 function showTcfEcritSub(id, btn){
   document.querySelectorAll('#tcf-ecrit .tcf-ecrit-sub').forEach(function(s){ s.classList.remove('visible'); });
-  document.querySelectorAll('#tcf-ecrit .nested-child-tabs .pill').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('#tcf-ecrit .tcf-tache1-tabs .pill, #tcf-ecrit .tcf-tache1-tabs .learning-card').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('#learning-card-grid .learning-card[data-learning-key="ecrit1"], #learning-card-grid .learning-card[data-learning-key="tache2"], #learning-card-grid .learning-card[data-learning-key="tache3"]').forEach(function(b){ b.classList.remove('active'); });
   var invitation = document.getElementById('tcf-invitation');
   if(invitation) invitation.classList.remove('visible');
   var sec = document.getElementById('tcf-ecrit-'+id);
   if(sec) sec.classList.add('visible');
   if(id === 'invitation' && invitation) invitation.classList.add('visible');
+  if(['expliquer','comparer','structure','invitation','videos'].indexOf(id) !== -1){
+    var tache1Btn = document.querySelector('#learning-card-grid .learning-card[data-learning-key="ecrit1"]');
+    var toolBtn = btn || document.querySelector('#tcf-ecrit .tcf-tache1-tabs .learning-card[data-learning-key="' + id + '"]');
+    if(tache1Btn) tache1Btn.classList.add('active');
+    if(toolBtn) toolBtn.classList.add('active');
+  } else {
+    var taskBtn = document.querySelector('#learning-card-grid .learning-card[data-learning-key="' + id + '"]');
+    if(taskBtn) taskBtn.classList.add('active');
+  }
   if(btn) btn.classList.add('active');
+  updateRoute('tcf', id);
+}
+
+function playTcfTacheVideo(src, title, btn){
+  var player = document.getElementById('tcf-tache-video-player');
+  var label = document.getElementById('tcf-video-title');
+  document.querySelectorAll('#tcf-ecrit-videos .tcf-video-list .learning-card').forEach(function(card){ card.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  if(label) label.textContent = title || 'Video';
+  if(player && src){
+    if(player.getAttribute('src') !== src) player.setAttribute('src', src);
+    player.play().catch(function(){});
+  }
 }
 
 // ── Q-Card toggle ──
