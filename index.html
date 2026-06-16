@@ -3691,6 +3691,7 @@
       <button class="pill" onclick="showMariane(this)"><span class="pi">🎤</span>Oral (Mariane et Linda)</button>
       <button class="pill active" onclick="showOral('devoirs',this)"><span class="pi">📝</span>Devoirs Mariane</button>
       <button class="pill" onclick="showOral('ferial',this)"><span class="pi">🎙</span>Ferial</button>
+      <button class="pill" onclick="showOral('prononciation',this)"><span class="pi">🎧</span>Prononciation</button>
     </div>
   </nav>
   <main class="main">
@@ -4172,6 +4173,35 @@
     </section>
 
     <!-- DEVOIRS MARIANNE -->
+    <section class="sec" id="o-prononciation">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:var(--purple-light)">🎧</div><div class="sec-title">Pro<em>nonciation</em></div><div class="sec-ar">تدريب النطق بالميكروفون</div></div>
+        <span class="usage-tag tag-oral">MIC</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">Original text</span>
+          <textarea id="pron-original-text" class="pron-textarea" rows="8" placeholder="Écrivez ou collez ici le texte original à lire...">Bonjour, je m'appelle Ahmed et j'apprends le français pour améliorer ma prononciation.</textarea>
+          <div class="note" style="direction:rtl;text-align:right">اكتب النص الأصلي هنا، ثم اضغط على الميكروفون واقرأه بصوتك.</div>
+        </div>
+        <div class="card">
+          <span class="card-label">Speech to text</span>
+          <div class="grid-2" style="margin-bottom:12px">
+            <button class="sec-tool-btn" type="button" onclick="startPronunciationMic(event)"><span class="btn-icon">🎙</span><strong>Start mic</strong></button>
+            <button class="sec-tool-btn" type="button" onclick="stopPronunciationMic(event)"><span class="btn-icon">■</span><strong>Stop</strong></button>
+          </div>
+          <div id="pron-status" class="note">Ready. Use Chrome or Edge and allow microphone access.</div>
+          <textarea id="pron-recognized-text" class="pron-textarea" rows="6" placeholder="Your recognized speech will appear here..."></textarea>
+          <button class="pill" type="button" onclick="comparePronunciationText()"><span class="pi">✅</span>Correct text</button>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-label">Correction</span>
+        <div id="pron-score" class="formula">Score: -</div>
+        <div id="pron-correction" class="pron-correction"></div>
+      </div>
+    </section>
+
     <section class="sec visible" id="o-devoirs">
       <div class="card mariane-nav-card visible-anim">
         <span class="card-label">Devoirs · Marianne</span>
@@ -7399,12 +7429,6 @@
     <span class="sidebar-caption">Apprendre</span>
     <button class="sidebar-link active" type="button" data-sidebar-target="temps" onclick="showGrammarGroupCardsFor('temps',this)">
       <span class="sidebar-icon">⏱️</span><span class="sidebar-text">Temps</span>
-    </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="b1" onclick="showGrammarGroupCardsFor('b1',this)">
-      <span class="sidebar-text">B1</span>
-    </button>
-    <button class="sidebar-link" type="button" data-sidebar-target="b2" onclick="showGrammarGroupCardsFor('b2',this)">
-      <span class="sidebar-text">B2</span>
     </button>
     <button class="sidebar-link" type="button" data-sidebar-target="grammaire" onclick="showMainCardsFor('grammaire',document.querySelector('.top-tab[onclick*=grammaire]'))">
       <span class="sidebar-icon">📚</span><span class="sidebar-text">Grammaire</span>

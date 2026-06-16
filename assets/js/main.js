@@ -1566,6 +1566,10 @@ function getCardsForMain(mainKey){
       {key:'ferial', icon:'🎙', title:'Ferial', desc:learningDescriptions.ferial, action:function(){
         var btn = document.querySelector('#pills-oral .pill[onclick*="ferial"]');
         if(btn) btn.click();
+      }},
+      {key:'prononciation', icon:'🎧', title:'Prononciation', desc:'Micro, speech to text et correction', action:function(){
+        var btn = document.querySelector('#pills-oral .pill[onclick*="prononciation"]');
+        if(btn) btn.click();
       }}
     ];
   }
@@ -2949,7 +2953,7 @@ function showOral(id, btn){
   var oralPanel = document.getElementById('panel-oral');
   if(oralPanel) oralPanel.classList.add('active');
   var marianeQuestionNav = document.getElementById('mariane-question-nav');
-  if(marianeQuestionNav) marianeQuestionNav.hidden = id === 'devoirs' || id === 'ferial';
+  if(marianeQuestionNav) marianeQuestionNav.hidden = id === 'devoirs' || id === 'ferial' || id === 'prononciation';
   document.querySelectorAll('#pills-oral .pill').forEach(function(b){ b.classList.remove('active'); });
   var isTopOralPill = btn && btn.closest && btn.closest('#pills-oral');
   var marianeTab = document.querySelector('#pills-oral .pill[onclick*="showMariane"]');
@@ -3000,6 +3004,106 @@ function showFerialLesson(id, btn){
       selectedPanel.scrollIntoView({behavior:'smooth', block:'start'});
     }, 20);
   }
+}
+
+var pronunciationRecognition = null;
+
+function getPronunciationRecognition(){
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRecognition) return null;
+  if(!pronunciationRecognition){
+    pronunciationRecognition = new SpeechRecognition();
+    pronunciationRecognition.lang = 'fr-FR';
+    pronunciationRecognition.interimResults = true;
+    pronunciationRecognition.continuous = true;
+    pronunciationRecognition.onresult = function(event){
+      var finalText = '';
+      var interimText = '';
+      for(var i = 0; i < event.results.length; i++){
+        var text = event.results[i][0] && event.results[i][0].transcript ? event.results[i][0].transcript : '';
+        if(event.results[i].isFinal) finalText += text + ' ';
+        else interimText += text + ' ';
+      }
+      var output = document.getElementById('pron-recognized-text');
+      if(output) output.value = (finalText + interimText).trim();
+    };
+    pronunciationRecognition.onerror = function(event){
+      setPronunciationStatus('Mic error: ' + (event.error || 'unknown'));
+    };
+    pronunciationRecognition.onend = function(){
+      setPronunciationStatus('Mic stopped. You can correct the text now.');
+    };
+  }
+  return pronunciationRecognition;
+}
+
+function setPronunciationStatus(message){
+  var status = document.getElementById('pron-status');
+  if(status) status.textContent = message;
+}
+
+function startPronunciationMic(event){
+  if(event) event.preventDefault();
+  var recognition = getPronunciationRecognition();
+  if(!recognition){
+    setPronunciationStatus('Speech recognition is not supported in this browser. Use Chrome or Edge.');
+    return;
+  }
+  var output = document.getElementById('pron-recognized-text');
+  if(output) output.value = '';
+  try {
+    recognition.start();
+    setPronunciationStatus('Listening... speak in French.');
+  } catch(error) {
+    setPronunciationStatus('Mic is already listening.');
+  }
+}
+
+function stopPronunciationMic(event){
+  if(event) event.preventDefault();
+  if(pronunciationRecognition) pronunciationRecognition.stop();
+}
+
+function normalizePronunciationText(text){
+  return String(text || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[’']/g, ' ')
+    .replace(/[^a-z0-9àâçéèêëîïôûùüÿñæœ\s-]/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function comparePronunciationText(){
+  var original = document.getElementById('pron-original-text');
+  var spoken = document.getElementById('pron-recognized-text');
+  var correction = document.getElementById('pron-correction');
+  var score = document.getElementById('pron-score');
+  if(!original || !spoken || !correction || !score) return;
+  var originalWords = normalizePronunciationText(original.value).split(' ').filter(Boolean);
+  var spokenWords = normalizePronunciationText(spoken.value).split(' ').filter(Boolean);
+  var spokenCounts = {};
+  spokenWords.forEach(function(word){ spokenCounts[word] = (spokenCounts[word] || 0) + 1; });
+  var matched = 0;
+  var html = originalWords.map(function(word){
+    if(spokenCounts[word] > 0){
+      spokenCounts[word]--;
+      matched++;
+      return '<span class="pron-word ok">' + escapeHtml(word) + '</span>';
+    }
+    return '<span class="pron-word miss">' + escapeHtml(word) + '</span>';
+  }).join('');
+  var extras = [];
+  Object.keys(spokenCounts).forEach(function(word){
+    for(var i = 0; i < spokenCounts[word]; i++) extras.push(word);
+  });
+  if(extras.length){
+    html += extras.map(function(word){ return '<span class="pron-word extra">+' + escapeHtml(word) + '</span>'; }).join('');
+  }
+  var percent = originalWords.length ? Math.round((matched / originalWords.length) * 100) : 0;
+  score.textContent = 'Score: ' + percent + '% (' + matched + '/' + originalWords.length + ')';
+  correction.innerHTML = html || '<div class="note">Add original text and record your speech first.</div>';
 }
 
 // ── Phonétique section switch ──

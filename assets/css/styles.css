@@ -5692,6 +5692,52 @@ body.learning-content-hidden .panel .main {
   font-weight: 900 !important;
 }
 
+.pron-textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 150px;
+  border: 1.5px solid #dbeafe;
+  border-radius: 8px;
+  padding: 12px;
+  font-family: "Inter", "Tajawal", sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-dark);
+  background: #fff;
+  outline: none;
+}
+.pron-textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+}
+.pron-correction {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pron-word {
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-weight: 800;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+.pron-word.ok {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #86efac;
+}
+.pron-word.miss {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+.pron-word.extra {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
 @media (max-width: 720px) {
   .card-label {
     font-size: 17px !important;
