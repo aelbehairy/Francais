@@ -47,35 +47,82 @@ var lirePages = [
 var youtubePlaylists = [
   {
     key:'playlist-1',
-    title:'Playlist 1',
-    desc:'YouTube playlist',
+    title:'French A1',
+    desc:'13 videos',
     playlistId:'PLf3rJn144wviM1xUXX-fPH88XprF82xFH',
     starterVideoId:'IIIcKcpg638',
-    starterIndex:3
+    starterIndex:1,
+    videos:[
+      {id:'IIIcKcpg638', title:'French A1 - Video 1'},
+      {id:'K85XpG47tfo', title:'French A1 - Video 2'},
+      {id:'H6IdYAnK5iA', title:'French A1 - Video 3'},
+      {id:'og6PDAv6KgY', title:'French A1 - Video 4'},
+      {id:'K03HRW40MtU', title:'French A1 - Video 5'},
+      {id:'i7O2fgQrbeE', title:'French A1 - Video 6'},
+      {id:'gj6WubwwOts', title:'French A1 - Video 7'},
+      {id:'jVrcZxcOb64', title:'French A1 - Video 8'},
+      {id:'AOswvKkbkSs', title:'French A1 - Video 9'},
+      {id:'ybrZIr4LgF8', title:'French A1 - Video 10'},
+      {id:'zJFJlzJyjnQ', title:'French A1 - Video 11'},
+      {id:'2S6nsJgejVU', title:'French A1 - Video 12'},
+      {id:'bcj5FCsCCPc', title:'French A1 - Video 13'}
+    ]
   },
   {
     key:'playlist-2',
-    title:'Playlist 2',
-    desc:'YouTube playlist',
+    title:'French A2',
+    desc:'14 videos',
     playlistId:'PLf3rJn144wvhYxvo9L74aRwBr0G7PvcMa',
-    starterVideoId:'',
-    starterIndex:1
+    starterVideoId:'pC6KwYNW8qQ',
+    starterIndex:1,
+    videos:[
+      {id:'pC6KwYNW8qQ', title:'French A2 - Video 1'},
+      {id:'DT557F7T7GQ', title:'French A2 - Video 2'},
+      {id:'C1Pgy4VOoRM', title:'French A2 - Video 3'},
+      {id:'5cs7zH1KQuk', title:'French A2 - Video 4'},
+      {id:'B0mPyGo_lKE', title:'French A2 - Video 5'},
+      {id:'paFNRCecJQM', title:'French A2 - Video 6'},
+      {id:'-xzVJ8-2bE4', title:'French A2 - Video 7'},
+      {id:'ZCiBZwh6oAM', title:'French A2 - Video 8'},
+      {id:'By9m3sSnHvk', title:'French A2 - Video 9'},
+      {id:'1S_1OuaU0YQ', title:'French A2 - Video 10'},
+      {id:'qipUiIPxU8c', title:'French A2 - Video 11'},
+      {id:'C6OtIYPyJcM', title:'French A2 - Video 12'},
+      {id:'vYdqteWPbN4', title:'French A2 - Video 13'},
+      {id:'hajbcgS-H6Q', title:'French A2 - Video 14'}
+    ]
   },
   {
     key:'playlist-3',
-    title:'Playlist 3',
-    desc:'YouTube playlist',
+    title:'French B1',
+    desc:'5 videos',
     playlistId:'PLf3rJn144wvj8WSt_U1TBTdjcz2difvwY',
     starterVideoId:'Aedc_XQY2aM',
-    starterIndex:3
+    starterIndex:1,
+    videos:[
+      {id:'Aedc_XQY2aM', title:'French B1 - Video 1'},
+      {id:'UKGOQZvZWsw', title:'French B1 - Video 2'},
+      {id:'5V-685Hizl4', title:'French B1 - Video 3'},
+      {id:'zinhU0N45pk', title:'French B1 - Video 4'},
+      {id:'FHJx1oEQRUY', title:'French B1 - Video 5'}
+    ]
   },
   {
     key:'playlist-4',
-    title:'Playlist 4',
-    desc:'YouTube playlist',
+    title:'French Phonétique',
+    desc:'7 videos',
     playlistId:'PLf3rJn144wviGt21nm03HAIE946y6wYyO',
     starterVideoId:'nK_Sf64C51s',
-    starterIndex:3
+    starterIndex:1,
+    videos:[
+      {id:'nK_Sf64C51s', title:'French Phonétique - Video 1'},
+      {id:'sw8x1HUt59Q', title:'French Phonétique - Video 2'},
+      {id:'x3KUY2xQayQ', title:'French Phonétique - Video 3'},
+      {id:'tTro2Oq8WVY', title:'French Phonétique - Video 4'},
+      {id:'xffTqdsDDRA', title:'French Phonétique - Video 5'},
+      {id:'ZPRL8YVNCcs', title:'French Phonétique - Video 6'},
+      {id:'15wDDD-ELgA', title:'French Phonétique - Video 7'}
+    ]
   }
 ];
 
@@ -123,16 +170,18 @@ function getYoutubePlaylistUrl(item){
   return 'https://www.youtube.com/playlist?list=' + encodeURIComponent(item.playlistId);
 }
 
-function getYoutubeWatchUrl(item){
-  if(!item.starterVideoId) return getYoutubePlaylistUrl(item);
-  return 'https://www.youtube.com/watch?v=' + encodeURIComponent(item.starterVideoId) +
+function getYoutubeWatchUrl(item, video){
+  var videoId = (video && video.id) || item.starterVideoId;
+  if(!videoId) return getYoutubePlaylistUrl(item);
+  return 'https://www.youtube.com/watch?v=' + encodeURIComponent(videoId) +
     '&list=' + encodeURIComponent(item.playlistId) +
-    (item.starterIndex ? '&index=' + encodeURIComponent(item.starterIndex) : '');
+    (video && video.index ? '&index=' + encodeURIComponent(video.index) : (item.starterIndex ? '&index=' + encodeURIComponent(item.starterIndex) : ''));
 }
 
-function getYoutubeEmbedUrl(item){
-  if(item.starterVideoId){
-    return 'https://www.youtube.com/embed/' + encodeURIComponent(item.starterVideoId) +
+function getYoutubeEmbedUrl(item, video){
+  var videoId = (video && video.id) || item.starterVideoId;
+  if(videoId){
+    return 'https://www.youtube.com/embed/' + encodeURIComponent(videoId) +
       '?list=' + encodeURIComponent(item.playlistId);
   }
   return 'https://www.youtube.com/embed/videoseries?list=' + encodeURIComponent(item.playlistId);
@@ -142,20 +191,72 @@ function findYoutubePlaylist(key){
   return youtubePlaylists.filter(function(item){ return item.key === key; })[0] || youtubePlaylists[0];
 }
 
-function playYoutubePlaylist(key, btn){
+function getYoutubeVideo(item, videoId){
+  if(!item || !item.videos || !item.videos.length) return null;
+  var foundIndex = 0;
+  var found = item.videos.filter(function(video, index){
+    if(video.id === videoId){
+      foundIndex = index;
+      return true;
+    }
+    return false;
+  })[0] || item.videos[0];
+  return {
+    id: found.id,
+    title: found.title,
+    index: foundIndex + 1
+  };
+}
+
+function playYoutubeVideo(key, videoId, btn){
   var item = findYoutubePlaylist(key);
   if(!item) return;
+  var video = getYoutubeVideo(item, videoId);
   var player = document.getElementById('youtube-video-player');
   var title = document.getElementById('youtube-video-title');
   var playlistLink = document.getElementById('youtube-open-playlist');
   var videoLink = document.getElementById('youtube-open-video');
+  document.querySelectorAll('#youtube-video-cards .youtube-video-button').forEach(function(card){ card.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  if(title) title.textContent = video ? video.title : item.title;
+  if(player) player.setAttribute('src', getYoutubeEmbedUrl(item, video));
+  if(playlistLink) playlistLink.setAttribute('href', getYoutubePlaylistUrl(item));
+  if(videoLink) videoLink.setAttribute('href', getYoutubeWatchUrl(item, video));
+  updateRoute('videos', item.key);
+}
+
+function sortYoutubeVideosByName(videos){
+  return (videos || []).slice().sort(function(a, b){
+    return String(a.title || '').localeCompare(String(b.title || ''), undefined, {numeric:true, sensitivity:'base'});
+  });
+}
+
+function renderYoutubeVideoCards(item, activeVideoId){
+  var grid = document.getElementById('youtube-video-cards');
+  var label = document.getElementById('youtube-video-list-label');
+  if(!grid || !item) return;
+  var videos = sortYoutubeVideosByName(item.videos);
+  if(label) label.textContent = item.title + ' - videos';
+  grid.innerHTML = videos.map(function(video, index){
+    var buttonTitle = video.title || (item.title + ' - Video ' + (index + 1));
+    return '<button class="youtube-video-button' + (video.id === activeVideoId ? ' active' : '') + '" type="button" title="' + escapeHtml(buttonTitle) + '" aria-label="' + escapeHtml(buttonTitle) + '" data-youtube-playlist="' + escapeHtml(item.key) + '" data-youtube-video="' + escapeHtml(video.id) + '">' +
+      '<span class="youtube-video-button-title">' + escapeHtml(buttonTitle) + '</span>' +
+    '</button>';
+  }).join('');
+  grid.querySelectorAll('.youtube-video-button[data-youtube-video]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      playYoutubeVideo(btn.getAttribute('data-youtube-playlist'), btn.getAttribute('data-youtube-video'), btn);
+    });
+  });
+  playYoutubeVideo(item.key, activeVideoId || (videos[0] && videos[0].id), grid.querySelector('.youtube-video-button[data-youtube-video="' + (activeVideoId || (videos[0] && videos[0].id)) + '"]'));
+}
+
+function playYoutubePlaylist(key, btn){
+  var item = findYoutubePlaylist(key);
+  if(!item) return;
   document.querySelectorAll('#youtube-playlist-cards .learning-card').forEach(function(card){ card.classList.remove('active'); });
   if(btn) btn.classList.add('active');
-  if(title) title.textContent = item.title;
-  if(player) player.setAttribute('src', getYoutubeEmbedUrl(item));
-  if(playlistLink) playlistLink.setAttribute('href', getYoutubePlaylistUrl(item));
-  if(videoLink) videoLink.setAttribute('href', getYoutubeWatchUrl(item));
-  updateRoute('videos', item.key);
+  renderYoutubeVideoCards(item, item.videos && item.videos[0] && item.videos[0].id);
 }
 
 function renderYoutubePlaylists(activeKey){
@@ -1864,6 +1965,7 @@ function updateLessonCardRoute(mainKey, groupKey, key){
 
 function routeHasFinalContent(panel, section){
   if(panel === 'dictionary') return true;
+  if(panel === 'videos') return true;
   if(!section) return false;
   if(panel === 'tcf' && section === 'ecrit') return false;
   if(panel === 'oral' && section === 'ferial') return false;
@@ -2569,6 +2671,9 @@ function restoreRoute(){
     }
     return;
   }
+  if(route.panel === 'tcf' && route.section === 'videos'){
+    route = {panel:'videos', section:(youtubePlaylists[0] && youtubePlaylists[0].key)};
+  }
   var topBtn = document.querySelector(".top-tab[onclick*=\"" + route.panel + "\"]");
   if(!document.getElementById('panel-' + route.panel)) return;
 
@@ -2617,7 +2722,7 @@ function restoreRoute(){
     switchTop('videos', topBtn);
     renderYoutubePlaylists(route.section || (youtubePlaylists[0] && youtubePlaylists[0].key));
     setLearningState({main:'videos', group:route.section || null});
-    setLearningContentVisible(!!route.section);
+    setLearningContentVisible(true);
     renderLearningExplorer();
   } else if(route.panel === 'dictionary'){
     switchTop('dictionary', topBtn);

@@ -475,6 +475,40 @@ body {
   border-radius: 10px;
   font-size: 17px;
 }
+#youtube-video-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 1180px;
+}
+.youtube-video-button {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px solid #dbe4f0 !important;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--text-dark);
+  padding: 8px 12px 8px 8px;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+}
+.youtube-video-button:hover {
+  border-color: var(--blue-mid) !important;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.youtube-video-button.active {
+  border-color: var(--blue) !important;
+  background: #eff6ff;
+  color: var(--blue);
+}
+.youtube-video-button-title {
+  white-space: nowrap;
+}
 
 /* ═══════════════ STICKY NAV ═══════════════ */
 .nav-wrap {
