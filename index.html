@@ -31,10 +31,10 @@
     <h1>Grammaire &amp; <em>Temps</em><br>Français</h1>
     <p class="hero-sub">Votre référence complète pour la grammaire, les temps et l’expression orale</p>
     <div class="hero-stats">
-      <div class="hstat"><span class="hstat-num">4</span><div class="hstat-label">Sections principales</div></div>
-      <div class="hstat"><span class="hstat-num">11</span><div class="hstat-label">Temps français</div></div>
-      <div class="hstat"><span class="hstat-num">9</span><div class="hstat-label">Exercices oraux</div></div>
-      <div class="hstat"><span class="hstat-num">17</span><div class="hstat-label">Textes de lecture</div></div>
+      <div class="hstat"><span class="hstat-num" id="hero-stat-sections">0</span><div class="hstat-label">Sections principales</div></div>
+      <div class="hstat"><span class="hstat-num" id="hero-stat-temps">0</span><div class="hstat-label">Temps français</div></div>
+      <div class="hstat"><span class="hstat-num" id="hero-stat-oral">0</span><div class="hstat-label">Exercices oraux</div></div>
+      <div class="hstat"><span class="hstat-num" id="hero-stat-lecture">0</span><div class="hstat-label">Textes de lecture</div></div>
     </div>
   </div>
 
@@ -58,8 +58,11 @@
     <button class="top-tab" onclick="showMainCardsFor('vocabulary',this)">
       <span class="ti">🗂️</span> Vocabulary
     </button>
+    <button class="top-tab" onclick="showMainCardsFor('videos',this)">
+      <span class="ti">▶</span> Videos
+    </button>
     <button class="top-tab" onclick="showMainCardsFor('tcf',this)">
-      <span class="ti">📝</span> TCF
+      <span class="ti">📝</span> Pre TCF
     </button>
     <button class="top-tab" onclick="showMainCardsFor('dictionary',this)">
       <span class="ti">📒</span> Dictionary
@@ -8089,6 +8092,35 @@
   </main>
 </div><!-- end panel-tcf -->
 
+<!-- ════ VIDEOS PANEL ════ -->
+<div id="panel-videos" class="panel">
+  <main class="main">
+    <section class="sec visible" id="videos-main">
+      <div class="sec-header">
+        <div>
+          <div class="sec-icon" style="background:var(--purple-light)">▶</div>
+          <div class="sec-title">Vid<em>eos</em></div>
+          <div class="sec-ar">قوائم تشغيل فيديو للتدريب</div>
+        </div>
+        <span class="usage-tag" style="background:#f5f3ff;color:#6d28d9;border:1.5px solid #c4b5fd">VIDEOS</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Playlists</span>
+        <div class="learning-card-grid" id="youtube-playlist-cards"></div>
+        <div class="note">Certaines playlists ou vidéos peuvent être privées. Si une liste ne s'affiche pas dans le lecteur, ouvrez-la directement sur YouTube.</div>
+      </div>
+      <div class="card">
+        <span class="card-label" id="youtube-video-title">Playlist 1</span>
+        <iframe id="youtube-video-player" src="https://www.youtube.com/embed/IIIcKcpg638?list=PLf3rJn144wviM1xUXX-fPH88XprF82xFH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen style="width:100%;height:min(70vh,620px);border:0;border-radius:8px;background:#020617"></iframe>
+        <div class="grid-2" style="margin-top:14px">
+          <a class="sec-tool-btn" id="youtube-open-playlist" href="https://www.youtube.com/playlist?list=PLf3rJn144wviM1xUXX-fPH88XprF82xFH" target="_blank" rel="noopener">Open playlist</a>
+          <a class="sec-tool-btn" id="youtube-open-video" href="https://www.youtube.com/watch?v=IIIcKcpg638&list=PLf3rJn144wviM1xUXX-fPH88XprF82xFH&index=3" target="_blank" rel="noopener">Open video</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div><!-- end panel-videos -->
+
 <!-- ════ DICTIONARY PANEL ════ -->
 <div id="panel-dictionary" class="panel">
   <main class="main dictionary-main">
@@ -8126,7 +8158,7 @@
 </div><!-- end panel-dictionary -->
 
 <footer class="footer">
-  <p><strong>Grammaire &amp; Temps &amp; Expression Orale &amp; Phonétique &amp; Vocabulary &amp; TCF</strong></p>
+  <p><strong>Grammaire &amp; Temps &amp; Expression Orale &amp; Phonétique &amp; Vocabulary &amp; Videos &amp; Pre TCF</strong></p>
   <p style="margin-top:8px;font-size:13px">مرجع تعليمي شامل · Bonne chance ! 🇫🇷</p>
 </footer>
 
@@ -8172,8 +8204,11 @@
     <button class="sidebar-link" type="button" data-sidebar-target="vocabulary" onclick="showMainCardsFor('vocabulary',document.querySelector('.top-tab[onclick*=vocabulary]'))">
       <span class="sidebar-icon">🗂️</span><span class="sidebar-text">Vocabulary</span>
     </button>
+    <button class="sidebar-link" type="button" data-sidebar-target="videos" onclick="showMainCardsFor('videos',document.querySelector('.top-tab[onclick*=videos]'))">
+      <span class="sidebar-icon">▶️</span><span class="sidebar-text">Videos</span>
+    </button>
     <button class="sidebar-link" type="button" data-sidebar-target="tcf" onclick="showMainCardsFor('tcf',document.querySelector('.top-tab[onclick*=tcf]'))">
-      <span class="sidebar-icon">📝</span><span class="sidebar-text">TCF</span>
+      <span class="sidebar-icon">📝</span><span class="sidebar-text">Pre TCF</span>
     </button>
     <button class="sidebar-link" type="button" data-sidebar-target="dictionary" onclick="showMainCardsFor('dictionary',document.querySelector('.top-tab[onclick*=dictionary]'))">
       <span class="sidebar-icon">📒</span><span class="sidebar-text">Dictionary</span>

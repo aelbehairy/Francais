@@ -44,6 +44,41 @@ var lirePages = [
   {title:'La Sologne', group:'facile', url:'https://www.podcastfrancaisfacile.com/texte/la-sologne.html'}
 ];
 
+var youtubePlaylists = [
+  {
+    key:'playlist-1',
+    title:'Playlist 1',
+    desc:'YouTube playlist',
+    playlistId:'PLf3rJn144wviM1xUXX-fPH88XprF82xFH',
+    starterVideoId:'IIIcKcpg638',
+    starterIndex:3
+  },
+  {
+    key:'playlist-2',
+    title:'Playlist 2',
+    desc:'YouTube playlist',
+    playlistId:'PLf3rJn144wvhYxvo9L74aRwBr0G7PvcMa',
+    starterVideoId:'',
+    starterIndex:1
+  },
+  {
+    key:'playlist-3',
+    title:'Playlist 3',
+    desc:'YouTube playlist',
+    playlistId:'PLf3rJn144wvj8WSt_U1TBTdjcz2difvwY',
+    starterVideoId:'Aedc_XQY2aM',
+    starterIndex:3
+  },
+  {
+    key:'playlist-4',
+    title:'Playlist 4',
+    desc:'YouTube playlist',
+    playlistId:'PLf3rJn144wviGt21nm03HAIE946y6wYyO',
+    starterVideoId:'nK_Sf64C51s',
+    starterIndex:3
+  }
+];
+
 function renderLireLinks(){
   var grid = document.getElementById('lireLinkGrid');
   if(!grid) return;
@@ -59,6 +94,88 @@ function renderLireLinks(){
       '<span class="lire-link-meta">'+escapeHtml(page.group)+'</span>';
     grid.appendChild(link);
   });
+  updateHeroStats();
+}
+
+function setHeroStat(id, value){
+  var el = document.getElementById(id);
+  if(el) el.textContent = String(value);
+}
+
+function updateHeroStats(){
+  var sectionCount = document.querySelectorAll('.top-tabs .top-tab:not(.top-search-btn)').length;
+  var excludedTemps = {'irreguliers': true, 'regles': true};
+  var tempsCount = Array.prototype.slice.call(document.querySelectorAll('#pills-temps .pill')).filter(function(btn){
+    var onclick = btn.getAttribute('onclick') || '';
+    var match = onclick.match(/showSec\('([^']+)'/);
+    return match && !excludedTemps[match[1]];
+  }).length;
+  var oralCount = document.querySelectorAll('#tcf-oral .tcf-oral-card').length;
+  var lectureCount = document.querySelectorAll('#lireLinkGrid .lire-link').length || lirePages.length;
+
+  setHeroStat('hero-stat-sections', sectionCount);
+  setHeroStat('hero-stat-temps', tempsCount);
+  setHeroStat('hero-stat-oral', oralCount);
+  setHeroStat('hero-stat-lecture', lectureCount);
+}
+
+function getYoutubePlaylistUrl(item){
+  return 'https://www.youtube.com/playlist?list=' + encodeURIComponent(item.playlistId);
+}
+
+function getYoutubeWatchUrl(item){
+  if(!item.starterVideoId) return getYoutubePlaylistUrl(item);
+  return 'https://www.youtube.com/watch?v=' + encodeURIComponent(item.starterVideoId) +
+    '&list=' + encodeURIComponent(item.playlistId) +
+    (item.starterIndex ? '&index=' + encodeURIComponent(item.starterIndex) : '');
+}
+
+function getYoutubeEmbedUrl(item){
+  if(item.starterVideoId){
+    return 'https://www.youtube.com/embed/' + encodeURIComponent(item.starterVideoId) +
+      '?list=' + encodeURIComponent(item.playlistId);
+  }
+  return 'https://www.youtube.com/embed/videoseries?list=' + encodeURIComponent(item.playlistId);
+}
+
+function findYoutubePlaylist(key){
+  return youtubePlaylists.filter(function(item){ return item.key === key; })[0] || youtubePlaylists[0];
+}
+
+function playYoutubePlaylist(key, btn){
+  var item = findYoutubePlaylist(key);
+  if(!item) return;
+  var player = document.getElementById('youtube-video-player');
+  var title = document.getElementById('youtube-video-title');
+  var playlistLink = document.getElementById('youtube-open-playlist');
+  var videoLink = document.getElementById('youtube-open-video');
+  document.querySelectorAll('#youtube-playlist-cards .learning-card').forEach(function(card){ card.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  if(title) title.textContent = item.title;
+  if(player) player.setAttribute('src', getYoutubeEmbedUrl(item));
+  if(playlistLink) playlistLink.setAttribute('href', getYoutubePlaylistUrl(item));
+  if(videoLink) videoLink.setAttribute('href', getYoutubeWatchUrl(item));
+  updateRoute('videos', item.key);
+}
+
+function renderYoutubePlaylists(activeKey){
+  var grid = document.getElementById('youtube-playlist-cards');
+  if(!grid) return;
+  var active = activeKey || (youtubePlaylists[0] && youtubePlaylists[0].key);
+  grid.innerHTML = youtubePlaylists.map(function(item, index){
+    return '<button class="learning-card is-lesson' + (item.key === active ? ' active' : '') + '" type="button" data-youtube-playlist="' + escapeHtml(item.key) + '">' +
+      '<span class="learning-card-icon">' + (index + 1) + '</span>' +
+      '<span class="learning-card-title">' + escapeHtml(item.title) + '</span>' +
+      '<span class="learning-card-desc">' + escapeHtml(item.desc) + '</span>' +
+      '<span class="learning-card-meta">Lire →</span>' +
+    '</button>';
+  }).join('');
+  grid.querySelectorAll('.learning-card[data-youtube-playlist]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      playYoutubePlaylist(btn.getAttribute('data-youtube-playlist'), btn);
+    });
+  });
+  playYoutubePlaylist(active, grid.querySelector('.learning-card[data-youtube-playlist="' + active + '"]'));
 }
 
 function showBookPreview(path, title, btn, hasAudio){
@@ -1452,7 +1569,8 @@ var learningMainCards = [
   {key:'phonetique', icon:'🔊', title:'Phonétique', desc:'Accents, sons, liaison et prononciation'},
   {key:'lire', icon:'📖', title:'Lire', desc:'Textes faciles et liens de lecture'},
   {key:'vocabulary', icon:'🗂️', title:'Vocabulary', desc:'Mots A1, verbes et dissertations'},
-  {key:'tcf', icon:'📝', title:'TCF', desc:'Écrit, oral et vocabulaire TCF'}
+  {key:'videos', icon:'▶', title:'Videos', desc:'Playlists YouTube et lecteur intégré'},
+  {key:'tcf', icon:'📝', title:'Pre TCF', desc:'Écrit, oral et vocabulaire Pre TCF'}
 ];
 
 var learningDescriptions = {
@@ -1466,7 +1584,8 @@ var learningDescriptions = {
   mariane:'Questions orales Mariane et Linda',
   ecrit:'Production écrite et modèles',
   oral:'Expression orale TCF',
-  vocabulary:'Vocabulaire thématique'
+  vocabulary:'Vocabulaire thématique',
+  videos:'Playlists YouTube et lecteur intégré'
 };
 
 learningMainCards.push({key:'dictionary', icon:'Dict', title:'Dictionary', desc:'Saved highlighted words and statements'});
@@ -1582,6 +1701,21 @@ function getCardsForMain(mainKey){
     }}];
   }
   if(mainKey === 'vocabulary') return buttonCards('.vocab-subtabs .pill');
+  if(mainKey === 'videos') {
+    return youtubePlaylists.map(function(item, index){
+      return {
+        key:item.key,
+        icon:String(index + 1),
+        title:item.title,
+        desc:item.desc,
+        action:function(){
+          switchTop('videos', document.querySelector('.top-tab[onclick*="videos"]'));
+          renderYoutubePlaylists(item.key);
+          setLearningContentVisible(true);
+        }
+      };
+    });
+  }
   if(mainKey === 'tcf') return buttonCards('#pills-tcf .pill', {
     exclude:function(btn, onclick){ return onclick.indexOf('books') !== -1; }
   });
@@ -1678,6 +1812,9 @@ function inferLearningState(panel, section){
     state.group = section || null;
   } else if(panel === 'vocabulary'){
     state.main = 'vocabulary';
+  } else if(panel === 'videos'){
+    state.main = 'videos';
+    state.group = section || null;
   } else if(panel === 'dictionary'){
     state.main = 'dictionary';
   } else if(panel === 'tcf'){
@@ -1711,12 +1848,14 @@ function updateParentCardRoute(mainKey, groupKey){
   else if(mainKey === 'grammaire') updateRoute('grammaire', null);
   else if(mainKey === 'oral' && groupKey === 'ferial') updateRoute('oral', 'ferial');
   else if(mainKey === 'oral') updateRoute('oral', null);
+  else if(mainKey === 'videos') updateRoute('videos', groupKey || null);
   else if(mainKey === 'tcf') updateRoute('tcf', null);
 }
 
 function updateFinalCardRoute(mainKey, key){
   if(mainKey === 'vocabulary') updateRoute('vocabulary', key);
   else if(mainKey === 'lire') updateRoute('lire', key);
+  else if(mainKey === 'videos') updateRoute('videos', key);
 }
 
 function updateLessonCardRoute(mainKey, groupKey, key){
@@ -2474,6 +2613,12 @@ function restoreRoute(){
       updateRoute('tcf', route.section);
       setLearningContentVisible(true);
     } else if(route.section) showTcf(route.section, document.querySelector("#pills-tcf .pill[onclick*=\"'" + route.section + "'\"]"));
+  } else if(route.panel === 'videos'){
+    switchTop('videos', topBtn);
+    renderYoutubePlaylists(route.section || (youtubePlaylists[0] && youtubePlaylists[0].key));
+    setLearningState({main:'videos', group:route.section || null});
+    setLearningContentVisible(!!route.section);
+    renderLearningExplorer();
   } else if(route.panel === 'dictionary'){
     switchTop('dictionary', topBtn);
     setLearningState({main:'dictionary'});
@@ -2510,6 +2655,7 @@ document.addEventListener('DOMContentLoaded', function(){
     }, {passive:false});
   });
   renderLireLinks();
+  updateHeroStats();
   initIrregTables();
   initInlineIrregSections();
   initLearningExplorer();
@@ -2687,7 +2833,7 @@ function getPanelKeyFromElement(node){
 function getSectionKeyFromElement(node){
   var sec = node.closest('.sec');
   if(!sec || !sec.id) return null;
-  return sec.id.replace(/^(g-|t-|p-|tcf-|b1-|b2-|oral-|m-|lire-)/, '');
+  return sec.id.replace(/^(g-|t-|p-|tcf-|b1-|b2-|oral-|m-|lire-|videos-)/, '');
 }
 
 function activateSearchTarget(target){
@@ -2712,6 +2858,9 @@ function activateSearchTarget(target){
       var vocabKey = subview.id.replace('vocab-sub-', '');
       showVocabularySub(vocabKey, document.querySelector(".vocab-subtabs .pill[onclick*=\"'" + vocabKey + "'\"]"));
     }
+  } else if(panelKey === 'videos'){
+    switchTop('videos', topBtn);
+    renderYoutubePlaylists();
   } else if(panelKey === 'grammaire'){
     switchTop('grammaire', topBtn);
     if(sectionKey) showSec(sectionKey, document.querySelector("#pills-grammaire .pill[onclick*=\"'" + sectionKey + "'\"]"), 'grammaire');
