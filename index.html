@@ -5206,8 +5206,8 @@
         <div class="card">
           <span class="card-label">Record & Compare</span>
           <div class="grid-2" style="margin-bottom:12px">
-            <button class="sec-tool-btn" type="button" onclick="startPronunciationMic(event)"><span class="btn-icon">🎙</span><strong>Start mic</strong></button>
-            <button class="sec-tool-btn" type="button" onclick="stopPronunciationMic(event)"><span class="btn-icon">■</span><strong>Stop</strong></button>
+            <button id="pron-start-btn" class="sec-tool-btn" type="button" onclick="startPronunciationMic(event)"><span class="btn-icon">🎙</span><strong>Start mic</strong></button>
+            <button id="pron-stop-btn" class="sec-tool-btn" type="button" onclick="stopPronunciationMic(event)"><span class="btn-icon">■</span><strong>Stop</strong></button>
           </div>
           <div id="pron-status" class="note">Ready. Use Chrome or Edge and allow microphone access.</div>
           <textarea id="pron-recognized-text" class="pron-textarea" rows="3" placeholder="Your recognized speech will appear here..."></textarea>

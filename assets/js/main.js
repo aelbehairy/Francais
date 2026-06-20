@@ -3263,6 +3263,7 @@ function showFerialLesson(id, btn){
 }
 
 var pronunciationRecognition = null;
+var pronunciationStoppedByUser = false;
 
 function getPronunciationRecognition(){
   var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -3270,7 +3271,7 @@ function getPronunciationRecognition(){
   var recognition = new SpeechRecognition();
   recognition.lang = 'fr-FR';
   recognition.interimResults = false;
-  recognition.continuous = false;
+  recognition.continuous = true;
   recognition.maxAlternatives = 1;
   recognition.onresult = function(event){
     var transcript = '';
@@ -3284,11 +3285,19 @@ function getPronunciationRecognition(){
     setPronunciationStatus('Mic error: ' + (event.error || 'unknown'));
   };
   recognition.onend = function(){
-    setPronunciationStatus('Mic stopped. You can correct the text now.');
-    pronunciationRecognition = null;
-  };
-  recognition.onspeechend = function(){
-    try { recognition.stop(); } catch(e) {}
+    if(pronunciationStoppedByUser){
+      setPronunciationStatus('Mic stopped. You can correct the text now.');
+      pronunciationRecognition = null;
+      pronunciationStoppedByUser = false;
+      return;
+    }
+    setPronunciationStatus('Mic paused, restarting automatically...');
+    try {
+      recognition.start();
+    } catch(e) {
+      setPronunciationStatus('Mic restart failed. Press Start again.');
+      pronunciationRecognition = null;
+    }
   };
   pronunciationRecognition = recognition;
   return pronunciationRecognition;
@@ -3299,8 +3308,21 @@ function setPronunciationStatus(message){
   if(status) status.textContent = message;
 }
 
+function setPronunciationMicState(state){
+  var startBtn = document.getElementById('pron-start-btn');
+  if(!startBtn) return;
+  startBtn.classList.toggle('sec-tool-btn-success', state === 'listening');
+  startBtn.classList.toggle('sec-tool-btn-warning', false);
+  if(state === 'listening'){
+    startBtn.querySelector('strong').textContent = 'Listening';
+  } else {
+    startBtn.querySelector('strong').textContent = 'Start mic';
+  }
+}
+
 function startPronunciationMic(event){
   if(event) event.preventDefault();
+  pronunciationStoppedByUser = false;
   if(pronunciationRecognition){
     try { pronunciationRecognition.stop(); } catch(e) {}
     pronunciationRecognition = null;
@@ -3308,6 +3330,7 @@ function startPronunciationMic(event){
   var recognition = getPronunciationRecognition();
   if(!recognition){
     setPronunciationStatus('Speech recognition is not supported in this browser. Use Chrome or Edge.');
+    setPronunciationMicState('stopped');
     return;
   }
   var output = document.getElementById('pron-recognized-text');
@@ -3315,16 +3338,20 @@ function startPronunciationMic(event){
   try {
     recognition.start();
     setPronunciationStatus('Listening... speak in French.');
+    setPronunciationMicState('listening');
   } catch(error) {
     setPronunciationStatus('Mic could not start. Please try again.');
+    setPronunciationMicState('stopped');
   }
 }
 
 function stopPronunciationMic(event){
   if(event) event.preventDefault();
   if(pronunciationRecognition){
+    pronunciationStoppedByUser = true;
     try { pronunciationRecognition.stop(); } catch(e) {}
   }
+  setPronunciationMicState('stopped');
 }
 
 function normalizePronunciationText(text){
@@ -3339,6 +3366,7 @@ function normalizePronunciationText(text){
 }
 
 function comparePronunciationText(){
+  stopPronunciationMic();
   comparePronunciationTextWithScore();
 }
 
@@ -5641,7 +5669,7 @@ function initAllTcfEcritContainerIds(){
 function getTcfEcritTextOffset(container, targetNode, targetOffset){
   var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
     acceptNode: function(node){
-      if(node.parentElement && (node.parentElement.closest('.tcf-word-kept') || isTcfEcritWordExcludedSurface(node.parentElement))) return NodeFilter.FILTER_REJECT;
+      if(node.parentElement && isTcfEcritWordExcludedSurface(node.parentElement)) return NodeFilter.FILTER_REJECT;
       return NodeFilter.FILTER_ACCEPT;
     }
   });
@@ -5713,7 +5741,8 @@ function loadTcfEcritHighlightsFromServer(){
   return window.loadHighlights({page: window.HighlightStore && window.HighlightStore.currentPage ? window.HighlightStore.currentPage() : window.location.pathname}).then(function(rows){
     if(!Array.isArray(rows)) return [];
     return rows.filter(function(row){
-      return row && (row.item_type === 'word' || row.item_type === 'phrase') && row.section && row.item_text;
+      var section = row && (row.section || row.source_section);
+      return row && (row.item_type === 'word' || row.item_type === 'phrase') && section && row.item_text;
     }).map(function(row){
       return makeTcfEcritEntryFromSavedHighlight(row);
     }).filter(Boolean);
@@ -5773,25 +5802,124 @@ function getTcfEcritEntryKey(entry){
   ].join('|');
 }
 
+function getTcfEcritWordKey(entry){
+  return entry ? (entry.normalized || normalizeTcfEcritWord(entry.text)) : '';
+}
+
+function mergeTcfEcritHighlightEntries(existingEntries, newEntries){
+  var seen = {};
+  var merged = [];
+  (existingEntries || []).concat(newEntries || []).forEach(function(entry){
+    var key = getTcfEcritWordKey(entry);
+    if(!key) return;
+    var current = seen[key];
+    if(!current){
+      seen[key] = entry;
+      merged.push(entry);
+      return;
+    }
+    if(!current.id && entry.id){
+      seen[key] = entry;
+      for(var i = 0; i < merged.length; i++){
+        if(getTcfEcritWordKey(merged[i]) === key){
+          merged[i] = entry;
+          break;
+        }
+      }
+    }
+  });
+  return merged;
+}
+
 function isSameTcfEcritOccurrence(a, b){
-  return !!a && !!b && getTcfEcritEntryKey(a) === getTcfEcritEntryKey(b);
+  if(!a || !b) return false;
+  var aNormalized = a.normalized || normalizeTcfEcritWord(a.text);
+  var bNormalized = b.normalized || normalizeTcfEcritWord(b.text);
+  if(aNormalized !== bNormalized) return false;
+  if((a.containerId || '') !== (b.containerId || '')) return false;
+  var aHasOffsets = typeof a.startOffset === 'number' && typeof a.endOffset === 'number';
+  var bHasOffsets = typeof b.startOffset === 'number' && typeof b.endOffset === 'number';
+  if(aHasOffsets && bHasOffsets){
+    return !(a.endOffset <= b.startOffset || b.endOffset <= a.startOffset);
+  }
+  return true;
+}
+
+function normalizeTcfEcritSearchText(text){
+  return String(text || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[’']/g, ' ')
+    .replace(/[^a-z0-9\s]/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function buildNormalizedIndexMap(text){
+  var normalized = '';
+  var indexMap = [];
+  for(var i = 0; i < text.length; i++){
+    var ch = text.charAt(i);
+    var norm = String(ch).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if(/['’]/.test(norm)) norm = ' ';
+    norm = norm.replace(/[^a-z0-9\s]/gi, ' ');
+    for(var j = 0; j < norm.length; j++){
+      var c = norm.charAt(j);
+      if(c === ' ' && normalized.slice(-1) === ' ') continue;
+      normalized += c;
+      indexMap.push(i);
+    }
+  }
+  normalized = normalized.trim();
+  return {normalized: normalized, indexMap: indexMap};
 }
 
 function findTextOffsetsInContainer(container, text){
   if(!container || !text) return null;
   var haystack = container.textContent || '';
-  var index = haystack.toLowerCase().indexOf(String(text).toLowerCase());
-  if(index < 0) return null;
-  return {startOffset:index, endOffset:index + String(text).length};
+  var exactIndex = haystack.toLowerCase().indexOf(String(text).toLowerCase());
+  if(exactIndex >= 0){
+    return {startOffset: exactIndex, endOffset: exactIndex + String(text).length};
+  }
+  var haystackMap = buildNormalizedIndexMap(haystack);
+  var needleMap = buildNormalizedIndexMap(text);
+  if(!needleMap.normalized) return null;
+  var fuzzyIndex = haystackMap.normalized.indexOf(needleMap.normalized);
+  if(fuzzyIndex < 0) return null;
+  var start = haystackMap.indexMap[fuzzyIndex];
+  var end = haystackMap.indexMap[fuzzyIndex + needleMap.normalized.length - 1] + 1;
+  return {startOffset: start, endOffset: end};
+}
+
+function findTcfEcritContainerByText(text){
+  if(!text) return null;
+  var needle = normalizeTcfEcritSearchText(text);
+  if(!needle) return null;
+  return Array.prototype.slice.call(document.querySelectorAll(TCFECRIT_CONTAINER_SEL)).find(function(root){
+    var rootNormalized = normalizeTcfEcritSearchText(root.textContent || '');
+    return rootNormalized.indexOf(needle) >= 0;
+  }) || null;
 }
 
 function makeTcfEcritEntryFromSavedHighlight(row){
-  var parsedSection = parseTcfEcritHighlightSectionKey(row.section);
+  var section = row.section || row.source_section;
+  var parsedSection = parseTcfEcritHighlightSectionKey(section);
   var container = document.querySelector('[data-highlight-container-id="' + parsedSection.containerId + '"]');
+  if(!container){
+    var fallbackContainer = findTcfEcritContainerByText(row.french_text || row.item_text);
+    if(fallbackContainer){
+      container = fallbackContainer;
+      parsedSection.containerId = ensureTcfEcritContainerId(container);
+    }
+  }
   if(!container) return null;
   var offsets = typeof parsedSection.startOffset === 'number' && typeof parsedSection.endOffset === 'number'
     ? {startOffset:parsedSection.startOffset, endOffset:parsedSection.endOffset}
     : findTextOffsetsInContainer(container, row.french_text || row.item_text);
+  if(!offsets && row.french_text){
+    offsets = findTextOffsetsInContainer(container, row.french_text || row.item_text);
+  }
   if(!offsets) return null;
   var text = row.french_text || row.item_text;
   return {
@@ -5818,7 +5946,7 @@ function saveTcfEcritHighlightWords(entries){
   var seen = {};
   var unique = (entries || []).filter(function(e){
     if(!e || !e.normalized || !e.containerId) return false;
-    var key = getTcfEcritEntryKey(e);
+    var key = getTcfEcritWordKey(e);
     if(seen[key]) return false;
     seen[key] = true;
     return true;
@@ -5915,12 +6043,27 @@ function renderTcfEcritWordHighlights(){
 function getTcfEcritWordFromText(text, offset){
   var pattern = getTcfEcritWordPattern();
   var match;
+  var nearest = null;
   while((match = pattern.exec(text))){
     var start = match.index;
     var end = start + match[0].length;
     if(offset >= start && offset <= end){
       return {word:match[0], start:start, end:end};
     }
+    var distance = 0;
+    if(offset < start){
+      distance = start - offset;
+    } else if(offset > end){
+      distance = offset - end;
+    } else {
+      distance = 0;
+    }
+    if(nearest === null || distance < nearest.distance){
+      nearest = {word:match[0], start:start, end:end, distance:distance};
+    }
+  }
+  if(nearest && nearest.distance <= 1){
+    return {word: nearest.word, start: nearest.start, end: nearest.end};
   }
   return null;
 }
@@ -5928,7 +6071,12 @@ function getTcfEcritWordFromText(text, offset){
 function getTcfEcritSelectionInfo(){
   var selection = window.getSelection && window.getSelection();
   if(!selection || selection.isCollapsed || !selection.rangeCount) return null;
-  var text = selection.toString().replace(/\s+/g, ' ').trim();
+  var rawText = selection.toString().replace(/\s+/g, ' ').trim();
+  var leadTrim = 0;
+  while(leadTrim < rawText.length && !/[a-zà-öø-ÿœæ']/i.test(rawText.charAt(leadTrim))) leadTrim++;
+  var tailTrim = 0;
+  while(tailTrim < rawText.length - leadTrim && !/[a-zà-öø-ÿœæ']/i.test(rawText.charAt(rawText.length - 1 - tailTrim))) tailTrim++;
+  var text = leadTrim || tailTrim ? rawText.slice(leadTrim, tailTrim ? -tailTrim : undefined) : rawText;
   var normalized = normalizeTcfEcritWord(text);
   if(!normalized || normalized.length < 2) return null;
   var range = selection.getRangeAt(0);
@@ -5942,20 +6090,23 @@ function getTcfEcritSelectionInfo(){
   var selContainerId = selContainer ? ensureTcfEcritContainerId(selContainer) : null;
   var startOff = selContainer ? getTcfEcritTextOffset(selContainer, range.startContainer, range.startOffset) : -1;
   var endOff = selContainer ? getTcfEcritTextOffset(selContainer, range.endContainer, range.endOffset) : -1;
+  if(startOff >= 0) startOff += leadTrim;
+  if(endOff >= 0) endOff -= tailTrim;
+  var startParent = range.startContainer.nodeType === 3 ? range.startContainer.parentElement : range.startContainer;
+  var keptSpan = startParent && startParent.closest && startParent.closest('.tcf-word-kept');
+  var highlightId = keptSpan ? (keptSpan.getAttribute('data-tcf-highlight-id') || null) : null;
   return {
     word: text,
     normalized: normalized,
     rect: rect,
     containerId: selContainerId,
     startOffset: startOff,
-    endOffset: endOff
+    endOffset: endOff,
+    highlightId: highlightId
   };
 }
 
 function getTcfEcritWordInfoFromPoint(event){
-  var selected = getTcfEcritSelectionInfo();
-  if(selected) return selected;
-
   var highlighted = event.target.closest && event.target.closest('.tcf-word-kept');
   if(highlighted){
     var hContainer = highlighted.closest('[data-highlight-container-id]');
@@ -5984,7 +6135,7 @@ function getTcfEcritWordInfoFromPoint(event){
         };
       }
     }
-    var caret = formField.selectionStart || 0;
+    var caret = typeof formField.selectionStart === 'number' ? formField.selectionStart : 0;
     var formWord = getTcfEcritWordFromText(value, caret);
     if(!formWord) return null;
     return {
@@ -5995,6 +6146,13 @@ function getTcfEcritWordInfoFromPoint(event){
     };
   }
 
+  var direct = getTcfEcritWordInfoFromPointCoordinates(event);
+  if(direct) return direct;
+
+  return getTcfEcritSelectionInfo();
+}
+
+function getTcfEcritWordInfoFromPointCoordinates(event){
   var range = null;
   if(document.caretPositionFromPoint){
     var pos = document.caretPositionFromPoint(event.clientX, event.clientY);
@@ -6007,16 +6165,17 @@ function getTcfEcritWordInfoFromPoint(event){
     range = document.caretRangeFromPoint(event.clientX, event.clientY);
   }
   if(!range || !range.startContainer || range.startContainer.nodeType !== 3) return null;
-  if(!isTcfEcritWordSurface(range.startContainer.parentElement)) return null;
-  var info = getTcfEcritWordFromText(range.startContainer.nodeValue, range.startOffset);
+  var targetNode = range.startContainer;
+  if(!isTcfEcritWordSurface(targetNode.parentElement)) return null;
+  var info = getTcfEcritWordFromText(targetNode.nodeValue, range.startOffset);
   if(!info) return null;
   var wordRange = document.createRange();
-  wordRange.setStart(range.startContainer, info.start);
-  wordRange.setEnd(range.startContainer, info.end);
+  wordRange.setStart(targetNode, info.start);
+  wordRange.setEnd(targetNode, info.end);
   var rect = wordRange.getBoundingClientRect();
   wordRange.detach();
-  var caretContainer = getTcfEcritHighlightContainer(range.startContainer);
-  var offsets = caretContainer ? getTcfEcritWordOffsets(caretContainer, range.startContainer, info) : null;
+  var caretContainer = getTcfEcritHighlightContainer(targetNode);
+  var offsets = caretContainer ? getTcfEcritWordOffsets(caretContainer, targetNode, info) : null;
   return {
     word: info.word,
     normalized: normalizeTcfEcritWord(info.word),
@@ -6133,6 +6292,10 @@ function speakTcfEcritWord(word){
 function keepTcfEcritWordHighlighted(info){
   var normalized = typeof info === 'string' ? normalizeTcfEcritWord(info) : (info && info.normalized);
   if(!normalized) return;
+  var existing = tcfEcritWordHelper.highlights.filter(function(e){
+    return getTcfEcritWordKey(e) === normalized;
+  })[0] || null;
+  if(existing) return existing.id;
   var containerId = typeof info === 'object' ? (info.containerId || null) : null;
   if(!containerId) return;
   if(typeof info.startOffset !== 'number' || typeof info.endOffset !== 'number' || info.endOffset <= info.startOffset) return;
@@ -6208,6 +6371,29 @@ function ensureTcfEcritWordMenu(){
   document.body.appendChild(menu);
   menu.addEventListener('click', function(event){
     event.stopPropagation();
+    var listRemove = event.target.closest('.tcf-word-chip-remove');
+    if(listRemove){
+      var highlightId = listRemove.getAttribute('data-highlight-id');
+      if(highlightId){
+        removeTcfEcritWordHighlight(highlightId);
+        renderTcfEcritRememberedWords(menu);
+        return;
+      }
+    }
+    var listSpeak = event.target.closest('.tcf-word-chip-speak');
+    if(listSpeak){
+      var word = listSpeak.getAttribute('data-word');
+      if(word) speakTcfEcritWord(word);
+      return;
+    }
+    var listLabel = event.target.closest('.tcf-word-chip-label');
+    if(listLabel){
+      var word = listLabel.getAttribute('data-word');
+      if(word){
+        speakTcfEcritWord(word);
+      }
+      return;
+    }
     var current = tcfEcritWordHelper.current;
     if(!current) return;
     if(event.target.closest('.tcf-word-keep')){
@@ -6270,12 +6456,8 @@ function showTcfEcritWordMenu(info){
   }
   var existingEntry = tcfEcritWordHelper.highlights.filter(function(e){
     if(info.highlightId && e.id === info.highlightId) return true;
-    if(e.normalized !== info.normalized) return false;
-    if(info.containerId && e.containerId !== info.containerId) return false;
-    if(typeof info.startOffset === 'number' && typeof info.endOffset === 'number'){
-      return e.startOffset === info.startOffset && e.endOffset === info.endOffset;
-    }
-    return !info.containerId || e.containerId === info.containerId;
+    if(getTcfEcritWordKey(e) === info.normalized) return true;
+    return isSameTcfEcritOccurrence(e, info);
   })[0] || null;
   if(existingEntry && !info.highlightId) info.highlightId = existingEntry.id;
   menu.querySelector('.tcf-word-menu-title').textContent = info.word;
@@ -6314,7 +6496,7 @@ function initTcfEcritWordHelper(){
   initAllTcfEcritContainerIds();
   var loaded = getTcfEcritHighlightWords();
   var withContainer = loaded.filter(function(e){ return !!document.querySelector('[data-highlight-container-id="' + e.containerId + '"]'); });
-  tcfEcritWordHelper.highlights = withContainer;
+  saveTcfEcritHighlightWords(withContainer);
   renderTcfEcritWordHighlights();
   loadTcfEcritHighlightsFromServer().then(function(serverEntries){
     if(!Array.isArray(serverEntries) || !serverEntries.length) return;
@@ -6322,7 +6504,8 @@ function initTcfEcritWordHelper(){
       return e && e.normalized && e.containerId && typeof e.startOffset === 'number' && typeof e.endOffset === 'number' && !!document.querySelector('[data-highlight-container-id="' + e.containerId + '"]');
     });
     if(!valid.length) return;
-    saveTcfEcritHighlightWords(valid);
+    var merged = mergeTcfEcritHighlightEntries(tcfEcritWordHelper.highlights, valid);
+    saveTcfEcritHighlightWords(merged);
     renderTcfEcritWordHighlights();
   });
   roots.forEach(function(root){
