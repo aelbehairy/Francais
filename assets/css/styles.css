@@ -952,6 +952,16 @@ body.learning-content-hidden .panel .main {
   color: var(--white);
   transform: translateY(-1px);
 }
+.sec-tool-btn-success {
+  background: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+.sec-tool-btn-warning {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: #ffffff;
+}
 .all-questions-actions {
   width: 100%;
   display: flex;
@@ -3979,7 +3989,7 @@ body.learning-content-hidden .panel .main {
 .tcf-word-menu {
   position: absolute;
   z-index: 2400;
-  width: min(286px, calc(100vw - 20px));
+  width: min(286px, calc(100% - 20px));
   padding: 9px;
   border: 1px solid rgba(148, 163, 184, 0.35);
   border-radius: 8px;
@@ -5772,7 +5782,159 @@ body.learning-content-hidden .panel .main {
   border-color: #fde68a;
 }
 
+/* ═══ Pronunciation Practice Words Grid ═══ */
+.pron-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.pron-word-btn {
+  padding: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pron-word-btn:hover {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+}
+
+.pron-word-btn.active {
+  border-color: var(--blue);
+  background: var(--blue-light);
+  box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+}
+
+.pron-word-btn.good {
+  border-color: #86efac;
+  background: #dcfce7;
+}
+
+.pron-word-btn.medium {
+  border-color: #fde68a;
+  background: #fef3c7;
+}
+
+.pron-word-btn.poor {
+  border-color: #fecaca;
+  background: #fee2e2;
+}
+
+.pron-word-text {
+  font-weight: 700;
+  font-size: 15px;
+  color: #1e293b;
+}
+
+.pron-word-score {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.pron-word-btn.good .pron-word-score {
+  color: #166534;
+}
+
+.pron-word-btn.medium .pron-word-score {
+  color: #92400e;
+}
+
+.pron-word-btn.poor .pron-word-score {
+  color: #991b1b;
+}
+
+/* ═══ IPA Reference Section ═══ */
+.pron-ipa-reference {
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.pron-reference-list {
+  display: grid;
+  gap: 12px;
+}
+
+.pron-ref-item {
+  padding: 12px 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  border-left: 4px solid var(--blue);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.pron-helper-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.pron-helper-btn {
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #1e293b;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pron-helper-btn:hover,
+.pron-helper-btn.active {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.pron-ref-word {
+  font-weight: 700;
+  font-size: 16px;
+  color: #1e293b;
+}
+
+.pron-ref-ipa {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: var(--blue);
+  font-weight: 600;
+  padding: 4px 8px;
+  background: #f0f4ff;
+  border-radius: 4px;
+}
+
+.pron-ref-desc {
+  font-size: 13px;
+  color: #64748b;
+  font-style: italic;
+  grid-column: 1;
+  margin-top: -8px;
+}
+
 @media (max-width: 720px) {
+  .pron-practice-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+  
+  .pron-ref-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
   .card-label {
     font-size: 17px !important;
     padding: 11px 13px !important;

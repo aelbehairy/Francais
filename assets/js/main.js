@@ -2765,6 +2765,7 @@ document.addEventListener('DOMContentLoaded', function(){
   initInlineIrregSections();
   initLearningExplorer();
   initDictionaryPage();
+  initPronunciationHelper();
   restoreRoute();
 });
 
@@ -3216,6 +3217,7 @@ function showOral(id, btn){
   var sec = document.getElementById('o-'+id);
   if(sec) sec.classList.add('visible');
   if(btn && !isTopOralPill) btn.classList.add('active');
+  if(id === 'prononciation') initPronunciationPractice();
   updateRoute('oral', id);
   scrollToNav('panel-oral');
 }
@@ -3265,29 +3267,30 @@ var pronunciationRecognition = null;
 function getPronunciationRecognition(){
   var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SpeechRecognition) return null;
-  if(!pronunciationRecognition){
-    pronunciationRecognition = new SpeechRecognition();
-    pronunciationRecognition.lang = 'fr-FR';
-    pronunciationRecognition.interimResults = true;
-    pronunciationRecognition.continuous = true;
-    pronunciationRecognition.onresult = function(event){
-      var finalText = '';
-      var interimText = '';
-      for(var i = 0; i < event.results.length; i++){
-        var text = event.results[i][0] && event.results[i][0].transcript ? event.results[i][0].transcript : '';
-        if(event.results[i].isFinal) finalText += text + ' ';
-        else interimText += text + ' ';
-      }
-      var output = document.getElementById('pron-recognized-text');
-      if(output) output.value = (finalText + interimText).trim();
-    };
-    pronunciationRecognition.onerror = function(event){
-      setPronunciationStatus('Mic error: ' + (event.error || 'unknown'));
-    };
-    pronunciationRecognition.onend = function(){
-      setPronunciationStatus('Mic stopped. You can correct the text now.');
-    };
-  }
+  var recognition = new SpeechRecognition();
+  recognition.lang = 'fr-FR';
+  recognition.interimResults = false;
+  recognition.continuous = false;
+  recognition.maxAlternatives = 1;
+  recognition.onresult = function(event){
+    var transcript = '';
+    for(var i = 0; i < event.results.length; i++){
+      transcript += (event.results[i][0] && event.results[i][0].transcript ? event.results[i][0].transcript : '') + ' ';
+    }
+    var output = document.getElementById('pron-recognized-text');
+    if(output) output.value = transcript.trim();
+  };
+  recognition.onerror = function(event){
+    setPronunciationStatus('Mic error: ' + (event.error || 'unknown'));
+  };
+  recognition.onend = function(){
+    setPronunciationStatus('Mic stopped. You can correct the text now.');
+    pronunciationRecognition = null;
+  };
+  recognition.onspeechend = function(){
+    try { recognition.stop(); } catch(e) {}
+  };
+  pronunciationRecognition = recognition;
   return pronunciationRecognition;
 }
 
@@ -3298,6 +3301,10 @@ function setPronunciationStatus(message){
 
 function startPronunciationMic(event){
   if(event) event.preventDefault();
+  if(pronunciationRecognition){
+    try { pronunciationRecognition.stop(); } catch(e) {}
+    pronunciationRecognition = null;
+  }
   var recognition = getPronunciationRecognition();
   if(!recognition){
     setPronunciationStatus('Speech recognition is not supported in this browser. Use Chrome or Edge.');
@@ -3309,13 +3316,15 @@ function startPronunciationMic(event){
     recognition.start();
     setPronunciationStatus('Listening... speak in French.');
   } catch(error) {
-    setPronunciationStatus('Mic is already listening.');
+    setPronunciationStatus('Mic could not start. Please try again.');
   }
 }
 
 function stopPronunciationMic(event){
   if(event) event.preventDefault();
-  if(pronunciationRecognition) pronunciationRecognition.stop();
+  if(pronunciationRecognition){
+    try { pronunciationRecognition.stop(); } catch(e) {}
+  }
 }
 
 function normalizePronunciationText(text){
@@ -3330,17 +3339,206 @@ function normalizePronunciationText(text){
 }
 
 function comparePronunciationText(){
+  comparePronunciationTextWithScore();
+}
+
+// ── Pronunciation practice words with 0-10 scoring ──
+var pronunciationWords = [
+  {word:'Bonjour', ipa:'bɔ̃ʒuʁ', desc:'Hello'},
+  {word:'Au revoir', ipa:'o ʁəvwaʁ', desc:'Goodbye'},
+  {word:'S\'il vous plaît', ipa:'sil vu plɛ', desc:'Please'},
+  {word:'Merci', ipa:'meʁsi', desc:'Thank you'},
+  {word:'Excusez-moi', ipa:'ɛkskyze mwa', desc:'Excuse me'},
+  {word:'Je ne comprends pas', ipa:'ʒə nə kɔ̃pʁɑ̃ pa', desc:'I don\'t understand'},
+  {word:'Parlez plus lentement', ipa:'paʁle ply lɑ̃təmɑ̃', desc:'Speak more slowly'},
+  {word:'Enchantée', ipa:'ɑ̃ʃɑ̃te', desc:'Nice to meet you'},
+  {word:'Oui', ipa:'wi', desc:'Yes'},
+  {word:'Non', ipa:'nɔ̃', desc:'No'}
+];
+
+var currentPronunciationIndex = 0;
+var pronunciationScores = {};
+
+function initPronunciationPractice(){
+  pronunciationScores = {};
+  renderPronunciationWords();
+  loadFirstWord();
+}
+
+function renderPronunciationWords(){
+  var grid = document.getElementById('pron-practice-words');
+  if(!grid) return;
+  grid.innerHTML = pronunciationWords.map(function(word, index){
+    var score = pronunciationScores[index];
+    var scoreClass = score !== undefined ? (score >= 7 ? 'good' : score >= 4 ? 'medium' : 'poor') : '';
+    return '<button class="pron-word-btn ' + scoreClass + '" onclick="selectPronunciationWord(' + index + ', this)" data-index="' + index + '">' +
+      '<span class="pron-word-text">' + escapeHtml(word.word) + '</span>' +
+      (score !== undefined ? '<span class="pron-word-score">' + score + '/10</span>' : '<span class="pron-word-score">-</span>') +
+    '</button>';
+  }).join('');
+}
+
+function selectPronunciationWord(index, btn){
+  currentPronunciationIndex = index;
+  document.querySelectorAll('#pron-practice-words .pron-word-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  loadPronunciationWord(index);
+}
+
+function loadFirstWord(){
+  var firstActive = document.querySelector('#pron-practice-words .pron-word-btn');
+  if(firstActive) firstActive.classList.add('active');
+  loadPronunciationWord(0);
+}
+
+function loadPronunciationWord(index){
+  if(index < 0 || index >= pronunciationWords.length) return;
+  currentPronunciationIndex = index;
+  var word = pronunciationWords[index];
+  var original = document.getElementById('pron-original-text');
+  var recognized = document.getElementById('pron-recognized-text');
+  if(original) original.value = word.word;
+  if(recognized) recognized.value = '';
+  updatePronunciationIPAReference(word);
+}
+
+var currentSynthUtterance = null;
+
+var pronunciationHelperWords = ['Bonjour', 'Au revoir', 'S’il vous plaît', 'Merci', 'Excusez-moi', 'Oui', 'Non', 'Je ne comprends pas', 'Parlez plus lentement', 'Enchantée'];
+
+function initPronunciationHelper(){
+  var container = document.getElementById('pron-helper-list');
+  if(!container) return;
+  container.innerHTML = pronunciationHelperWords.map(function(word, index){
+    return '<button class="pron-helper-btn" type="button" onclick="loadPronunciationHelper(' + index + ')">' +
+      '<span>' + escapeHtml(word) + '</span>' +
+    '</button>';
+  }).join('');
+}
+
+function loadPronunciationHelper(index){
+  var word = pronunciationHelperWords[index];
+  var original = document.getElementById('pron-original-text');
+  if(original){
+    original.value = word;
+  }
+  setActivePronunciationHelper(index);
+  playPronunciationText();
+}
+
+function setActivePronunciationHelper(activeIndex){
+  var buttons = document.querySelectorAll('#pron-helper-list .pron-helper-btn');
+  buttons.forEach(function(btn, index){
+    btn.classList.toggle('active', index === activeIndex);
+  });
+}
+
+function playPronunciationText(){
+  if(!('speechSynthesis' in window)){
+    alert('Speech synthesis is not supported in this browser.');
+    return;
+  }
+  var original = document.getElementById('pron-original-text');
+  if(!original || !original.value.trim()){
+    alert('Please add text to play.');
+    return;
+  }
+  if(window.speechSynthesis.paused){
+    window.speechSynthesis.resume();
+    setPronunciationButtonState('playing');
+    return;
+  }
+  stopPronunciationText();
+  var utterance = new SpeechSynthesisUtterance(original.value);
+  utterance.lang = 'fr-FR';
+  utterance.rate = parseFloat(document.getElementById('pron-speed').value) || 1;
+  utterance.onend = function(){ setPronunciationButtonState('stopped'); };
+  utterance.onerror = function(){ setPronunciationButtonState('stopped'); };
+  currentSynthUtterance = utterance;
+  window.speechSynthesis.speak(utterance);
+  setPronunciationButtonState('playing');
+}
+
+function pausePronunciationText(){
+  if(!('speechSynthesis' in window)) return;
+  if(window.speechSynthesis.speaking && !window.speechSynthesis.paused){
+    window.speechSynthesis.pause();
+    setPronunciationButtonState('paused');
+  }
+}
+
+function stopPronunciationText(){
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  currentSynthUtterance = null;
+  setPronunciationButtonState('stopped');
+}
+
+function updatePronunciationSpeed(){
+  var speed = parseFloat(document.getElementById('pron-speed').value) || 1;
+  if(currentSynthUtterance){
+    currentSynthUtterance.rate = speed;
+  }
+}
+
+function setPronunciationButtonState(state){
+  var playBtn = document.getElementById('pron-play-btn');
+  var pauseBtn = document.getElementById('pron-pause-btn');
+  var stopBtn = document.getElementById('pron-stop-btn');
+  if(!playBtn || !pauseBtn || !stopBtn) return;
+  playBtn.classList.toggle('sec-tool-btn-success', state === 'playing');
+  playBtn.classList.toggle('sec-tool-btn-warning', state === 'paused');
+  if(state === 'playing'){
+    playBtn.querySelector('strong').textContent = 'Playing';
+  } else if(state === 'paused'){
+    playBtn.querySelector('strong').textContent = 'Resume';
+  } else {
+    playBtn.querySelector('strong').textContent = 'Play';
+  }
+}
+
+
+function updatePronunciationIPAReference(word){
+  var ref = document.getElementById('pron-ipa-reference');
+  if(!ref) return;
+  ref.innerHTML = '<div style="padding:16px;background:var(--surface-secondary);border-radius:8px">' +
+    '<div style="font-size:24px;color:var(--primary);margin-bottom:8px;font-weight:bold">' + escapeHtml(word.word) + '</div>' +
+    '<div style="font-size:18px;color:#666;font-family:\'Courier New\',monospace;margin:8px 0">' + escapeHtml(word.ipa) + '</div>' +
+    '<div style="font-size:14px;color:#999;margin-top:8px">' + escapeHtml(word.desc) + '</div>' +
+  '</div>';
+}
+
+function calculatePronunciationScore(original, spoken){
+  var origWords = normalizePronunciationText(original).split(' ').filter(Boolean);
+  var spokenWords = normalizePronunciationText(spoken).split(' ').filter(Boolean);
+  if(origWords.length === 0) return 0;
+  var matched = 0;
+  var spokenCounts = {};
+  spokenWords.forEach(function(word){ spokenCounts[word] = (spokenCounts[word] || 0) + 1; });
+  origWords.forEach(function(word){
+    if(spokenCounts[word] > 0){
+      spokenCounts[word]--;
+      matched++;
+    }
+  });
+  var percentage = (matched / origWords.length) * 100;
+  return Math.round((percentage / 100) * 10 * 10) / 10;
+}
+
+function comparePronunciationTextWithScore(){
   var original = document.getElementById('pron-original-text');
   var spoken = document.getElementById('pron-recognized-text');
   var correction = document.getElementById('pron-correction');
   var score = document.getElementById('pron-score');
   if(!original || !spoken || !correction || !score) return;
-  var originalWords = normalizePronunciationText(original.value).split(' ').filter(Boolean);
+  var score10 = calculatePronunciationScore(original.value, spoken.value);
+  pronunciationScores[currentPronunciationIndex] = Math.round(score10);
+  var origWords = normalizePronunciationText(original.value).split(' ').filter(Boolean);
   var spokenWords = normalizePronunciationText(spoken.value).split(' ').filter(Boolean);
   var spokenCounts = {};
   spokenWords.forEach(function(word){ spokenCounts[word] = (spokenCounts[word] || 0) + 1; });
   var matched = 0;
-  var html = originalWords.map(function(word){
+  var html = origWords.map(function(word){
     if(spokenCounts[word] > 0){
       spokenCounts[word]--;
       matched++;
@@ -3355,9 +3553,37 @@ function comparePronunciationText(){
   if(extras.length){
     html += extras.map(function(word){ return '<span class="pron-word extra">+' + escapeHtml(word) + '</span>'; }).join('');
   }
-  var percent = originalWords.length ? Math.round((matched / originalWords.length) * 100) : 0;
-  score.textContent = 'Score: ' + percent + '% (' + matched + '/' + originalWords.length + ')';
+  score.textContent = 'Score: ' + Math.round(score10) + '/10';
   correction.innerHTML = html || '<div class="note">Add original text and record your speech first.</div>';
+  renderPronunciationWords();
+}
+
+function setPronunciationMode(mode, btn){
+  document.querySelectorAll('#o-prononciation .nav-pills .pill').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  var practiceSection = document.querySelector('#o-prononciation .pron-practice-grid').parentElement;
+  var recordSection = document.querySelectorAll('#o-prononciation .grid-2, #o-prononciation .pron-score, #o-prononciation .pron-ipa-reference').forEach(function(s){
+    if(mode === 'practice'){
+      s.style.display = 'block';
+    } else {
+      s.style.display = 'none';
+    }
+  });
+  if(mode === 'reference'){
+    showPronunciationReference();
+  }
+}
+
+function showPronunciationReference(){
+  var ref = document.getElementById('pron-ipa-reference');
+  if(!ref) return;
+  ref.innerHTML = '<div class="pron-reference-list">' + pronunciationWords.map(function(word){
+    return '<div class="pron-ref-item">' +
+      '<span class="pron-ref-word">' + escapeHtml(word.word) + '</span>' +
+      '<span class="pron-ref-ipa">' + escapeHtml(word.ipa) + '</span>' +
+      '<span class="pron-ref-desc">' + escapeHtml(word.desc) + '</span>' +
+    '</div>';
+  }).join('') + '</div>';
 }
 
 // ── Phonétique section switch ──
@@ -5745,6 +5971,7 @@ function getTcfEcritWordInfoFromPoint(event){
   var formField = event.target.closest && event.target.closest('#tcf-ecrit textarea, #tcf-ecrit input[type="text"]');
   if(formField){
     var value = formField.value || '';
+    var host = formField.closest('.card') || formField.closest('.main') || document.body;
     if(formField.selectionStart !== formField.selectionEnd){
       var selectedText = value.slice(formField.selectionStart, formField.selectionEnd).replace(/\s+/g, ' ').trim();
       var selectedNormalized = normalizeTcfEcritWord(selectedText);
@@ -5752,7 +5979,8 @@ function getTcfEcritWordInfoFromPoint(event){
         return {
           word: selectedText,
           normalized: selectedNormalized,
-          rect: formField.getBoundingClientRect()
+          rect: formField.getBoundingClientRect(),
+          host: host
         };
       }
     }
@@ -5762,7 +5990,8 @@ function getTcfEcritWordInfoFromPoint(event){
     return {
       word: formWord.word,
       normalized: normalizeTcfEcritWord(formWord.word),
-      rect: formField.getBoundingClientRect()
+      rect: formField.getBoundingClientRect(),
+      host: host
     };
   }
 
@@ -5980,33 +6209,6 @@ function ensureTcfEcritWordMenu(){
   menu.addEventListener('click', function(event){
     event.stopPropagation();
     var current = tcfEcritWordHelper.current;
-    var chipSpeak = event.target.closest('.tcf-word-chip-speak');
-    var chipRemove = event.target.closest('.tcf-word-chip-remove');
-    var chipLabel = event.target.closest('.tcf-word-chip-label');
-    if(chipSpeak){
-      speakTcfEcritWord(chipSpeak.getAttribute('data-word'));
-      return;
-    }
-    if(chipRemove){
-      removeTcfEcritWordHighlight(chipRemove.getAttribute('data-highlight-id') || chipRemove.getAttribute('data-word'));
-      renderTcfEcritRememberedWords(menu);
-      if(current) showTcfEcritWordMenu(current);
-      return;
-    }
-    if(chipLabel){
-      var word = chipLabel.getAttribute('data-word');
-      tcfEcritWordHelper.current = {
-        word: word,
-        normalized: normalizeTcfEcritWord(word),
-        rect: chipLabel.getBoundingClientRect()
-      };
-      menu.querySelector('.tcf-word-menu-title').textContent = word;
-      menu.querySelector('.tcf-word-keep').disabled = true;
-      menu.querySelector('.tcf-word-remove').hidden = false;
-      var chipTranslation = menu.querySelector('.tcf-word-translation');
-      requestTcfEcritTranslation(chipTranslation, word);
-      return;
-    }
     if(!current) return;
     if(event.target.closest('.tcf-word-keep')){
       var keptId = keepTcfEcritWordHighlighted(current);
@@ -6026,23 +6228,46 @@ function ensureTcfEcritWordMenu(){
   return menu;
 }
 
-function positionTcfEcritWordMenu(menu, rect){
+function positionTcfEcritWordMenu(menu, rect, host){
   var gap = 8;
   var width = menu.offsetWidth || 260;
   var left = rect.left + (rect.width / 2) - (width / 2);
   var top = rect.bottom + gap;
-  left = Math.max(10, Math.min(left, window.innerWidth - width - 10));
-  if(top + menu.offsetHeight > window.innerHeight - 10){
-    top = Math.max(10, rect.top - menu.offsetHeight - gap);
+  var containerWidth = window.innerWidth;
+  var containerHeight = window.innerHeight;
+  var offsetLeft = 0;
+  var offsetTop = 0;
+  if(host && host !== document.body){
+    var hostRect = host.getBoundingClientRect();
+    offsetLeft = hostRect.left;
+    offsetTop = hostRect.top;
+    containerWidth = host.clientWidth;
+    containerHeight = host.clientHeight;
+    if(getComputedStyle(host).position === 'static'){
+      host.style.position = 'relative';
+    }
+  }
+  left = left - offsetLeft;
+  top = top - offsetTop;
+  left = Math.max(10, Math.min(left, containerWidth - width - 10));
+  if(top + menu.offsetHeight > containerHeight - 10){
+    top = Math.max(10, rect.top - menu.offsetHeight - gap - offsetTop);
   }
   menu.style.left = left + 'px';
-  menu.style.top = top + window.scrollY + 'px';
+  menu.style.top = top + 'px';
+  if(!host || host === document.body){
+    menu.style.top = (top + window.scrollY) + 'px';
+  }
 }
 
 function showTcfEcritWordMenu(info){
   if(!info || !info.normalized) return;
   tcfEcritWordHelper.current = info;
   var menu = ensureTcfEcritWordMenu();
+  var host = info.host || document.body;
+  if(menu.parentElement !== host){
+    host.appendChild(menu);
+  }
   var existingEntry = tcfEcritWordHelper.highlights.filter(function(e){
     if(info.highlightId && e.id === info.highlightId) return true;
     if(e.normalized !== info.normalized) return false;
@@ -6053,14 +6278,16 @@ function showTcfEcritWordMenu(info){
     return !info.containerId || e.containerId === info.containerId;
   })[0] || null;
   if(existingEntry && !info.highlightId) info.highlightId = existingEntry.id;
-  var isKept = !!existingEntry;
   menu.querySelector('.tcf-word-menu-title').textContent = info.word;
-  menu.querySelector('.tcf-word-keep').disabled = isKept;
-  menu.querySelector('.tcf-word-remove').hidden = !isKept;
-  menu.querySelector('.tcf-word-translation').hidden = true;
+  var keepBtn = menu.querySelector('.tcf-word-keep');
+  var removeBtn = menu.querySelector('.tcf-word-remove');
+  if(keepBtn) keepBtn.disabled = !!existingEntry;
+  if(removeBtn) removeBtn.hidden = !existingEntry;
+  var translation = menu.querySelector('.tcf-word-translation');
+  if(translation) translation.hidden = true;
   renderTcfEcritRememberedWords(menu);
   menu.hidden = false;
-  positionTcfEcritWordMenu(menu, info.rect);
+  positionTcfEcritWordMenu(menu, info.rect, host);
 }
 
 function hideTcfEcritWordMenu(){
@@ -6069,7 +6296,8 @@ function hideTcfEcritWordMenu(){
 }
 
 function handleTcfEcritWordPointer(event){
-  if(!isTcfEcritWordSurface(event.target)) return false;
+  var isFormField = event.target.closest && event.target.closest('#tcf-ecrit textarea, #tcf-ecrit input[type="text"]');
+  if(!isFormField && !isTcfEcritWordSurface(event.target)) return false;
   var info = getTcfEcritWordInfoFromPoint(event);
   if(!info || !info.normalized) return false;
   event.preventDefault();

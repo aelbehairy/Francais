@@ -145,8 +145,19 @@
         </div>
         <span class="usage-tag tag-now">PRONOMS</span>
       </div>
+      <div class="learning-card-grid" style="margin-bottom:18px">
+        <button class="learning-card is-lesson" type="button" onclick="document.getElementById('pronoms-sujets').scrollIntoView({behavior:'smooth',block:'start'})"><span class="learning-card-icon">1</span><span class="learning-card-title">Sujets</span><span class="learning-card-desc">ضمائر الفاعل</span><span class="learning-card-meta">Ouvrir →</span></button>
+        <button class="learning-card is-lesson" type="button" onclick="document.getElementById('pronoms-toniques').scrollIntoView({behavior:'smooth',block:'start'})"><span class="learning-card-icon">2</span><span class="learning-card-title">Toniques</span><span class="learning-card-desc">ضمائر التأكيد</span><span class="learning-card-meta">Ouvrir →</span></button>
+        <button class="learning-card is-lesson" type="button" onclick="document.getElementById('pronoms-cod').scrollIntoView({behavior:'smooth',block:'start'})"><span class="learning-card-icon">3</span><span class="learning-card-title">COD</span><span class="learning-card-desc">le / la / les</span><span class="learning-card-meta">Ouvrir →</span></button>
+        <button class="learning-card is-lesson" type="button" onclick="document.getElementById('pronoms-coi').scrollIntoView({behavior:'smooth',block:'start'})"><span class="learning-card-icon">4</span><span class="learning-card-title">COI</span><span class="learning-card-desc">lui / leur</span><span class="learning-card-meta">Ouvrir →</span></button>
+        <button class="learning-card is-lesson" type="button" onclick="document.getElementById('pronoms-cod-exemples').scrollIntoView({behavior:'smooth',block:'start'})"><span class="learning-card-icon">5</span><span class="learning-card-title">Exemples COD</span><span class="learning-card-desc">Le / la / les en phrases</span><span class="learning-card-meta">Ouvrir →</span></button>
+        <button class="learning-card is-lesson" type="button" onclick="document.getElementById('pronoms-coi-exemples').scrollIntoView({behavior:'smooth',block:'start'})"><span class="learning-card-icon">6</span><span class="learning-card-title">Exemples COI</span><span class="learning-card-desc">Lui / leur en phrases</span><span class="learning-card-meta">Ouvrir →</span></button>
+        <button class="learning-card is-lesson" type="button" onclick="document.getElementById('pronoms-cod-coi').scrollIntoView({behavior:'smooth',block:'start'})"><span class="learning-card-icon">7</span><span class="learning-card-title">COD + COI</span><span class="learning-card-desc">Deux pronoms ensemble</span><span class="learning-card-meta">Ouvrir →</span></button>
+        <button class="learning-card is-lesson" type="button" onclick="document.getElementById('pronoms-relatifs').scrollIntoView({behavior:'smooth',block:'start'})"><span class="learning-card-icon">8</span><span class="learning-card-title">Relatifs</span><span class="learning-card-desc">qui / que / où</span><span class="learning-card-meta">Ouvrir →</span></button>
+        <button class="learning-card is-lesson" type="button" onclick="document.getElementById('pronoms-relatifs-composes').scrollIntoView({behavior:'smooth',block:'start'})"><span class="learning-card-icon">9</span><span class="learning-card-title">Relatifs composés</span><span class="learning-card-desc">lequel / auquel / duquel</span><span class="learning-card-meta">Ouvrir →</span></button>
+      </div>
       <div class="grid-2">
-        <div class="card">
+        <div class="card" id="pronoms-sujets">
           <span class="card-label">Sujets — ضمائر الفاعل</span>
           <div class="pro-table">
             <div class="pro-cell">je <small>أنا</small></div>
@@ -158,7 +169,7 @@
             <div class="pro-cell" style="grid-column:span 2">on <small>نحن (في المحادثة)</small></div>
           </div>
         </div>
-        <div class="card">
+        <div class="card" id="pronoms-toniques">
           <span class="card-label">Toniques — ضمائر التأكيد</span>
           <div class="pro-table">
             <div class="pro-cell">moi <small>أنا</small></div>
@@ -186,7 +197,7 @@
       </div>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card" id="pronoms-cod">
           <span class="card-label">1) Le / La / Les — COD مباشر</span>
           <table class="tbl">
             <tr><th>الضمير</th><th>يستبدل</th><th>مثال</th></tr>
@@ -198,7 +209,7 @@
           <div class="ex-row"><span class="ex-fr">J'ai fait les exercices.</span><span class="ex-dot">→</span><span class="ex-fr">Je les ai faits.</span><span class="ex-ar">عملت التمارين ← عملتها</span></div>
         </div>
 
-        <div class="card">
+        <div class="card" id="pronoms-coi">
           <span class="card-label">2) Lui / Leur — COI غير مباشر</span>
           <table class="tbl">
             <tr><th>الضمير</th><th>يستبدل</th><th>مثال</th></tr>
@@ -211,7 +222,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="pronoms-cod-exemples">
         <span class="card-label">أمثلة Le / La / Les من الملف</span>
         <table class="tbl">
           <tr><th>الفعل / الجملة الأصلية</th><th>بالضمير</th><th>الترجمة</th></tr>
@@ -227,7 +238,7 @@
         </table>
       </div>
 
-      <div class="card">
+      <div class="card" id="pronoms-coi-exemples">
         <span class="card-label">أمثلة Lui / Leur من الملف</span>
         <table class="tbl">
           <tr><th>الفعل / الجملة الأصلية</th><th>بالضمير</th><th>الترجمة</th></tr>
@@ -243,7 +254,7 @@
         </table>
       </div>
 
-      <div class="card">
+      <div class="card" id="pronoms-cod-coi">
         <span class="card-label">COD + COI معًا — ضميرين في نفس الجملة</span>
         <div class="formula rule-important">le / la / les + lui / leur</div>
         <table class="tbl">
@@ -253,6 +264,156 @@
           <tr><td>J'enseigne le français à Omar.</td><td>Je lui enseigne le français.</td><td>Je le lui enseigne.</td><td>أعلمه له</td></tr>
           <tr><td>Je fais une fête à mes amis.</td><td>Je leur fais une fête.</td><td>Je la leur fais.</td><td>أقيمها لهم</td></tr>
         </table>
+      </div>
+
+      <div class="card" id="pronoms-relatifs" style="border-right:5px solid var(--purple);background:linear-gradient(135deg,#f5f3ff,#fff)">
+        <span class="card-label">Les relatifs — qui / que / où</span>
+        <div class="note" style="direction:rtl;text-align:right;margin-bottom:12px">
+          <strong>Les relatifs</strong> يعني ضمائر الوصل. نستخدمها لكي نربط جملتين في جملة واحدة، ونتجنب تكرار نفس الكلمة.
+        </div>
+        <table class="tbl">
+          <tr><th>الضمير</th><th>يعوض ماذا؟</th><th>بعده غالبًا</th></tr>
+          <tr><td>qui</td><td>فاعل</td><td>فعل</td></tr>
+          <tr><td>que</td><td>مفعول به</td><td>فاعل + فعل</td></tr>
+          <tr><td>où</td><td>مكان أو زمان</td><td>جملة</td></tr>
+        </table>
+        <div class="grid-2" style="margin-top:14px">
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--blue)">
+            <span class="card-label">1) QUI — فاعل</span>
+            <div class="formula" style="font-size:14px">QUI + verbe</div>
+            <div class="note" style="direction:rtl;text-align:right;margin-bottom:10px"><strong>QUI</strong> تعوض كلمة تكون فاعلًا للفعل بعدها. يعني بعدها غالبًا يأتي فعل مباشرة.</div>
+            <div class="ex-row"><span class="ex-fr">Michel est un ami. Cet ami habite à Paris.</span><span class="ex-dot">→</span><span class="ex-fr">Michel est un ami qui habite à Paris.</span></div>
+            <div class="ex-row"><span class="ex-fr">Je regarde un film. Ce film est intéressant.</span><span class="ex-dot">→</span><span class="ex-fr">Je regarde un film qui est intéressant.</span></div>
+            <div class="ex-row"><span class="ex-fr">La femme qui parle est ma mère.</span><span class="ex-ar">المرأة التي تتكلم هي أمي.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--green)">
+            <span class="card-label">2) QUE — مفعول به</span>
+            <div class="formula" style="font-size:14px">que + sujet + verbe</div>
+            <div class="note" style="direction:rtl;text-align:right;margin-bottom:10px"><strong>QUE</strong> تعوض كلمة تكون مفعولًا به للفعل بعدها. الفيلم ليس هو الذي يحب، بل أنا أحب الفيلم.</div>
+            <div class="ex-row"><span class="ex-fr">Je regarde un film. J'aime ce film.</span><span class="ex-dot">→</span><span class="ex-fr">Je regarde un film que j'aime.</span></div>
+            <div class="ex-row"><span class="ex-fr">C'est un homme que les enfants aiment.</span><span class="ex-ar">هذا رجل يحبه الأطفال.</span></div>
+            <div class="ex-row"><span class="ex-fr">Le livre que je lis est intéressant.</span><span class="ex-ar">الكتاب الذي أقرأه ممتع.</span></div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:14px">
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--orange)">
+            <span class="card-label">3) OÙ — مكان أو زمان</span>
+            <div class="note" style="direction:rtl;text-align:right;margin-bottom:10px"><strong>Où</strong> تعوض مكانًا أو زمانًا.</div>
+            <div class="ex-row"><span class="ex-fr">J'habite dans une ville où la vie est calme.</span><span class="ex-ar">أنا أعيش في مدينة حيث الحياة هادئة.</span></div>
+            <div class="ex-row"><span class="ex-fr">Je me souviens du jour où j'ai réussi.</span><span class="ex-ar">أتذكر اليوم الذي نجحت فيه.</span></div>
+            <div class="ex-row"><span class="ex-fr">C'est la ville où je suis né.</span><span class="ex-ar">هذه المدينة التي وُلدت فيها.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--purple)">
+            <span class="card-label">كيف أختار بسرعة؟</span>
+            <div class="note" style="direction:rtl;text-align:right;margin-bottom:10px">هل الكلمة المكررة هي التي تفعل الفعل؟ استخدم <strong>qui</strong>.</div>
+            <div class="ex-row"><span class="ex-fr">J'ai un ami qui parle français.</span><span class="ex-ar">عندي صديق يتكلم فرنسي.</span></div>
+            <div class="note" style="direction:rtl;text-align:right;margin:10px 0">هل شخص آخر يفعل الفعل في هذه الكلمة؟ استخدم <strong>que</strong>.</div>
+            <div class="ex-row"><span class="ex-fr">J'ai un ami que tu connais.</span><span class="ex-ar">عندي صديق أنت تعرفه.</span></div>
+            <div class="note" style="direction:rtl;text-align:right;margin:10px 0">هل نتكلم عن مكان أو وقت؟ استخدم <strong>où</strong>.</div>
+            <div class="ex-row"><span class="ex-fr">La maison où j'habite est grande.</span><span class="ex-ar">البيت الذي أسكن فيه كبير.</span></div>
+          </div>
+        </div>
+        <div class="card" style="box-shadow:none;margin-top:14px;margin-bottom:0;background:#fff7ed;border-color:#fed7aa">
+          <span class="card-label">مقارنة مهمة</span>
+          <div class="ex-row"><span class="ex-fr">C'est un homme qui aide les enfants.</span><span class="ex-ar">هذا رجل يساعد الأطفال. الرجل هو الذي يساعد.</span></div>
+          <div class="ex-row"><span class="ex-fr">C'est un homme que les enfants aiment.</span><span class="ex-ar">هذا رجل يحبه الأطفال. الأطفال هم الذين يحبون الرجل.</span></div>
+        </div>
+      </div>
+
+      <div class="card" id="pronoms-relatifs-composes" style="border-right:5px solid var(--teal);background:linear-gradient(135deg,#ecfeff,#fff)">
+        <span class="card-label">Les pronoms relatifs composés — الضمائر الموصولة المركبة</span>
+        <div class="note" style="direction:rtl;text-align:right;margin-bottom:12px">
+          تُستخدم الضمائر الموصولة المركبة من أجل ربط جملتين، تجنب تكرار الاسم، وتعويض اسم جاء بعده حرف جر.
+        </div>
+        <div class="grid-2">
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--teal)">
+            <span class="card-label">Formes principales</span>
+            <table class="tbl">
+              <tr><th>Genre et nombre</th><th>Pronom</th></tr>
+              <tr><td>Masculin singulier</td><td>lequel</td></tr>
+              <tr><td>Féminin singulier</td><td>laquelle</td></tr>
+              <tr><td>Masculin pluriel</td><td>lesquels</td></tr>
+              <tr><td>Féminin pluriel</td><td>lesquelles</td></tr>
+            </table>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--blue)">
+            <span class="card-label">Prépositions fréquentes</span>
+            <div class="verb-cloud"><span class="vp">sur</span><span class="vp">avec</span><span class="vp">sans</span><span class="vp">dans</span><span class="vp">pour</span><span class="vp">devant</span><span class="vp">derrière</span><span class="vp">chez</span><span class="vp">contre</span><span class="vp">parmi</span></div>
+            <div class="note" style="direction:rtl;text-align:right;margin-top:12px">بعد هذه الحروف نفكر غالبًا في: <strong>lequel / laquelle / lesquels / lesquelles</strong>.</div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:14px">
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">Masculin singulier → lequel</span>
+            <div class="ex-row"><span class="ex-fr">C'est le stylo avec lequel j'écris.</span><span class="ex-ar">هذا هو القلم الذي أكتب به.</span></div>
+            <div class="ex-row"><span class="ex-fr">C'est le projet pour lequel je travaille.</span><span class="ex-ar">هذا هو المشروع الذي أعمل من أجله.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">Féminin singulier → laquelle</span>
+            <div class="ex-row"><span class="ex-fr">C'est la table sur laquelle j'ai écrit.</span><span class="ex-ar">هذه هي الطاولة التي كتبت عليها.</span></div>
+            <div class="ex-row"><span class="ex-fr">C'est la personne avec laquelle je parle.</span><span class="ex-ar">هذا هو الشخص الذي أتحدث معه.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">Masculin pluriel → lesquels</span>
+            <div class="ex-row"><span class="ex-fr">Ce sont les amis avec lesquels je voyage.</span><span class="ex-ar">هؤلاء هم الأصدقاء الذين أسافر معهم.</span></div>
+            <div class="ex-row"><span class="ex-fr">Ce sont les projets sur lesquels il travaille.</span><span class="ex-ar">هذه هي المشاريع التي يعمل عليها.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0">
+            <span class="card-label">Féminin pluriel → lesquelles</span>
+            <div class="ex-row"><span class="ex-fr">Ce sont les villes dans lesquelles je vis.</span><span class="ex-ar">هذه هي المدن التي أعيش فيها.</span></div>
+            <div class="ex-row"><span class="ex-fr">Ce sont les solutions auxquelles je pense.</span><span class="ex-ar">هذه هي الحلول التي أفكر فيها.</span></div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:14px">
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--green)">
+            <span class="card-label">Cas particulier avec À</span>
+            <table class="tbl">
+              <tr><th>Forme normale</th><th>Forme correcte</th></tr>
+              <tr><td>à + lequel</td><td>auquel</td></tr>
+              <tr><td>à + laquelle</td><td>à laquelle</td></tr>
+              <tr><td>à + lesquels</td><td>auxquels</td></tr>
+              <tr><td>à + lesquelles</td><td>auxquelles</td></tr>
+            </table>
+            <div class="ex-row"><span class="ex-fr">Le sujet auquel je pense est important.</span><span class="ex-ar">الموضوع الذي أفكر فيه مهم.</span></div>
+            <div class="ex-row"><span class="ex-fr">Les problèmes auxquels je réfléchis sont graves.</span><span class="ex-ar">المشاكل التي أفكر فيها خطيرة.</span></div>
+          </div>
+          <div class="card" style="box-shadow:none;margin-bottom:0;border-left:5px solid var(--orange)">
+            <span class="card-label">Cas particulier avec DE</span>
+            <table class="tbl">
+              <tr><th>Forme normale</th><th>Forme correcte</th></tr>
+              <tr><td>de + lequel</td><td>duquel</td></tr>
+              <tr><td>de + laquelle</td><td>de laquelle</td></tr>
+              <tr><td>de + lesquels</td><td>desquels</td></tr>
+              <tr><td>de + lesquelles</td><td>desquelles</td></tr>
+            </table>
+            <div class="ex-row"><span class="ex-fr">Le bureau près duquel je travaille est moderne.</span><span class="ex-ar">المكتب الذي أعمل بالقرب منه حديث.</span></div>
+            <div class="ex-row"><span class="ex-fr">Les arbres près desquels nous jouons sont grands.</span><span class="ex-ar">الأشجار التي نلعب بالقرب منها كبيرة.</span></div>
+          </div>
+        </div>
+        <div class="card" style="box-shadow:none;margin-top:14px;margin-bottom:0;background:#fff7ed;border-color:#fed7aa">
+          <span class="card-label">DONT vs LEQUEL — مهم جدًا في TCF</span>
+          <table class="tbl">
+            <tr><th>Pronom</th><th>Utilisation</th><th>Exemple</th></tr>
+            <tr><td>dont</td><td>فعل أو تعبير يحتاج de</td><td>Le livre dont je parle.</td></tr>
+            <tr><td>lequel</td><td>بعد حرف جر عادي</td><td>La table sur laquelle j'écris.</td></tr>
+          </table>
+          <div class="verb-cloud" style="margin-top:12px"><span class="vp">parler de → dont</span><span class="vp">avoir besoin de → dont</span><span class="vp">être fier de → dont</span><span class="vp">sur / avec / dans → lequel</span></div>
+        </div>
+        <div class="card" style="box-shadow:none;margin-top:14px;margin-bottom:0">
+          <span class="card-label">Qui / Que / Où / Dont / Lequel</span>
+          <table class="tbl">
+            <tr><th>Pronom</th><th>Utilisation</th><th>Exemple</th></tr>
+            <tr><td>qui</td><td>Sujet</td><td>Le garçon qui parle</td></tr>
+            <tr><td>que</td><td>COD</td><td>Le film que j'ai vu</td></tr>
+            <tr><td>où</td><td>Lieu / temps</td><td>La ville où j'habite</td></tr>
+            <tr><td>dont</td><td>de</td><td>Le livre dont je parle</td></tr>
+            <tr><td>lequel</td><td>après préposition</td><td>La chaise sur laquelle je suis assis</td></tr>
+          </table>
+          <div class="ex-row"><span class="ex-fr">Le livre sur lequel je travaille est intéressant.</span><span class="ex-ar">الكتاب الذي أعمل عليه ممتع.</span></div>
+          <div class="ex-row"><span class="ex-fr">La femme avec laquelle je parle est médecin.</span><span class="ex-ar">المرأة التي أتحدث معها طبيبة.</span></div>
+          <div class="ex-row"><span class="ex-fr">Les étudiants auxquels je donne des cours sont motivés.</span><span class="ex-ar">الطلاب الذين أعطيهم دروسًا متحمسون.</span></div>
+          <div class="ex-row"><span class="ex-fr">Les documents dont j'ai besoin sont sur la table.</span><span class="ex-ar">المستندات التي أحتاجها موجودة على الطاولة.</span></div>
+        </div>
       </div>
     </section>
 
@@ -1003,6 +1164,64 @@
             <tr><td>à moins que</td><td>إلا إذا / ما لم</td><td>Je viens à moins qu'il pleuve.</td></tr>
           </table>
           <div class="note">بعد <strong>à condition que / pourvu que / à moins que</strong> غالبًا subjonctif.</div>
+        </div>
+
+        <div class="card" style="border-top:4px solid var(--green);background:linear-gradient(135deg,#ecfdf5,#fff)">
+          <span class="card-label">Les phrases avec SI — جمل الشرط</span>
+          <div class="note" style="direction:rtl;text-align:right;margin-bottom:12px"><strong>Si</strong> معناها <strong>إذا / لو</strong>. نستخدمها للحقيقة، المستقبل الممكن، النصيحة، الخيال، أو الندم على الماضي.</div>
+          <table class="tbl">
+            <tr><th>نوع الشرط</th><th>القاعدة</th><th>الاستخدام</th></tr>
+            <tr><td>حقيقة / عادة</td><td>Si + présent, présent</td><td>شيء يحدث عادة</td></tr>
+            <tr><td>مستقبل ممكن</td><td>Si + présent, futur simple</td><td>شيء محتمل</td></tr>
+            <tr><td>نصيحة / أمر</td><td>Si + présent, impératif</td><td>توجيه</td></tr>
+            <tr><td>خيال / افتراض الآن</td><td>Si + imparfait, conditionnel présent</td><td>غير حقيقي الآن</td></tr>
+            <tr><td>ندم على الماضي</td><td>Si + plus-que-parfait, conditionnel passé</td><td>شيء لم يحدث</td></tr>
+          </table>
+          <div class="grid-2" style="margin-top:14px">
+            <div class="note">
+              <strong>1) Si + présent → futur simple</strong><br>
+              <span class="ex-fr">Si j'étudie bien, je réussirai l'examen.</span><br>
+              إذا درست جيدًا، سأنجح في الامتحان.<br>
+              <span class="ex-fr">Si tu viens demain, nous irons au restaurant.</span>
+            </div>
+            <div class="note">
+              <strong>2) Si + présent → présent</strong><br>
+              <span class="ex-fr">Si je suis fatigué, je dors tôt.</span><br>
+              إذا كنت متعبًا، أنام مبكرًا.<br>
+              <span class="ex-fr">Si l'eau chauffe, elle bout.</span>
+            </div>
+            <div class="note">
+              <strong>3) Si + présent → impératif</strong><br>
+              <span class="ex-fr">Si tu es malade, va chez le médecin.</span><br>
+              إذا كنت مريضًا، اذهب إلى الطبيب.<br>
+              <span class="ex-fr">Si vous avez une question, posez-la.</span>
+            </div>
+            <div class="note">
+              <strong>4) Si + imparfait → conditionnel présent</strong><br>
+              <span class="ex-fr">Si j'avais beaucoup d'argent, j'achèterais une maison.</span><br>
+              لو كان عندي مال كثير، لاشتريت منزلًا.<br>
+              <span class="ex-fr">Si j'étais au Canada, je parlerais français tous les jours.</span>
+            </div>
+            <div class="note" style="grid-column:1/-1">
+              <strong>5) Si + plus-que-parfait → conditionnel passé</strong><br>
+              <span class="ex-fr">Si j'avais étudié plus tôt, j'aurais réussi.</span><br>
+              لو كنت درست مبكرًا، لكنت نجحت.<br>
+              <span class="ex-fr">Si tu étais arrivé à l'heure, tu aurais vu le professeur.</span>
+            </div>
+          </div>
+          <div class="grid-2" style="margin-top:14px">
+            <div class="note" style="background:#fff1f2;border-color:#fecaca;direction:rtl;text-align:right">
+              ❌ <strong>Si j'aurai le temps, je viendrai.</strong><br>
+              ✅ <strong>Si j'ai le temps, je viendrai.</strong><br>
+              بعد <strong>Si</strong> لا نستخدم <strong>futur simple</strong> مباشرة.
+            </div>
+            <div class="note" style="background:#fff1f2;border-color:#fecaca;direction:rtl;text-align:right">
+              ❌ <strong>Si je serais riche, j'achèterais une maison.</strong><br>
+              ✅ <strong>Si j'étais riche, j'achèterais une maison.</strong><br>
+              بعد <strong>Si</strong> لا نستخدم <strong>conditionnel</strong> مباشرة.
+            </div>
+          </div>
+          <div class="verb-cloud" style="margin-top:14px"><span class="vp">Si j'ai le temps, je viendrai.</span><span class="vp">Si j'avais le temps, je viendrais.</span><span class="vp">Si j'avais eu le temps, je serais venu.</span></div>
         </div>
 
         <div class="card" style="border-top:4px solid var(--orange)">
@@ -2223,6 +2442,7 @@
       <button class="pill" onclick="showSec('imparfait',this,'temps')"><span class="pi">🌅</span>Imparfait</button>
       <button class="pill" onclick="showSec('passe',this,'temps')"><span class="pi">📖</span>Passé Composé</button>
       <button class="pill" onclick="showSec('ppq',this,'temps')"><span class="pi">⏮</span>Plus-que-parfait</button>
+      <button class="pill" onclick="showSec('recent',this,'temps')"><span class="pi">⏱️</span>Passé Récent</button>
       <button class="pill" onclick="showSec('futur',this,'temps')"><span class="pi">🚀</span>Futur Simple</button>
       <button class="pill" onclick="showSec('proche',this,'temps')"><span class="pi">⚡</span>Futur Proche</button>
       <button class="pill" onclick="showSec('cond',this,'temps')"><span class="pi">💭</span>Conditionnel présent</button>
@@ -2368,6 +2588,63 @@
           <div class="ar-line"><span class="ar-num" style="background:#7b1c1c">3</span>كانت زوجتي قد قالت إنه يجب المغادرة مبكرًا.</div>
           <div class="ar-line"><span class="ar-num" style="background:#7b1c1c">4</span>أخذت سيارة أجرة لأنني كنت قد فوّت آخر حافلة.</div>
           <div class="ar-line"><span class="ar-num" style="background:#7b1c1c">5</span>لحسن الحظ كنت قد احتفظت ببعض المال.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASSÉ RÉCENT -->
+    <section class="sec" id="t-recent">
+      <div class="sec-header">
+        <div><div class="sec-icon" style="background:#fef3c7">⏱️</div><div class="sec-title">Passé <em>Récent</em></div><div class="sec-ar">الماضي القريب — لسه حالًا / للتو</div></div>
+        <span class="usage-tag tag-past">PASSÉ</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">معناه</span>
+          <div class="note" style="direction:rtl;text-align:right"><strong>Le passé récent</strong> نستخدمه عندما يكون الفعل حدث منذ لحظات قليلة جدًا أو قبل وقت الكلام مباشرة. يعني بالعربي: <strong>لسه حالًا عملت كذا / للتو فعلت كذا</strong>.</div>
+          <div class="formula rule-important" style="margin-top:12px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:#fde68a;border-left-color:var(--gold);color:#92400e">venir au présent + de + verbe à l'infinitif</div>
+          <div class="note" style="direction:rtl;text-align:right;margin-top:12px">يعني: تصريف فعل <strong>venir</strong> في المضارع + <strong>de</strong> + الفعل في المصدر.</div>
+        </div>
+        <div class="card">
+          <span class="card-label">تصريف venir في المضارع</span>
+          <table class="tbl">
+            <tr><th>الضمير</th><th>venir</th></tr>
+            <tr><td>je</td><td>viens</td></tr>
+            <tr><td>tu</td><td>viens</td></tr>
+            <tr><td>il / elle / on</td><td>vient</td></tr>
+            <tr><td>nous</td><td>venons</td></tr>
+            <tr><td>vous</td><td>venez</td></tr>
+            <tr><td>ils / elles</td><td>viennent</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-label">أمثلة</span>
+        <div class="grid-2">
+          <div class="ex-row"><span class="ex-fr">Je viens de manger.</span><span class="ex-dot">·</span><span class="ex-ar">أنا أكلت حالًا / لسه واكل.</span></div>
+          <div class="ex-row"><span class="ex-fr">Tu viens de parler.</span><span class="ex-dot">·</span><span class="ex-ar">أنت لسه اتكلمت.</span></div>
+          <div class="ex-row"><span class="ex-fr">Il vient de sortir.</span><span class="ex-dot">·</span><span class="ex-ar">هو خرج للتو.</span></div>
+          <div class="ex-row"><span class="ex-fr">Nous venons d'arriver.</span><span class="ex-dot">·</span><span class="ex-ar">نحن وصلنا حالًا.</span></div>
+          <div class="ex-row"><span class="ex-fr">Vous venez de finir.</span><span class="ex-dot">·</span><span class="ex-ar">أنتم انتهيتم للتو.</span></div>
+          <div class="ex-row"><span class="ex-fr">Ils viennent de partir.</span><span class="ex-dot">·</span><span class="ex-ar">هم غادروا منذ قليل.</span></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-label">ملاحظة مهمة: de تصبح d'</span>
+          <div class="note" style="direction:rtl;text-align:right;margin-bottom:12px">إذا كان الفعل بعد <strong>de</strong> يبدأ بحرف متحرك أو <strong>h</strong> صامتة، نكتب <strong>d'</strong> بدل <strong>de</strong>.</div>
+          <div class="ex-row"><span class="ex-fr">Je viens d'écrire.</span><span class="ex-dot">·</span><span class="ex-ar">أنا كتبت للتو.</span></div>
+          <div class="ex-row"><span class="ex-fr">Elle vient d'arriver.</span><span class="ex-dot">·</span><span class="ex-ar">هي وصلت حالًا.</span></div>
+          <div class="ex-row"><span class="ex-fr">Nous venons d'écouter la leçon.</span><span class="ex-dot">·</span><span class="ex-ar">نحن استمعنا للدرس للتو.</span></div>
+        </div>
+        <div class="card">
+          <span class="card-label">الفرق بين passé récent و passé composé</span>
+          <table class="tbl">
+            <tr><th>الزمن</th><th>المعنى</th><th>مثال</th></tr>
+            <tr><td>Passé récent</td><td>حدث منذ لحظات</td><td>Je viens de manger.</td></tr>
+            <tr><td>Passé composé</td><td>حدث في الماضي عمومًا</td><td>J'ai mangé.</td></tr>
+          </table>
+          <div class="note" style="direction:rtl;text-align:right;margin-top:12px"><strong>Je viens de manger.</strong> = أنا لسه واكل حالًا.<br><strong>J'ai mangé.</strong> = أنا أكلت.</div>
         </div>
       </div>
     </section>
@@ -4907,25 +5184,46 @@
       </div>
       <div class="grid-2">
         <div class="card">
-          <span class="card-label">Original text</span>
-          <textarea id="pron-original-text" class="pron-textarea" rows="8" placeholder="Écrivez ou collez ici le texte original à lire...">Bonjour, je m'appelle Ahmed et j'apprends le français pour améliorer ma prononciation.</textarea>
-          <div class="note" style="direction:rtl;text-align:right">اكتب النص الأصلي هنا، ثم اضغط على الميكروفون واقرأه بصوتك.</div>
+          <span class="card-label">Current Word</span>
+          <div style="display:flex; gap:12px; margin-bottom:12px; align-items:center">
+            <button id="pron-play-btn" class="sec-tool-btn sec-tool-btn-success" type="button" onclick="playPronunciationText()"><span class="btn-icon">🔊</span><strong>Play</strong></button>
+            <button id="pron-pause-btn" class="sec-tool-btn" type="button" onclick="pausePronunciationText()"><span class="btn-icon">⏸</span><strong>Pause</strong></button>
+            <button id="pron-stop-btn" class="sec-tool-btn" type="button" onclick="stopPronunciationText()"><span class="btn-icon">■</span><strong>Stop</strong></button>
+            <select id="pron-speed" onchange="updatePronunciationSpeed()" style="padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; font-size:14px">
+              <option value="0.75">Slow (0.75x)</option>
+              <option value="0.85">Slower (0.85x)</option>
+              <option value="0.9">Slow-normal (0.9x)</option>
+              <option value="1" selected>Normal (1x)</option>
+              <option value="1.25">Fast (1.25x)</option>
+              <option value="1.5">Very Fast (1.5x)</option>
+            </select>
+          </div>
+          <textarea id="pron-original-text" class="pron-textarea" rows="4" placeholder="Word to pronounce...">Bonjour</textarea>
+          <div class="pron-helper-label" style="margin:16px 0 8px;font-size:14px;font-weight:700;color:#334155">Helper words (click to load and play)</div>
+          <div id="pron-helper-list" class="pron-helper-list"></div>
+          <div class="note" style="direction:rtl;text-align:right">اقرأ الكلمة بصوت واضح ثم اضغط على الميكروفون.</div>
         </div>
         <div class="card">
-          <span class="card-label">Speech to text</span>
+          <span class="card-label">Record & Compare</span>
           <div class="grid-2" style="margin-bottom:12px">
             <button class="sec-tool-btn" type="button" onclick="startPronunciationMic(event)"><span class="btn-icon">🎙</span><strong>Start mic</strong></button>
             <button class="sec-tool-btn" type="button" onclick="stopPronunciationMic(event)"><span class="btn-icon">■</span><strong>Stop</strong></button>
           </div>
           <div id="pron-status" class="note">Ready. Use Chrome or Edge and allow microphone access.</div>
-          <textarea id="pron-recognized-text" class="pron-textarea" rows="6" placeholder="Your recognized speech will appear here..."></textarea>
-          <button class="pill" type="button" onclick="comparePronunciationText()"><span class="pi">✅</span>Correct text</button>
+          <textarea id="pron-recognized-text" class="pron-textarea" rows="3" placeholder="Your recognized speech will appear here..."></textarea>
+          <button class="pill" type="button" onclick="comparePronunciationText()"><span class="pi">✅</span>Check Pronunciation</button>
         </div>
       </div>
+      
       <div class="card">
-        <span class="card-label">Correction</span>
-        <div id="pron-score" class="formula">Score: -</div>
+        <span class="card-label">Your Score</span>
+        <div id="pron-score" class="formula" style="font-size:28px;text-align:center;color:var(--primary);margin:16px 0">Score: -/10</div>
         <div id="pron-correction" class="pron-correction"></div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">Correct IPA Pronunciation Reference</span>
+        <div id="pron-ipa-reference" class="pron-ipa-reference"></div>
       </div>
     </section>
 
