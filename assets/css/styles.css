@@ -620,6 +620,9 @@ body {
 body.learning-content-hidden .panel .main {
   display: none;
 }
+.learning-explorer.learning-explorer-grid-hidden #learning-card-grid {
+  display: none;
+}
 #panel-oral,
 #panel-temps,
 #panel-b1,
@@ -650,7 +653,7 @@ body.learning-content-hidden .panel .main {
   color: #166534;
 }
 .b1-answer strong {
-  color: #14532d;
+  color: #111827;
 }
 .grammar-speech-toolbar {
   display: flex;
@@ -1167,7 +1170,7 @@ body.learning-content-hidden .panel .main {
   font-family: "Inter", sans-serif;
   color: var(--text-light);
   font-size: 10px;
-  font-weight: 900;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
@@ -1180,7 +1183,7 @@ body.learning-content-hidden .panel .main {
   color: #047857;
   font-family: "Inter", sans-serif;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 400;
   padding: 4px 24px 4px 8px;
   cursor: pointer;
 }
@@ -1253,7 +1256,7 @@ body.learning-content-hidden .panel .main {
   color: var(--text-light);
   font-family: "Inter", sans-serif;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-right: 2px;
@@ -1268,7 +1271,7 @@ body.learning-content-hidden .panel .main {
   color: var(--blue);
   font-family: "Inter", sans-serif;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -1292,7 +1295,7 @@ body.learning-content-hidden .panel .main {
 .tcf-audio-read-title {
   font-family: "Inter", sans-serif;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 400;
   color: #047857;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1418,7 +1421,7 @@ body.learning-content-hidden .panel .main {
 .tcf-audio-popup:not(.tcf-oral-speech-popup) .tcf-audio-read-line {
   font-size: clamp(21px, 2.3vw, 31px);
   line-height: 1.55;
-  font-weight: 900;
+  font-weight: 400;
   padding: 12px 0;
 }
 @media (max-width: 700px) {
@@ -1459,7 +1462,7 @@ body.learning-content-hidden .panel .main {
 .tcf-audio-playlist-title {
   font-family: "Inter", sans-serif;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 400;
   color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -2223,7 +2226,7 @@ body.learning-content-hidden .panel .main {
 .card-label {
   font-family: "Inter", "Tajawal", sans-serif;
   font-size: 22px;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1.35;
   letter-spacing: 0;
   color: #fff;
@@ -2632,7 +2635,7 @@ body.learning-content-hidden .panel .main {
   gap: 8px;
 }
 .dictionary-item-title {
-  font-weight: 900;
+  font-weight: 400;
   color: var(--text-dark);
   line-height: 1.45;
   font-size: 18px;
@@ -3083,7 +3086,7 @@ body.learning-content-hidden .panel .main {
 .global-search-title {
   color: #fff;
   font-size: 22px;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1.2;
 }
 .global-search-subtitle {
@@ -4574,7 +4577,7 @@ body.learning-content-hidden .panel .main {
   bottom: -34px;
   color: #475569;
   font-size: 34px;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1;
 }
 .tcf-flow-row.green {
@@ -4639,12 +4642,12 @@ body.learning-content-hidden .panel .main {
   background: var(--flow);
   color: #fff;
   font-size: 25px;
-  font-weight: 900;
+  font-weight: 400;
 }
 .tcf-flow-step strong {
   display: block;
   margin-top: 30px;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1.18;
 }
 .tcf-flow-quote {
@@ -4905,7 +4908,7 @@ body.learning-content-hidden .panel .main {
 .book-audio-heading {
   font-size: 14px;
   font-weight: 800;
-  color: #14532d;
+  color: #111827;
 }
 .book-audio-desc {
   font-size: 12.5px;
@@ -4979,7 +4982,7 @@ body.learning-content-hidden .panel .main {
   justify-content: center;
   font-family: "Fira Code", monospace;
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 400;
   margin: 0 0 2px;
 }
 #o-ferial .ferial-lesson-tabs .pill strong {
@@ -4987,7 +4990,7 @@ body.learning-content-hidden .panel .main {
   color: #0f172a;
   font-size: 21px;
   line-height: 1.15;
-  font-weight: 900;
+  font-weight: 400;
 }
 #o-ferial .ferial-lesson-tabs .pill small {
   display: block;
@@ -5001,7 +5004,7 @@ body.learning-content-hidden .panel .main {
   color: #c93a2f;
   font-size: 15px;
   line-height: 1.2;
-  font-weight: 900;
+  font-weight: 400;
   margin-top: auto;
 }
 #o-ferial .ferial-lesson-tabs .pill.active,
@@ -5038,7 +5041,7 @@ body.learning-content-hidden .panel .main {
   justify-content: center;
   font-family: "Fira Code", monospace;
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 400;
   flex: 0 0 36px;
 }
 
@@ -5052,7 +5055,7 @@ body.learning-content-hidden .panel .main {
   color: #dc2626;
   font-family: "Fira Code", monospace;
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 400;
 }
 #o-ferial .ferial-line-text {
   min-width: 0;
@@ -5601,7 +5604,7 @@ body.learning-content-hidden .panel .main {
 }
 .sec-title {
   font-family: "Inter", "Tajawal", sans-serif;
-  font-weight: 900;
+  font-weight: 400;
   letter-spacing: 0;
 }
 .sec-ar {
@@ -5738,6 +5741,8 @@ body.learning-content-hidden .panel .main {
 
 .pron-textarea {
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   resize: vertical;
   min-height: 150px;
   border: 1.5px solid #dbeafe;
@@ -5749,6 +5754,189 @@ body.learning-content-hidden .panel .main {
   color: var(--text-dark);
   background: #fff;
   outline: none;
+}
+.pron-control-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.pron-control-row .sec-tool-btn {
+  justify-content: center;
+  flex: 1 1 86px;
+  min-width: 0;
+}
+.pron-speed-select {
+  flex: 1 1 155px;
+  min-width: 0;
+  max-width: 100%;
+}
+#o-prononciation .card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#o-prononciation .grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.pron-listening-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 5200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.34);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.pron-listening-modal[hidden] {
+  display: none;
+}
+body.pron-listening-open {
+  overflow: hidden;
+}
+.pron-listening-panel {
+  position: relative;
+  width: min(340px, calc(100vw - 36px));
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 34px 24px 28px;
+  border: 1px solid #dcfce7;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
+  text-align: center;
+}
+.pron-listening-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pron-listening-close:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.pron-listening-orb {
+  position: relative;
+  width: 148px;
+  height: 148px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 8px;
+}
+.pron-listening-ring {
+  position: absolute;
+  inset: 8px;
+  border: 2px solid rgba(34, 197, 94, 0.22);
+  border-radius: 999px;
+  animation: pronListeningPulse 1.6s ease-out infinite;
+}
+.pron-listening-ring-delay {
+  animation-delay: 0.55s;
+}
+.pron-listening-mic {
+  position: relative;
+  z-index: 1;
+  width: 82px;
+  height: 82px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #ffffff;
+  box-shadow:
+    0 0 0 14px rgba(34, 197, 94, 0.08),
+    0 12px 30px rgba(22, 163, 74, 0.24);
+}
+.pron-listening-mic-icon {
+  position: relative;
+  width: 25px;
+  height: 34px;
+  display: inline-block;
+  border: 4px solid currentColor;
+  border-radius: 16px;
+}
+.pron-listening-mic-icon::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -16px;
+  width: 38px;
+  height: 24px;
+  border: 4px solid currentColor;
+  border-top: 0;
+  border-radius: 0 0 24px 24px;
+  transform: translateX(-50%);
+}
+.pron-listening-mic-icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -28px;
+  width: 4px;
+  height: 14px;
+  background: currentColor;
+  box-shadow: -12px 14px 0 0 currentColor, -8px 14px 0 0 currentColor, -4px 14px 0 0 currentColor, 0 14px 0 0 currentColor, 4px 14px 0 0 currentColor, 8px 14px 0 0 currentColor, 12px 14px 0 0 currentColor;
+  transform: translateX(-50%);
+}
+.pron-listening-title {
+  color: #111827;
+  font-size: 24px;
+  font-weight: 400;
+}
+.pron-listening-subtitle {
+  color: #475569;
+  font-family: "Tajawal", "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+}
+.pron-listening-writing {
+  margin-top: -8px;
+  color: #dc2626;
+  font-family: "Inter", "Tajawal", sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+}
+.pron-listening-writing[hidden] {
+  display: none;
+}
+.pron-listening-stop {
+  margin-top: 10px;
+  min-width: 118px;
+  justify-content: center;
+}
+@keyframes pronListeningPulse {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.82);
+  }
+  70% {
+    opacity: 0.2;
+    transform: scale(1.18);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.28);
+  }
 }
 .pron-textarea:focus {
   border-color: var(--blue);
@@ -5926,6 +6114,19 @@ body.learning-content-hidden .panel .main {
 }
 
 @media (max-width: 720px) {
+  #o-prononciation .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .pron-control-row {
+    gap: 8px;
+  }
+  .pron-control-row .sec-tool-btn {
+    flex-basis: calc(33.333% - 6px);
+    padding-inline: 8px;
+  }
+  .pron-speed-select {
+    flex-basis: 100%;
+  }
   .pron-practice-grid {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   }
@@ -5945,5 +6146,88 @@ body.learning-content-hidden .panel .main {
   .examples-table td {
     padding: 9px 10px !important;
     font-size: 13px !important;
+  }
+}
+
+/* Pronunciation text fitting and listening popup reading text */
+.pron-textarea {
+  overflow: hidden;
+  resize: none;
+}
+
+#pron-original-text {
+  min-height: 92px;
+}
+
+.pron-listening-modal {
+  align-items: center;
+  justify-items: center;
+  overflow-y: auto;
+}
+
+.pron-listening-panel {
+  width: min(520px, calc(100vw - 32px));
+  min-height: auto;
+  max-height: calc(100vh - 40px);
+  justify-content: center;
+  overflow-y: auto;
+  padding: 32px 24px 28px;
+}
+
+.pron-listening-text {
+  width: 100%;
+  max-height: 32vh;
+  overflow-y: auto;
+  padding: 14px 16px;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 12px;
+  background: #f0fdf4;
+  color: #111827;
+  font-family: "Inter", "Tajawal", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .pron-listening-modal {
+    padding: 12px;
+  }
+
+  .pron-listening-panel {
+    width: 100%;
+    max-height: calc(100dvh - 24px);
+    gap: 10px;
+    padding: 28px 14px 22px;
+    border-radius: 16px;
+  }
+
+  .pron-listening-text {
+    max-height: 30dvh;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .pron-listening-orb {
+    width: 118px;
+    height: 118px;
+    margin-bottom: 2px;
+  }
+
+  .pron-listening-mic {
+    width: 68px;
+    height: 68px;
+  }
+
+  .pron-listening-title {
+    font-size: 21px;
+  }
+
+  .pron-listening-subtitle {
+    font-size: 14px;
   }
 }

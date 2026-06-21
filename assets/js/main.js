@@ -1906,8 +1906,8 @@ function inferLearningState(panel, section){
     state.lesson = section && section !== 'books' ? section : null;
   } else if(panel === 'oral'){
     state.main = 'oral';
-    state.group = section === 'devoirs' || section === 'ferial' ? section : 'mariane';
-    state.lesson = section && section !== 'devoirs' && section !== 'ferial' ? section : null;
+    state.group = section === 'devoirs' || section === 'ferial' || section === 'prononciation' ? section : 'mariane';
+    state.lesson = section && section !== 'devoirs' && section !== 'ferial' && section !== 'prononciation' ? section : null;
   } else if(panel === 'phonetique'){
     state.main = 'phonetique';
     state.group = section || null;
@@ -2062,6 +2062,14 @@ function renderLearningExplorer(){
   renderLearningBreadcrumb();
   if(learningExplorer.back){
     learningExplorer.back.hidden = !learningExplorer.main;
+  }
+  var hideCardGrid = learningExplorer.contentVisible &&
+    learningExplorer.main === 'oral' &&
+    learningExplorer.group === 'prononciation';
+  learningExplorer.root.classList.toggle('learning-explorer-grid-hidden', hideCardGrid);
+  if(hideCardGrid){
+    if(learningExplorer.grid) learningExplorer.grid.innerHTML = '';
+    return;
   }
   if(!learningExplorer.main){
     renderLearningCards(learningMainCards.map(function(card){
@@ -2766,6 +2774,7 @@ document.addEventListener('DOMContentLoaded', function(){
   initLearningExplorer();
   initDictionaryPage();
   initPronunciationHelper();
+  initPronunciationTextSizing();
   restoreRoute();
 });
 
@@ -3219,6 +3228,19 @@ function showOral(id, btn){
   if(btn && !isTopOralPill) btn.classList.add('active');
   if(id === 'prononciation') initPronunciationPractice();
   updateRoute('oral', id);
+  if(learningExplorer.root){
+    if(id === 'devoirs' || id === 'prononciation'){
+      setLearningState({main:'oral', group:id});
+      setLearningContentVisible(true);
+    } else if(id === 'ferial'){
+      setLearningState({main:'oral', group:'ferial'});
+      setLearningContentVisible(false);
+    } else {
+      setLearningState({main:'oral', group:'mariane', lesson:id});
+      setLearningContentVisible(true);
+    }
+    renderLearningExplorer();
+  }
   scrollToNav('panel-oral');
 }
 
@@ -3279,10 +3301,19 @@ function getPronunciationRecognition(){
       transcript += (event.results[i][0] && event.results[i][0].transcript ? event.results[i][0].transcript : '') + ' ';
     }
     var output = document.getElementById('pron-recognized-text');
-    if(output) output.value = transcript.trim();
+    if(output){
+      output.value = transcript.trim();
+      resizePronunciationTextarea(output);
+      setPronunciationWritingStatus(!!output.value.trim());
+    }
   };
   recognition.onerror = function(event){
     setPronunciationStatus('Mic error: ' + (event.error || 'unknown'));
+    if(event.error === 'not-allowed' || event.error === 'service-not-allowed'){
+      pronunciationStoppedByUser = true;
+      setPronunciationMicState('stopped');
+      pronunciationRecognition = null;
+    }
   };
   recognition.onend = function(){
     if(pronunciationStoppedByUser){
@@ -3297,6 +3328,7 @@ function getPronunciationRecognition(){
     } catch(e) {
       setPronunciationStatus('Mic restart failed. Press Start again.');
       pronunciationRecognition = null;
+      setPronunciationMicState('stopped');
     }
   };
   pronunciationRecognition = recognition;
@@ -3308,8 +3340,81 @@ function setPronunciationStatus(message){
   if(status) status.textContent = message;
 }
 
+function getPronunciationOriginalTextValue(){
+  var original = document.getElementById('pron-original-text');
+  return original && original.value.trim() ? original.value.trim() : 'Bonjour';
+}
+
+function syncPronunciationListeningText(){
+  var listeningText = document.getElementById('pron-listening-text');
+  if(listeningText) listeningText.textContent = getPronunciationOriginalTextValue();
+}
+
+function setPronunciationWritingStatus(isVisible){
+  var writing = document.getElementById('pron-listening-writing');
+  if(writing) writing.hidden = !isVisible;
+}
+
+function removePronunciationParagraphGaps(text){
+  return String(text || '').replace(/\r\n?/g, '\n').replace(/\n[ \t]*\n+/g, '\n').replace(/^\n+|\n+$/g, '');
+}
+
+function cleanPronunciationOriginalText(textarea){
+  if(!textarea) return;
+  var cleaned = removePronunciationParagraphGaps(textarea.value);
+  if(cleaned === textarea.value) return;
+  var start = textarea.selectionStart;
+  var end = textarea.selectionEnd;
+  var removedBeforeCursor = textarea.value.slice(0, start).length - removePronunciationParagraphGaps(textarea.value.slice(0, start)).length;
+  textarea.value = cleaned;
+  var nextStart = Math.max(0, start - removedBeforeCursor);
+  var nextEnd = Math.max(nextStart, end - removedBeforeCursor);
+  textarea.setSelectionRange(nextStart, nextEnd);
+}
+function resizePronunciationTextarea(textarea){
+  if(!textarea) return;
+  textarea.style.height = 'auto';
+  var minHeight = parseFloat(window.getComputedStyle(textarea).minHeight) || 0;
+  textarea.style.height = Math.max(textarea.scrollHeight, minHeight) + 'px';
+}
+
+function resizePronunciationTextareas(){
+  document.querySelectorAll('#pron-original-text, #pron-recognized-text').forEach(resizePronunciationTextarea);
+}
+
+function initPronunciationTextSizing(){
+  var original = document.getElementById('pron-original-text');
+  var recognized = document.getElementById('pron-recognized-text');
+  [original, recognized].forEach(function(textarea){
+    if(!textarea || textarea.dataset.pronAutoFit === 'ready') return;
+    textarea.dataset.pronAutoFit = 'ready';
+    textarea.addEventListener('input', function(){
+      if(textarea === original) cleanPronunciationOriginalText(textarea);
+      resizePronunciationTextarea(textarea);
+      if(textarea === original) syncPronunciationListeningText();
+    });
+    textarea.addEventListener('paste', function(){
+      setTimeout(function(){
+        if(textarea === original) cleanPronunciationOriginalText(textarea);
+        resizePronunciationTextarea(textarea);
+        if(textarea === original) syncPronunciationListeningText();
+      }, 0);
+    });
+  });
+  syncPronunciationListeningText();
+  resizePronunciationTextareas();
+}
+function setPronunciationListeningPopup(isVisible){
+  var modal = document.getElementById('pron-listening-modal');
+  if(!modal) return;
+  modal.hidden = !isVisible;
+  if(isVisible) syncPronunciationListeningText();
+  document.body.classList.toggle('pron-listening-open', !!isVisible);
+}
+
 function setPronunciationMicState(state){
   var startBtn = document.getElementById('pron-start-btn');
+  setPronunciationListeningPopup(state === 'listening');
   if(!startBtn) return;
   startBtn.classList.toggle('sec-tool-btn-success', state === 'listening');
   startBtn.classList.toggle('sec-tool-btn-warning', false);
@@ -3334,7 +3439,11 @@ function startPronunciationMic(event){
     return;
   }
   var output = document.getElementById('pron-recognized-text');
-  if(output) output.value = '';
+  if(output){
+    output.value = '';
+    resizePronunciationTextarea(output);
+  }
+  setPronunciationWritingStatus(false);
   try {
     recognition.start();
     setPronunciationStatus('Listening... speak in French.');
@@ -3427,6 +3536,8 @@ function loadPronunciationWord(index){
   var recognized = document.getElementById('pron-recognized-text');
   if(original) original.value = word.word;
   if(recognized) recognized.value = '';
+  syncPronunciationListeningText();
+  resizePronunciationTextareas();
   updatePronunciationIPAReference(word);
 }
 
@@ -3449,6 +3560,8 @@ function loadPronunciationHelper(index){
   var original = document.getElementById('pron-original-text');
   if(original){
     original.value = word;
+    syncPronunciationListeningText();
+    resizePronunciationTextarea(original);
   }
   setActivePronunciationHelper(index);
   playPronunciationText();
@@ -3512,7 +3625,7 @@ function updatePronunciationSpeed(){
 function setPronunciationButtonState(state){
   var playBtn = document.getElementById('pron-play-btn');
   var pauseBtn = document.getElementById('pron-pause-btn');
-  var stopBtn = document.getElementById('pron-stop-btn');
+  var stopBtn = document.getElementById('pron-text-stop-btn');
   if(!playBtn || !pauseBtn || !stopBtn) return;
   playBtn.classList.toggle('sec-tool-btn-success', state === 'playing');
   playBtn.classList.toggle('sec-tool-btn-warning', state === 'paused');

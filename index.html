@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -5185,11 +5185,11 @@
       <div class="grid-2">
         <div class="card">
           <span class="card-label">Current Word</span>
-          <div style="display:flex; gap:12px; margin-bottom:12px; align-items:center">
+          <div class="pron-control-row">
             <button id="pron-play-btn" class="sec-tool-btn sec-tool-btn-success" type="button" onclick="playPronunciationText()"><span class="btn-icon">🔊</span><strong>Play</strong></button>
             <button id="pron-pause-btn" class="sec-tool-btn" type="button" onclick="pausePronunciationText()"><span class="btn-icon">⏸</span><strong>Pause</strong></button>
-            <button id="pron-stop-btn" class="sec-tool-btn" type="button" onclick="stopPronunciationText()"><span class="btn-icon">■</span><strong>Stop</strong></button>
-            <select id="pron-speed" onchange="updatePronunciationSpeed()" style="padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; font-size:14px">
+            <button id="pron-text-stop-btn" class="sec-tool-btn" type="button" onclick="stopPronunciationText()"><span class="btn-icon">■</span><strong>Stop</strong></button>
+            <select id="pron-speed" class="pron-speed-select" onchange="updatePronunciationSpeed()" style="padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; font-size:14px">
               <option value="0.75">Slow (0.75x)</option>
               <option value="0.85">Slower (0.85x)</option>
               <option value="0.9">Slow-normal (0.9x)</option>
@@ -5207,7 +5207,7 @@
           <span class="card-label">Record & Compare</span>
           <div class="grid-2" style="margin-bottom:12px">
             <button id="pron-start-btn" class="sec-tool-btn" type="button" onclick="startPronunciationMic(event)"><span class="btn-icon">🎙</span><strong>Start mic</strong></button>
-            <button id="pron-stop-btn" class="sec-tool-btn" type="button" onclick="stopPronunciationMic(event)"><span class="btn-icon">■</span><strong>Stop</strong></button>
+            <button id="pron-mic-stop-btn" class="sec-tool-btn" type="button" onclick="stopPronunciationMic(event)"><span class="btn-icon">■</span><strong>Stop</strong></button>
           </div>
           <div id="pron-status" class="note">Ready. Use Chrome or Edge and allow microphone access.</div>
           <textarea id="pron-recognized-text" class="pron-textarea" rows="3" placeholder="Your recognized speech will appear here..."></textarea>
@@ -5224,6 +5224,23 @@
       <div class="card">
         <span class="card-label">Correct IPA Pronunciation Reference</span>
         <div id="pron-ipa-reference" class="pron-ipa-reference"></div>
+      </div>
+      <div id="pron-listening-modal" class="pron-listening-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pron-listening-title">
+        <div class="pron-listening-panel">
+          <button class="pron-listening-close" type="button" onclick="stopPronunciationMic(event)" aria-label="Stop microphone">&times;</button>
+          <div id="pron-listening-text" class="pron-listening-text">Bonjour</div>
+          <div class="pron-listening-orb" aria-hidden="true">
+            <span class="pron-listening-ring"></span>
+            <span class="pron-listening-ring pron-listening-ring-delay"></span>
+            <span class="pron-listening-mic">
+              <span class="pron-listening-mic-icon"></span>
+            </span>
+          </div>
+          <div id="pron-listening-title" class="pron-listening-title">Listening...</div>
+          <div class="pron-listening-subtitle">Parlez maintenant en français</div>
+          <div id="pron-listening-writing" class="pron-listening-writing" hidden>écrivant maintenant</div>
+          <button class="sec-tool-btn sec-tool-btn-success pron-listening-stop" type="button" onclick="stopPronunciationMic(event)"><span class="btn-icon">■</span><strong>Stop</strong></button>
+        </div>
       </div>
     </section>
 
