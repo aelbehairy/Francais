@@ -1,6 +1,7 @@
 (function(){
   var fallbackKey = 'supabaseHighlightFallback';
   var dictionaryFallbackKey = 'supabaseDictionaryFallback';
+  var pronunciationContextFallbackKey = 'supabasePronunciationContextFallback';
   var warnedMissingConfig = false;
   var configPromise = null;
 
@@ -66,6 +67,45 @@
 
   function writeDictionaryFallback(list){
     try{ localStorage.setItem(dictionaryFallbackKey, JSON.stringify(list || [])); } catch(error){}
+  }
+  function pronunciationContextFallbackList(){
+    try{
+      var list = JSON.parse(localStorage.getItem(pronunciationContextFallbackKey) || '[]');
+      return Array.isArray(list) ? list : [];
+    } catch(error){
+      return [];
+    }
+  }
+
+  function writePronunciationContextFallback(list){
+    try{ localStorage.setItem(pronunciationContextFallbackKey, JSON.stringify(list || [])); } catch(error){}
+  }
+
+  function cleanPronunciationContextRecord(record){
+    record = record || {};
+    var score = record.score;
+    if(score === '' || score == null || Number.isNaN(Number(score))) score = null;
+    else score = Number(score);
+    return {
+      user_id: record.user_id || 'default_user',
+      content: String(record.content || '').trim(),
+      level: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].indexOf(record.level) !== -1 ? record.level : 'A1',
+      score: score,
+      score_date: record.score_date || new Date().toISOString()
+    };
+  }
+
+  function pronunciationContextFallbackSave(record){
+    var now = new Date().toISOString();
+    var item = Object.assign({}, record, {
+      id: record.id || 'local-pron-' + Date.now().toString(36),
+      created_at: record.created_at || now,
+      updated_at: now
+    });
+    var next = pronunciationContextFallbackList();
+    next.unshift(item);
+    writePronunciationContextFallback(next);
+    return item;
   }
 
   function writeFallback(list){
@@ -292,6 +332,38 @@
     });
   }
 
+
+  function savePronunciationContext(record){
+    var cleaned = cleanPronunciationContextRecord(record);
+    if(!cleaned.content) return Promise.resolve(null);
+    return request('pronunciation_contexts', {
+      method: 'POST',
+      headers: {Prefer: 'return=representation'},
+      body: JSON.stringify(cleaned)
+    }).then(function(result){
+      return result && result[0] ? result[0] : pronunciationContextFallbackSave(cleaned);
+    }).catch(function(error){
+      console.warn('Supabase pronunciation context save failed; using localStorage fallback.', error);
+      return pronunciationContextFallbackSave(cleaned);
+    });
+  }
+
+  function loadPronunciationContexts(filters){
+    filters = filters || {};
+    var query = 'pronunciation_contexts?select=*&order=score_date.desc';
+    if(filters.level && filters.level !== 'all') query += '&level=eq.' + encode(filters.level);
+    return request(query).then(function(result){
+      if(Array.isArray(result)) return result;
+      var fallback = pronunciationContextFallbackList();
+      if(filters.level && filters.level !== 'all') fallback = fallback.filter(function(item){ return item.level === filters.level; });
+      return fallback;
+    }).catch(function(error){
+      console.warn('Supabase pronunciation context load failed; using localStorage fallback.', error);
+      var fallback = pronunciationContextFallbackList();
+      if(filters.level && filters.level !== 'all') fallback = fallback.filter(function(item){ return item.level === filters.level; });
+      return fallback;
+    });
+  }
   window.HighlightStore = {
     currentPage: currentPage,
     saveHighlight: saveHighlight,
@@ -299,7 +371,9 @@
     removeHighlight: removeHighlight,
     saveDictionaryItem: saveDictionaryItem,
     loadDictionaryItems: loadDictionaryItems,
-    deleteDictionaryItem: deleteDictionaryItem
+    deleteDictionaryItem: deleteDictionaryItem,
+    savePronunciationContext: savePronunciationContext,
+    loadPronunciationContexts: loadPronunciationContexts
   };
   window.saveHighlight = saveHighlight;
   window.loadHighlights = loadHighlights;
@@ -307,4 +381,6 @@
   window.saveDictionaryItem = saveDictionaryItem;
   window.loadDictionaryItems = loadDictionaryItems;
   window.deleteDictionaryItem = deleteDictionaryItem;
+  window.savePronunciationContext = savePronunciationContext;
+  window.loadPronunciationContexts = loadPronunciationContexts;
 })();

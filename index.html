@@ -5199,9 +5199,10 @@
             </select>
           </div>
           <textarea id="pron-original-text" class="pron-textarea" rows="4" placeholder="Word to pronounce...">Bonjour</textarea>
-          <div class="pron-helper-label" style="margin:16px 0 8px;font-size:14px;font-weight:700;color:#334155">Helper words (click to load and play)</div>
-          <div id="pron-helper-list" class="pron-helper-list"></div>
-          <div class="note" style="direction:rtl;text-align:right">اقرأ الكلمة بصوت واضح ثم اضغط على الميكروفون.</div>
+          <details class="pron-translation-panel">
+            <summary><span>Arabic translation</span><span class="pron-translation-arrow" aria-hidden="true">▾</span></summary>
+            <div id="pron-arabic-translation" class="pron-arabic-translation" dir="rtl">الترجمة العربية تظهر هنا.</div>
+          </details>
         </div>
         <div class="card">
           <span class="card-label">Record & Compare</span>
@@ -5220,10 +5221,34 @@
         <div id="pron-score" class="formula" style="font-size:28px;text-align:center;color:var(--primary);margin:16px 0">Score: -/10</div>
         <div id="pron-correction" class="pron-correction"></div>
       </div>
-
-      <div class="card">
-        <span class="card-label">Correct IPA Pronunciation Reference</span>
-        <div id="pron-ipa-reference" class="pron-ipa-reference"></div>
+      <button id="pron-save-context-btn" class="sec-tool-btn sec-tool-btn-success pron-save-context-btn" type="button" onclick="openPronunciationSavePopup()"><span class="btn-icon">💾</span><strong>Save context to Database</strong></button>
+      <div id="pron-save-modal" class="pron-save-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pron-save-title">
+        <div class="pron-save-panel">
+          <button class="pron-save-close" type="button" onclick="closePronunciationSavePopup()" aria-label="Close save popup">&times;</button>
+          <div id="pron-save-title" class="pron-save-title">Save context to Database</div>
+          <label class="pron-save-field">
+            <span>Level of text</span>
+            <select id="pron-save-level">
+              <option value="A1">A1</option>
+              <option value="A2">A2</option>
+              <option value="B1" selected>B1</option>
+              <option value="B2">B2</option>
+              <option value="C1">C1</option>
+              <option value="C2">C2</option>
+            </select>
+          </label>
+          <div class="pron-save-meta">
+            <span id="pron-save-score-preview">Score: -</span>
+            <span id="pron-save-date-preview"></span>
+          </div>
+          <div id="pron-save-content-preview" class="pron-save-content-preview"></div>
+          <div id="pron-save-status" class="pron-save-status" role="status"></div>
+          <div class="pron-save-actions">
+            <a class="sec-tool-btn" href="./pronunciation-contexts.html"><strong>View saved contexts</strong></a>
+            <button class="sec-tool-btn" type="button" onclick="closePronunciationSavePopup()"><strong>Cancel</strong></button>
+            <button class="sec-tool-btn sec-tool-btn-success" type="button" onclick="savePronunciationContextToDatabase()"><span class="btn-icon">💾</span><strong>Save</strong></button>
+          </div>
+        </div>
       </div>
       <div id="pron-listening-modal" class="pron-listening-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pron-listening-title">
         <div class="pron-listening-panel">

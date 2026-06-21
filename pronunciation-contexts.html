@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saved Pronunciation Contexts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+  <main class="pron-contexts-page">
+    <h1>Saved Pronunciation Contexts</h1>
+    <div class="pron-contexts-toolbar">
+      <a class="sec-tool-btn" href="./index.html#oral/prononciation"><strong>Back to pronunciation</strong></a>
+      <label class="pron-save-field" style="max-width:180px">
+        <span>Filter level</span>
+        <select id="pron-context-level-filter">
+          <option value="all">All</option>
+          <option value="A1">A1</option>
+          <option value="A2">A2</option>
+          <option value="B1">B1</option>
+          <option value="B2">B2</option>
+          <option value="C1">C1</option>
+          <option value="C2">C2</option>
+        </select>
+      </label>
+    </div>
+    <div id="pron-contexts-status" class="note">Loading saved contexts...</div>
+    <div id="pron-contexts-list" class="pron-contexts-grid"></div>
+  </main>
+  <script src="./assets/js/supabase-env.js" defer></script>
+  <script src="./assets/js/supabase-highlights.js" defer></script>
+  <script src="./assets/js/pronunciation-contexts.js" defer></script>
+</body>
+</html>

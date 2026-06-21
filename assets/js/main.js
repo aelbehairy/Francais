@@ -2773,7 +2773,6 @@ document.addEventListener('DOMContentLoaded', function(){
   initInlineIrregSections();
   initLearningExplorer();
   initDictionaryPage();
-  initPronunciationHelper();
   initPronunciationTextSizing();
   restoreRoute();
 });
@@ -3543,36 +3542,6 @@ function loadPronunciationWord(index){
 
 var currentSynthUtterance = null;
 
-var pronunciationHelperWords = ['Bonjour', 'Au revoir', 'S’il vous plaît', 'Merci', 'Excusez-moi', 'Oui', 'Non', 'Je ne comprends pas', 'Parlez plus lentement', 'Enchantée'];
-
-function initPronunciationHelper(){
-  var container = document.getElementById('pron-helper-list');
-  if(!container) return;
-  container.innerHTML = pronunciationHelperWords.map(function(word, index){
-    return '<button class="pron-helper-btn" type="button" onclick="loadPronunciationHelper(' + index + ')">' +
-      '<span>' + escapeHtml(word) + '</span>' +
-    '</button>';
-  }).join('');
-}
-
-function loadPronunciationHelper(index){
-  var word = pronunciationHelperWords[index];
-  var original = document.getElementById('pron-original-text');
-  if(original){
-    original.value = word;
-    syncPronunciationListeningText();
-    resizePronunciationTextarea(original);
-  }
-  setActivePronunciationHelper(index);
-  playPronunciationText();
-}
-
-function setActivePronunciationHelper(activeIndex){
-  var buttons = document.querySelectorAll('#pron-helper-list .pron-helper-btn');
-  buttons.forEach(function(btn, index){
-    btn.classList.toggle('active', index === activeIndex);
-  });
-}
 
 function playPronunciationText(){
   if(!('speechSynthesis' in window)){
@@ -6920,5 +6889,80 @@ if('IntersectionObserver' in window){
   // Fallback for older browsers
   document.querySelectorAll('.card, .q-card, .article-card').forEach(function(el){
     el.classList.add('visible-anim');
+  });
+}
+
+function getPronunciationScoreValue(){
+  var score = document.getElementById('pron-score');
+  if(!score) return null;
+  var match = score.textContent.match(/Score:\s*([0-9]+(?:\.[0-9]+)?)/i);
+  return match ? Number(match[1]) : null;
+}
+
+function openPronunciationSavePopup(){
+  var original = document.getElementById('pron-original-text');
+  var modal = document.getElementById('pron-save-modal');
+  var preview = document.getElementById('pron-save-content-preview');
+  var status = document.getElementById('pron-save-status');
+  var scorePreview = document.getElementById('pron-save-score-preview');
+  var datePreview = document.getElementById('pron-save-date-preview');
+  if(!original || !modal) return;
+  var content = original.value.trim();
+  if(!content){
+    alert('Please add text before saving.');
+    return;
+  }
+  if(preview) preview.textContent = content;
+  if(status){
+    status.textContent = '';
+    status.classList.remove('error');
+  }
+  var score = getPronunciationScoreValue();
+  if(scorePreview) scorePreview.textContent = 'Score: ' + (score == null ? '-' : score + '/10');
+  if(datePreview) datePreview.textContent = 'Date: ' + new Date().toLocaleString();
+  modal.hidden = false;
+}
+
+function closePronunciationSavePopup(){
+  var modal = document.getElementById('pron-save-modal');
+  if(modal) modal.hidden = true;
+}
+
+function savePronunciationContextToDatabase(){
+  var original = document.getElementById('pron-original-text');
+  var level = document.getElementById('pron-save-level');
+  var status = document.getElementById('pron-save-status');
+  if(!original || !original.value.trim()){
+    if(status){
+      status.textContent = 'No pronunciation text to save.';
+      status.classList.add('error');
+    }
+    return;
+  }
+  if(!window.savePronunciationContext){
+    if(status){
+      status.textContent = 'Database helper is not ready.';
+      status.classList.add('error');
+    }
+    return;
+  }
+  if(status){
+    status.textContent = 'Saving...';
+    status.classList.remove('error');
+  }
+  window.savePronunciationContext({
+    content: original.value.trim(),
+    level: level ? level.value : 'A1',
+    score: getPronunciationScoreValue(),
+    score_date: new Date().toISOString()
+  }).then(function(saved){
+    if(status) status.textContent = saved ? 'Saved successfully.' : 'Nothing was saved.';
+    setTimeout(closePronunciationSavePopup, 700);
+  }).catch(function(error){
+    if(status){
+      status.textContent = 'Save failed. Please try again.';
+      status.classList.add('error');
+    }
+    console.warn('Pronunciation context save failed:', error);
   });
 }
