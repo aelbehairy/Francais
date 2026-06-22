@@ -3722,10 +3722,27 @@ async function startPronunciationMic(event){
   }
 }
 
+async function askToSavePronunciationRecording(){
+  if(window.Swal && typeof window.Swal.fire === 'function'){
+    var result = await window.Swal.fire({
+      title: 'Save MP3 recording?',
+      text: 'Do you want to save this voice recording as an MP3 file?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Save MP3',
+      cancelButtonText: 'No, thanks',
+      reverseButtons: true,
+      focusConfirm: false
+    });
+    return !!result.isConfirmed;
+  }
+  return window.confirm('Save this voice recording?');
+}
+
 async function stopPronunciationMic(event){
   if(event) event.preventDefault();
   var shouldAskToSave = !!event && pronunciationMediaRecorder && pronunciationMediaRecorder.state === 'recording';
-  if(shouldAskToSave && window.confirm('Save this voice recording?')){
+  if(shouldAskToSave && await askToSavePronunciationRecording()){
     pronunciationPendingSaveHandle = await requestPronunciationRecordingSaveHandle();
   } else {
     pronunciationPendingSaveHandle = null;
