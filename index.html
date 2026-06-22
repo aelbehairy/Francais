@@ -3478,6 +3478,7 @@
       <button class="pill" onclick="showSec('lecon2',this,'b1')"><span class="pi">2</span>Leçon 2</button>
       <button class="pill" onclick="showSec('lecon3',this,'b1')"><span class="pi">3</span>Leçon 3</button>
       <button class="pill" onclick="showSec('lecon4',this,'b1')"><span class="pi">4</span>Leçon 4</button>
+      <button class="pill" data-learning-key="Devoir1" onclick="showSec('lecon1',this,'b1');setTimeout(function(){var devoir=document.getElementById('b1-Devoir1');if(devoir) devoir.scrollIntoView({behavior:'smooth',block:'start'});},80)"><span class="pi">D1</span>Devoir 1</button>
     </div>
   </nav>
   <main class="main">
@@ -3590,12 +3591,12 @@
         <h3>Exercice 3 - Pronoms indéfinis</h3>
         <div class="note"><strong>Complétez avec des pronoms indéfinis.</strong></div>
         <div class="note b1-lesson-ar">أكمل بضمائر غير محددة.</div>
-        <div class="note">
-          <p>a) __________ réussissent facilement, tandis que __________ rencontrent des obstacles.</p>
-          <p>b) __________ ont besoin d'aide, __________ préfèrent travailler seuls.</p>
-          <p>c) __________ des immigrants choisissent de retourner dans leur pays d'origine.</p>
-          <p>d) __________ pensent que l'intégration est rapide, mais la réalité est différente.</p>
-          <p>e) __________ ont déjà obtenu la résidence permanente, __________ attendent encore.</p>
+        <div class="b1-exercise-rows">
+          <div class="ex-row"><span class="b1-row-label">a</span><span class="ex-fr">__________ réussissent facilement, tandis que __________ rencontrent des obstacles.</span></div>
+          <div class="ex-row"><span class="b1-row-label">b</span><span class="ex-fr">__________ ont besoin d'aide, __________ préfèrent travailler seuls.</span></div>
+          <div class="ex-row"><span class="b1-row-label">c</span><span class="ex-fr">__________ des immigrants choisissent de retourner dans leur pays d'origine.</span></div>
+          <div class="ex-row"><span class="b1-row-label">d</span><span class="ex-fr">__________ pensent que l'intégration est rapide, mais la réalité est différente.</span></div>
+          <div class="ex-row"><span class="b1-row-label">e</span><span class="ex-fr">__________ ont déjà obtenu la résidence permanente, __________ attendent encore.</span></div>
         </div>
         <div class="b1-answer">
           <p>a) <strong>Certains réussissent facilement, tandis que d'autres rencontrent des obstacles.</strong></p>
@@ -3697,7 +3698,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="b1-Devoir1">
         <span class="card-label">9) Devoir</span>
         <div class="formula b1-lesson-text" style="font-size:16px;text-align:left;direction:ltr">
           <p>Salut Ahmed,</p>
@@ -3705,6 +3706,18 @@
           <p>À bientôt !</p>
         </div>
         <div class="note b1-lesson-ar">هذا النموذج مناسب تقريبا لمستوى <strong>A2-B1</strong> في TCF Canada.</div>
+        <h3>Devoir Oral</h3>
+        <div class="formula b1-lesson-text" style="font-size:16px;text-align:left;direction:ltr">
+          <p>Bonjour &agrave; tous.</p>
+          <p>Aujourd&rsquo;hui, je vais parler des r&eacute;seaux sociaux.</p>
+          <p>&Agrave; mon avis, les r&eacute;seaux sociaux ont beaucoup d&rsquo;avantages parce qu&rsquo;ils nous permettent de communiquer avec nos amis et notre famille. Gr&acirc;ce &agrave; Internet, nous pouvons envoyer des messages et partager des photos facilement.</p>
+          <p>De plus, les r&eacute;seaux sociaux sont utiles pour trouver des informations et apprendre de nouvelles choses.</p>
+          <p>Mais il y a aussi quelques inconv&eacute;nients. Certaines personnes passent beaucoup de temps sur leur t&eacute;l&eacute;phone. Cependant, si nous utilisons les r&eacute;seaux sociaux avec mod&eacute;ration, ils peuvent &ecirc;tre tr&egrave;s utiles.</p>
+          <p>Les entreprises utilisent aussi les r&eacute;seaux sociaux pour faire de la publicit&eacute;. Alors, ils sont devenus importants dans notre vie quotidienne.</p>
+          <p>C&rsquo;est pourquoi je pense que les r&eacute;seaux sociaux ont plus d&rsquo;avantages que d&rsquo;inconv&eacute;nients.</p>
+          <p>Merci de votre attention.</p>
+        </div>
+        <div class="note b1-lesson-ar">نموذج شفوي B1 حول شبكات التواصل الاجتماعي.</div>
       </div>
 
       <div class="card">
@@ -3758,6 +3771,626 @@
           <tr><td>orienter vers des associations</td><td>يوجه إلى جمعيات</td><td>مفيد في الحوار مع مستشار</td></tr>
         </table>
       </div>
+
+      <!-- B1 MODULE 1 IMPORT START -->
+      <div class="b1-module" id="b1-module1-sara">
+<div class="card b1-module-hero">
+  <span class="usage-tag tag-now">B1 · TCF Canada · Sara Toumi</span>
+  <h1>Module 1</h1>
+  <p class="note b1-lesson-ar">القواعد والتمارين الأساسية للوحدة الأولى — مستوى B1 لاختبار TCF Canada</p>
+  <div class="card-label">DR HIKARI STUDY MATERIALS</div>
+</div>
+
+<div class="nav-pills b1-module-tabs" id="b1-module-tabbar">
+  <button class="pill b1-module-tab active" data-panel="p1">1 · Plus-que-parfait</button>
+  <button class="pill b1-module-tab" data-panel="p2">2 · Passé récent</button>
+  <button class="pill b1-module-tab" data-panel="p3">3 · Pronoms relatifs</button>
+  <button class="pill b1-module-tab" data-panel="p4">4 · Compréhension</button>
+  <button class="pill b1-module-tab" data-panel="p5">5 · Connecteurs (Ex 1–2)</button>
+  <button class="pill b1-module-tab" data-panel="p6">6 · Connecteurs (Ex 3–4)</button>
+  <button class="pill b1-module-tab" data-panel="p7">7 · Connecteurs (Ex 5–6)</button>
+  <button class="pill b1-module-tab" data-panel="p8">8 · Connecteurs (Ex 7–8)</button>
+  <button class="pill b1-module-tab" data-panel="p9">9 · Production</button>
+</div>
+
+<div class="b1-module-wrap">
+
+  <!-- PANEL 1 -->
+  <div class="b1-module-panel active" id="p1">
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title"><span class="num">1</span> LE PLUS-QUE-PARFAIT</div>
+      <div class="grid-2">
+        <div class="box">
+          <div class="b1-module-box-label">Formation / التكوين</div>
+          <p class="b1-module-fr" style="font-size:16px;">Auxiliaire à l'imparfait + participe passé</p>
+        </div>
+        <div class="box green">
+          <div class="b1-module-box-label">Utilisation / الاستخدام</div>
+          <p class="b1-module-fr" style="font-size:16px;">Une action passée avant une autre action passée.</p>
+          <p style="margin-top:6px; font-size:13px;">حدث وقع قبل حدث ماضٍ آخر</p>
+        </div>
+      </div>
+
+      <hr class="b1-module-divider">
+
+      <div class="b1-module-box-label" style="margin-bottom:10px;">Exemple / مثال</div>
+      <ul class="b1-module-list">
+        <li>J'avais travaillé.</li>
+        <li>Tu avais étudié.</li>
+        <li>Nous avions terminé.</li>
+        <li>Ils avaient trouvé.</li>
+      </ul>
+      <p style="font-size:13px; color:var(--text-dim); margin-top:10px;">
+        <span class="b1-module-fr" style="font-size:15px; display:block; margin-bottom:4px;">Quand je suis arrivé au Canada, j'avais déjà appris le français.</span>
+        عندما وصلتُ إلى كندا، كنت قد تعلّمت الفرنسية مسبقًا.
+      </p>
+
+      <hr class="b1-module-divider">
+
+      <div class="b1-module-box-label" style="margin-bottom:10px;">Autres exemples / أمثلة إضافية</div>
+      <ul class="b1-module-list">
+        <li>Quand j'ai commencé mon emploi, j'avais déjà obtenu mon diplôme.</li>
+        <li>Avant de déménager, nous avions vendu notre maison.</li>
+        <li>Quand elle a passé le TCF, elle avait beaucoup pratiqué.</li>
+      </ul>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title blue"><span class="num">✏</span> EXERCICE — Complète</div>
+      <button class="reveal-all-btn" onclick="revealAll('g1')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g1">
+        <span class="qnum">1</span><span class="ex-text">Quand je suis arrivé au bureau, mon collègue <span class="blank-fill">était déjà parti</span> (partir).</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>était déjà parti</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g1">
+        <span class="qnum">2</span><span class="ex-text">Avant d'immigrer, nous <span class="blank-fill">avions appris</span> (apprendre) le français.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>avions appris</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g1">
+        <span class="qnum">3</span><span class="ex-text">Lorsqu'il a commencé son travail, il <span class="blank-fill">avait</span> déjà <span class="blank-fill">reçu</span> (recevoir) la formation.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>avait … reçu</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g1">
+        <span class="qnum">4</span><span class="ex-text">Quand elle a téléphoné, je <span class="blank-fill">j'avais</span> déjà <span class="blank-fill">fini</span> (finir) mon repas.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>j'avais … fini</strong></span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 2 -->
+  <div class="b1-module-panel" id="p2">
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title teal"><span class="num">2</span> LE PASSÉ RÉCENT</div>
+      <div class="grid-2">
+        <div class="box">
+          <div class="b1-module-box-label">Formation / التكوين</div>
+          <p class="b1-module-fr" style="font-size:16px;">venir de + infinitif</p>
+        </div>
+        <div class="box green">
+          <div class="b1-module-box-label">Utilisation / الاستخدام</div>
+          <p class="b1-module-fr" style="font-size:16px;">Action qui s'est produite il y a très peu de temps.</p>
+          <p style="margin-top:6px; font-size:13px;">حدث وقع منذ وقت قصير جدًا</p>
+        </div>
+      </div>
+
+      <hr class="b1-module-divider">
+      <div class="b1-module-box-label" style="margin-bottom:10px;">Exemples / أمثلة</div>
+      <ul class="b1-module-list">
+        <li>Je viens d'arriver.</li>
+        <li>Nous venons de terminer.</li>
+        <li>Ils viennent d'obtenir leur citoyenneté.</li>
+      </ul>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title blue"><span class="num">✏</span> EXERCICE — Transforme</div>
+      <button class="reveal-all-btn" onclick="revealAll('g2')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g2">
+        <span class="qnum">1</span><span class="ex-text">J'ai terminé mon travail il y a cinq minutes.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">→ <strong>Je viens de terminer mon travail.</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g2">
+        <span class="qnum">2</span><span class="ex-text">Nous avons mangé il y a quelques instants.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">→ <strong>Nous venons de manger.</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g2">
+        <span class="qnum">3</span><span class="ex-text">Elle a quitté la réunion.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">→ <strong>Elle vient de quitter la réunion.</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g2">
+        <span class="qnum">4</span><span class="ex-text">Ils ont reçu un appel.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">→ <strong>Ils viennent de recevoir un appel.</strong></span></div></div>
+      </div>
+    </div>
+
+    <div class="b1-module-footer" style="border-radius:14px; margin-top:0;">
+      <div class="fr">Continue à pratiquer chaque jour, tu vas y arriver !</div>
+      <div class="ar">واصل التدريب كل يوم، ستنجح !</div>
+    </div>
+  </div>
+
+  <!-- PANEL 3 -->
+  <div class="b1-module-panel" id="p3">
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title"><span class="num">3</span> LES PRONOMS RELATIFS COMPOSÉS</div>
+      <p style="font-size:14px; color:var(--text-dim); margin-bottom:16px;">Lequel / laquelle / lesquels / lesquelles — تُستخدم مع حروف الجر (dans, sur, pour, avec...) للإشارة إلى اسم سبق ذكره</p>
+
+      <div class="grid-2">
+        <div class="box">
+          <div class="b1-module-box-label">Dans lequel</div>
+          <p class="b1-module-fr" style="font-size:15px;">Le bureau dans lequel je travaille est moderne.</p>
+        </div>
+        <div class="box">
+          <div class="b1-module-box-label">Sur lequel</div>
+          <p class="b1-module-fr" style="font-size:15px;">Voici le projet sur lequel je travaille.</p>
+        </div>
+        <div class="box">
+          <div class="b1-module-box-label">Avec lequel</div>
+          <p class="b1-module-fr" style="font-size:15px;">C'est le collègue avec lequel je collabore.</p>
+        </div>
+        <div class="box">
+          <div class="b1-module-box-label">Pour lequel</div>
+          <p class="b1-module-fr" style="font-size:15px;">Voici l'emploi pour lequel j'ai postulé.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title blue"><span class="num">✏</span> EXERCICE — Complète</div>
+      <button class="reveal-all-btn" onclick="revealAll('g3')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g3">
+        <span class="qnum">1</span><span class="ex-text">Voici l'entreprise <span class="blank-fill">dans laquelle</span> je travaille.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>dans laquelle</strong></span></div></div>
+      </div>
+      <div class="ex-row" data-group="g3">
+        <span class="qnum">2</span><span class="ex-text">C'est le projet <span class="blank-fill">sur lequel</span> nous collaborons.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>sur lequel</strong></span></div></div>
+      </div>
+      <div class="ex-row" data-group="g3">
+        <span class="qnum">3</span><span class="ex-text">Voilà le poste <span class="blank-fill">pour lequel</span> elle a postulé.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>pour lequel</strong></span></div></div>
+      </div>
+      <div class="ex-row" data-group="g3">
+        <span class="qnum">4</span><span class="ex-text">Voici le logiciel <span class="blank-fill">avec lequel</span> nous travaillons chaque jour.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>avec lequel</strong></span></div></div>
+      </div>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title teal"><span class="num">📄</span> TEXTE DE SYNTHÈSE</div>
+      <div class="model-text">
+        <p>Quand Karim est arrivé au Canada, il <mark>avait déjà étudié</mark> le français pendant plusieurs années. Malgré cela, il a rencontré certaines difficultés. Certains collègues parlaient très vite et d'autres utilisaient des expressions qu'il ne connaissait pas.</p>
+        <p>Heureusement, il a trouvé une entreprise <mark>dans laquelle</mark> les employés étaient patients. Il travaille aujourd'hui sur des projets intéressants <mark>avec lesquels</mark> il développe ses compétences.</p>
+        <p>Il <mark>vient d'obtenir</mark> une promotion et il est très fier de son parcours. Selon lui, chacun peut réussir lorsqu'il fait des efforts régulièrement.</p>
+      </div>
+      <p style="font-size:13px; color:var(--text-dim); margin-top:14px;">
+        ملاحظة: النص الأصلي يحتوي على خطأ مطبعي "kesquels" — الصحيح هو <span class="mono" style="color:var(--gold-light);">lesquels</span>.
+      </p>
+    </div>
+  </div>
+
+  <!-- PANEL 4 -->
+  <div class="b1-module-panel" id="p4">
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title blue"><span class="num">🔍</span> COMPRÉHENSION</div>
+      <button class="reveal-all-btn" onclick="revealAll('g4')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g4">
+        <span class="qnum">1</span><span class="ex-text">Qu'avait fait Karim avant d'arriver au Canada ?</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">Karim avait déjà étudié le français pendant plusieurs années.</span></div></div>
+      </div>
+      <div class="ex-row" data-group="g4">
+        <span class="qnum">2</span><span class="ex-text">Quelles difficultés a-t-il rencontrées ?</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">Certains collègues parlaient très vite et utilisaient des expressions qu'il ne connaissait pas.</span></div></div>
+      </div>
+      <div class="ex-row" data-group="g4">
+        <span class="qnum">3</span><span class="ex-text">Dans quel type d'entreprise travaille-t-il ?</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">Il travaille dans une entreprise dans laquelle les employés sont patients.</span></div></div>
+      </div>
+      <div class="ex-row" data-group="g4">
+        <span class="qnum">4</span><span class="ex-text">Que vient-il d'obtenir ?</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">Il vient d'obtenir une promotion.</span></div></div>
+      </div>
+      <div class="ex-row" data-group="g4">
+        <span class="qnum">5</span><span class="ex-text">Que pense-t-il de la réussite ?</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">Il pense que chacun peut réussir lorsqu'il fait des efforts régulièrement.</span></div></div>
+      </div>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title teal"><span class="num">🎤</span> PRODUCTION ORALE</div>
+      <p class="b1-module-fr" style="font-size:17px; margin-bottom:14px;">Sujet : Parlez de votre arrivée au Canada ou d'un changement important dans votre vie.</p>
+
+      <div class="b1-module-box-label" style="margin-bottom:10px;">Utilisez obligatoirement / يجب استخدام</div>
+      <div class="checklist" style="margin-bottom:18px;">
+        <div class="ck">2 phrases au plus-que-parfait</div>
+        <div class="ck">2 phrases au passé récent</div>
+        <div class="ck">1 pronom relatif composé</div>
+        <div class="ck">3 pronoms indéfinis</div>
+      </div>
+
+      <div class="b1-module-box-label" style="margin-bottom:8px;">Exemple de début / مثال للبداية</div>
+      <div class="model-text">
+        <p>Quand je suis arrivé au Canada, j'avais déjà étudié le français pendant plusieurs mois. J'avais également préparé tous mes documents. Aujourd'hui, je viens de terminer une nouvelle formation grâce à laquelle j'ai amélioré mes compétences. Je pense que chacun peut réussir, même si certains rencontrent plus de difficultés que d'autres.</p>
+      </div>
+    </div>
+
+    <div class="b1-module-footer" style="border-radius:14px; margin-top:0;">
+      <div class="fr">Écoutez, comprenez, exprimez-vous et progressez chaque jour !</div>
+      <div class="ar">استمع، افهم، عبّر عن نفسك وتقدّم كل يوم !</div>
+    </div>
+  </div>
+
+  <!-- PANEL 5 -->
+  <div class="b1-module-panel" id="p5">
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title"><span class="num">✏</span> EXERCICE 1 — Connecteur de cause</div>
+      <p style="font-size:13px; color:var(--text-dim); margin-bottom:14px;">Utilise : parce que – puisque – comme – car – grâce à – à cause de – vu que – faute de – en effet</p>
+      <button class="reveal-all-btn" onclick="revealAll('g5')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g5"><span class="qnum">1</span><span class="ex-text">Je suis arrivé en retard <span class="blank-fill">parce qu'</span>il y avait beaucoup de circulation.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>parce qu'</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g5"><span class="qnum">2</span><span class="ex-text"><span class="blank-fill">Puisque</span> tu es déjà inscrit, tu peux participer à la formation.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>Puisque</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g5"><span class="qnum">3</span><span class="ex-text"><span class="blank-fill">Comme</span> il pleuvait, nous sommes restés à la maison.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>Comme</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g5"><span class="qnum">4</span><span class="ex-text">Karim a trouvé un emploi rapidement <span class="blank-fill">grâce à</span> son expérience professionnelle.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>grâce à</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g5"><span class="qnum">5</span><span class="ex-text">Il n'a pas réussi son examen <span class="blank-fill">faute de</span> préparation suffisante.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>faute de</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g5"><span class="qnum">6</span><span class="ex-text">Je préfère travailler à distance <span class="blank-fill">car</span> je gagne du temps.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>car</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g5"><span class="qnum">7</span><span class="ex-text">Nous avons annulé la réunion <span class="blank-fill">vu que</span> plusieurs employés étaient absents.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>vu que</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g5"><span class="qnum">8</span><span class="ex-text">Cette entreprise connaît beaucoup de succès. <span class="blank-fill">En effet</span>, elle a ouvert trois nouvelles succursales.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>En effet</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g5"><span class="qnum">9</span><span class="ex-text">Nous avons raté le train <span class="blank-fill">à cause d'</span>un accident sur l'autoroute.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>à cause d'</strong></span></div></div></div>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title teal"><span class="num">🧩</span> EXERCICE 2 — Associe les phrases</div>
+      <button class="reveal-all-btn" onclick="revealAll('g5b')">👁 Révéler toutes les réponses</button>
+
+      <div class="match-wrap" style="margin-bottom:14px;">
+        <div class="match-item"><span class="match-num">1</span> Il a obtenu une promotion.</div>
+        <div class="match-item"><span class="match-letter">a</span> faute de préparation.</div>
+        <div class="match-item"><span class="match-num">2</span> Elle est restée chez elle.</div>
+        <div class="match-item"><span class="match-letter">b</span> grâce à leur travail d'équipe.</div>
+        <div class="match-item"><span class="match-num">3</span> Nous avons réussi le projet.</div>
+        <div class="match-item"><span class="match-letter">c</span> à cause de la tempête.</div>
+        <div class="match-item"><span class="match-num">4</span> Il a échoué à l'examen.</div>
+        <div class="match-item"><span class="match-letter">d</span> parce qu'ils avaient trouvé un meilleur emploi.</div>
+        <div class="match-item"><span class="match-num">5</span> Ils ont déménagé.</div>
+        <div class="match-item"><span class="match-letter">e</span> car il travaille sérieusement.</div>
+      </div>
+
+      <div class="ex-row" data-group="g5b"><span class="ex-text">1 → e &nbsp;·&nbsp; 2 → c &nbsp;·&nbsp; 3 → b &nbsp;·&nbsp; 4 → a &nbsp;·&nbsp; 5 → d</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Vérifier toutes les paires</button></div>
+        <div class="answer-panel"><div class="answer-inner">
+          <span class="answer-fr" style="display:block; margin-bottom:4px;">1. Il a obtenu une promotion <strong>car il travaille sérieusement.</strong> (e)</span>
+          <span class="answer-fr" style="display:block; margin-bottom:4px;">2. Elle est restée chez elle <strong>à cause de la tempête.</strong> (c)</span>
+          <span class="answer-fr" style="display:block; margin-bottom:4px;">3. Nous avons réussi le projet <strong>grâce à leur travail d'équipe.</strong> (b)</span>
+          <span class="answer-fr" style="display:block; margin-bottom:4px;">4. Il a échoué à l'examen <strong>faute de préparation.</strong> (a)</span>
+          <span class="answer-fr" style="display:block;">5. Ils ont déménagé <strong>parce qu'ils avaient trouvé un meilleur emploi.</strong> (d)</span>
+        </div></div></div>
+    </div>
+
+    <div class="b1-module-footer" style="border-radius:14px; margin-top:0;">
+      <div class="fr">Continue tes efforts, chaque exercice te rapproche de ton succès !</div>
+      <div class="ar">واصل جهودك، كل تمرين يقربك من نجاحك !</div>
+    </div>
+  </div>
+
+  <!-- PANEL 6 -->
+  <div class="b1-module-panel" id="p6">
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title"><span class="num">✏</span> EXERCICE 3 — Connecteur d'opposition</div>
+      <p style="font-size:13px; color:var(--text-dim); margin-bottom:14px;">Utilise : mais – cependant – par contre – en revanche – malgré le fait que</p>
+      <button class="reveal-all-btn" onclick="revealAll('g6')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g6"><span class="qnum">1</span><span class="ex-text">J'aime mon travail, <span class="blank-fill">mais</span> le salaire est faible.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>mais</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g6"><span class="qnum">2</span><span class="ex-text">Cette ville est très agréable. <span class="blank-fill">En revanche</span>, le coût de la vie est élevé.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>En revanche</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g6"><span class="qnum">3</span><span class="ex-text">Karim parle bien français. <span class="blank-fill">Cependant</span>, il fait encore quelques erreurs.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>Cependant</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g6"><span class="qnum">4</span><span class="ex-text">Certains employés préfèrent le télétravail. <span class="blank-fill">Par contre</span>, d'autres préfèrent le bureau.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>Par contre</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g6"><span class="qnum">5</span><span class="ex-text"><span class="blank-fill">Malgré le fait qu'</span>il travaille beaucoup, il n'obtient pas toujours les résultats souhaités.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>Malgré le fait qu'</strong></span></div></div></div>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title teal"><span class="num">❓</span> EXERCICE 4 — Cause ou opposition ?</div>
+      <button class="reveal-all-btn" onclick="revealAll('g6b')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g6b"><span class="qnum">1</span><span class="ex-text">Je suis resté à la maison <span class="blank-fill">parce que</span> il pleuvait.</span>
+        <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">a) parce que &nbsp;&nbsp; b) cependant</div>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>a) parce que</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g6b"><span class="qnum">2</span><span class="ex-text">Le logement est petit, <span class="blank-fill">mais</span> il est bien situé.</span>
+        <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">a) car &nbsp;&nbsp; b) mais</div>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>b) mais</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g6b"><span class="qnum">3</span><span class="ex-text"><span class="blank-fill">Grâce à</span> son expérience, elle a obtenu le poste.</span>
+        <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">a) Grâce à &nbsp;&nbsp; b) Par contre</div>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>a) Grâce à</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g6b"><span class="qnum">4</span><span class="ex-text"><span class="blank-fill">Puisque</span> il est motivé, il progresse rapidement.</span>
+        <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">a) Puisque &nbsp;&nbsp; b) En revanche</div>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>a) Puisque</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g6b"><span class="qnum">5</span><span class="ex-text">Le travail est exigeant. <span class="blank-fill">Cependant</span>, il est intéressant.</span>
+        <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">a) Cependant &nbsp;&nbsp; b) Car</div>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>a) Cependant</strong></span></div></div></div>
+    </div>
+
+    <div class="b1-module-footer" style="border-radius:14px; margin-top:0;">
+      <div class="fr">Continue à t'améliorer, chaque effort te rapproche de tes objectifs !</div>
+      <div class="ar">استمر في تحسين نفسك، كل جهد يقربك من أهدافك !</div>
+    </div>
+  </div>
+
+  <!-- PANEL 7 -->
+  <div class="b1-module-panel" id="p7">
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title"><span class="num">➕</span> EXERCICE 5 — Connecteur d'addition</div>
+      <p style="font-size:13px; color:var(--text-dim); margin-bottom:14px;">Utilise : et – de plus – en outre – également – ainsi</p>
+      <button class="reveal-all-btn" onclick="revealAll('g7')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g7"><span class="qnum">1</span><span class="ex-text">Cette formation est intéressante <span class="blank-fill">et</span> très utile.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>et</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g7"><span class="qnum">2</span><span class="ex-text">Karim parle français. Il parle <span class="blank-fill">également</span> anglais.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>également</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g7"><span class="qnum">3</span><span class="ex-text">Cette entreprise offre un bon salaire. <span class="blank-fill">De plus</span>, elle propose des avantages sociaux.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>De plus</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g7"><span class="qnum">4</span><span class="ex-text">Les employés sont compétents. <span class="blank-fill">En outre</span>, ils travaillent efficacement.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>En outre</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g7"><span class="qnum">5</span><span class="ex-text">Nous avons terminé le projet. <span class="blank-fill">Ainsi</span>, nous pouvons commencer la prochaine étape.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>Ainsi</strong></span></div></div></div>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title teal"><span class="num">➡</span> EXERCICE 6 — Connecteur de conséquence</div>
+      <p style="font-size:13px; color:var(--text-dim); margin-bottom:14px;">Utilise : alors – c'est pourquoi – par conséquent – de sorte que</p>
+      <button class="reveal-all-btn" onclick="revealAll('g7b')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g7b"><span class="qnum">1</span><span class="ex-text">J'ai beaucoup étudié ; <span class="blank-fill">c'est pourquoi</span> j'ai réussi l'examen.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>c'est pourquoi</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g7b"><span class="qnum">2</span><span class="ex-text">Le trafic était très dense ; <span class="blank-fill">alors</span> nous sommes arrivés en retard.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>alors</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g7b"><span class="qnum">3</span><span class="ex-text">Il travaille sérieusement ; <span class="blank-fill">par conséquent</span> il progresse rapidement.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>par conséquent</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g7b"><span class="qnum">4</span><span class="ex-text">Nous avons économisé de l'argent, <span class="blank-fill">c'est pourquoi</span> nous pouvons voyager cet été.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>c'est pourquoi</strong></span></div></div></div>
+
+      <div class="ex-row" data-group="g7b"><span class="qnum">5</span><span class="ex-text">Elle s'entraîne chaque jour, <span class="blank-fill">de sorte que</span> ses résultats s'améliorent.</span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr"><strong>de sorte que</strong></span></div></div></div>
+    </div>
+
+    <div class="b1-module-footer" style="border-radius:14px; margin-top:0;">
+      <div class="fr">Chaque connecteur que tu maîtrises te rapproche de tes objectifs !</div>
+      <div class="ar">كل رابط تتقنه أكثر يقربك من أهدافك !</div>
+    </div>
+  </div>
+
+  <!-- PANEL 8 -->
+  <div class="b1-module-panel" id="p8">
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title"><span class="num">🔎</span> EXERCICE 7 — Trouve le connecteur logique</div>
+      <p style="font-size:13px; color:var(--text-dim); margin-bottom:16px;">Indique si le connecteur exprime : Cause – Opposition – Addition – Conséquence</p>
+
+      <table class="func-table">
+        <thead><tr><th>Connecteur</th><th>Fonction</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">Grâce à</td><td><span class="tag cause">Cause</span></td></tr>
+          <tr><td class="mono">Cependant</td><td><span class="tag opp">Opposition</span></td></tr>
+          <tr><td class="mono">De plus</td><td><span class="tag add">Addition</span></td></tr>
+          <tr><td class="mono">C'est pourquoi</td><td><span class="tag cons">Conséquence</span></td></tr>
+          <tr><td class="mono">Parce que</td><td><span class="tag cause">Cause</span></td></tr>
+          <tr><td class="mono">En revanche</td><td><span class="tag opp">Opposition</span></td></tr>
+          <tr><td class="mono">Ainsi</td><td><span class="tag cons">Conséquence</span></td></tr>
+          <tr><td class="mono">Faute de</td><td><span class="tag cause">Cause</span></td></tr>
+          <tr><td class="mono">Alors</td><td><span class="tag cons">Conséquence</span></td></tr>
+          <tr><td class="mono">Car</td><td><span class="tag cause">Cause</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title teal"><span class="num">🔗</span> EXERCICE 8 — Relie les idées</div>
+      <p style="font-size:13px; color:var(--text-dim); margin-bottom:14px;">
+        <span class="b1-module-fr" style="font-size:15px; display:block;">Exemple : Je suis fatigué. Je vais dormir. (alors) → Je suis fatigué, alors je vais dormir.</span>
+      </p>
+      <button class="reveal-all-btn" onclick="revealAll('g8')">👁 Révéler toutes les réponses</button>
+
+      <div class="ex-row" data-group="g8">
+        <span class="qnum">1</span><span class="ex-text">J'ai obtenu mon diplôme. J'ai trouvé un emploi. <span class="mono" style="font-size:12px; color:var(--gold);">(grâce à)</span></span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">→ <strong>J'ai trouvé un emploi grâce à mon diplôme.</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g8">
+        <span class="qnum">2</span><span class="ex-text">Cette ville est chère. Elle offre beaucoup d'opportunités. <span class="mono" style="font-size:12px; color:var(--gold);">(cependant)</span></span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">→ <strong>Cette ville est chère, cependant elle offre beaucoup d'opportunités.</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g8">
+        <span class="qnum">3</span><span class="ex-text">Il travaille sérieusement. Il réussit. <span class="mono" style="font-size:12px; color:var(--gold);">(par conséquent)</span></span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">→ <strong>Il travaille sérieusement ; par conséquent, il réussit.</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g8">
+        <span class="qnum">4</span><span class="ex-text">Nous avons suivi une formation. Nous avons amélioré nos compétences. <span class="mono" style="font-size:12px; color:var(--gold);">(de sorte que)</span></span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner"><span class="answer-fr">→ <strong>Nous avons suivi une formation, de sorte que nous avons amélioré nos compétences.</strong></span></div></div>
+      </div>
+
+      <div class="ex-row" data-group="g8">
+        <span class="qnum">5</span><span class="ex-text">Il n'a pas étudié. Il a échoué. <span class="mono" style="font-size:12px; color:var(--gold);">(à cause de)</span></span>
+        <div><button class="reveal-btn" onclick="toggleOne(this)">▶ Voir la réponse</button></div>
+        <div class="answer-panel"><div class="answer-inner">
+          <span class="answer-fr">→ <strong>Il a échoué à cause du manque d'étude.</strong></span>
+          <p style="font-size:12px; color:var(--text-dim); margin-top:6px;">ملاحظة: "à cause de" يُتبع باسم لا بجملة فعلية — الصيغة الأصلية "à cause de il n'a pas étudié" غير صحيحة نحويًا. الصيغة الصحيحة: <span class="fr" style="font-size:13px;">à cause du manque de préparation</span> أو إعادة الصياغة بـ <span class="fr" style="font-size:13px;">parce qu'il n'a pas étudié</span>.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="b1-module-footer" style="border-radius:14px; margin-top:0;">
+      <div class="fr">Entraîne-toi, fais des liens et progresse chaque jour !</div>
+      <div class="ar">تدرَّب، اربط الأفكار وتقدَّم كل يوم !</div>
+    </div>
+  </div>
+
+  <!-- PANEL 9 -->
+  <div class="b1-module-panel" id="p9">
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title"><span class="num">📝</span> EXERCICE 9 — Production écrite B1</div>
+      <p class="b1-module-fr" style="font-size:16px; margin-bottom:6px;">Écrivez un texte de 120 à 150 mots sur le sujet :</p>
+      <p class="b1-module-fr" style="font-size:19px; color:var(--gold-light); margin-bottom:18px;">« Le télétravail est-il une bonne solution ? »</p>
+
+      <div class="grid-2">
+        <div class="box">
+          <div class="b1-module-box-label">Cause</div>
+          <p>parce que · grâce à</p>
+        </div>
+        <div class="box">
+          <div class="b1-module-box-label">Opposition</div>
+          <p>cependant · en revanche</p>
+        </div>
+        <div class="box green">
+          <div class="b1-module-box-label">Addition</div>
+          <p>de plus</p>
+        </div>
+        <div class="box green">
+          <div class="b1-module-box-label">Conséquence</div>
+          <p>c'est pourquoi · par conséquent</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title teal"><span class="num">✅</span> MODÈLE DE RÉPONSE</div>
+      <div class="model-text">
+        <p>Je pense que le télétravail est une très bonne solution. Personnellement, je travaille dans le domaine de la technologie et de l'intelligence artificielle, donc j'utilise souvent le télétravail dans mon travail.</p>
+        <p>Je préfère travailler à distance <mark>parce que</mark> cela me permet d'être plus concentré. <mark>Grâce à</mark> Internet, je peux participer à des réunions en ligne, échanger des idées avec mes collègues et continuer mes projets sans problème. <mark>De plus</mark>, je gagne du temps, car je ne passe pas des heures dans les transports.</p>
+        <p><mark>Cependant</mark>, le télétravail n'est pas parfait. Parfois, je me sens un peu isolé et il est plus difficile de discuter rapidement avec les membres de l'équipe. <mark>En revanche</mark>, j'apprécie la flexibilité qu'il offre et je peux mieux organiser ma journée.</p>
+        <p>Dans mon cas, cette méthode de travail m'aide à être plus productif. <mark>C'est pourquoi</mark> je l'utilise régulièrement. <mark>Par conséquent</mark>, je pense que le télétravail est une excellente solution, surtout pour les personnes qui travaillent dans le secteur de la technologie.</p>
+      </div>
+      <p style="font-size:13px; color:var(--text-dim); margin-top:14px;">جميع روابط السبب والمعارضة والإضافة والنتيجة المطلوبة مستخدمة بشكل صحيح ✔</p>
+    </div>
+
+    <div class="card b1-module-card">
+      <div class="b1-module-card-title blue"><span class="num">🎤</span> EXERCICE ORAL B1</div>
+      <p class="b1-module-fr" style="font-size:17px; margin-bottom:6px;">Sujet : Les réseaux sociaux ont-ils plus d'avantages ou plus d'inconvénients ?</p>
+      <p style="font-size:13px; color:var(--text-dim); margin-bottom:16px;">Parlez pendant 2 à 3 minutes. تحدّث لمدة دقيقتين إلى ثلاث دقائق</p>
+
+      <div class="grid-2">
+        <div class="box">
+          <div class="b1-module-box-label">Cause</div>
+          <p>✓ parce que &nbsp; ✓ grâce à</p>
+        </div>
+        <div class="box">
+          <div class="b1-module-box-label">Opposition</div>
+          <p>✓ mais &nbsp; ✓ cependant</p>
+        </div>
+        <div class="box green">
+          <div class="b1-module-box-label">Addition</div>
+          <p>✓ de plus</p>
+        </div>
+        <div class="box green">
+          <div class="b1-module-box-label">Conséquence</div>
+          <p>✓ alors &nbsp; ✓ c'est pourquoi</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="b1-module-footer" style="border-radius:14px; margin-top:0;">
+      <div class="fr">Exprime tes idées avec clarté et logique, à l'écrit comme à l'oral !</div>
+      <div class="ar">عبّر عن أفكارك بوضوح ومنطق، كتابة وشفهيا !</div>
+    </div>
+  </div>
+
+</div>
+      </div>
+      <!-- B1 MODULE 1 IMPORT END -->
     </section>
     <section class="sec" id="b1-lecon2">
       <div class="sec-header">
@@ -8753,5 +9386,6 @@
 <script src="./assets/js/vocabulary.js" defer></script>
 <script src="./assets/js/lame.min.js" defer></script>
 <script src="./assets/js/main.js" defer></script>
+<script src="./assets/js/b1-module.js" defer></script>
 </body>
 </html>

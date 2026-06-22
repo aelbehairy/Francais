@@ -1719,7 +1719,8 @@ function buttonCards(selector, options){
     return !options.exclude || !options.exclude(btn, onclick);
   }).map(function(btn){
     var parts = getButtonParts(btn);
-    var key = options.key ? options.key(btn, parts.onclick) : keyFromOnclick(parts.onclick);
+    var explicitKey = btn.getAttribute('data-learning-key') || '';
+    var key = explicitKey || (options.key ? options.key(btn, parts.onclick) : keyFromOnclick(parts.onclick));
     return {
       key:key,
       icon:parts.icon,
