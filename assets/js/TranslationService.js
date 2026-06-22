@@ -72,6 +72,36 @@ class TranslationService {
     return normalizedMap[normalized] || null;
   }
 
+  splitLongText(text, maxLength){
+    text = String(text || '').trim();
+    if(text.length <= maxLength) return [text];
+    var chunks = [];
+    var paragraphs = text.split(/\n+/).map(function(part){ return part.trim(); }).filter(Boolean);
+    paragraphs.forEach(function(paragraph){
+      var sentences = paragraph.match(/[^.!?؟]+[.!?؟]*/g) || [paragraph];
+      var current = '';
+      sentences.forEach(function(sentence){
+        sentence = sentence.trim();
+        if(!sentence) return;
+        if(sentence.length > maxLength){
+          if(current){ chunks.push(current.trim()); current = ''; }
+          for(var i = 0; i < sentence.length; i += maxLength){
+            chunks.push(sentence.slice(i, i + maxLength).trim());
+          }
+          return;
+        }
+        if((current + ' ' + sentence).trim().length > maxLength){
+          if(current) chunks.push(current.trim());
+          current = sentence;
+        } else {
+          current = (current + ' ' + sentence).trim();
+        }
+      });
+      if(current){ chunks.push(current.trim()); current = ''; }
+    });
+    return chunks.length ? chunks : [text];
+  }
+
   async _fetchTranslation(text){
     if(window.location.protocol !== 'file:'){
       try{
@@ -91,6 +121,27 @@ class TranslationService {
     return myMemoryTranslate(text);
   }
 
+  async _translateChunk(text){
+    var mapped = this.mapLookup(text);
+    if(mapped) return mapped;
+    var cached = this.readCache(text);
+    if(cached) return cached;
+    var translated = await this._fetchTranslation(text);
+    if(!translated) throw new Error('Empty translation response');
+    this.writeCache(text, translated);
+    return translated;
+  }
+
+  async _translateText(text){
+    var chunks = this.splitLongText(text, 450);
+    if(chunks.length === 1) return this._translateChunk(chunks[0]);
+    var translatedChunks = [];
+    for(var i = 0; i < chunks.length; i++){
+      translatedChunks.push(await this._translateChunk(chunks[i]));
+    }
+    return translatedChunks.join('\n');
+  }
+
   async translate(text){
     text = String(text || '').trim();
     if(!text) return '';
@@ -101,7 +152,7 @@ class TranslationService {
     var key = this.cacheKey(text);
     if(this.inflight[key]) return this.inflight[key];
 
-    this.inflight[key] = this._fetchTranslation(text).then(function(translated){
+    this.inflight[key] = this._translateText(text).then(function(translated){
       if(!translated) throw new Error('Empty translation response');
       this.writeCache(text, translated);
       delete this.inflight[key];

@@ -81,15 +81,26 @@ module.exports = async function handler(req, res){
     }
 
     var provider = process.env.TRANSLATION_PROVIDER || (process.env.AZURE_TRANSLATOR_KEY ? 'azure' : 'mymemory');
+    var providers = [provider, 'azure', 'mymemory', 'libre'].filter(function(name, index, list){
+      return list.indexOf(name) === index;
+    });
     var translatedText;
-    if(provider === 'azure'){
-      translatedText = await translateWithAzure(text, target);
-    } else if(provider === 'libre'){
-      translatedText = await translateWithLibre(text, target);
-    } else {
-      translatedText = await translateWithMyMemory(text, target);
+    var lastError;
+    for(var i = 0; i < providers.length && !translatedText; i++){
+      try{
+        if(providers[i] === 'azure'){
+          translatedText = await translateWithAzure(text, target);
+        } else if(providers[i] === 'libre'){
+          translatedText = await translateWithLibre(text, target);
+        } else {
+          translatedText = await translateWithMyMemory(text, target);
+        }
+      } catch(providerError){
+        lastError = providerError;
+        console.warn('Translation provider failed:', providers[i], providerError.message || providerError);
+      }
     }
-    if(!translatedText) throw new Error('Empty translation response');
+    if(!translatedText) throw (lastError || new Error('Empty translation response'));
 
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.statusCode = 200;

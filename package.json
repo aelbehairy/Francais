@@ -6,6 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "lamejs": "^1.2.1",
     "pg": "^8.21.0"
   }
 }

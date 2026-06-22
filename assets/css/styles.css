@@ -5969,7 +5969,46 @@ body.pron-listening-open {
   color: #92400e;
   border-color: #fde68a;
 }
+.pron-word.liaison {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-color: #93c5fd;
+}
+.pron-liaison-icon {
+  font-size: 13px;
+  line-height: 1;
+}
 
+.pron-sec-header {
+  position: relative;
+  padding-bottom: 62px;
+}
+.pron-contexts-header-link {
+  position: absolute;
+  right: 32px;
+  bottom: 22px;
+  min-height: 34px;
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #3730a3;
+}
+.pron-contexts-header-link:hover {
+  background: #e0e7ff;
+  border-color: #a5b4fc;
+}
+@media (max-width: 640px) {
+  .pron-sec-header {
+    padding-bottom: 28px;
+  }
+  .pron-contexts-header-link {
+    position: static;
+    width: 100%;
+    justify-content: center;
+  }
+}
 /* ═══ Pronunciation Practice Words Grid ═══ */
 .pron-practice-grid {
   display: grid;
@@ -6102,6 +6141,9 @@ body.pron-listening-open {
   font-weight: 700;
   line-height: 1.7;
   text-align: right;
+}
+.pron-arabic-translation.is-loading {
+  color: #64748b;
 }
 
 .pron-ref-word {
@@ -6354,6 +6396,21 @@ body.pron-listening-open {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 10px;
+}
+.pron-contexts-master .top-tab,
+.pron-contexts-master .sidebar-link,
+.pron-contexts-master .sec-tool-btn {
+  text-decoration: none;
+}
+.pron-contexts-master .pron-contexts-page {
+  width: min(1120px, calc(100% - 32px));
+  margin-top: 28px;
+}
+.pron-contexts-master-header {
+  margin-bottom: 18px;
+}
+.pron-contexts-filter {
+  max-width: 180px;
 }
 .pron-contexts-page {
   max-width: 1040px;

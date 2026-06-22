@@ -1,36 +1,135 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Saved Pronunciation Contexts</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/styles.css">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<base href="./">
+<meta name="description" content="Saved French pronunciation practice contexts for review and TCF oral training.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#060912">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Saved Pronunciation Contexts · Francias</title>
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&amp;family=Fira+Code:wght@400;500&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/styles.css">
 </head>
-<body>
-  <main class="pron-contexts-page">
-    <h1>Saved Pronunciation Contexts</h1>
-    <div class="pron-contexts-toolbar">
-      <a class="sec-tool-btn" href="./index.html#oral/prononciation"><strong>Back to pronunciation</strong></a>
-      <label class="pron-save-field" style="max-width:180px">
-        <span>Filter level</span>
-        <select id="pron-context-level-filter">
-          <option value="all">All</option>
-          <option value="A1">A1</option>
-          <option value="A2">A2</option>
-          <option value="B1">B1</option>
-          <option value="B2">B2</option>
-          <option value="C1">C1</option>
-          <option value="C2">C2</option>
-        </select>
-      </label>
+<body class="pron-contexts-master">
+
+<div class="hero-wrap">
+  <canvas id="starCanvas" aria-hidden="true"></canvas>
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero">
+    <div class="flag-row"><span></span><span></span><span></span></div>
+    <div class="badge-kicker"><span class="badge-dot"></span>Référence complète</div>
+    <h1>Grammaire &amp; <em>Temps</em><br>Français</h1>
+    <p class="hero-sub">Votre référence complète pour la grammaire, les temps et l’expression orale</p>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-num">9</span><div class="hstat-label">Sections principales</div></div>
+      <div class="hstat"><span class="hstat-num">13</span><div class="hstat-label">Temps français</div></div>
+      <div class="hstat"><span class="hstat-num">20</span><div class="hstat-label">Exercices oraux</div></div>
+      <div class="hstat"><span class="hstat-num">16</span><div class="hstat-label">Textes de lecture</div></div>
     </div>
-    <div id="pron-contexts-status" class="note">Loading saved contexts...</div>
-    <div id="pron-contexts-list" class="pron-contexts-grid"></div>
-  </main>
-  <script src="./assets/js/supabase-env.js" defer></script>
-  <script src="./assets/js/supabase-highlights.js" defer></script>
-  <script src="./assets/js/pronunciation-contexts.js" defer></script>
+  </div>
+
+  <div class="top-tabs">
+    <a class="top-tab" href="./index.html#grammaire"><span class="ti">📚</span> Grammaire</a>
+    <a class="top-tab" href="./index.html#books"><span class="ti">📘</span> Books</a>
+    <a class="top-tab active" href="./index.html#oral/prononciation"><span class="ti">🎤</span> Oral</a>
+    <a class="top-tab" href="./index.html#phonetique"><span class="ti">🔊</span> Phonétique</a>
+    <a class="top-tab" href="./index.html#lire"><span class="ti">📖</span> Lire</a>
+    <a class="top-tab" href="./index.html#vocabulary"><span class="ti">🗂️</span> Vocabulary</a>
+    <a class="top-tab" href="./index.html#videos"><span class="ti">▶</span> Videos</a>
+    <a class="top-tab" href="./index.html#tcf"><span class="ti">📝</span> Pre TCF</a>
+    <a class="top-tab" href="./index.html#dictionary"><span class="ti">📒</span> Dictionary</a>
+  </div>
+</div>
+
+<main class="pron-contexts-page">
+  <div class="sec-export-top-left">
+    <a class="sec-tool-btn" href="./index.html#oral/prononciation"><span class="btn-icon">←</span><strong>Back to pronunciation</strong></a>
+  </div>
+
+  <section class="sec visible">
+    <div class="sec-header pron-contexts-master-header">
+      <div>
+        <div class="sec-icon" style="background:var(--purple-light)">💾</div>
+        <div class="sec-title">Saved <em>Pronunciation</em></div>
+        <div class="sec-ar">السياقات المحفوظة لتدريب النطق</div>
+      </div>
+      <span class="usage-tag tag-oral">CONTEXTS</span>
+    </div>
+
+    <div class="card visible-anim">
+      <span class="card-label">Saved contexts</span>
+      <div class="pron-contexts-toolbar">
+        <a class="sec-tool-btn" href="./index.html#oral/prononciation"><strong>Back to pronunciation</strong></a>
+        <label class="pron-save-field pron-contexts-filter">
+          <span>Filter level</span>
+          <select id="pron-context-level-filter">
+            <option value="all">All</option>
+            <option value="A1">A1</option>
+            <option value="A2">A2</option>
+            <option value="B1">B1</option>
+            <option value="B2">B2</option>
+            <option value="C1">C1</option>
+            <option value="C2">C2</option>
+          </select>
+        </label>
+      </div>
+      <div id="pron-contexts-status" class="note">Loading saved contexts...</div>
+      <div id="pron-contexts-list" class="pron-contexts-grid"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p><strong>Grammaire &amp; Temps &amp; Expression Orale &amp; Phonétique &amp; Vocabulary &amp; Videos &amp; Pre TCF</strong></p>
+  <p style="margin-top:8px;font-size:13px">مرجع تعليمي شامل · Bonne chance ! 🇫🇷</p>
+</footer>
+
+<aside id="dashboard-sidebar" class="sidebar" aria-label="Navigation rapide">
+  <div class="sidebar-chrome"><span></span><span></span><span></span></div>
+  <div class="sidebar-top">
+    <div class="sidebar-brand"><strong>Francias</strong><span>Apprentissage du français</span></div>
+    <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Ouvrir ou fermer la barre">‹‹</button>
+  </div>
+  <div class="sidebar-profile">
+    <span class="profile-avatar">FR</span>
+    <div class="profile-copy"><strong>Ahmed</strong><span>Entraînement TCF</span></div>
+  </div>
+  <nav class="sidebar-section" aria-label="Sections">
+    <span class="sidebar-caption">Apprendre</span>
+    <a class="sidebar-link" href="./index.html#grammaire"><span class="sidebar-icon">📚</span><span class="sidebar-text">Grammaire</span></a>
+    <a class="sidebar-link" href="./index.html#books"><span class="sidebar-icon">📘</span><span class="sidebar-text">Books</span></a>
+    <a class="sidebar-link active" href="./index.html#oral/prononciation"><span class="sidebar-icon">🎤</span><span class="sidebar-text">Oral</span></a>
+    <a class="sidebar-link" href="./index.html#phonetique"><span class="sidebar-icon">🔊</span><span class="sidebar-text">Phonétique</span></a>
+    <a class="sidebar-link" href="./index.html#lire"><span class="sidebar-icon">📖</span><span class="sidebar-text">Lire</span></a>
+    <a class="sidebar-link" href="./index.html#vocabulary"><span class="sidebar-icon">🗂️</span><span class="sidebar-text">Vocabulary</span></a>
+    <a class="sidebar-link" href="./index.html#videos"><span class="sidebar-icon">▶️</span><span class="sidebar-text">Videos</span></a>
+    <a class="sidebar-link" href="./index.html#tcf"><span class="sidebar-icon">📝</span><span class="sidebar-text">Pre TCF</span></a>
+    <a class="sidebar-link" href="./index.html#dictionary"><span class="sidebar-icon">📒</span><span class="sidebar-text">Dictionary</span></a>
+  </nav>
+  <nav class="sidebar-section sidebar-resources" aria-label="Liens utiles">
+    <span class="sidebar-caption">Liens importants</span>
+    <a href="https://lingua.com/fr/" target="_blank" rel="noopener" class="sidebar-link"><span class="sidebar-icon">🌐</span><span class="sidebar-text">Lingua</span></a>
+    <a href="assets/books/grammaire-du-delf-frenchawy.pdf" target="_blank" rel="noopener" class="sidebar-link"><span class="sidebar-icon">📙</span><span class="sidebar-text">Grammaire du DELF</span></a>
+    <a href="https://france-education-international.fr/test/exemples-epreuves-tcf?langue=fr" target="_blank" rel="noopener" class="sidebar-link"><span class="sidebar-icon">📝</span><span class="sidebar-text">TCF Exemples</span></a>
+    <a href="https://apprendre.tv5monde.com/fr/tcf" target="_blank" rel="noopener" class="sidebar-link"><span class="sidebar-icon">🎓</span><span class="sidebar-text">TV5 Monde TCF</span></a>
+    <a href="https://www.deepl.com/en/translator" target="_blank" rel="noopener" class="sidebar-link"><span class="sidebar-icon">🔄</span><span class="sidebar-text">DeepL Translator</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <span class="sidebar-caption">Préférences</span>
+    <button id="sidebar-pin" class="sidebar-link" type="button"><span class="sidebar-icon">📌</span><span class="sidebar-text">Mode épinglé</span></button>
+  </div>
+</aside>
+
+<script src="./assets/js/supabase-env.js" defer></script>
+<script src="./assets/js/supabase-highlights.js" defer></script>
+<script src="./assets/js/pronunciation-contexts.js" defer></script>
 </body>
 </html>
