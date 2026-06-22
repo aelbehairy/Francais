@@ -5846,7 +5846,10 @@
           </div>
           <div id="pron-status" class="note">Ready. Use Chrome or Edge and allow microphone access.</div>
           <textarea id="pron-recognized-text" class="pron-textarea" rows="3" placeholder="Your recognized speech will appear here..."></textarea>
-          <button class="pill" type="button" onclick="comparePronunciationText()"><span class="pi">✅</span>Check Pronunciation</button>
+          <div class="pron-record-actions">
+            <button class="pill" type="button" onclick="comparePronunciationText()"><span class="pi">✅</span>Check Pronunciation</button>
+            <button id="pron-save-mp3-btn" class="sec-tool-btn sec-tool-btn-success" type="button" onclick="savePronunciationMp3Now(event)"><span class="btn-icon">💾</span><strong>Save as MP3</strong></button>
+          </div>
         </div>
       </div>
       

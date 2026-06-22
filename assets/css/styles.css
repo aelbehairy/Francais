@@ -6729,3 +6729,28 @@ body.pron-listening-open {
     top: 0;
   }
 }
+.pron-record-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+.pron-record-actions .pill {
+  margin: 0;
+}
+.pron-record-actions #pron-save-mp3-btn {
+  margin-left: auto;
+}
+@media (max-width: 640px) {
+  .pron-record-actions {
+    justify-content: stretch;
+  }
+  .pron-record-actions .pill,
+  .pron-record-actions #pron-save-mp3-btn {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
+  }
+}

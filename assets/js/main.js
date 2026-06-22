@@ -3286,12 +3286,18 @@ function showFerialLesson(id, btn){
 
 var pronunciationRecognition = null;
 var pronunciationStoppedByUser = false;
+var pronunciationMicStopping = false;
 var pronunciationMediaRecorder = null;
 var pronunciationRecordingStream = null;
 var pronunciationRecordingChunks = [];
 var pronunciationRecordingMimeType = '';
 var pronunciationPendingSaveHandle = null;
 var pronunciationRecordingStartedAt = null;
+var pronunciationPcmAudioContext = null;
+var pronunciationPcmSource = null;
+var pronunciationPcmProcessor = null;
+var pronunciationPcmChunks = [];
+var pronunciationPcmSampleRate = 44100;
 
 function getPronunciationRecognition(){
   var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -3349,8 +3355,6 @@ function setPronunciationStatus(message){
 function getPronunciationRecordingType(){
   if(!window.MediaRecorder) return null;
   var types = [
-    { mime: 'audio/mpeg', ext: 'mp3' },
-    { mime: 'audio/mp3', ext: 'mp3' },
     { mime: 'audio/webm;codecs=opus', ext: 'webm' },
     { mime: 'audio/webm', ext: 'webm' },
     { mime: 'audio/ogg;codecs=opus', ext: 'ogg' },
@@ -3379,6 +3383,61 @@ function floatToPronunciationMp3Sample(floatSamples, start, length){
     output[i] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
   }
   return output;
+}
+
+function encodePronunciationPcmToMp3(){
+  if(!canEncodePronunciationMp3() || !pronunciationPcmChunks.length) throw new Error('PCM MP3 encoder is not available');
+  var sampleRate = Math.round(pronunciationPcmSampleRate || 44100);
+  var encoder = new lamejs.Mp3Encoder(1, sampleRate, 128);
+  var blockSize = 1152;
+  var mp3Parts = [];
+  pronunciationPcmChunks.forEach(function(chunk){
+    for(var start = 0; start < chunk.length; start += blockSize){
+      var length = Math.min(blockSize, chunk.length - start);
+      var samples = floatToPronunciationMp3Sample(chunk, start, length);
+      var mp3Buffer = encoder.encodeBuffer(samples);
+      if(mp3Buffer.length) mp3Parts.push(mp3Buffer);
+    }
+  });
+  var flush = encoder.flush();
+  if(flush.length) mp3Parts.push(flush);
+  if(!mp3Parts.length) throw new Error('No MP3 data was encoded');
+  return new Blob(mp3Parts, { type: 'audio/mpeg' });
+}
+
+function startPronunciationPcmCapture(stream){
+  if(!canEncodePronunciationMp3() || !(window.AudioContext || window.webkitAudioContext)) return false;
+  stopPronunciationPcmCapture();
+  var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  pronunciationPcmAudioContext = new AudioContextClass();
+  pronunciationPcmSampleRate = pronunciationPcmAudioContext.sampleRate || 44100;
+  pronunciationPcmChunks = [];
+  pronunciationPcmSource = pronunciationPcmAudioContext.createMediaStreamSource(stream);
+  pronunciationPcmProcessor = pronunciationPcmAudioContext.createScriptProcessor(4096, 1, 1);
+  pronunciationPcmProcessor.onaudioprocess = function(event){
+    if(!pronunciationPcmProcessor) return;
+    var input = event.inputBuffer.getChannelData(0);
+    pronunciationPcmChunks.push(new Float32Array(input));
+  };
+  pronunciationPcmSource.connect(pronunciationPcmProcessor);
+  pronunciationPcmProcessor.connect(pronunciationPcmAudioContext.destination);
+  return true;
+}
+
+function stopPronunciationPcmCapture(){
+  if(pronunciationPcmProcessor){
+    pronunciationPcmProcessor.onaudioprocess = null;
+    try { pronunciationPcmProcessor.disconnect(); } catch(e) {}
+    pronunciationPcmProcessor = null;
+  }
+  if(pronunciationPcmSource){
+    try { pronunciationPcmSource.disconnect(); } catch(e) {}
+    pronunciationPcmSource = null;
+  }
+  if(pronunciationPcmAudioContext){
+    try { pronunciationPcmAudioContext.close(); } catch(e) {}
+    pronunciationPcmAudioContext = null;
+  }
 }
 
 async function convertPronunciationAudioToMp3(sourceBlob){
@@ -3416,6 +3475,7 @@ async function convertPronunciationAudioToMp3(sourceBlob){
 }
 
 function stopPronunciationRecordingStream(){
+  stopPronunciationPcmCapture();
   if(pronunciationRecordingStream){
     pronunciationRecordingStream.getTracks().forEach(function(track){ track.stop(); });
     pronunciationRecordingStream = null;
@@ -3434,11 +3494,13 @@ async function startPronunciationAudioRecording(){
   }
   stopPronunciationAudioRecording(false);
   pronunciationRecordingChunks = [];
+  pronunciationPcmChunks = [];
   pronunciationRecordingMimeType = type.mime || '';
   pronunciationPendingSaveHandle = null;
   pronunciationRecordingStartedAt = new Date();
   try {
     pronunciationRecordingStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    startPronunciationPcmCapture(pronunciationRecordingStream);
     var options = type.mime ? { mimeType: type.mime } : undefined;
     pronunciationMediaRecorder = new MediaRecorder(pronunciationRecordingStream, options);
     pronunciationMediaRecorder.ondataavailable = function(event){
@@ -3450,7 +3512,6 @@ async function startPronunciationAudioRecording(){
     };
     pronunciationMediaRecorder.onstop = function(){
       stopPronunciationRecordingStream();
-      if(pronunciationPendingSaveHandle) savePronunciationAudioBlob();
     };
     pronunciationMediaRecorder.start();
     if(type.ext !== 'mp3'){
@@ -3472,39 +3533,34 @@ async function requestPronunciationRecordingSaveHandle(){
   var ext = canSaveMp3 ? 'mp3' : type.ext;
   var mime = canSaveMp3 ? 'audio/mpeg' : (type.mime || pronunciationRecordingMimeType || 'audio/webm');
   var acceptMime = String(mime || '').split(';')[0] || (ext === 'mp3' ? 'audio/mpeg' : 'audio/webm');
-  if(!window.showSaveFilePicker){
-    return { fallbackDownload: true, ext: ext, mime: acceptMime, encodeMp3: canSaveMp3 };
-  }
-  try {
-    var handle = await window.showSaveFilePicker({
-      suggestedName: getPronunciationRecordingFileName(ext),
-      types: [{
-        description: ext === 'mp3' ? 'MP3 audio' : 'Audio recording',
-        accept: (function(){
-          var accept = {};
-          accept[acceptMime] = ['.' + ext];
-          return accept;
-        })()
-      }]
-    });
-    return { handle: handle, ext: ext, mime: acceptMime, encodeMp3: canSaveMp3 };
-  } catch(error) {
-    if(error && error.name !== 'AbortError') console.warn('Save picker failed:', error);
-    return null;
-  }
+  return { fallbackDownload: true, ext: ext, mime: acceptMime, encodeMp3: canSaveMp3 };
 }
-
+function triggerPronunciationBlobDownload(blob, ext){
+  var url = URL.createObjectURL(blob);
+  var link = document.createElement('a');
+  link.href = url;
+  link.download = getPronunciationRecordingFileName(ext);
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  setTimeout(function(){
+    URL.revokeObjectURL(url);
+    if(link.parentNode) link.parentNode.removeChild(link);
+  }, 30000);
+}
 async function savePronunciationAudioBlob(){
   var saveTarget = pronunciationPendingSaveHandle;
   pronunciationPendingSaveHandle = null;
-  if(!saveTarget || !pronunciationRecordingChunks.length) return;
+  if(!saveTarget || (!pronunciationRecordingChunks.length && !pronunciationPcmChunks.length)) return;
   var sourceMime = pronunciationRecordingMimeType || 'audio/webm';
-  var blob = new Blob(pronunciationRecordingChunks, { type: sourceMime });
+  var blob = pronunciationRecordingChunks.length ? new Blob(pronunciationRecordingChunks, { type: sourceMime }) : null;
+  pronunciationRecordingChunks = [];
+  pronunciationPcmChunks = [];
   var ext = saveTarget.ext || 'webm';
   try {
     if(saveTarget.encodeMp3){
       setPronunciationStatus('Mic stopped. Converting recording to MP3...');
-      blob = await convertPronunciationAudioToMp3(blob);
+      blob = pronunciationPcmChunks.length ? encodePronunciationPcmToMp3() : await convertPronunciationAudioToMp3(blob);
       ext = 'mp3';
     }
     if(saveTarget.handle){
@@ -3515,20 +3571,31 @@ async function savePronunciationAudioBlob(){
       return;
     }
     if(saveTarget.fallbackDownload){
-      var url = URL.createObjectURL(blob);
-      var link = document.createElement('a');
-      link.href = url;
-      link.download = getPronunciationRecordingFileName(ext);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
-      setPronunciationStatus('Mic stopped. MP3 recording download started. You can correct the text now.');
+      triggerPronunciationBlobDownload(blob, ext);
+      setPronunciationStatus('Mic stopped. MP3 recording is ready to download. You can correct the text now.');
     }
   } catch(error) {
     console.warn('Pronunciation recording save failed:', error);
     setPronunciationStatus('Mic stopped. Could not convert/save MP3 recording.');
   }
+}
+
+async function savePronunciationMp3Now(event){
+  if(event) event.preventDefault();
+  if(!hasPronunciationAudioToSave()){
+    setPronunciationStatus('No audio recording to save yet. Press Start mic first.');
+    return;
+  }
+  pronunciationPendingSaveHandle = await requestPronunciationRecordingSaveHandle();
+  if(pronunciationMediaRecorder && pronunciationMediaRecorder.state === 'recording'){
+    if(pronunciationMediaRecorder.requestData){
+      try { pronunciationMediaRecorder.requestData(); } catch(e) {}
+    }
+    stopPronunciationAudioRecording(true);
+    setPronunciationMicState('stopped');
+    return;
+  }
+  await savePronunciationAudioBlob();
 }
 
 function stopPronunciationAudioRecording(shouldSave){
@@ -3739,20 +3806,64 @@ async function askToSavePronunciationRecording(){
   return window.confirm('Save this voice recording?');
 }
 
+function hasPronunciationAudioToSave(){
+  return !!(
+    pronunciationMediaRecorder ||
+    pronunciationRecordingStream ||
+    pronunciationRecordingChunks.length ||
+    pronunciationPcmChunks.length ||
+    pronunciationPcmProcessor
+  );
+}
+
 async function stopPronunciationMic(event){
   if(event) event.preventDefault();
-  var shouldAskToSave = !!event && pronunciationMediaRecorder && pronunciationMediaRecorder.state === 'recording';
-  if(shouldAskToSave && await askToSavePronunciationRecording()){
-    pronunciationPendingSaveHandle = await requestPronunciationRecordingSaveHandle();
-  } else {
-    pronunciationPendingSaveHandle = null;
+  if(pronunciationMicStopping) return;
+  pronunciationMicStopping = true;
+  try {
+    var shouldAskToSave = hasPronunciationAudioToSave();
+
+    // Stop recognition immediately
+    if(pronunciationRecognition){
+      pronunciationStoppedByUser = true;
+      try { pronunciationRecognition.stop(); } catch(e) {}
+    }
+
+    // Stop recorder and WAIT for onstop so ondataavailable delivers all chunks
+    // before we show any dialog — this eliminates the async race.
+    await new Promise(function(resolve){
+      if(!pronunciationMediaRecorder || pronunciationMediaRecorder.state === 'inactive'){
+        stopPronunciationRecordingStream();
+        pronunciationMediaRecorder = null;
+        resolve();
+        return;
+      }
+      var rec = pronunciationMediaRecorder;
+      pronunciationMediaRecorder = null;
+      rec.onstop = function(){
+        stopPronunciationRecordingStream();
+        resolve();
+      };
+      if(rec.requestData) try { rec.requestData(); } catch(e) {}
+      try { rec.stop(); } catch(e) { resolve(); }
+    });
+
+    setPronunciationListeningPopup(false);
+
+    // All chunks are now collected — show dialog once, then act on the answer.
+    if(shouldAskToSave && await askToSavePronunciationRecording()){
+      pronunciationPendingSaveHandle = await requestPronunciationRecordingSaveHandle();
+      if(pronunciationPendingSaveHandle) await savePronunciationAudioBlob();
+    } else {
+      pronunciationPendingSaveHandle = null;
+      pronunciationRecordingChunks = [];
+      pronunciationPcmChunks = [];
+    }
+
+    setPronunciationMicState('stopped');
+  } finally {
+    pronunciationMicStopping = false;
   }
-  if(pronunciationRecognition){
-    pronunciationStoppedByUser = true;
-    try { pronunciationRecognition.stop(); } catch(e) {}
-  }
-  stopPronunciationAudioRecording(!!pronunciationPendingSaveHandle);
-  setPronunciationMicState('stopped');
 }
 
 function normalizePronunciationText(text){
