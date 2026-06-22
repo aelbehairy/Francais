@@ -53,6 +53,28 @@
       });
   }
 
+  function syncLocalContexts(){
+    var status = document.getElementById('pron-contexts-status');
+    var button = document.getElementById('pron-sync-local-btn');
+    if(!window.syncPronunciationContextFallbackToDatabase){
+      if(status) status.textContent = 'Sync helper is not ready.';
+      return;
+    }
+    if(status) status.textContent = 'Syncing local saved contexts to database...';
+    if(button) button.disabled = true;
+    window.syncPronunciationContextFallbackToDatabase()
+      .then(function(result){
+        if(status) status.textContent = 'Synced ' + result.uploaded + ' local context(s) to database.';
+        load();
+      })
+      .catch(function(error){
+        console.warn('Sync pronunciation contexts failed:', error);
+        if(status) status.textContent = 'Sync failed. Check Supabase table and policies.';
+      })
+      .finally(function(){
+        if(button) button.disabled = false;
+      });
+  }
   function initContextsSidebar(){
     var sidebar = document.getElementById('dashboard-sidebar');
     var toggle = document.getElementById('sidebar-toggle');
@@ -85,7 +107,9 @@
 
   document.addEventListener('DOMContentLoaded', function(){
     var filter = document.getElementById('pron-context-level-filter');
+    var syncButton = document.getElementById('pron-sync-local-btn');
     if(filter) filter.addEventListener('change', load);
+    if(syncButton) syncButton.addEventListener('click', syncLocalContexts);
     initContextsSidebar();
     load();
   });

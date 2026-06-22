@@ -364,6 +364,28 @@
       return fallback;
     });
   }
+
+  function syncPronunciationContextFallbackToDatabase(){
+    var fallback = pronunciationContextFallbackList();
+    var records = fallback.map(cleanPronunciationContextRecord).filter(function(item){
+      return !!item.content;
+    });
+    if(!records.length){
+      return Promise.resolve({uploaded: 0, remaining: fallback.length});
+    }
+    return request('pronunciation_contexts', {
+      method: 'POST',
+      headers: {Prefer: 'return=representation'},
+      body: JSON.stringify(records)
+    }).then(function(result){
+      if(!Array.isArray(result)){
+        throw new Error('Supabase configuration is missing.');
+      }
+      writePronunciationContextFallback([]);
+      return {uploaded: result.length, remaining: 0};
+    });
+  }
+
   window.HighlightStore = {
     currentPage: currentPage,
     saveHighlight: saveHighlight,
@@ -373,7 +395,8 @@
     loadDictionaryItems: loadDictionaryItems,
     deleteDictionaryItem: deleteDictionaryItem,
     savePronunciationContext: savePronunciationContext,
-    loadPronunciationContexts: loadPronunciationContexts
+    loadPronunciationContexts: loadPronunciationContexts,
+    syncPronunciationContextFallbackToDatabase: syncPronunciationContextFallbackToDatabase
   };
   window.saveHighlight = saveHighlight;
   window.loadHighlights = loadHighlights;
@@ -383,4 +406,5 @@
   window.deleteDictionaryItem = deleteDictionaryItem;
   window.savePronunciationContext = savePronunciationContext;
   window.loadPronunciationContexts = loadPronunciationContexts;
+  window.syncPronunciationContextFallbackToDatabase = syncPronunciationContextFallbackToDatabase;
 })();
