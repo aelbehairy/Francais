@@ -1798,9 +1798,17 @@ function getCardsForMain(mainKey){
     exclude:function(btn, onclick){ return onclick.indexOf('books') !== -1; }
   });
   if(mainKey === 'lire') {
-    return [{key:'textes', icon:'📖', title:'Textes faciles', desc:'Liens de lecture et écoute', action:function(){
-      switchTop('lire', document.querySelector('.top-tab[onclick*="lire"]'));
-    }}];
+    return [
+      {key:'textes', icon:'📖', title:'Textes faciles', desc:'Liens de lecture et écoute', action:function(){
+        switchTop('lire', document.querySelector('.top-tab[onclick*="lire"]'));
+      }},
+      {key:'lingua', icon:'🌐', title:'Lingua', desc:'A1 & A2 Level', action:function(){
+        switchTop('lire', document.querySelector('.top-tab[onclick*="lire"]'));
+        document.querySelectorAll('#panel-lire .sec').forEach(function(sec){ sec.classList.remove('visible'); });
+        var lingua = document.getElementById('lire-lingua');
+        if(lingua) lingua.classList.add('visible');
+      }}
+    ];
   }
   if(mainKey === 'vocabulary') return buttonCards('.vocab-subtabs .pill');
   if(mainKey === 'videos') {
