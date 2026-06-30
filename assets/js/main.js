@@ -1960,6 +1960,7 @@ function updateParentCardRoute(mainKey, groupKey){
   else if(mainKey === 'oral') updateRoute('oral', null);
   else if(mainKey === 'videos') updateRoute('videos', groupKey || null);
   else if(mainKey === 'tcf') updateRoute('tcf', null);
+  else if(mainKey === 'pronunciation') updateRoute('pronunciation', null);
 }
 
 function updateFinalCardRoute(mainKey, key){
@@ -2670,6 +2671,10 @@ function restoreRoute(){
     route = {panel:'dictionary', section:null};
   }
   if(!route.panel) return;
+  if(route.panel === 'pronunciation'){
+    showMainCardsFor('pronunciation', document.querySelector('.top-tab[onclick*=pronunciation]'));
+    return;
+  }
   if(route.panel === 'grammaire' && route.section === 'books'){
     showBooks('library', document.querySelector('.top-tab[onclick*="books"]'));
     setLearningContentVisible(true);
@@ -3133,6 +3138,12 @@ function showBooks(section, btn){
 
 function showMainCardsFor(tab, btn){
   switchTop(tab, btn);
+  if(tab === 'pronunciation'){
+    setLearningState({main:'pronunciation'});
+    setLearningContentVisible(true);
+    if(window.initPronunciationPage) window.initPronunciationPage();
+    return;
+  }
   if(tab === 'dictionary'){
     setLearningState({main:'dictionary'});
     setLearningContentVisible(true);
@@ -3163,6 +3174,7 @@ function switchTop(tab, btn){
   var panel = document.getElementById('panel-'+tab);
   if(panel){ panel.classList.add('active'); }
   if(btn) btn.classList.add('active');
+  if(document.body) document.body.classList.toggle('pronunciation-active', tab === 'pronunciation');
   setSidebarActive(tab);
   if(tab === 'grammaire') {
     activateFirstSec('panel-grammaire','g-');

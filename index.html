@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&amp;family=Fira+Code:wght@400;500&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/styles.css">
+<link rel="stylesheet" href="./assets/css/pronunciation.css">
 </head>
 <body class="learning-content-hidden">
 
@@ -51,6 +52,9 @@
     </button>
     <button class="top-tab" onclick="showMainCardsFor('phonetique',this)">
       <span class="ti">🔊</span> Phonétique
+    </button>
+    <button class="top-tab" onclick="showMainCardsFor('pronunciation',this)">
+      <span class="ti">🗣️</span> Pronunciation
     </button>
     <button class="top-tab" onclick="showMainCardsFor('lire',this)">
       <span class="ti">📖</span> Lire
@@ -7670,6 +7674,108 @@
 
   </main>
 </div><!-- end panel-phonetique -->
+<!-- PRONUNCIATION PRACTICE PANEL -->
+<div id="panel-pronunciation" class="panel pronunciation-panel">
+  <main class="pron-page" aria-label="French pronunciation practice">
+    <section class="pron-card sentence-card">
+      <div class="pron-card-head">
+        <div class="pron-card-icon blue">🗣️</div>
+        <div><h3>Choisissez une phrase</h3><p>Selectionnez une phrase guidee ou ecrivez votre propre texte.</p></div>
+      </div>
+      <select id="sentence-select" class="pron-input">
+        <option value="">Choisir une phrase...</option>
+        <optgroup label="Salutations">
+          <option>Bonjour, comment allez-vous aujourd'hui ?</option>
+          <option>Bonsoir, je suis ravi de vous rencontrer.</option>
+          <option>A bientot, passez une excellente journee.</option>
+          <option>Excusez-moi, pouvez-vous repeter s'il vous plait ?</option>
+          <option>Merci beaucoup pour votre aide precieuse.</option>
+        </optgroup>
+        <optgroup label="Se presenter">
+          <option>Je m'appelle Ahmed et j'apprends le francais.</option>
+          <option>J'habite dans une grande ville pres de la mer.</option>
+          <option>Je travaille comme ingenieur depuis cinq ans.</option>
+          <option>Ma famille aime voyager pendant les vacances.</option>
+          <option>Je voudrais ameliorer ma prononciation francaise.</option>
+        </optgroup>
+        <optgroup label="Achats et restaurants">
+          <option>Je voudrais commander un cafe et un croissant.</option>
+          <option>Combien coute cette chemise bleue ?</option>
+          <option>L'addition, s'il vous plait, quand vous aurez le temps.</option>
+          <option>Avez-vous une table pour deux personnes ?</option>
+          <option>Ce plat est delicieux, mais un peu epice.</option>
+        </optgroup>
+        <optgroup label="Directions">
+          <option>Pour aller a la gare, tournez a gauche.</option>
+          <option>Le musee se trouve en face de la pharmacie.</option>
+          <option>Je cherche la station de metro la plus proche.</option>
+          <option>Continuez tout droit jusqu'au prochain feu rouge.</option>
+        </optgroup>
+        <optgroup label="A l'ecole">
+          <option>Le professeur explique la lecon avec patience.</option>
+          <option>Nous devons rendre nos devoirs demain matin.</option>
+          <option>Cette regle de grammaire est tres importante.</option>
+          <option>Je lis un livre interessant en francais.</option>
+        </optgroup>
+        <optgroup label="Temps et meteo">
+          <option>Il fait beau aujourd'hui, mais il y a du vent.</option>
+          <option>Demain, la pluie commencera dans l'apres-midi.</option>
+          <option>En hiver, les journees sont courtes et froides.</option>
+          <option>Le printemps arrive avec des fleurs partout.</option>
+        </optgroup>
+        <optgroup label="Sante et urgences">
+          <option>J'ai mal a la tete depuis ce matin.</option>
+          <option>Appelez un medecin, c'est une urgence.</option>
+          <option>Je dois acheter des medicaments a la pharmacie.</option>
+        </optgroup>
+      </select>
+      <div class="pron-divider"><span>ou</span></div>
+      <textarea id="custom-input" class="pron-input" rows="3" placeholder="Ecrivez votre propre phrase francaise..."></textarea>
+      <button id="use-sentence-btn" class="pron-btn primary" type="button">✓ Utiliser cette phrase</button>
+    </section>
+
+    <section class="pron-card practice-card">
+      <div class="target-area">
+        <div id="target-sentence">Choisissez une phrase pour commencer.</div>
+        <button id="listen-btn" class="pron-btn teal" type="button" disabled>🔊 Ecouter</button>
+      </div>
+      <div class="mic-area">
+        <button id="mic-btn" class="mic-btn" type="button" aria-label="Start pronunciation recording">
+          <span class="ring ring-1"></span><span class="ring ring-2"></span><span class="ring ring-3"></span><span class="mic-icon">🎤</span>
+        </button>
+        <div id="mic-status">Selectionnez une phrase, puis appuyez sur le micro.</div>
+      </div>
+      <div id="transcript-area" class="transcript-area" hidden><strong>Votre voix</strong><div id="transcript-text"></div></div>
+      <button id="evaluate-btn" class="evaluate-btn" type="button" hidden><span>🎯</span><strong>Evaluer ma prononciation</strong><small>Comparer avec la phrase cible</small><b>→</b></button>
+    </section>
+
+    <section id="results-card" class="pron-card results-card" hidden>
+      <div class="pron-card-head">
+        <div class="pron-card-icon green">📊</div>
+        <div><h3>Resultat</h3><p>Comparaison mot par mot avec la phrase cible.</p></div>
+      </div>
+      <div class="score-area">
+        <svg class="score-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42"></circle><circle id="score-progress" cx="50" cy="50" r="42"></circle></svg>
+        <div class="score-center"><strong id="score-number">0</strong><span>%</span></div>
+      </div>
+      <p id="score-message" class="score-message"></p>
+      <div class="score-breakdown"><div class="correct"><strong id="count-correct">0</strong><span>Corrects</span></div><div class="wrong"><strong id="count-wrong">0</strong><span>Incorrects</span></div><div class="missing"><strong id="count-missing">0</strong><span>Manquants</span></div></div>
+      <div id="highlight-section" class="highlight-section"></div>
+      <div id="comparison-section" class="comparison-section"></div>
+      <div class="legend"><span class="correct">✓ Correct</span><span class="wrong">✗ Incorrect</span><span class="missing">◌ Manquant</span></div>
+      <div class="result-actions"><button id="retry-btn" class="pron-btn secondary" type="button">↺ Reessayer</button><button id="save-btn" class="pron-btn primary" type="button">💾 Enregistrer</button></div>
+    </section>
+
+    <section class="pron-card history-card">
+      <div class="pron-card-head">
+        <div class="pron-card-icon purple">📋</div>
+        <div><h3>Historique de pratique</h3><p>Vos 10 dernieres sessions sur cet appareil.</p></div>
+        <button id="clear-history-btn" class="ghost-btn" type="button">🗑️ Effacer</button>
+      </div>
+      <div id="history-list" class="history-list"></div>
+    </section>
+  </main>
+</div><!-- end panel-pronunciation -->
 
 <!-- ════ LIRE PANEL ════ -->
 <div id="panel-lire" class="panel">
@@ -9447,6 +9553,7 @@
 <script src="./assets/js/lame.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 <script src="./assets/js/main.js" defer></script>
+<script src="./assets/js/pronunciation.js" defer></script>
 <script src="./assets/js/b1-module.js" defer></script>
 </body>
 </html>
