@@ -1668,6 +1668,7 @@ var learningMainCards = [
   {key:'books', icon:'📘', title:'Books', desc:'PDF et ressources de grammaire'},
   {key:'oral', icon:'🎤', title:'Oral', desc:'Questions, devoirs et entraînement oral'},
   {key:'phonetique', icon:'🔊', title:'Phonétique', desc:'Accents, sons, liaison et prononciation'},
+  {key:'pronunciation', icon:'PR', title:'Pronunciation', desc:'Reconnaissance vocale et score de prononciation'},
   {key:'lire', icon:'📖', title:'Lire', desc:'Textes faciles et liens de lecture'},
   {key:'vocabulary', icon:'🗂️', title:'Vocabulary', desc:'Mots A1, verbes et dissertations'},
   {key:'videos', icon:'▶', title:'Videos', desc:'Playlists YouTube et lecteur intégré'},
@@ -2085,6 +2086,7 @@ function renderLearningExplorer(){
     renderLearningCards(learningMainCards.map(function(card){
       return Object.assign({}, card, {action:function(){
         if(card.key === 'grammaire') switchTop('grammaire', document.querySelector('.top-tab'));
+        else if(card.key === 'pronunciation') showMainCardsFor('pronunciation', document.querySelector('.top-tab[onclick*="pronunciation"]'));
         else switchTop(card.key, document.querySelector('.top-tab[onclick*="' + card.key + '"]'));
       }});
     }), 'main');
