@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <!-- GitHub Pages ready: static HTML with inline CSS/JS and relative asset resolution. -->
-<title>Grammaire & Temps Français</title>
+<title>Grammaire &amp; Temps Français</title>
 <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&amp;family=Fira+Code:wght@400;500&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
@@ -5843,7 +5843,7 @@
           </details>
         </div>
         <div class="card">
-          <span class="card-label">Record & Compare</span>
+          <span class="card-label">Record &amp; Compare</span>
           <div class="grid-2" style="margin-bottom:12px">
             <button id="pron-start-btn" class="sec-tool-btn" type="button" onclick="startPronunciationMic(event)"><span class="btn-icon">🎙</span><strong>Start mic</strong></button>
             <button id="pron-mic-stop-btn" class="sec-tool-btn" type="button" onclick="stopPronunciationMic(event)"><span class="btn-icon">■</span><strong>Stop</strong></button>
@@ -6141,7 +6141,7 @@
       <button class="pill" onclick="showPhon('finales',this)"><span class="pi">🤫</span>Finales Muettes</button>
       <button class="pill" onclick="showPhon('tcf-sounds',this)"><span class="pi">📝</span>TCF نطق الصامت</button>
       <button class="pill" onclick="showPhon('verbes-accent',this)"><span class="pi">🔤</span>é/è في الأفعال</button>
-      <button class="pill" onclick="showPhon('liaison',this)"><span class="pi">🔊</span>Liaison & sons</button>
+      <button class="pill" onclick="showPhon('liaison',this)"><span class="pi">🔊</span>Liaison &amp; sons</button>
       <button class="pill" onclick="showPhon('vocabulary',this)"><span class="pi">⭐</span>مفردات مهمة</button>
     </div>
   </nav>
@@ -6274,7 +6274,7 @@
       </div>
     </div>
 
-    <!-- ë & ç -->
+    <!-- ë &amp; ç -->
     <div class="grid-2">
       <div class="card" style="border-top:4px solid var(--teal)">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
@@ -7175,11 +7175,11 @@
     </div>
   </section>
 
-  <!-- ══ LIAISON & LETTRES À PLUSIEURS SONS ══ -->
+  <!-- ══ LIAISON &amp; LETTRES À PLUSIEURS SONS ══ -->
   <section class="sec" id="p-liaison">
     <div class="sec-header">
       <div><div class="sec-icon" style="background:#ecfdf5">🔊</div>
-        <div class="sec-title">Liaison <em>& sons</em></div>
+        <div class="sec-title">Liaison <em>&amp; sons</em></div>
         <div class="sec-ar">Les liaisons + Une lettre, plusieurs sons — قواعد الربط الصوتي وحروف لها أكثر من نطق</div>
       </div>
       <span class="usage-tag tag-oral">PHONÉTIQUE</span>
@@ -7679,7 +7679,7 @@
   <main class="pron-page" aria-label="French pronunciation practice">
     <section class="pron-card sentence-card">
       <div class="pron-card-head">
-        <div class="pron-card-icon blue">🗣️</div>
+        <div class="pron-card-icon blue">PR</div>
         <div><h3>Choisissez une phrase</h3><p>Selectionnez une phrase guidee ou ecrivez votre propre texte.</p></div>
       </div>
       <select id="sentence-select" class="pron-input">
@@ -7731,27 +7731,27 @@
       </select>
       <div class="pron-divider"><span>ou</span></div>
       <textarea id="custom-input" class="pron-input" rows="3" placeholder="Ecrivez votre propre phrase francaise..."></textarea>
-      <button id="use-sentence-btn" class="pron-btn primary" type="button">✓ Utiliser cette phrase</button>
+      <button id="use-sentence-btn" class="pron-btn primary" type="button">Utiliser cette phrase</button>
     </section>
 
     <section class="pron-card practice-card">
       <div class="target-area">
         <div id="target-sentence">Choisissez une phrase pour commencer.</div>
-        <button id="listen-btn" class="pron-btn teal" type="button" disabled>🔊 Ecouter</button>
+        <button id="listen-btn" class="pron-btn teal" type="button" disabled>Ecouter</button>
       </div>
       <div class="mic-area">
         <button id="mic-btn" class="mic-btn" type="button" aria-label="Start pronunciation recording">
-          <span class="ring ring-1"></span><span class="ring ring-2"></span><span class="ring ring-3"></span><span class="mic-icon">🎤</span>
+          <span class="ring ring-1"></span><span class="ring ring-2"></span><span class="ring ring-3"></span><span class="mic-icon">MIC</span>
         </button>
         <div id="mic-status">Selectionnez une phrase, puis appuyez sur le micro.</div>
       </div>
       <div id="transcript-area" class="transcript-area" hidden><strong>Votre voix</strong><div id="transcript-text"></div></div>
-      <button id="evaluate-btn" class="evaluate-btn" type="button" hidden><span>🎯</span><strong>Evaluer ma prononciation</strong><small>Comparer avec la phrase cible</small><b>→</b></button>
+      <button id="evaluate-btn" class="evaluate-btn" type="button" hidden><span>OK</span><strong>Evaluer ma prononciation</strong><small>Comparer avec la phrase cible</small><b>&gt;</b></button>
     </section>
 
     <section id="results-card" class="pron-card results-card" hidden>
       <div class="pron-card-head">
-        <div class="pron-card-icon green">📊</div>
+        <div class="pron-card-icon green">SC</div>
         <div><h3>Resultat</h3><p>Comparaison mot par mot avec la phrase cible.</p></div>
       </div>
       <div class="score-area">
@@ -7762,15 +7762,15 @@
       <div class="score-breakdown"><div class="correct"><strong id="count-correct">0</strong><span>Corrects</span></div><div class="wrong"><strong id="count-wrong">0</strong><span>Incorrects</span></div><div class="missing"><strong id="count-missing">0</strong><span>Manquants</span></div></div>
       <div id="highlight-section" class="highlight-section"></div>
       <div id="comparison-section" class="comparison-section"></div>
-      <div class="legend"><span class="correct">✓ Correct</span><span class="wrong">✗ Incorrect</span><span class="missing">◌ Manquant</span></div>
-      <div class="result-actions"><button id="retry-btn" class="pron-btn secondary" type="button">↺ Reessayer</button><button id="save-btn" class="pron-btn primary" type="button">💾 Enregistrer</button></div>
+      <div class="legend"><span class="correct">Correct</span><span class="wrong">Incorrect</span><span class="missing">Manquant</span></div>
+      <div class="result-actions"><button id="retry-btn" class="pron-btn secondary" type="button">Reessayer</button><button id="save-btn" class="pron-btn primary" type="button">Enregistrer</button></div>
     </section>
 
     <section class="pron-card history-card">
       <div class="pron-card-head">
-        <div class="pron-card-icon purple">📋</div>
+        <div class="pron-card-icon purple">HI</div>
         <div><h3>Historique de pratique</h3><p>Vos 10 dernieres sessions sur cet appareil.</p></div>
-        <button id="clear-history-btn" class="ghost-btn" type="button">🗑️ Effacer</button>
+        <button id="clear-history-btn" class="ghost-btn" type="button">Effacer</button>
       </div>
       <div id="history-list" class="history-list"></div>
     </section>
@@ -8978,7 +8978,7 @@
       </div>
 
       <div class="card">
-        <span class="card-label">Questions & réponses — Task 1</span>
+        <span class="card-label">Questions &amp; réponses — Task 1</span>
         <div class="q-card tcf-oral-card open"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">01</span><div><div class="q-label">Question</div><div class="q-text">Présentez-vous.</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Bonjour, je m'appelle Ahmed.</div><div class="fr-line">J'ai quarante et un ans et je suis égyptien.</div><div class="fr-line">J'habite actuellement en Arabie saoudite avec ma famille.</div><div class="fr-line">Je travaille dans le domaine informatique comme ingénieur logiciel.</div><div class="fr-line">En ce moment, j'apprends le français pour mes projets futurs.</div></div></div></div>
         <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">02</span><div><div class="q-label">Question</div><div class="q-text">Quel âge avez-vous ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">J'ai quarante et un ans.</div><div class="fr-line">Je pense que c'est un bon âge, parce que j'ai de l'expérience professionnelle, mais aussi de nouveaux objectifs.</div></div></div></div>
         <div class="q-card tcf-oral-card"><div class="q-header" onclick="toggleQ(this)"><span class="q-num">03</span><div><div class="q-label">Question</div><div class="q-text">D'où venez-vous ?</div></div><span class="q-arrow">▾</span></div><div class="q-body"><div class="fr-text"><div class="fr-line">Je viens d'Égypte.</div><div class="fr-line">C'est un pays avec une histoire très riche et une culture très intéressante.</div><div class="fr-line">Je suis toujours fier de mon pays.</div></div></div></div>
@@ -9405,7 +9405,7 @@
         <iframe id="youtube-video-player" src="https://www.youtube.com/embed/IIIcKcpg638?list=PLf3rJn144wviM1xUXX-fPH88XprF82xFH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen style="width:100%;height:min(70vh,620px);border:0;border-radius:8px;background:#020617"></iframe>
         <div class="grid-2" style="margin-top:14px">
           <a class="sec-tool-btn" id="youtube-open-playlist" href="https://www.youtube.com/playlist?list=PLf3rJn144wviM1xUXX-fPH88XprF82xFH" target="_blank" rel="noopener">Open playlist</a>
-          <a class="sec-tool-btn" id="youtube-open-video" href="https://www.youtube.com/watch?v=IIIcKcpg638&list=PLf3rJn144wviM1xUXX-fPH88XprF82xFH&index=3" target="_blank" rel="noopener">Open video</a>
+          <a class="sec-tool-btn" id="youtube-open-video" href="https://www.youtube.com/watch?v=IIIcKcpg638&amp;list=PLf3rJn144wviM1xUXX-fPH88XprF82xFH&amp;index=3" target="_blank" rel="noopener">Open video</a>
         </div>
       </div>
     </section>
