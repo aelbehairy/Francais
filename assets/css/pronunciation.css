@@ -38,7 +38,8 @@ textarea.pron-input { resize:vertical; min-height:86px; }
 .target-area { background:var(--gold-light); border:1px solid rgba(212,150,10,.22); border-radius:var(--radius); padding:22px; display:flex; flex-direction:column; gap:14px; align-items:center; color:#713f12; font-weight:700; font-size:20px; }
 .mic-area { display:flex; flex-direction:column; align-items:center; gap:14px; margin:28px 0; color:var(--text-light); }
 .mic-btn { position:relative; width:110px; height:110px; border:0; border-radius:50%; display:grid; place-items:center; color:#fff; background:linear-gradient(135deg,var(--blue),var(--purple)); cursor:pointer; box-shadow:0 16px 38px rgba(26,86,219,.28); }
-.mic-icon { position:relative; z-index:2; font-size:42px; }
+.mic-icon { position:relative; z-index:2; display:grid; place-items:center; width:42px; height:42px; }
+.mic-icon svg { width:42px; height:42px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .ring { position:absolute; inset:0; border-radius:50%; border:2px solid rgba(26,86,219,.25); opacity:0; }
 .mic-btn.listening { background:linear-gradient(135deg,var(--red-fr),#e11d48); animation:micPulse 1s ease-in-out infinite; }
 .mic-btn.listening .ring { animation:ringExpand 1.8s ease-out infinite; }
@@ -55,8 +56,9 @@ textarea.pron-input { resize:vertical; min-height:86px; }
 .score-ring { width:140px; height:140px; transform:rotate(-90deg); }
 .score-ring circle { fill:none; stroke:#f1f5f9; stroke-width:8; }
 #score-progress { stroke:var(--green); stroke-linecap:round; stroke-dasharray:264; stroke-dashoffset:264; transition:stroke-dashoffset .75s ease, stroke .2s ease; }
-.score-center { position:absolute; inset:0; display:grid; place-content:center; text-align:center; }
+.score-center { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; white-space:nowrap; text-align:center; }
 .score-center strong { font-size:38px; line-height:1; }
+.score-center span { font-size:18px; font-weight:800; line-height:1; margin-left:2px; }
 .score-message { text-align:center; color:var(--text-mid); font-weight:700; }
 .clr-poor { color:var(--red-fr); stroke:var(--red-fr)!important; } .clr-fair { color:var(--orange); stroke:var(--orange)!important; } .clr-good { color:var(--gold); stroke:var(--gold)!important; } .clr-great,.clr-perfect { color:var(--green); stroke:var(--green)!important; }
 .score-breakdown { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:18px 0; }
