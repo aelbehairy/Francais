@@ -282,21 +282,17 @@ function renderYoutubePlaylists(activeKey){
 function showBookPreview(path, title, btn, hasAudio){
   var frame = document.getElementById('book-preview-frame');
   var titleEl = document.getElementById('book-preview-title');
-  var link = document.getElementById('book-preview-link');
-  var inlineLink = document.getElementById('book-preview-fallback-inline');
   var audioPanel = document.getElementById('book-audio-panel');
   var audioDownload = document.getElementById('book-audio-download');
   document.querySelectorAll('#book-preview-tabs .pill').forEach(function(pill){
     pill.classList.remove('active');
   });
   if(btn) btn.classList.add('active');
-  if(frame) frame.setAttribute('data', path);
-  if(titleEl) titleEl.textContent = title;
-  if(link) link.href = path;
-  if(inlineLink){
-    inlineLink.href = path;
-    inlineLink.textContent = title + '.pdf';
+  if(frame){
+    frame.src = path;
+    frame.title = title;
   }
+  if(titleEl) titleEl.textContent = title;
   if(audioPanel) audioPanel.hidden = !hasAudio;
   if(audioDownload && hasAudio) audioDownload.href = path;
 }
@@ -2808,6 +2804,7 @@ var isPinned = false;
 var mobileSidebarQuery = window.matchMedia('(max-width: 640px)');
 
 function setSidebarActive(target){
+  if(!sidebar) sidebar = document.getElementById('dashboard-sidebar');
   if(!sidebar || !target) return;
   sidebar.querySelectorAll('[data-sidebar-target]').forEach(function(item){
     item.classList.toggle('active', item.getAttribute('data-sidebar-target') === target);
