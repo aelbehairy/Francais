@@ -3303,16 +3303,22 @@ function showFerialLesson(id, btn){
   }
 }
 
-function showFerialSujet(id, btn){
-  var root = document.getElementById('ferial-lecon4');
+function showFerialSujet(lessonId, sujetId, btn){
+  if(arguments.length === 2){
+    btn = sujetId;
+    sujetId = lessonId;
+    lessonId = 'lecon4';
+  }
+  var rootId = 'ferial-' + lessonId;
+  var root = document.getElementById(rootId);
   if(!root) return;
   root.querySelectorAll('.ferial-sujet-panel').forEach(function(panel){
-    var active = panel.id === 'ferial-lecon4-' + id;
+    var active = panel.id === rootId + '-' + sujetId;
     panel.hidden = !active;
     panel.classList.toggle('active', active);
   });
   root.querySelectorAll('.ferial-sujet-tabs .pill').forEach(function(pill){
-    var active = pill === btn || pill.getAttribute('data-ferial-sujet') === id;
+    var active = pill === btn || pill.getAttribute('data-ferial-sujet') === sujetId;
     pill.classList.toggle('active', active);
     pill.setAttribute('aria-selected', active ? 'true' : 'false');
   });
