@@ -1678,7 +1678,7 @@ var learningDescriptions = {
   b1:'Leçons de niveau B1',
   b2:'Leçons de niveau B2',
   devoirs:'Devoirs Mariane et réponses préparées',
-  ferial:'Oral Ferial',
+  ferial:'Oral Manal & Ferial',
   mariane:'Questions orales Mariane et Linda',
   ecrit:'Production écrite et modèles',
   oral:'Expression orale TCF',
@@ -1781,7 +1781,7 @@ function getCardsForMain(mainKey){
         var btn = document.querySelector('#pills-oral .pill[onclick*="showMariane"]');
         if(btn) btn.click();
       }},
-      {key:'ferial', icon:'🎙', title:'Ferial', desc:learningDescriptions.ferial, action:function(){
+      {key:'ferial', icon:'🎙', title:'Manal & Ferial', desc:learningDescriptions.ferial, action:function(){
         var btn = document.querySelector('#pills-oral .pill[onclick*="ferial"]');
         if(btn) btn.click();
       }},
@@ -3301,6 +3301,21 @@ function showFerialLesson(id, btn){
       selectedPanel.scrollIntoView({behavior:'smooth', block:'start'});
     }, 20);
   }
+}
+
+function showFerialSujet(id, btn){
+  var root = document.getElementById('ferial-lecon4');
+  if(!root) return;
+  root.querySelectorAll('.ferial-sujet-panel').forEach(function(panel){
+    var active = panel.id === 'ferial-lecon4-' + id;
+    panel.hidden = !active;
+    panel.classList.toggle('active', active);
+  });
+  root.querySelectorAll('.ferial-sujet-tabs .pill').forEach(function(pill){
+    var active = pill === btn || pill.getAttribute('data-ferial-sujet') === id;
+    pill.classList.toggle('active', active);
+    pill.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
 }
 
 var pronunciationRecognition = null;

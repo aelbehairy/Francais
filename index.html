@@ -5327,7 +5327,7 @@
       <button class="pill" onclick="switchTop('books',document.querySelector('.top-tab[onclick*=books]'))"><span class="pi">📚</span>Books</button>
       <button class="pill" onclick="showMariane(this)"><span class="pi">🎤</span>Oral (Mariane et Linda)</button>
       <button class="pill active" onclick="showOral('devoirs',this)"><span class="pi">📝</span>Devoirs Mariane</button>
-      <button class="pill" onclick="showOral('ferial',this)"><span class="pi">🎙</span>Ferial</button>
+      <button class="pill" onclick="showOral('ferial',this)"><span class="pi">🎙</span>Manal &amp; Ferial</button>
       <button class="pill" onclick="showOral('prononciation',this)"><span class="pi">🎧</span>Prononciation</button>
     </div>
   </nav>
@@ -5924,32 +5924,38 @@
       <div class="nav-pills nested-child-tabs ferial-lesson-tabs">
         <button class="pill active" type="button" data-ferial-lesson="lecon1" aria-selected="true" onclick="showFerialLesson('lecon1',this)">
           <span class="pi">1</span>
-          <strong>Leçon 1</strong>
+          <strong>Leçon 1 Ferial</strong>
           <small>Ouvrir cette leçon</small>
           <span class="ferial-open-label">Ouvrir →</span>
         </button>
         <button class="pill" type="button" data-ferial-lesson="lecon2" aria-selected="false" onclick="showFerialLesson('lecon2',this)">
           <span class="pi">2</span>
-          <strong>Leçon 2</strong>
+          <strong>Leçon 2 Manal</strong>
           <small>Ouvrir cette leçon</small>
           <span class="ferial-open-label">Ouvrir →</span>
         </button>
         <button class="pill" type="button" data-ferial-lesson="lecon3" aria-selected="false" onclick="showFerialLesson('lecon3',this)">
           <span class="pi">3</span>
-          <strong>Leçon 3</strong>
+          <strong>Leçon 3 Manal</strong>
           <small>Ouvrir cette leçon</small>
           <span class="ferial-open-label">Ouvrir →</span>
         </button>
         <button class="pill" type="button" data-ferial-lesson="lecon4" aria-selected="false" onclick="showFerialLesson('lecon4',this)">
           <span class="pi">4</span>
-          <strong>Leçon 4</strong>
+          <strong>Leçon 4 Manal</strong>
+          <small>Ouvrir cette leçon</small>
+          <span class="ferial-open-label">Ouvrir →</span>
+        </button>
+        <button class="pill" type="button" data-ferial-lesson="lecon5" aria-selected="false" onclick="showFerialLesson('lecon5',this)">
+          <span class="pi">5</span>
+          <strong>Leçon 5 Manal</strong>
           <small>Ouvrir cette leçon</small>
           <span class="ferial-open-label">Ouvrir →</span>
         </button>
       </div>
       <div class="ferial-lesson-panels">
         <div class="card ferial-lieux-card ferial-lesson-panel active" id="ferial-lecon1">
-          <span class="card-label">Leçon 1</span>
+          <span class="card-label">Leçon 1 Ferial</span>
           <div class="note" style="direction:rtl;text-align:right">دروس TCF A1/A2: مكان المحادثة، المتحدثون، مفردات مهمة، أسئلة فهم، إجابات بالنفي، وحوار جديد بنفس الفكرة.</div>
 
           <h3>À la bibliothèque <small>في المكتبة</small></h3>
@@ -6107,16 +6113,427 @@
           </div>
         </div>
         <div class="card ferial-lesson-panel" id="ferial-lecon2" hidden>
-          <span class="card-label">Leçon 2</span>
-          <div class="note">Ajoutez ici le contenu de la leçon 2.</div>
+          <span class="card-label">Leçon 2 Manal</span>
+          <div class="note">Ajoutez ici le contenu de la leçon 2 Manal.</div>
         </div>
         <div class="card ferial-lesson-panel" id="ferial-lecon3" hidden>
-          <span class="card-label">Leçon 3</span>
-          <div class="note">Ajoutez ici le contenu de la leçon 3.</div>
+          <span class="card-label">Leçon 3 Manal</span>
+          <div class="note">Ajoutez ici le contenu de la leçon 3 Manal.</div>
         </div>
         <div class="card ferial-lesson-panel" id="ferial-lecon4" hidden>
-          <span class="card-label">Leçon 4</span>
-          <div class="note">Ajoutez ici le contenu de la leçon 4.</div>
+          <span class="card-label">Leçon 4 Manal</span>
+          <div class="nav-pills nested-child-tabs ferial-sujet-tabs">
+            <button class="pill active" type="button" data-ferial-sujet="sujet1" aria-selected="true" onclick="showFerialSujet('sujet1',this)">
+              <span class="pi">1</span>Sujet 1 - un animal de compagnie
+            </button>
+            <button class="pill" type="button" data-ferial-sujet="sujet2" aria-selected="false" onclick="showFerialSujet('sujet2',this)">
+              <span class="pi">2</span>Sujet 2 - modifier ses habitudes alimentaires
+            </button>
+          </div>
+          <div class="ferial-sujet-panel active" id="ferial-lecon4-sujet1">
+          <div class="fr-text">
+            <span class="card-label">Sujet = un animal de compagnie</span>
+            <div class="note"><strong>Sujet :</strong> Pour quelle raison désire-t-on avoir un animal de compagnie chez soi ?</div>
+            <div class="fr-line"><strong>Introduction</strong></div>
+            <div class="fr-line">Beaucoup de personnes choisissent d'avoir un animal de compagnie chez elles, et cela s'explique par plusieurs raisons à la fois affectives, psychologiques et sociales.</div>
+            <div class="fr-line"><strong>Développement</strong></div>
+            <div class="fr-line"><strong>L'aspect affectif et social :</strong> D'abord, un animal apporte de la compagnie et de la tendresse. Il aide à lutter contre la solitude, surtout pour les personnes âgées ou celles qui vivent seules. Avoir un chien ou un chat à la maison, c'est partager des moments de complicité, recevoir de l'affection et se sentir utile en prenant soin d'un être vivant.</div>
+            <div class="fr-line"><strong>Le bien-être et la santé :</strong> Ensuite, les animaux contribuent aussi au bien-être et à la santé. Plusieurs études montrent qu'ils réduisent le stress, la dépression et même la tension artérielle. Promener un chien, par exemple, incite à faire de l'exercice régulièrement et à rencontrer d'autres personnes.</div>
+            <div class="fr-line"><strong>La notion de responsabilité :</strong> Cependant, avoir un animal demande aussi des responsabilités. Il faut du temps, de l'argent et de la patience. Ce n'est pas seulement un plaisir, c'est aussi un engagement à long terme.</div>
+            <div class="fr-line"><strong>Conclusion</strong></div>
+            <div class="fr-line">En conclusion, si beaucoup de gens souhaitent avoir un animal de compagnie, c'est avant tout pour le lien affectif qu'il apporte et le bien-être qu'il procure. Mais cette décision doit toujours être réfléchie et accompagnée d'un vrai sens des responsabilités.</div>
+            <div class="ar-text">
+              <div><strong>الموضوع</strong></div>
+              <div>يتناول الموضوع السؤال التالي: «ما السبب الذي يدفع الناس إلى تربية حيوان أليف في المنزل؟»</div>
+              <div><strong>مقدمة</strong></div>
+              <div>يختار الكثير من الناس تربية حيوان أليف في منازلهم، ويرجع ذلك إلى عدة أسباب عاطفية ونفسية واجتماعية.</div>
+              <div><strong>المناقشة</strong></div>
+              <div>الجانب العاطفي والاجتماعي: أولاً، يوفر الحيوان الرفقة والحنان. فهو يساعد في التغلب على الشعور بالوحدة، خاصة بالنسبة لكبار السن أو أولئك الذين يعيشون بمفردهم. إن وجود كلب أو قطة في المنزل يعني مشاركة لحظات من الترابط، وتلقي المودة، والشعور بالفائدة من خلال رعاية كائن حي.</div>
+              <div>الرفاهية والصحة: ثانياً، تساهم الحيوانات الأليفة أيضاً في الرفاهية والصحة. تظهر العديد من الدراسات أنها تقلل من التوتر والاكتئاب وحتى ضغط الدم. فممارسة رياضة المشي مع الكلب، على سبيل المثال، تحفز على ممارسة التمارين الرياضية بانتظام والتواصل مع أشخاص آخرين.</div>
+              <div>مفهوم المسؤولية: ومع ذلك، فإن تربية حيوان أليف تتطلب أيضاً تحمل المسؤوليات. فهو يتطلب الوقت والمال والصبر. إنه ليس مجرد متعة، بل هو أيضًا التزام طويل الأمد.</div>
+              <div><strong>الخلاصة</strong></div>
+              <div>في الختام، إذا كان الكثير من الناس يرغبون في امتلاك حيوان أليف، فذلك في المقام الأول بسبب الرابطة العاطفية التي يوفرها والرفاهية التي يمنحها. لكن هذا القرار يجب أن يكون دائمًا مدروسًا ومصحوبًا بحس حقيقي بالمسؤولية.</div>
+            </div>
+            <span class="card-label">Opinion positive</span>
+            <div class="note"><strong>Sujet :</strong> Pour quelle raison désire-t-on avoir un animal de compagnie chez soi ?</div>
+            <div class="fr-line">Bonjour.</div>
+            <div class="fr-line">Personnellement, je pense que beaucoup de personnes souhaitent avoir un animal de compagnie à la maison, mais les motivations peuvent varier selon les individus. Cette question présente à la fois des avantages et des inconvénients.</div>
+            <div class="fr-line"><strong>D'un côté</strong>, avoir un animal de compagnie apporte souvent du réconfort et réduit le stress. Après une journée difficile, la présence d'un chien ou d'un chat peut améliorer le moral et diminuer le sentiment de solitude.</div>
+            <div class="fr-line"><strong>Ensuite</strong>, un animal encourage aussi les gens à adopter un mode de vie plus actif. Par exemple, les propriétaires de chiens doivent sortir régulièrement pour les promener, ce qui favorise l'exercice physique et les contacts sociaux.</div>
+            <div class="fr-line"><strong>Cependant</strong>, il existe également certains inconvénients. Tout d'abord, posséder un animal représente une responsabilité importante. Il faut lui consacrer du temps, s'occuper de son alimentation, de sa santé et de son éducation.</div>
+            <div class="fr-line"><strong>Par ailleurs</strong>, le coût peut être élevé. Les visites chez le vétérinaire, la nourriture, les accessoires ou les assurances peuvent représenter une dépense importante, surtout si l'animal tombe malade.</div>
+            <div class="fr-line"><strong>En ce qui me concerne</strong>, je pense que les avantages sont plus nombreux que les inconvénients, à condition que les propriétaires soient conscients de leurs responsabilités. À mon avis, un animal de compagnie peut apporter beaucoup de bonheur, mais il ne faut jamais l'adopter sur un coup de tête. C'est un engagement à long terme qui demande du temps, de l'attention et de l'affection.</div>
+            <div class="fr-line"><strong>Merci de votre attention.</strong></div>
+            <div class="fr-line"><strong>Plan facile à mémoriser</strong></div>
+            <div class="fr-line"><strong>Introduction :</strong> La question est intéressante, il y a des avantages et des inconvénients.</div>
+            <div class="fr-line"><strong>Avantage 1 :</strong> Réduit le stress et la solitude.</div>
+            <div class="fr-line"><strong>Avantage 2 :</strong> Encourage une vie plus active et les interactions sociales.</div>
+            <div class="fr-line"><strong>Inconvénient 1 :</strong> Grande responsabilité quotidienne.</div>
+            <div class="fr-line"><strong>Inconvénient 2 :</strong> Coût financier élevé.</div>
+            <div class="fr-line"><strong>Conclusion :</strong> Je suis plutôt favorable, mais seulement si l'on est prêt à assumer cette responsabilité.</div>
+            <div class="ar-text">
+              <div><strong>الرأي الإيجابي</strong></div>
+              <div><strong>الموضوع: لماذا يرغب الناس في اقتناء حيوان أليف في المنزل؟</strong></div>
+              <div><strong>مرحبًا.</strong></div>
+              <div>شخصيًا، أعتقد أن كثيرًا من الناس يرغبون في امتلاك حيوان أليف في المنزل، لكن تختلف دوافعهم من شخص إلى آخر. هذا الموضوع له مزايا وعيوب في الوقت نفسه.</div>
+              <div><strong>من ناحية أولى</strong>، فإن وجود حيوان أليف يمنح الشعور بالراحة النفسية ويخفف التوتر. فبعد يوم عمل شاق، يمكن لوجود كلب أو قطة أن يحسن الحالة المزاجية ويقلل الشعور بالوحدة.</div>
+              <div><strong>ومن ناحية أخرى</strong>، يشجع الحيوان الأليف الناس على اتباع أسلوب حياة أكثر نشاطًا. فعلى سبيل المثال، يجب على أصحاب الكلاب الخروج يوميًا لتمشيتها، وهذا يساعد على ممارسة الرياضة والتواصل مع الآخرين.</div>
+              <div><strong>لكن في المقابل</strong>، توجد بعض السلبيات. أولًا، امتلاك حيوان أليف يُعد مسؤولية كبيرة، إذ يجب تخصيص الوقت للعناية به، وتوفير الطعام له، والاهتمام بصحته وتربيته.</div>
+              <div><strong>إضافة إلى ذلك</strong>، قد تكون التكلفة مرتفعة. فزيارات الطبيب البيطري، والطعام، والإكسسوارات، أو حتى التأمين، قد تمثل مصروفًا كبيرًا، خاصة إذا مرض الحيوان.</div>
+              <div><strong>أما بالنسبة لي</strong>، فأرى أن المزايا أكثر من العيوب، بشرط أن يكون صاحب الحيوان مدركًا لمسؤولياته. وفي رأيي، يمكن للحيوان الأليف أن يجلب الكثير من السعادة، لكن لا ينبغي أبدًا تبنيه بدافع الاندفاع. فهو التزام طويل الأمد يحتاج إلى الوقت والاهتمام والمودة.</div>
+              <div><strong>شكرًا على حسن استماعكم.</strong></div>
+            </div>
+            <span class="card-label">Opinion négative</span>
+            <div class="note"><strong>Sujet :</strong> Pour quelle raison désire-t-on avoir un animal de compagnie chez soi ?</div>
+            <div class="fr-line">Bonjour.</div>
+            <div class="fr-line">Personnellement, je comprends pourquoi certaines personnes aiment avoir un animal de compagnie. Cependant, en ce qui me concerne, je préfère ne pas en avoir, principalement parce que je n'aime pas particulièrement les animaux et que je pense qu'ils ne correspondent pas à mon mode de vie.</div>
+            <div class="fr-line"><strong>Tout d'abord</strong>, je crois qu'un animal demande beaucoup de temps et d'attention. Il faut le nourrir, le promener, jouer avec lui et l'emmener régulièrement chez le vétérinaire. À mon avis, si une personne n'aime pas vraiment les animaux, elle risque de ne pas leur offrir les soins qu'ils méritent.</div>
+            <div class="fr-line"><strong>Ensuite</strong>, je préfère consacrer mon temps libre à d'autres activités, comme le sport, la lecture ou les sorties en famille. Je pense qu'il est important de choisir un mode de vie qui correspond à ses préférences personnelles.</div>
+            <div class="fr-line"><strong>En revanche</strong>, je reconnais que les animaux de compagnie présentent aussi des avantages. D'une part, ils apportent du réconfort et réduisent la solitude, notamment chez les personnes âgées ou celles qui vivent seules.</div>
+            <div class="fr-line"><strong>D'autre part</strong>, ils peuvent apprendre aux enfants le sens des responsabilités, car ils doivent prendre soin d'un être vivant au quotidien.</div>
+            <div class="fr-line"><strong>Pour conclure</strong>, je respecte les personnes qui aiment les animaux et qui en prennent soin. En revanche, pour ma part, je préfère ne pas avoir d'animal de compagnie, car je pense qu'il vaut mieux ne pas en adopter si l'on ne les apprécie pas réellement. C'est une décision plus responsable, aussi bien pour l'animal que pour son propriétaire.</div>
+            <div class="fr-line"><strong>Merci de votre attention.</strong></div>
+            <div class="ar-text">
+              <div><strong>الرأي السلبي</strong></div>
+              <div><strong>مرحبًا.</strong></div>
+              <div>شخصيًا، أتفهم لماذا يحب بعض الأشخاص امتلاك حيوان أليف. ومع ذلك، بالنسبة لي، أفضل ألا أقتني حيوانًا أليفًا، لأنني لا أحب الحيوانات بشكل خاص، وأعتقد أنها لا تناسب أسلوب حياتي.</div>
+              <div><strong>أولًا</strong>، أرى أن الحيوان الأليف يحتاج إلى الكثير من الوقت والاهتمام. يجب إطعامه، والخروج معه، واللعب معه، واصطحابه بانتظام إلى الطبيب البيطري. وفي رأيي، إذا كان الشخص لا يحب الحيوانات فعلًا، فقد لا يوفر لها الرعاية التي تستحقها.</div>
+              <div><strong>ثانيًا</strong>، أفضل أن أخصص وقت فراغي لأنشطة أخرى، مثل الرياضة، أو القراءة، أو قضاء الوقت مع عائلتي. وأعتقد أنه من المهم أن يختار كل شخص أسلوب الحياة الذي يناسب اهتماماته.</div>
+              <div><strong>لكن في المقابل</strong>، أعترف بأن للحيوانات الأليفة مزايا أيضًا. فمن ناحية، تمنح الراحة النفسية وتخفف الشعور بالوحدة، خاصة لدى كبار السن أو الأشخاص الذين يعيشون بمفردهم.</div>
+              <div><strong>ومن ناحية أخرى</strong>، يمكنها أن تعلم الأطفال تحمل المسؤولية، لأن عليهم الاعتناء بكائن حي كل يوم.</div>
+              <div><strong>وفي الختام</strong>، أحترم الأشخاص الذين يحبون الحيوانات ويعتنون بها. أما بالنسبة لي، فأفضل عدم اقتناء حيوان أليف، لأنني أعتقد أنه من الأفضل عدم تبني حيوان إذا لم يكن الشخص يحبه فعلًا. فهذا قرار أكثر مسؤولية، سواء بالنسبة للحيوان أو لصاحبه.</div>
+            </div>
+            <span class="card-label">Explication du sujet</span>
+            <div class="fr-line">Ce sujet demande d'expliquer pourquoi les gens veulent avoir un animal de compagnie à la maison.</div>
+            <div class="fr-line"><strong>1. L'aspect affectif et social :</strong> Les gens aiment avoir un animal parce qu'il apporte de la compagnie, de la tendresse et de l'affection. Il aide aussi à lutter contre la solitude.</div>
+            <div class="fr-line"><strong>Phrase utile :</strong> Un animal de compagnie rend les personnes plus heureuses et moins seules.</div>
+            <div class="fr-line"><strong>2. Le bien-être et la santé :</strong> Un animal peut réduire le stress, améliorer le moral et encourager l'exercice physique. Par exemple, promener un chien aide à bouger et à rencontrer d'autres personnes.</div>
+            <div class="fr-line"><strong>Phrase utile :</strong> Les animaux améliorent la santé physique et mentale.</div>
+            <div class="fr-line"><strong>3. La responsabilité :</strong> Mais avoir un animal demande du temps, de l'argent et de la patience. Ce n'est pas seulement un plaisir, c'est un engagement à long terme.</div>
+            <div class="fr-line"><strong>Réponse modèle :</strong> À mon avis, beaucoup de personnes désirent avoir un animal de compagnie chez elles parce qu'il apporte de la compagnie, de la tendresse et de l'affection. Il aide à lutter contre la solitude et peut aussi réduire le stress. De plus, un animal encourage parfois l'exercice physique, surtout quand il faut promener un chien. Cependant, avoir un animal demande des responsabilités, du temps et des moyens financiers. En conclusion, je pense que c'est une bonne idée seulement si la personne est prête à bien s'en occuper.</div>
+            <div class="ar-text">
+              <div><strong>الشرح</strong></div>
+              <div>هذا السؤال يطلب منك أن تشرح لماذا يريد الناس اقتناء حيوان أليف في المنزل.</div>
+              <div><strong>1. الجانب العاطفي والاجتماعي:</strong> يحب الناس اقتناء حيوان أليف لأنه يوفر الرفقة والحنان والمودة. كما يساعد على محاربة الشعور بالوحدة.</div>
+              <div><strong>جملة مفيدة:</strong> الحيوان الأليف يجعل الأشخاص أكثر سعادة وأقل شعورًا بالوحدة.</div>
+              <div><strong>2. الرفاهية والصحة:</strong> يمكن للحيوان الأليف أن يقلل التوتر ويحسن الحالة النفسية ويشجع على الحركة. مثلًا، تمشية الكلب تساعد على ممارسة الرياضة والتعرف على أشخاص آخرين.</div>
+              <div><strong>جملة مفيدة:</strong> الحيوانات تحسن الصحة الجسدية والنفسية.</div>
+              <div><strong>3. المسؤولية:</strong> لكن اقتناء حيوان أليف يحتاج إلى وقت ومال وصبر. فهو ليس مجرد متعة، بل التزام طويل الأمد.</div>
+              <div><strong>إجابة نموذجية:</strong> في رأيي، يرغب كثير من الناس في اقتناء حيوان أليف في المنزل لأنه يوفر الرفقة والحنان والمودة. كما يساعد على محاربة الوحدة ويمكن أن يقلل التوتر. بالإضافة إلى ذلك، يشجع الحيوان أحيانًا على ممارسة الرياضة، خاصة عندما يجب تمشية الكلب. ومع ذلك، فإن اقتناء حيوان أليف يتطلب مسؤوليات ووقتًا وإمكانيات مالية. في الختام، أعتقد أنها فكرة جيدة فقط إذا كان الشخص مستعدًا للاعتناء به جيدًا.</div>
+            </div>
+            <span class="card-label">Résumé TCF complet</span>
+            <div class="fr-line"><strong>Thème :</strong> Les animaux de compagnie</div>
+            <div class="fr-line"><strong>Sujet :</strong> Pour quelle raison désire-t-on avoir un animal de compagnie chez soi ?</div>
+            <div class="ar-text">
+              <div><strong>الموضوع:</strong> الحيوانات الأليفة</div>
+              <div><strong>السؤال:</strong> لماذا يرغب الناس في اقتناء حيوان أليف في المنزل؟</div>
+            </div>
+
+            <div class="fr-line"><strong>1. Idées principales</strong></div>
+            <div class="fr-line"><strong>L'aspect affectif et social :</strong> un animal apporte de la compagnie, de la tendresse, de l'affection et aide à lutter contre la solitude.</div>
+            <div class="fr-line"><strong>Le bien-être et la santé :</strong> un animal contribue au bien-être, réduit le stress, améliore la santé et encourage l'exercice.</div>
+            <div class="fr-line"><strong>La responsabilité :</strong> adopter un animal demande du temps, de l'argent, de la patience et un engagement à long terme.</div>
+            <div class="ar-text">
+              <div><strong>الأفكار الرئيسية</strong></div>
+              <div><strong>الجانب العاطفي والاجتماعي:</strong> الحيوان يوفر الرفقة والحنان والمودة ويساعد على محاربة الوحدة.</div>
+              <div><strong>الرفاهية والصحة:</strong> الحيوان يساهم في الرفاهية، يقلل التوتر، يحسن الصحة، ويشجع على الرياضة.</div>
+              <div><strong>المسؤولية:</strong> اقتناء حيوان يحتاج إلى وقت ومال وصبر والتزام طويل الأمد.</div>
+            </div>
+
+            <table class="tbl">
+              <tr><th>Vocabulaire</th><th>Sens / Traduction</th></tr>
+              <tr><td>l'affection</td><td>sentiments d'amour / المودة</td></tr>
+              <tr><td>la tendresse</td><td>douceur / الحنان</td></tr>
+              <tr><td>la compagnie</td><td>présence, ne pas être seul / الرفقة</td></tr>
+              <tr><td>la complicité</td><td>bonne entente, harmonie / الألفة والانسجام</td></tr>
+              <tr><td>le bien-être</td><td>confort, bonheur, bonne qualité de vie / الراحة والرفاهية</td></tr>
+              <tr><td>la solitude</td><td>isolement, être seul / الوحدة</td></tr>
+              <tr><td>le stress</td><td>pression psychologique / التوتر</td></tr>
+              <tr><td>la dépression</td><td>grande tristesse / الاكتئاب</td></tr>
+              <tr><td>les moyens financiers</td><td>budget, argent disponible / الإمكانيات المالية</td></tr>
+              <tr><td>l'engagement à long terme</td><td>responsabilité durable / التزام طويل الأمد</td></tr>
+            </table>
+
+            <div class="fr-line"><strong>2. Avantages</strong></div>
+            <div class="fr-line">Il apporte de la compagnie, de la tendresse et de l'affection.</div>
+            <div class="fr-line">Il aide à lutter contre la solitude et crée une relation de complicité.</div>
+            <div class="fr-line">Il contribue au bien-être, améliore la santé, réduit le stress, la dépression et la tension artérielle.</div>
+            <div class="fr-line">Il encourage l'exercice physique et permet de rencontrer d'autres personnes.</div>
+            <div class="ar-text">
+              <div><strong>المزايا</strong></div>
+              <div>يوفر الرفقة والحنان والمودة.</div>
+              <div>يساعد على محاربة الوحدة ويخلق علاقة من الألفة.</div>
+              <div>يحسن الرفاهية والصحة ويقلل التوتر والاكتئاب وضغط الدم.</div>
+              <div>يشجع على الرياضة ويساعد على التعرف على أشخاص جدد.</div>
+            </div>
+
+            <div class="fr-line"><strong>3. Inconvénients</strong></div>
+            <div class="fr-line">Il demande beaucoup de responsabilités.</div>
+            <div class="fr-line">Il faut avoir du temps, des moyens financiers et de la patience.</div>
+            <div class="fr-line">C'est un engagement à long terme.</div>
+            <div class="ar-text">
+              <div><strong>العيوب</strong></div>
+              <div>يتطلب مسؤولية كبيرة.</div>
+              <div>يحتاج إلى وقت وإمكانيات مالية وصبر.</div>
+              <div>هو التزام طويل الأمد.</div>
+            </div>
+
+            <div class="fr-line"><strong>4. Opinions courtes</strong></div>
+            <div class="fr-line"><strong>Opinion positive :</strong> Personnellement, je pense qu'avoir un animal est une bonne idée. Il apporte du bonheur, réduit la solitude et améliore la qualité de vie.</div>
+            <div class="fr-line"><strong>Opinion négative :</strong> Personnellement, je préfère ne pas avoir d'animal. Je n'aime pas particulièrement les animaux et je préfère consacrer mon temps et mon argent à d'autres activités.</div>
+            <div class="ar-text">
+              <div><strong>آراء قصيرة</strong></div>
+              <div><strong>رأي إيجابي:</strong> في رأيي، اقتناء حيوان فكرة جيدة. فهو يجلب السعادة، يقلل الوحدة، ويحسن جودة الحياة.</div>
+              <div><strong>رأي سلبي:</strong> شخصيًا، أفضل عدم اقتناء حيوان. لا أحب الحيوانات بشكل خاص وأفضل تخصيص وقتي ومالي لأنشطة أخرى.</div>
+            </div>
+
+            <table class="tbl">
+              <tr><th>Questions possibles</th><th>Réponses</th></tr>
+              <tr><td>Pourquoi les gens adoptent-ils un animal ?</td><td>Parce qu'il apporte de la compagnie et améliore le bien-être.</td></tr>
+              <tr><td>Quels sont les avantages ?</td><td>Il réduit le stress et aide à lutter contre la solitude.</td></tr>
+              <tr><td>Quels sont les inconvénients ?</td><td>Il demande du temps, de l'argent et des responsabilités.</td></tr>
+              <tr><td>Que faire si le propriétaire est malade ?</td><td>Il peut demander de l'aide à sa famille ou confier son animal à un refuge.</td></tr>
+            </table>
+
+            <div class="fr-line"><strong>5. Connecteurs utiles :</strong> D'abord, tout d'abord, ensuite, par ailleurs, cependant, en revanche, de plus, par exemple, enfin, en conclusion.</div>
+            <div class="fr-line"><strong>6. Verbes importants :</strong> adopter, s'occuper de, prendre soin de, apporter, contribuer, réduire, améliorer, partager, recevoir, lutter contre, rencontrer, consacrer, demander, protéger, promener.</div>
+            <div class="fr-line"><strong>7. Expressions indispensables :</strong> apporter de la compagnie, lutter contre la solitude, contribuer au bien-être, réduire le stress, améliorer la santé, avoir les moyens financiers, prendre soin d'un être vivant, être un engagement à long terme, avoir des responsabilités, se sentir utile, partager des moments de complicité, recevoir de l'affection.</div>
+            <div class="ar-text">
+              <div><strong>أدوات الربط:</strong> أولًا، ثم، بالإضافة إلى ذلك، ومع ذلك، في المقابل، مثلًا، أخيرًا، في الختام.</div>
+              <div><strong>الأفعال المهمة:</strong> يتبنى، يعتني بـ، يرعى، يجلب، يساهم، يقلل، يحسن، يشارك، يتلقى، يحارب، يقابل، يخصص، يطلب، يحمي، يتمشى مع.</div>
+              <div><strong>تعبيرات مهمة:</strong> يوفر الرفقة، يحارب الوحدة، يساهم في الرفاهية، يقلل التوتر، يحسن الصحة، يمتلك الإمكانيات المالية، يعتني بكائن حي، التزام طويل الأمد، يتحمل المسؤوليات، يشعر بأنه مفيد، يشارك لحظات من الألفة، يتلقى المودة.</div>
+            </div>
+
+            <span class="card-label">Notes du professeur</span>
+            <div class="fr-line"><strong>Séance 3 - Les animaux de compagnie</strong></div>
+            <div class="ar-text">
+              <div><strong>شرح المدرس للنص:</strong> كلمات مهمة، أسئلة محتملة، وتعبيرات مفيدة في TCF.</div>
+            </div>
+
+            <table class="tbl">
+              <tr><th>Mot / Expression</th><th>Explication</th><th>العربية</th></tr>
+              <tr><td>psychologique</td><td>relatif à la psychologie, aux sentiments et au mental</td><td>نفسي، متعلق بالمشاعر والعقل</td></tr>
+              <tr><td>l'autonomie</td><td>compter sur soi, la débrouillardise</td><td>الاعتماد على النفس</td></tr>
+              <tr><td>autonome</td><td>débrouillard, capable de compter sur soi</td><td>شخص يعتمد على نفسه</td></tr>
+              <tr><td>la complicité</td><td>une harmonie, une bonne entente</td><td>الألفة والانسجام</td></tr>
+              <tr><td>contexte criminel</td><td>complicité peut aussi signifier aider un malfaiteur</td><td>سياق إجرامي / التواطؤ في جريمة</td></tr>
+              <tr><td>l'affection</td><td>sentiments d'amour, sympathie</td><td>المودة</td></tr>
+              <tr><td>la tendresse</td><td>douceur</td><td>الحنان</td></tr>
+              <tr><td>contribuer</td><td>favoriser, permettre, participer à</td><td>يساهم</td></tr>
+              <tr><td>la solitude</td><td>l'isolement, être seul</td><td>الوحدة</td></tr>
+              <tr><td>la dépression</td><td>un désordre psychologique</td><td>الاكتئاب</td></tr>
+              <tr><td>réduire</td><td>limiter, minimiser, baisser</td><td>يقلل</td></tr>
+              <tr><td>inciter</td><td>encourager, stimuler</td><td>يشجع</td></tr>
+              <tr><td>la notion</td><td>l'idée, le concept</td><td>المفهوم</td></tr>
+              <tr><td>les moyens financiers</td><td>l'argent disponible</td><td>الإمكانيات المالية</td></tr>
+              <tr><td>impliquer</td><td>requérir, demander, exiger</td><td>يتطلب</td></tr>
+              <tr><td>procurer</td><td>donner, apporter</td><td>يوفر / يجلب</td></tr>
+              <tr><td>agressif</td><td>hargneux, acharné</td><td>عدواني</td></tr>
+              <tr><td>assumer</td><td>être responsable</td><td>يتحمل المسؤولية</td></tr>
+            </table>
+
+            <div class="fr-line"><strong>Dans le texte :</strong> raisons psychologiques = réduire le stress et réduire la dépression.</div>
+            <div class="fr-line"><strong>Pourquoi l'autonomie ?</strong> Les animaux apprennent aux enfants l'autonomie, la responsabilité et le respect.</div>
+            <div class="fr-line"><strong>Partager des moments de complicité :</strong> passer de beaux moments avec l'animal.</div>
+            <div class="fr-line"><strong>Avoir un animal implique des responsabilités.</strong></div>
+            <div class="fr-line"><strong>Le bien-être qu'il procure :</strong> le bonheur ou le confort qu'il apporte.</div>
+            <div class="ar-text">
+              <div><strong>في النص:</strong> الأسباب النفسية مثل تقليل التوتر والاكتئاب.</div>
+              <div><strong>لماذا الاستقلالية؟</strong> لأن الحيوانات تعلم الأطفال الاعتماد على النفس والمسؤولية والاحترام.</div>
+              <div><strong>Partager des moments de complicité:</strong> قضاء لحظات جميلة مع الحيوان.</div>
+              <div><strong>اقتناء الحيوان يتطلب مسؤوليات.</strong></div>
+              <div><strong>Le bien-être qu'il procure:</strong> الرفاهية أو السعادة التي يوفرها.</div>
+            </div>
+
+            <div class="fr-line"><strong>Expressions importantes</strong></div>
+            <table class="tbl">
+              <tr><th>Expression</th><th>العربية</th></tr>
+              <tr><td>Il faut être disponible tout le temps.</td><td>يجب أن تكون متفرغًا طوال الوقت.</td></tr>
+              <tr><td>Cela ne correspond pas à mon mode de vie.</td><td>هذا لا يناسب أسلوب حياتي.</td></tr>
+              <tr><td>Vous les avez confiés à quelqu'un d'autre ?</td><td>هل سلمتم الحيوانات لشخص آخر؟</td></tr>
+              <tr><td>Apporter de la bonne humeur.</td><td>يجلب السعادة.</td></tr>
+              <tr><td>C'est bénéfique.</td><td>إنه مفيد.</td></tr>
+              <tr><td>Cela me rend très heureuse.</td><td>يجعلني سعيدة جدًا.</td></tr>
+              <tr><td>Difficulté de déplacement.</td><td>صعوبة التنقل.</td></tr>
+              <tr><td>Nettoyage de la cage.</td><td>تنظيف القفص.</td></tr>
+              <tr><td>Les animaux sont parfois source de bruit.</td><td>الحيوانات أحيانًا تسبب الضوضاء.</td></tr>
+              <tr><td>Sans un espace aménagé.</td><td>إذا لم يوجد مكان مناسب.</td></tr>
+              <tr><td>Les inconvénients sont plus nombreux que les avantages.</td><td>العيوب أكثر من المزايا.</td></tr>
+              <tr><td>Créer des liens sociaux.</td><td>يبني علاقات اجتماعية.</td></tr>
+              <tr><td>Les animaux peuvent transmettre des maladies.</td><td>قد تنقل الحيوانات الأمراض.</td></tr>
+              <tr><td>Causer des allergies.</td><td>تسبب الحساسية.</td></tr>
+              <tr><td>Une lourde charge supplémentaire.</td><td>عبء إضافي كبير.</td></tr>
+              <tr><td>Attachement affectif.</td><td>ارتباط عاطفي.</td></tr>
+              <tr><td>Lors de la séparation.</td><td>عند الفراق.</td></tr>
+              <tr><td>Il faut réconforter.</td><td>يجب المواساة.</td></tr>
+              <tr><td>Épauler.</td><td>يدعم.</td></tr>
+              <tr><td>Un aquarium.</td><td>حوض أسماك.</td></tr>
+              <tr><td>Développer.</td><td>يطور.</td></tr>
+            </table>
+
+            <table class="tbl">
+              <tr><th>Question / Conversation</th><th>Réponse / Expression utile</th><th>العربية</th></tr>
+              <tr><td>Si vous aimez les animaux, avez-vous l'intention d'en avoir ?</td><td>Oui, je tends à adopter un chien.</td><td>إذا كنت تحب الحيوانات، هل تنوي اقتناء واحد؟ نعم، أميل إلى تبني كلب.</td></tr>
+              <tr><td>Comment vas-tu organiser les choses pour ce chien en cas de voyage ?</td><td>Je peux confier le chien à un proche ou à un centre d'accueil animalier.</td><td>كيف ستعتني بالكلب أثناء السفر؟ يمكنني تسليمه لقريب أو مركز إيواء.</td></tr>
+              <tr><td>Dresser un animal</td><td>éduquer et entraîner l'animal</td><td>تدريب الحيوان</td></tr>
+              <tr><td>Confier le chien</td><td>le laisser à quelqu'un de confiance</td><td>تسليم الكلب لشخص موثوق</td></tr>
+              <tr><td>Engager un agent spécialisé</td><td>demander l'aide d'une personne spécialisée</td><td>الاستعانة بشخص متخصص</td></tr>
+              <tr><td>Prendre soin de l'animal</td><td>s'occuper de ses besoins</td><td>الاعتناء بالحيوان</td></tr>
+              <tr><td>Vérifier les besoins</td><td>contrôler ce dont l'animal a besoin</td><td>التحقق من احتياجاته</td></tr>
+              <tr><td>Observer l'état de santé</td><td>surveiller sa santé</td><td>متابعة حالته الصحية</td></tr>
+              <tr><td>Attribuer une identité</td><td>passeport, carnet de vaccin</td><td>إعطاء هوية: جواز سفر ودفتر تطعيمات</td></tr>
+              <tr><td>Le médicament le rétablit.</td><td>le médicament l'aide à guérir</td><td>الدواء يعيده إلى حالته الطبيعية.</td></tr>
+            </table>
+
+            <div class="fr-line"><strong>Si on ne peut plus garder l'animal :</strong> proposer l'animal à l'adoption, chercher quelqu'un de responsable, prouver son engagement, garder le contact avec le nouveau maître.</div>
+            <div class="ar-text">
+              <div><strong>إذا لم نعد قادرين على الاحتفاظ بالحيوان:</strong> عرض الحيوان للتبني، البحث عن شخص مسؤول، إثبات الجدية في الاعتناء به، والبقاء على تواصل مع المالك الجديد.</div>
+            </div>
+          </div>
+          </div>
+          <div class="ferial-sujet-panel" id="ferial-lecon4-sujet2" hidden>
+            <div class="fr-text">
+              <span class="card-label">Sujet = modifier ses habitudes alimentaires</span>
+              <div class="note"><strong>Sujet :</strong> Selon vous, peut-on vraiment modifier ses habitudes alimentaires une fois adulte ? Pourquoi ?</div>
+              <div class="note">Ce sujet est utile pour le TCF Canada - Expression Orale Tâche 3 : introduction, deux arguments, nuance et conclusion.</div>
+              <div class="fr-line">Bonjour,</div>
+              <div class="fr-line">À mon avis, il est tout à fait possible de modifier ses habitudes alimentaires à l'âge adulte. Certes, cela demande des efforts, mais je pense que lorsqu'une personne est suffisamment motivée, elle peut progressivement changer son mode de vie.</div>
+              <div class="fr-line">Tout d'abord, la santé constitue souvent la principale raison de changer ses habitudes. En effet, lorsqu'un médecin conseille de réduire la consommation de sucre, de sel ou de matières grasses, beaucoup de personnes prennent conscience des risques pour leur santé. Elles commencent alors à manger plus équilibré, à cuisiner davantage et à faire plus attention à leur alimentation. Cette motivation est généralement très efficace, car elle est directement liée au bien-être et à la qualité de vie.</div>
+              <div class="fr-line">Ensuite, les habitudes alimentaires évoluent aussi avec les changements de vie. Par exemple, lorsqu'une personne vit seule, fonde une famille ou s'installe dans un autre pays, elle découvre de nouvelles traditions culinaires et de nouveaux produits. Elle adapte donc progressivement son alimentation en fonction de son nouvel environnement. Cela montre que les adultes sont capables de modifier leurs habitudes lorsqu'ils en ressentent le besoin.</div>
+              <div class="fr-line">Cependant, il faut reconnaître que ce changement n'est pas toujours facile. Les habitudes acquises depuis l'enfance sont souvent très ancrées. De plus, le manque de temps, les préférences personnelles ou encore la pression sociale peuvent rendre ce processus plus difficile. C'est d'ailleurs la raison pour laquelle certaines personnes commencent un régime alimentaire mais abandonnent rapidement.</div>
+              <div class="fr-line">En conclusion, je pense qu'il est tout à fait possible de modifier ses habitudes alimentaires à l'âge adulte. Toutefois, cette réussite dépend avant tout de la motivation, de la persévérance et d'un accompagnement adapté. Avec de la patience et des objectifs réalistes, chacun peut progressivement adopter une alimentation plus saine.</div>
+              <div class="ar-text">
+                <div><strong>الموضوع = تغيير العادات الغذائية</strong></div>
+                <div><strong>السؤال:</strong> في رأيك، هل يمكن فعلًا تغيير العادات الغذائية بعد سن البلوغ؟ ولماذا؟</div>
+                <div>في رأيي، من الممكن تمامًا تغيير العادات الغذائية في سن البلوغ. صحيح أن ذلك يحتاج إلى مجهود، لكن عندما يكون الشخص لديه دافع كافٍ، يستطيع أن يغير نمط حياته تدريجيًا.</div>
+                <div>أولًا، الصحة غالبًا هي السبب الرئيسي لتغيير العادات. فعندما ينصح الطبيب بتقليل استهلاك السكر أو الملح أو الدهون، يدرك كثير من الناس المخاطر على صحتهم، فيبدأون في تناول طعام أكثر توازنًا والاهتمام أكثر بنظامهم الغذائي.</div>
+                <div>ثانيًا، تتغير العادات الغذائية أيضًا مع تغيرات الحياة. مثلًا، عندما يعيش الشخص وحده، أو يؤسس أسرة، أو يستقر في بلد آخر، يكتشف تقاليد ومنتجات غذائية جديدة، فيتكيف تدريجيًا مع بيئته الجديدة.</div>
+                <div>ومع ذلك، يجب الاعتراف بأن هذا التغيير ليس سهلًا دائمًا. فالعادات المكتسبة منذ الطفولة تكون غالبًا مترسخة جدًا. كما أن ضيق الوقت والتفضيلات الشخصية والضغط الاجتماعي قد تجعل العملية أصعب.</div>
+                <div>في الختام، أعتقد أن تغيير العادات الغذائية في سن البلوغ ممكن، لكنه يعتمد قبل كل شيء على الدافع والمثابرة والدعم المناسب. ومع الصبر والأهداف الواقعية، يمكن لكل شخص أن يتبنى تدريجيًا نظامًا غذائيًا أكثر صحة.</div>
+              </div>
+
+              <span class="card-label">Vocabulaire TCF</span>
+              <table class="tbl">
+                <tr><th>Expression</th><th>المعنى</th></tr>
+                <tr><td>modifier ses habitudes alimentaires</td><td>يغيّر عاداته الغذائية</td></tr>
+                <tr><td>être suffisamment motivé</td><td>يكون لديه دافع كافٍ</td></tr>
+                <tr><td>progressivement</td><td>تدريجيًا</td></tr>
+                <tr><td>un mode de vie</td><td>نمط حياة</td></tr>
+                <tr><td>une alimentation équilibrée</td><td>غذاء متوازن</td></tr>
+                <tr><td>prendre conscience de</td><td>يدرك</td></tr>
+                <tr><td>les matières grasses</td><td>الدهون</td></tr>
+                <tr><td>le bien-être</td><td>الرفاهية / الصحة</td></tr>
+                <tr><td>la qualité de vie</td><td>جودة الحياة</td></tr>
+                <tr><td>fonder une famille</td><td>يؤسس أسرة</td></tr>
+                <tr><td>s'installer dans un autre pays</td><td>يستقر في دولة أخرى</td></tr>
+                <tr><td>s'adapter à</td><td>يتكيف مع</td></tr>
+                <tr><td>être profondément ancré</td><td>يكون مترسخًا بشدة</td></tr>
+                <tr><td>la pression sociale</td><td>الضغط الاجتماعي</td></tr>
+                <tr><td>abandonner</td><td>يتخلى عن</td></tr>
+                <tr><td>la persévérance</td><td>المثابرة</td></tr>
+                <tr><td>un accompagnement adapté</td><td>دعم أو تأطير مناسب</td></tr>
+                <tr><td>des objectifs réalistes</td><td>أهداف واقعية</td></tr>
+              </table>
+
+              <div class="fr-line"><strong>Connecteurs utilisés :</strong> À mon avis, tout d'abord, en effet, ensuite, par exemple, cependant, de plus, c'est la raison pour laquelle, en conclusion, toutefois.</div>
+              <div class="fr-line"><strong>Avantages :</strong> améliorer sa santé, réduire la consommation de sucre, de sel et de matières grasses, adopter une alimentation plus équilibrée, découvrir de nouveaux produits et traditions culinaires, s'adapter à un nouvel environnement, améliorer son bien-être et sa qualité de vie.</div>
+              <div class="fr-line"><strong>Difficultés :</strong> les habitudes de l'enfance sont profondément ancrées, le manque de temps, les préférences personnelles, la pression sociale, la difficulté à maintenir un régime alimentaire sur le long terme.</div>
+              <div class="ar-text">
+                <div><strong>أدوات الربط المستخدمة:</strong> في رأيي، أولًا، بالفعل، ثم، على سبيل المثال، ومع ذلك، بالإضافة إلى ذلك، لهذا السبب، في الختام، غير أن.</div>
+                <div><strong>المزايا:</strong> تحسين الصحة، تقليل السكر والملح والدهون، اتباع غذاء متوازن، اكتشاف منتجات وتقاليد غذائية جديدة، التكيف مع بيئة جديدة، وتحسين الرفاهية وجودة الحياة.</div>
+                <div><strong>الصعوبات:</strong> العادات القديمة مترسخة منذ الطفولة، ضيق الوقت، التفضيلات الشخصية، الضغط الاجتماعي، وصعوبة الاستمرار في نظام غذائي على المدى الطويل.</div>
+              </div>
+
+              <span class="card-label">Explication - Notes</span>
+              <div class="fr-line"><strong>On parle dans ce texte du changement des habitudes alimentaires.</strong></div>
+              <div class="ar-text">
+                <div>يتحدث هذا النص عن <strong>تغيير العادات الغذائية</strong>.</div>
+              </div>
+
+              <table class="tbl">
+                <tr><th>Mot / Expression</th><th>Explication</th><th>العربية</th></tr>
+                <tr><td>alimentaire</td><td>qui concerne l'alimentation</td><td>غذائي</td></tr>
+                <tr><td>un aliment</td><td>une matière que l'on mange</td><td>طعام / مادة غذائية</td></tr>
+                <tr><td>une nourriture</td><td>l'alimentation</td><td>الغذاء</td></tr>
+                <tr><td>s'alimenter</td><td>se nourrir correctement</td><td>يتغذى</td></tr>
+                <tr><td>s'alimenter en</td><td>se fournir en quelque chose</td><td>يتزود بـ</td></tr>
+                <tr><td>se nourrir</td><td>manger pour vivre</td><td>يتغذى</td></tr>
+                <tr><td>la volonté</td><td>le fait de vouloir fortement</td><td>الإرادة</td></tr>
+                <tr><td>la raison</td><td>la cause</td><td>السبب</td></tr>
+                <tr><td>revoir ses habitudes</td><td>repenser / remettre en question ses habitudes</td><td>إعادة التفكير في العادات</td></tr>
+                <tr><td>évoluer</td><td>se développer, progresser</td><td>يتطور</td></tr>
+                <tr><td>résister</td><td>lutter contre</td><td>يقاوم</td></tr>
+                <tr><td>maintenir</td><td>garder, conserver</td><td>يحافظ على</td></tr>
+                <tr><td>réaliser un progrès</td><td>faire une amélioration</td><td>يحقق تقدمًا</td></tr>
+                <tr><td>un bon encadrement</td><td>un soutien, un suivi, des conseils</td><td>دعم وإرشاد ومتابعة</td></tr>
+                <tr><td>la persévérance</td><td>continuer, ne pas abandonner</td><td>المثابرة</td></tr>
+                <tr><td>la motivation</td><td>l'envie, l'intérêt, la détermination</td><td>الدافع</td></tr>
+                <tr><td>les habitudes</td><td>les actions répétées</td><td>العادات</td></tr>
+                <tr><td>les pratiques</td><td>les façons de faire</td><td>الممارسات</td></tr>
+                <tr><td>ancrer</td><td>rendre très stable</td><td>يرسخ</td></tr>
+              </table>
+
+              <div class="fr-line"><strong>Exemples importants :</strong></div>
+              <div class="fr-line">Les habitudes alimentaires. = العادات الغذائية.</div>
+              <div class="fr-line">Les fruits sont des aliments sains. = الفواكه أطعمة صحية.</div>
+              <div class="fr-line">Il s'alimente correctement. = يتغذى بطريقة صحيحة.</div>
+              <div class="fr-line">Le chat se nourrit de poisson. = القطة تتغذى على السمك.</div>
+              <div class="fr-line">Il faut beaucoup de volonté. = نحتاج إلى إرادة كبيرة.</div>
+              <div class="fr-line">Résister à la tentation. = مقاومة الإغراء.</div>
+              <div class="fr-line">Les habitudes sont bien ancrées. = العادات مترسخة.</div>
+
+              <table class="tbl">
+                <tr><th>Question TCF possible</th><th>Réponse modèle</th><th>العربية</th></tr>
+                <tr><td>Est-il réellement possible de changer ses habitudes alimentaires ?</td><td>Oui, je pense que c'est possible, mais cela demande beaucoup de volonté et de discipline.</td><td>نعم، أعتقد أن ذلك ممكن، لكنه يحتاج إلى إرادة وانضباط.</td></tr>
+                <tr><td>Donnez-moi une illustration.</td><td>Une personne qui suit un régime alimentaire réduit les calories pour perdre du poids.</td><td>شخص يتبع نظامًا غذائيًا يقلل السعرات الحرارية حتى يفقد الوزن.</td></tr>
+                <tr><td>Quelle raison a été évoquée pour changer son alimentation ?</td><td>Les recommandations médicales poussent les personnes à réduire leur consommation de sucre, de sel et de graisses.</td><td>التوصيات الطبية تدفع الأشخاص إلى تقليل السكر والملح والدهون.</td></tr>
+                <tr><td>Comment est-ce que le voyage implique-t-il un changement d'alimentation ?</td><td>En voyage ou après un déménagement, on découvre de nouveaux aliments, de nouvelles habitudes et des horaires de repas différents.</td><td>أثناء السفر أو الانتقال، نكتشف أطعمة جديدة وعادات جديدة ومواعيد مختلفة للوجبات.</td></tr>
+                <tr><td>Pourquoi est-il difficile de suivre un régime ?</td><td>À cause du manque de temps, du stress, de la pression sociale et des habitudes acquises depuis l'enfance.</td><td>بسبب قلة الوقت والضغط النفسي والضغط الاجتماعي والعادات المكتسبة منذ الطفولة.</td></tr>
+              </table>
+
+              <div class="fr-line"><strong>Idées supplémentaires pour Tâche 3 :</strong></div>
+              <div class="fr-line">Le climat influence notre alimentation.</div>
+              <div class="fr-line">La restauration rapide modifie nos habitudes alimentaires.</div>
+              <div class="fr-line">La nourriture est disponible partout.</div>
+              <div class="fr-line">Cela génère la sédentarité et peut provoquer l'obésité.</div>
+              <div class="fr-line">Le stress et la charge mentale du travail influencent nos habitudes alimentaires.</div>
+              <div class="fr-line">Le télétravail est aussi un facteur important.</div>
+              <div class="ar-text">
+                <div><strong>أفكار إضافية لـ Tâche 3:</strong></div>
+                <div>المناخ يؤثر على غذائنا.</div>
+                <div>الوجبات السريعة تغير عاداتنا الغذائية.</div>
+                <div>الطعام متوفر في كل مكان.</div>
+                <div>هذا يسبب قلة الحركة وقد يؤدي إلى السمنة.</div>
+                <div>الضغط النفسي وضغط العمل الذهني يؤثران على عاداتنا الغذائية.</div>
+                <div>العمل عن بعد عامل مهم أيضًا.</div>
+              </div>
+
+              <table class="tbl">
+                <tr><th>Français</th><th>العربية</th></tr>
+                <tr><td>les habitudes alimentaires</td><td>العادات الغذائية</td></tr>
+                <tr><td>modifier</td><td>يغيّر</td></tr>
+                <tr><td>la volonté</td><td>الإرادة</td></tr>
+                <tr><td>la discipline</td><td>الانضباط</td></tr>
+                <tr><td>la motivation</td><td>الدافع</td></tr>
+                <tr><td>la persévérance</td><td>المثابرة</td></tr>
+                <tr><td>le régime alimentaire</td><td>النظام الغذائي</td></tr>
+                <tr><td>réduire la consommation</td><td>يقلل الاستهلاك</td></tr>
+                <tr><td>le sucre</td><td>السكر</td></tr>
+                <tr><td>le sel</td><td>الملح</td></tr>
+                <tr><td>les graisses</td><td>الدهون</td></tr>
+                <tr><td>la recommandation médicale</td><td>التوصية الطبية</td></tr>
+                <tr><td>s'adapter</td><td>يتكيف</td></tr>
+                <tr><td>intégrer</td><td>يدمج</td></tr>
+                <tr><td>la sédentarité</td><td>قلة الحركة</td></tr>
+                <tr><td>l'obésité</td><td>السمنة</td></tr>
+                <tr><td>le télétravail</td><td>العمل عن بُعد</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card ferial-lesson-panel" id="ferial-lecon5" hidden>
+          <span class="card-label">Leçon 5 Manal</span>
+          <div class="note">Ajoutez ici le contenu de la leçon 5 Manal.</div>
         </div>
       </div>
     </section>
