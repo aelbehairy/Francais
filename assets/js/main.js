@@ -6810,32 +6810,36 @@ function getTcfEcritFrenchVoice(){
 
 function speakTcfEcritWordWithVoice(word){
   if(!word || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
-  window.speechSynthesis.cancel();
+  if(window.speechSynthesis.speaking || window.speechSynthesis.pending || window.speechSynthesis.paused){
+    window.speechSynthesis.cancel();
+  }
   var utterance = new SpeechSynthesisUtterance(word);
   utterance.lang = 'fr-FR';
   var frenchVoice = getTcfEcritFrenchVoice();
   if(frenchVoice) utterance.voice = frenchVoice;
   utterance.rate = 0.85;
+  utterance.pitch = 1.02;
+  if(window.speechSynthesis.paused) window.speechSynthesis.resume();
   window.speechSynthesis.speak(utterance);
 }
 
 function speakTcfEcritWord(word){
   if(!word || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
-  if(getTcfEcritFrenchVoice()){
-    speakTcfEcritWordWithVoice(word);
-    return;
-  }
   if(tcfEcritWordHelper.voiceLoadTimer) clearTimeout(tcfEcritWordHelper.voiceLoadTimer);
+  tcfEcritWordHelper.voiceLoadTimer = null;
+
+  // Mobile Safari blocks speech that starts after a delayed callback.
+  // Speak immediately from the tap event, then let voices warm up for later taps.
+  speakTcfEcritWordWithVoice(word);
+
+  if(getTcfEcritFrenchVoice()) return;
   window.speechSynthesis.onvoiceschanged = function(){
     window.speechSynthesis.onvoiceschanged = null;
-    if(tcfEcritWordHelper.voiceLoadTimer) clearTimeout(tcfEcritWordHelper.voiceLoadTimer);
-    tcfEcritWordHelper.voiceLoadTimer = null;
-    speakTcfEcritWordWithVoice(word);
+    getTcfEcritFrenchVoice();
   };
   tcfEcritWordHelper.voiceLoadTimer = setTimeout(function(){
     window.speechSynthesis.onvoiceschanged = null;
     tcfEcritWordHelper.voiceLoadTimer = null;
-    speakTcfEcritWordWithVoice(word);
   }, 450);
   window.speechSynthesis.getVoices();
 }
