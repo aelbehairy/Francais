@@ -1861,11 +1861,10 @@ function getTcfEcritTaskCards(){
       title:'Tache 2',
       desc:'Ouvrir cette leçon',
       action:function(){ showTcfEcritSub('tache2'); }
-    },
-    {
+    },    {
       key:'tache3',
-      icon:'3',
-      title:'Tache 3',
+      icon:'2',
+      title:'Tache 2',
       desc:'Ouvrir cette leçon',
       action:function(){ showTcfEcritSub('tache3'); }
     }
@@ -7438,4 +7437,17 @@ function savePronunciationContextToDatabase(){
     }
     console.warn('Pronunciation context save failed:', error);
   });
+}
+
+function showTache2PhotoPreview(src, title, desc, btn){
+  var img = document.getElementById('tache2-photo-preview-img');
+  var titleEl = document.getElementById('tache2-photo-preview-title');
+  var descEl = document.getElementById('tache2-photo-preview-desc');
+  if(img) img.src = src;
+  if(titleEl) titleEl.textContent = title;
+  if(descEl) descEl.textContent = desc;
+  document.querySelectorAll('#tcf-ecrit-tache2-photo .learning-card').forEach(function(card){
+    card.classList.remove('active');
+  });
+  if(btn) btn.classList.add('active');
 }

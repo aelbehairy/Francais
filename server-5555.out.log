@@ -1,0 +1,7 @@
+=== SERVER.JS STARTED ===
+French site running on 127.0.0.1:5555
+Translation endpoint ready at /api/translate
+Highlights endpoint ready at /api/highlights
+Supabase browser config endpoint ready at /api/supabase-config
+Highlights storage: data/highlights.json
+Database not configured; using data/highlights.json
