@@ -1861,12 +1861,6 @@ function getTcfEcritTaskCards(){
       title:'Tache 2',
       desc:'Ouvrir cette leçon',
       action:function(){ showTcfEcritSub('tache2'); }
-    },    {
-      key:'tache3',
-      icon:'2',
-      title:'Tache 2',
-      desc:'Ouvrir cette leçon',
-      action:function(){ showTcfEcritSub('tache3'); }
     }
   ];
 }
@@ -4188,7 +4182,7 @@ function showTcf(id, btn){
 function showTcfEcritSub(id, btn){
   document.querySelectorAll('#tcf-ecrit .tcf-ecrit-sub').forEach(function(s){ s.classList.remove('visible'); });
   document.querySelectorAll('#tcf-ecrit .tcf-tache1-tabs .pill, #tcf-ecrit .tcf-tache1-tabs .learning-card').forEach(function(b){ b.classList.remove('active'); });
-  document.querySelectorAll('#learning-card-grid .learning-card[data-learning-key="ecrit1"], #learning-card-grid .learning-card[data-learning-key="tache2"], #learning-card-grid .learning-card[data-learning-key="tache3"]').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('#learning-card-grid .learning-card[data-learning-key="ecrit1"], #learning-card-grid .learning-card[data-learning-key="tache2"]').forEach(function(b){ b.classList.remove('active'); });
   var invitation = document.getElementById('tcf-invitation');
   if(invitation) invitation.classList.remove('visible');
   var sec = document.getElementById('tcf-ecrit-'+id);
